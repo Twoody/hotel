@@ -1,11 +1,14 @@
 .DS_Store
 node_modules
 /dist
+# Ignore local cache service for assisting in size/time of host deployment
+/.firebase
 
 
 # local env files
 .env.local
 .env.*.local
+.firebaserc
 
 # Log files
 npm-debug.log*
