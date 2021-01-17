@@ -12,38 +12,35 @@ module.exports = {
 	],
 	"overrides": [
 		// Apply custom .vue files extension rules
-		// NOTE: Temporarily disabled in `ignorePatterns` until indenting error resolved
 		{
 			"files": [
 				"*.vue"
 			],
-			// TODO: Attempt at fixing indent error within script-indent...
 			"rules": {
-				// TODO: Figure out why these are throwing errors
-				//"vue/component-definition-name-casing": [
-				//	"error",
-				//	"PascalCase"
-				//],
-				//"vue/component-name-in-template-casing": [
-				//	"error",
-				//	"PascalCase",
-				//	// All options currently default
-				//	//{
-				//	//	"registeredComponentsOnly": true,
-				//	//	"ignores": [],
-				//	//}
-				//],
+				"vue/component-definition-name-casing": [
+					"error",
+					"PascalCase"
+				],
+				"vue/component-name-in-template-casing": [
+					"error",
+					"PascalCase",
+					// All options currently default
+					{
+						"registeredComponentsOnly": true,
+						"ignores": [],
+					}
+				],
 				"vue/html-indent": [
 					"error",
 					"tab",
 					// All options currently default
-					//{
-					//	"alignAttributesVertically": true,
-					//	"attribute": 1,
-					//	"baseIndent": 1,
-					//	"closeBracket": 0,
-					//	"ignores": [],
-					//}
+					{
+						"alignAttributesVertically": true,
+						"attribute": 1,
+						"baseIndent": 1,
+						"closeBracket": 0,
+						"ignores": [],
+					}
 				],
 				"vue/html-quotes": [
 					"error",
@@ -64,17 +61,15 @@ module.exports = {
 				"vue/no-multi-spaces": [
 					"error",
 					// All options currently default
-					//{
-					//	"ignoreProperties": false,
-					//}
+					{
+						"ignoreProperties": false,
+					}
 				],
-				// TODO: Figure out why these are throwing errors
-				//"vue/no-template-shadow": 2,
+				"vue/no-template-shadow": 2,
 				"vue/prop-name-casing": [
 					"error",
 					"camelCase"
 				],
-				// TODO: Read the rule and see if we need this
 				"vue/script-indent": [
 					"error",
 					"tab",
@@ -84,19 +79,18 @@ module.exports = {
 						"switchCase": 1,
 					}
 				],
-				// TODO: Figure out why these are throwing errors
-				//"vue/singleline-html-element-content-newline": [
-				//	"error",
-				//	{
-				//		"ignores": [
-				//			"pre",
-				//			"span",
-				//			"textarea"
-				//		],
-				//		"ignoreWhenEmpty": true,
-				//		"ignoreWhenNoAttributes": true,
-				//	}
-				//],
+				"vue/singleline-html-element-content-newline": [
+					"error",
+					{
+						"ignores": [
+							"pre",
+							"span",
+							"textarea"
+						],
+						"ignoreWhenEmpty": true,
+						"ignoreWhenNoAttributes": true,
+					}
+				],
 				"vue/this-in-template": [
 					"error",
 					"never"
@@ -135,20 +129,9 @@ module.exports = {
 				"**/__mocks__/*.js"
 			],
 			"rules": {
-				// TODO: Find out if we can remove errors or not
 				"no-redeclare": "warn",
 			},
 		},
-		// Ignore serviceWorker.js as we are just setting up config
-		// TODO: Fix serviceWorker.js errors
-		{
-			"files": [
-				"**/src/serviceWorker.js"
-			],
-			"rules": {
-				"no-undef": "warn",
-			},
-		}
 	],
 	"parserOptions": {
 		"parser": 'babel-eslint'
