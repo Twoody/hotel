@@ -65,22 +65,22 @@ This button is amazing, use it responsibly.
 Orange button:
 
 ```jsx
-<app-button color="orange">Push Me</app-button>
+<AppButton color="orange">Push Me</AppButton>
 ```
 
 Ugly button with pink font and blue background:
 
 ```jsx
-<app-button color="pink" background="blue">
+<AppButton color="pink" background="blue">
   Ugly button
-</app-button>
+</AppButton>
 ```
 
 Button containing custom tags:
 
 ```jsx
-<app-button>
+<AppButton>
   Text with <b>bold</b>
-</app-button>
+</AppButton>
 ```
 </docs>
