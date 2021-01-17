@@ -1,6 +1,11 @@
+# Auto generated
 .DS_Store
+
+# NPM
 node_modules
+package-lock.json
 /dist
+
 # Ignore local cache service for assisting in size/time of host deployment
 /.firebase
 
@@ -24,3 +29,5 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+
