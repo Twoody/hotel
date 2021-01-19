@@ -70,15 +70,16 @@ module.exports = {
 					"error",
 					"camelCase"
 				],
-				"vue/script-indent": [
-					"error",
-					"tab",
-					{
-						"baseIndent": 0,
-						"ignores": [],
-						"switchCase": 1,
-					}
-				],
+				// Does not currently support Allman style
+				//"vue/script-indent": [
+				//	"error",
+				//	"tab",
+				//	{
+				//		"baseIndent": 0,
+				//		"ignores": [],
+				//		"switchCase": 1,
+				//	}
+				//],
 				"vue/singleline-html-element-content-newline": [
 					"error",
 					{
@@ -95,7 +96,33 @@ module.exports = {
 					"error",
 					"never"
 				],
-				"indent": "off",
+				"indent": [
+					"error", 
+					"tab",
+					{
+						"ArrayExpression": 1,
+						"MemberExpression": 1,
+						"ObjectExpression": 1,
+						"SwitchCase": 1,
+						"VariableDeclarator": 1,
+					}
+				],
+				"brace-style": [
+					"error",
+					"allman"
+				],
+				"vue/sort-keys": [
+					"error", 
+					"asc", 
+				 	{
+						"caseSensitive": true,
+						"ignoreChildrenOf": ["model"],
+						"ignoreGrandchildrenOf": ["directives", "inject"],
+						"minKeys": 2,
+						"natural": false
+					},
+				 ],
+
 			},
 		},
 		// Isolate some .js specific indents

@@ -13,34 +13,36 @@ export default {
 		sizeMixin,
 	],
 	props: {
-		/**
-		 * Sets the button font color
-		 */
-		color: {
-			type: String,
-			default: "black",
-		},
 		/** Sets background color of the button
 		 * @since 1.2.0
 		 */
 		background: {
-			type: String,
 			default: "white",
+			type: String,
+		},
+		/**
+		 * Sets the button font color
+		 */
+		color: {
+			default: "black",
+			type: String,
 		},
 		/** @deprecated Use color instead */
 		oldColor: String,
 	},
 	computed: {
-		styles () {
+		styles () 
+		{
 			return {
-				"font-size": this.size,
-				color: this.color,
 				background: this.background,
+				color: this.color,
+				"font-size": this.size,
 			}
 		},
 	},
 	methods: {
-		handleClick (e) {
+		handleClick (e) 
+		{
 			/** Triggered when button is clicked
 			 * @event click
 			 * @type {Event}
