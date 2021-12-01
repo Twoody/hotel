@@ -6,8 +6,7 @@ module.exports = {
 	},
 	"extends": [
 		"plugin:vue/essential",
-		// TODO: Run below after importing and other runs
-		// "plugin:jsdoc/recommended"
+		"plugin:jsdoc/recommended",
 		"eslint:recommended"
 	],
 	"overrides": [
@@ -210,7 +209,7 @@ module.exports = {
 				"tabWidth": 3,
 			}
 		],
-		"no-console": "error",
+		//"no-console": "error",
 		"no-debugger": process.env.VUE_APP_NODE_ENV === "production" ? "error" : "off",
 		"no-multiple-empty-lines": [
 			"error",

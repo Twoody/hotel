@@ -1,20 +1,32 @@
 <template>
 	<div id="app">
-		<AppSection dissapears>
+		<!-- TODO: Tie into vue comps -->
+		<AppSection
+			:isShowing="$store.state.layout.isShowingBanner"
+			@click="$store.commit('setIsShowingBanner', false)"
+		>
 			<div id="top-banner" />
 		</AppSection>
 
-		<AppSection styles="min-height: 20px">
+		<!-- Handle appSection click for navbar on chevron and ations instead.. -->
+		<AppSection
+			class='nav-section'
+			:isCollapsed="true"
+			is-showing
+		>
 			<NavBar id="nav-wrapper" />
 		</AppSection>
 
 		<AppSection
-			styles="flex: 1;"
-			ignore-click
+			class='main-section'
+			is-showing
 		>
 			<router-view id="content-wrapper" />
 		</AppSection>
-		<AppSection dissapears>
+		<AppSection
+			:isShowing="$store.state.layout.isShowingFooter"
+			@click="$store.commit('setIsShowingFooter', false)"
+		>
 			<div id="bottom-banner" />
 		</AppSection>
 	</div>
@@ -30,6 +42,18 @@ export default {
 	{
 		AppSection,
 		NavBar,
+	},
+	data: function()
+	{
+		return {
+			isNavCollapsed: true,
+		}
+	},
+	computed:
+	{},
+	created: function()
+	{
+		// console.log(this.$store.state.layout.isShowingBanner)
 	},
 }
 </script>
@@ -68,6 +92,14 @@ html, body {
 	background-color: yellow;
 	flex-grow: 1;
 	overflow: scroll;
+}
+
+.main-section {
+	flex: 1;
+	max-height: 4000px !important;
+}
+.nav-section {
+	min-height: 70px;
 }
 
 #nav-wrapper {

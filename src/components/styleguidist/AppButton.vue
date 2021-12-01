@@ -13,7 +13,9 @@ export default {
 		sizeMixin,
 	],
 	props: {
-		/** Sets background color of the button
+		/**
+		 * Sets background color of the button
+		 *
 		 * @since 1.2.0
 		 */
 		background: {
@@ -43,13 +45,17 @@ export default {
 	methods: {
 		handleClick (e) 
 		{
-			/** Triggered when button is clicked
+			/**
+			 * Triggered when button is clicked
+			 *
 			 * @event click
 			 * @type {Event}
 			 */
 			this.$emit("click", e)
 
-			/** Event for Alligator's example
+			/**
+			 * Event for Alligator's example
+			 *
 			 * @event gator
 			 * @type {Event}
 			 */

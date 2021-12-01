@@ -3,7 +3,7 @@
 		class="content-section"
 		:class="getClasses()"
 		:style="styles"
-		@click="isShowing = ignoreClick? isShowing : !isShowing"
+		@click="$emit('click')"
 	>
 		<!-- @slot Use this slot to place the button content -->
 		<slot />
@@ -13,37 +13,35 @@
 <script>
 export default {
 	name: "AppSection",
-	data: function()
-	{
-		return {
-			isShowing: true,
-		}
-	},
 	props:
 	{
 		/**
-		 * When clicked, does the whole component dissapear or just collapse?
-		 * Collapse is default.
+		 * Whether the section is showing in a collapsed state or not
+		 *
 		 * @since 0.1.0
 		 */
-		dissapears:
+		isCollapsed:
 		{
 			default: false,
 			required: false,
 			type: Boolean,
 		},
+
 		/**
-		 * Whether we are ignoring the click or not
+		 * Whether the section is showing at all or not
+		 *
 		 * @since 0.1.0
 		 */
-		ignoreClick:
+		isShowing:
 		{
 			default: false,
 			required: false,
 			type: Boolean,
 		},
+
 		/**
 		 * String of styles to be applied to main wrapper;
+		 *
 		 * @todo Arrange into props and make computed
 		 * @since 0.1.0
 		 */
@@ -57,17 +55,17 @@ export default {
 	methods:
 	{
 		/**
-		 * Styles to be applied when in different states; Handled as object;
-		 * @return object
+		 *
+		 * @returns {object} Styles to be applied when in different states;
 		 * @since 0.1.0
 		 * @public
 		 */
 		getClasses ()
 		{
 			return {
-				"is-collapsed": !this.isShowing && !this.dissapears,
-				"is-hidden": !this.isShowing && this.dissapears,
-				"is-showing": this.isShowing,
+				"is-collapsed": this.isShowing && this.isCollapsed,
+				"is-hidden": !this.isShowing,
+				"is-showing": this.isShowing && !this.isCollapsed,
 			}
 		},
 	},
@@ -77,21 +75,22 @@ export default {
 <style lang="less">
 .content-section {
 	display: flex;
-	height: auto;
 	overflow: hidden;
 	width: 100%;
 
 	&.is-collapsed {
+		height: auto;
 		max-height: 10px;
-		transition: all 0.7s ease;
+		transition: all 0.7s ease-out;
 	}
 	&.is-hidden {
 		max-height: 0px;
-		transition: all 0.7s ease;
+		transition: all 0.7s ease-out;
 	}
 	&.is-showing {
-		max-height: 4000px;
-		transition: all 0.7s ease;
+		height: auto;
+		max-height: 200px;
+		transition: all 0.7s ease-out;
 	}
 }
 </style>
@@ -107,18 +106,10 @@ css properties.
 
 ## Examples
 
-Non clickable container
+Container that is showing
 
 ```jsx
-<AppSection ignore-click>
-	<div style="height: 50; background-color: red;"/>
-</AppSection>
-```
-
-Dissapearing container
-
-```jsx
-<AppSection dissapears>
+<AppSection is-showing>
 	<div style="height: 50; background-color: red;"/>
 </AppSection>
 ```
