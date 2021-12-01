@@ -12,7 +12,7 @@
 		</div>
 		<div
 			v-else
-			class='date-container'
+			class="date-container"
 		>
 			<input
 				v-model="startDate"

@@ -10,7 +10,7 @@
 
 		<!-- Handle appSection click for navbar on chevron and ations instead.. -->
 		<AppSection
-			class='nav-section'
+			class="nav-section"
 			:isCollapsed="true"
 			is-showing
 		>
@@ -18,7 +18,7 @@
 		</AppSection>
 
 		<AppSection
-			class='main-section'
+			class="main-section"
 			is-showing
 		>
 			<router-view id="content-wrapper" />
