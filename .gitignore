@@ -3,7 +3,6 @@
 
 # NPM
 node_modules
-package-lock.json
 /dist
 
 # Ignore local cache service for assisting in size/time of host deployment

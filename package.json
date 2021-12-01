@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "eslint-plugin-jsdoc": "^36.1.0",
     "firebase": "^8.2.4",
     "vue": "^2.6.11",
     "vue-router": "^3.4.9",
@@ -30,6 +29,7 @@
     "eslint": "^6.7.2",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsdoc": "^36.1.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
