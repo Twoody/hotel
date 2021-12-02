@@ -1,13 +1,13 @@
 <template>
-	<div
-		class="search-wrapper"
-	>
-		<div
-			class="content-section"
-		>
+	<div class="search-wrapper">
+		<div class="content-section">
 			<form class="search-box">
 				<AvailabilitySearchBar
+					class='inputs-container'
 					:isLoading="isLoading"
+				/>
+				<vue-cal
+					class='vue-cal-container'
 				/>
 				<BookButton
 					:isLoading="isLoading"
@@ -21,12 +21,16 @@
 <script>
 import AvailabilitySearchBar from "@/components/inputs/AvailabilitySearchBar"
 import BookButton from "@/components/buttons/submissions/BookButton.vue"
+import VueCal from 'vue-cal'
+import 'vue-cal/dist/vuecal.css'
+
 export default {
 	name: "AvailabilitySearch",
 	components:
 	{
 		AvailabilitySearchBar,
 		BookButton,
+		VueCal,
 	},
 	data: function()
 	{
@@ -63,7 +67,8 @@ export default {
 <style lang="less" scoped>
 .search-wrapper {
 	display: relative;
-	height: 100%;
+	height: auto;
+	padding-bottom: 15px;
 	width: 100%;
 
 	.content-section {
@@ -80,6 +85,14 @@ export default {
 			margin-top: 20px;
 			text-align: center;
 			width: 100%;
+
+			.inputs-container {
+				padding-bottom: 15px;
+			}
+			.vue-cal-container {
+				height: 200px;
+				padding-bottom:10px;
+			}
 		}
 	}
 }
