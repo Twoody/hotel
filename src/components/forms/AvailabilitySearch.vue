@@ -3,11 +3,11 @@
 		<div class="content-section">
 			<form class="search-box">
 				<AvailabilitySearchBar
-					class='inputs-container'
+					class="inputs-container"
 					:isLoading="isLoading"
 				/>
-				<vue-cal
-					class='vue-cal-container'
+				<VueCal
+					class="vue-cal-container"
 				/>
 				<BookButton
 					:isLoading="isLoading"
@@ -21,8 +21,8 @@
 <script>
 import AvailabilitySearchBar from "@/components/inputs/AvailabilitySearchBar"
 import BookButton from "@/components/buttons/submissions/BookButton.vue"
-import VueCal from 'vue-cal'
-import 'vue-cal/dist/vuecal.css'
+import VueCal from "vue-cal"
+import "vue-cal/dist/vuecal.css"
 
 export default {
 	name: "AvailabilitySearch",

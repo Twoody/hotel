@@ -7,7 +7,6 @@
 <script>
 import AvailabilitySearch from "@/components/forms/AvailabilitySearch.vue"
 
-
 export default {
 	name: "Home",
 	components:
