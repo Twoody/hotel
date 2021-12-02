@@ -58,7 +58,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang='less'>
+@import "~styles/styles";
 
 html, body {
 	height: 100%;
@@ -70,7 +71,7 @@ html, body {
 #app {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	background-color: blue;
+	background-color: @color-primary-triadic-1;
 	color: #2c3e50;
 	display: flex;
 	flex-direction: column;
@@ -83,13 +84,13 @@ html, body {
 
 }
 #bottom-banner {
-	background-color: red;
+	background-color: @color-primary-triadic-3;
 	bottom: 0;
 	height: 50px;
 	width: 100%;
 }
 #content-wrapper {
-	background-color: yellow;
+	background-color: @color-primary-triadic-1;
 	flex-grow: 1;
 	overflow: scroll;
 }
@@ -103,11 +104,11 @@ html, body {
 }
 
 #nav-wrapper {
-	background-color: green;
+	background-color: @color-primary-triadic-2;
 }
 
 #top-banner {
-	background-color: red;
+	background-color: @color-primary-triadic-3;
 	height: 50px;
 	padding: 0;
 	margin: 0;
