@@ -4,7 +4,6 @@
 	** Jest (w/ bad coverage unfortunately)
 	** This changelog file
 
-
 0.1.2
    * All the firebase login + Vuefire stuff
 
