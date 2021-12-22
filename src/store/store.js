@@ -4,8 +4,8 @@ import { db } from "../db"
 import Vuex from "vuex"
 
 // Sub Modules
-import layout from "store/layout"
-import user from "store/user"
+import layout from "@/store/layout"
+import user from "@/store/user"
 
 Vue.use(Vuex)
 

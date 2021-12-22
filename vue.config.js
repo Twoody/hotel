@@ -9,6 +9,7 @@ module.exports = {
 		},
 		resolve: {
 			alias: {
+				// Changes may need to be duplicated in `jest.config.js` too
 				components: path.resolve(__dirname, "src/components/"),
 				constants: path.resolve(__dirname, "src/constants"),
 				img: path.resolve(__dirname, "assets/img"),

@@ -8,7 +8,6 @@ function initialState ()
 	return {
 		isLoggedIn: false,
 		isLoggingIn: false,
-		user: {},
 	}
 }
 

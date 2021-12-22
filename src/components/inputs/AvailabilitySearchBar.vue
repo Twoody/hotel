@@ -1,31 +1,33 @@
 <template>
-	<transition
-		name="fade"
-		mode="out-in"
-	>
-		<div
-			v-if="isLoading"
-			class="search-query loading"
-			key="loading"
+	<div class="availability-search-bar-wrapper">
+		<transition
+			name="fade"
+			mode="out-in"
 		>
-			loading...
-		</div>
-		<div
-			v-else
-			class="date-container"
-		>
-			<input
-				v-model="startDate"
-				class="search-query"
-				type="date"
+			<div
+				v-if="isLoading"
+				class="search-query loading"
+				key="loading"
 			>
-			<input
-				v-model="endDate"
-				class="search-query"
-				type="date"
+				loading...
+			</div>
+			<div
+				v-else
+				class="date-container"
 			>
-		</div>
-	</transition>
+				<input
+					v-model="startDate"
+					class="search-query"
+					type="date"
+				>
+				<input
+					v-model="endDate"
+					class="search-query"
+					type="date"
+				>
+			</div>
+		</transition>
+	</div>
 </template>
 
 <script>
@@ -53,30 +55,32 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.date-container {
-	align-content: center;
-	display: flex;
-	gap: 10px;
-	justify-content: center;
-	margin-bottom: 10px;
+.availability-search-bar-wrapper {
+	.date-container {
+		align-content: center;
+		display: flex;
+		gap: 10px;
+		justify-content: center;
+		margin-bottom: 10px;
 
-	.search-query {
-		border-radius: 10px;
-		/*TODO: get a better color palette*/
-		border: 1px solid gold;
-		height: 50px;
-		text-align: center;
-		width: 40%;
-		&.loading {
-			width: 80%;
+		.search-query {
+			border-radius: 10px;
+			/*TODO: get a better color palette*/
+			border: 1px solid gold;
+			height: 50px;
+			text-align: center;
+			width: 40%;
+			&.loading {
+				width: 80%;
+			}
 		}
 	}
-}
 
-.fade-enter-active, .fade-leave-active {
-	transition: opacity .2s;
-}
-.fade-enter, .fade-leave-to {
-	opacity: 0;
+	.fade-enter-active, .fade-leave-active {
+		transition: opacity .2s;
+	}
+	.fade-enter, .fade-leave-to {
+		opacity: 0;
+	}
 }
 </style>

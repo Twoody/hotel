@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="content-section"
+		class="app-section-wrapper"
 		:class="getClasses()"
 		:style="styles"
 		@click="$emit('click')"
@@ -73,7 +73,7 @@ export default {
 </script>
 
 <style lang="less">
-.content-section {
+.app-section-wrapper {
 	display: flex;
 	overflow: hidden;
 	width: 100%;

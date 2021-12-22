@@ -8,6 +8,9 @@ node_modules
 # Ignore local cache service for assisting in size/time of host deployment
 /.firebase
 
+# Ignore jest test coverage output
+coverage
+
 
 # local env files
 .env
@@ -20,6 +23,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+log
+diff
+out
 
 # Editor directories and files
 .idea
@@ -29,5 +35,3 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-
-
