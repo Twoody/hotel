@@ -1,3 +1,4 @@
+A testing page for showing the general layout
 <template>
 	<div class="page-wrapper">
 		<h1>Testing Page</h1>
