@@ -8,7 +8,8 @@ The general navbar for our project
 			<router-link to="/about">
 				About
 			</router-link> |
-			<router-link to="/signup">
+			<!-- TODO: remove from here and keep in the top section of the menu/nav -->
+			<router-link to="/login">
 				Login
 			</router-link>
 		</div>

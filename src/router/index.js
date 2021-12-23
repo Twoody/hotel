@@ -2,6 +2,7 @@ import Vue from "vue"
 import VueRouter from "vue-router"
 import Foobar from "../views/Foobar.vue"
 import Home from "../views/Home.vue"
+import Login from "../views/Login.vue"
 import Signup from "../views/Signup.vue"
 
 Vue.use(VueRouter)
@@ -24,6 +25,11 @@ const routes = [
 		component: Home,
 		name: "home",
 		path: "/",
+	},
+	{
+		component: Login,
+		name: "login",
+		path: "/login",
 	},
 	{
 		component: Signup,
