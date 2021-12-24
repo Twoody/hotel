@@ -3,27 +3,56 @@
 		<div v-if="isLoggedIn">
 			<h3>Already Logged in</h3>
 			<p>
-				Logging in a second time is weird. Please contine or logout.
+				It looks like you already have an account and are logged in.
+				<br />
+				If need be, 
 			</p>
 		</div>
 		<div v-if="!isLoggedIn">
-			<h3>Sign In</h3>
+			<h3>Register now</h3>
 
-			<div class="login-form">
+			<!-- TODO: Put all of this in /forms ... -->
+			<div class="register-form">
 				<input
-					v-model="email"
-					class="login-item"
-					placeholder="Email"
+					v-model="firstName"
+					class="register-item"
+					placeholder="First Name"
 					type="text"
 				>
 				<input
-					v-model="password"
-					class="login-item"
-					placeholder="Password"
-					type="password"
+					v-model="lastName"
+					class="register-item"
+					placeholder="Last Name"
+					type="text"
 				>
-				<button class="login-button" @click="login">
-					Log In
+				<input
+					v-model="phone"
+					class="register-item"
+					placeholder="1+ 123 456 7890"
+					type="text"
+				>
+				<input
+					v-model="street"
+					class="register-item"
+					placeholder="Street"
+					type="text"
+				>
+				<input
+					v-model="city"
+					class="register-item"
+					placeholder="City"
+					type="text"
+				>
+				<!-- TODO: Make a dropdown -->
+				<input
+					v-model="state"
+					class="register-item"
+					placeholder="state"
+					type="text"
+				>
+
+				<button class="register-button" @click="register">
+					Register	
 				</button>
 			</div>
 
@@ -56,9 +85,13 @@ export default {
 	data: function()
 	{
 		return {
-			email: "",
+			city: '',
+			firstName: '',
 			isLoading: true,
-			password: "",
+			lastName: '',
+			phone: '',
+			state: '',
+			street: '',
 		}
 	},
 
@@ -66,7 +99,7 @@ export default {
 	{
 		/**
 		 * @returns {boolean} - Whether a user is logged in or not
-		 * @since 0.1.0
+		 * @since 0.1.3
 		 */
 		isLoggedIn ()
 		{
@@ -76,7 +109,7 @@ export default {
 		/**
 		 * @todo Setup a spinner in template when user is logging in
 		 * @returns {boolean} - Whether a user is logging in or not
-		 * @since 0.1.0
+		 * @since 0.1.3
 		 */
 		isLoggingIn ()
 		{
@@ -88,12 +121,10 @@ export default {
 		/**
 		 * Use firebase to support logging in with any email account
 		 *
-		 * @todo https://firebase.google.com/docs/auth/web/email-link-auth?authuser=0#web-version-9_1
-		 *			Use link to provide signup with email
 		 * @returns {void}
-		 * @since 0.1.0
+		 * @since 0.1.3
 		 */
-		async login ()
+		async register ()
 		{
 			try
 			{
@@ -118,7 +149,7 @@ export default {
 		 * Use firebase to support logging in with a google account
 		 *
 		 * @returns {void}
-		 * @since 0.1.0
+		 * @since 0.1.3
 		 */
 		async socialLogin ()
 		{

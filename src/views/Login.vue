@@ -27,6 +27,7 @@
 				</button>
 			</div>
 
+			<!-- TODO: Move to /forms/SocialLogin.vue -->
 			<div class="google-login">
 				<div class="social-button-dex">
 					or login with Google
