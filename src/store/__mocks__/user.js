@@ -1,16 +1,5 @@
-import Vue from "vue"
-
 // TODO: Either setup a running store per docs or plugin stuff from store
 // e.g. test/.../nav/* has a store implementation
-
-function initialState ()
-{
-	return {
-		isLoggedIn: false,
-		isLoggingIn: false,
-		user: {},
-	}
-}
 
 export default
 {
@@ -19,11 +8,9 @@ export default
 		isLoggedIn: true,
 		isLoggingIn: false,
 		user: {},
-	}
-
-	getters: 
-	{
 	},
+
+	getters:{},
 
 	mutations:
 	{

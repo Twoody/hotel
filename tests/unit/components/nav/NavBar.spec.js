@@ -1,5 +1,4 @@
 import { createLocalVue } from "@vue/test-utils"
-import { RouterLinkStub } from "@vue/test-utils"
 import { shallowMount } from "@vue/test-utils"
 import NavBar from "@/components/nav/NavBar"
 import store from "@/store/store.js"

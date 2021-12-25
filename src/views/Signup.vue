@@ -4,7 +4,7 @@
 			<h3>Already Logged in</h3>
 			<p>
 				It looks like you already have an account and are logged in.
-				<br />
+				<br >
 				If need be, 
 			</p>
 		</div>
@@ -85,13 +85,13 @@ export default {
 	data: function()
 	{
 		return {
-			city: '',
-			firstName: '',
+			city: "",
+			firstName: "",
 			isLoading: true,
-			lastName: '',
-			phone: '',
-			state: '',
-			street: '',
+			lastName: "",
+			phone: "",
+			state: "",
+			street: "",
 		}
 	},
 
