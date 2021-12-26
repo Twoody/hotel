@@ -2,14 +2,23 @@ The general navbar for our project
 <template>
 	<div class="nav-wrapper">
 		<div class="nav-items">
-			<router-link to="/">
+			<router-link
+				class="nav-item"
+				to="/"
+			>
 				Home
-			</router-link> |
-			<router-link to="/about">
+			</router-link>
+			<router-link
+				class="nav-item"
+				to="/about"
+			>
 				About
-			</router-link> |
-			<!-- TODO: remove from here and keep in the top section of the menu/nav -->
-			<router-link to="/login">
+			</router-link>
+			<router-link
+				v-if="!isLoggedIn"
+				class="nav-item"
+				to="/login"
+			>
 				Login
 			</router-link>
 		</div>
@@ -98,8 +107,7 @@ export default {
 		{
 			try
 			{
-				const response = await firebase.auth().signOut()
-				console.log(response)
+				await firebase.auth().signOut()
 			}
 			catch (error)
 			{
@@ -131,6 +139,10 @@ export default {
 
 	.nav-items {
 		flex-grow: 1;
+
+		.nav-item {
+			margin: 5px;
+		}
 	}
 	.user-items {
 		border: 1px solid black;
