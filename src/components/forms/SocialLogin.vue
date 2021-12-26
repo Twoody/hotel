@@ -1,6 +1,6 @@
 User should be able to register/login from multiple places
 <template>
-	<div class='social-login-wrapper'>
+	<div class="social-login-wrapper">
 		<div class="google-login">
 			<div class="social-button-dex">
 				or login with Google
@@ -19,7 +19,7 @@ User should be able to register/login from multiple places
 import firebase from "firebase"
 
 export default {
-	name: 'SocialLogin',
+	name: "SocialLogin",
 	components: {},
 	methods:
 	{
@@ -33,15 +33,14 @@ export default {
 		{
 			/* eslint-disable no-unused-vars */
 			const provider = new firebase.auth.GoogleAuthProvider()
+			provider.addScope("profile")
+			provider.addScope("email")
 
 			try
 			{
 				const response = await firebase.auth().signInWithPopup(provider)
-				console.log("success", response)
-				// This gives you a Google Access Token. You can use it to access Google APIs.
-				const credential = provider.credentialFromResult(response)
-				const token = credential.accessToken
-
+				// This gives you a Google Access Token.
+				const token = response.credential.accessToken
 				// The signed-in user info.
 				const user = response.user
 			}
@@ -60,7 +59,7 @@ export default {
 				console.error(provider)
 				console.error(errorMessage)
 				console.error(
-					error, 
+					error 
 				)
 				console.groupEnd()
 			}
