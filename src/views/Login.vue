@@ -27,31 +27,22 @@
 				</button>
 			</div>
 
-			<!-- TODO: Move to /forms/SocialLogin.vue -->
-			<div class="google-login">
-				<div class="social-button-dex">
-					or login with Google
-				</div>
-				<button
-					class="social-button"
-					@click="socialLogin"
-				>
-					<img alt="Google Logo" src="../assets/google-logo.png">
-				</button>
-			</div>
+			<SocialLogin />
 		</div>
-
 	</div>
 </template>
 
 <script>
 import firebase from "firebase"
-import store from "../store/store.js"
+import SocialLogin from "@/components/forms/SocialLogin.vue"
+import store from "@/store/store.js"
 
 export default {
 	name: "Login",
 	components:
-	{},
+	{
+		SocialLogin,
+	},
 
 	props: {},
 	data: function()
@@ -109,50 +100,15 @@ export default {
 			catch (error)
 			{
 				// TODO: Show error state/message in template
+				console.group()
+				console.error(this.$options.name)
 				console.error(
 					error
 				)
+				console.groupEnd()
 			}
 		},
 
-		/**
-		 * Use firebase to support logging in with a google account
-		 *
-		 * @returns {void}
-		 * @since 0.1.0
-		 */
-		async socialLogin ()
-		{
-			/* eslint-disable no-unused-vars */
-			const provider = new firebase.auth.GoogleAuthProvider()
-
-			try
-			{
-				const response = await firebase.auth().signInWithPopup(provider)
-				console.log("success", response)
-				// This gives you a Google Access Token. You can use it to access Google APIs.
-				const credential = provider.credentialFromResult(response)
-				const token = credential.accessToken
-
-				// The signed-in user info.
-				const user = response.user
-			}
-			catch (error)
-			{
-				const errorCode = error.code
-				const errorMessage = error.message
-
-				// The email of the user's account used.
-				const email = error.email
-
-				// The AuthCredential type that was used.
-				const credential = error.credential
-				console.error("error", {
-					error, 
-				})
-			}
-			/* eslint-enable no-unused-vars */
-		},
 	},
 }
 </script>
