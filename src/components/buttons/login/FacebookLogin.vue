@@ -8,7 +8,10 @@ Button to activate a facebook account authenticator
 			class="social-button"
 			@click="facebookLogin"
 		>
-			<img alt="Facebook Logo" src="@/assets/facebook-logo.png">
+			<font-awesome-icon
+				class='svg-wrapper'
+				:icon="['fab', 'facebook']"
+			/>
 		</button>
 	</div>
 </template>

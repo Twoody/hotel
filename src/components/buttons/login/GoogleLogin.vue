@@ -7,7 +7,11 @@
 			class="social-button"
 			@click="googleLogin"
 		>
-			<img alt="Google Logo" src="@/assets/google-logo.png">
+			<font-awesome-icon
+				alt="Google Logo" 
+				class='svg-wrapper'
+				:icon="['fab', 'google']"
+			/>
 		</button>
 	</div>
 </template>
