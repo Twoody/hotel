@@ -1,70 +1,46 @@
 User should be able to register/login from multiple places
 <template>
 	<div class="social-login-wrapper">
-		<div class="google-login">
-			<div class="social-button-dex">
-				or login with Google
-			</div>
-			<button
-				class="social-button"
-				@click="socialLogin"
-			>
-				<img alt="Google Logo" src="@/assets/google-logo.png">
-			</button>
-		</div>
+		<GoogleLogin>
+			or login with Google
+		</GoogleLogin>
+		<FacebookLogin>
+			or login with Google
+		</FacebookLogin>
 	</div>
 </template>
 
 <script>
-import firebase from "firebase"
+import FacebookLogin from "@/components/buttons/login/FacebookLogin"
+import GoogleLogin from "@/components/buttons/login/GoogleLogin"
 
 export default {
 	name: "SocialLogin",
-	components: {},
-	methods:
+	components: 
 	{
-		/**
-		 * Use firebase to support logging in with a google account
-		 *
-		 * @returns {void}
-		 * @since 0.1.0
-		 */
-		async socialLogin ()
-		{
-			/* eslint-disable no-unused-vars */
-			const provider = new firebase.auth.GoogleAuthProvider()
-			provider.addScope("profile")
-			provider.addScope("email")
-
-			try
-			{
-				const response = await firebase.auth().signInWithPopup(provider)
-				// This gives you a Google Access Token.
-				const token = response.credential.accessToken
-				// The signed-in user info.
-				const user = response.user
-			}
-			catch (error)
-			{
-				const errorCode = error.code
-				const errorMessage = error.message
-
-				// The email of the user's account used.
-				const email = error.email
-
-				// The AuthCredential type that was used.
-				const credential = error.credential
-				console.group()
-				console.error(this.$options.name)
-				console.error(provider)
-				console.error(errorMessage)
-				console.error(
-					error 
-				)
-				console.groupEnd()
-			}
-			/* eslint-enable no-unused-vars */
-		},
+		FacebookLogin,
+		GoogleLogin,
 	},
 }
 </script>
+
+<style lang='less'>
+.social-login-wrapper {
+	.social-button {
+		background: white;
+		border: 0;
+		border-radius: 100%;
+		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0,2);
+		outline: 0;
+		padding: 10px;
+		width: 75px;
+	}
+	.social-button:active {
+		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+		display: relative;
+	}
+	.social-button img {
+		width: 100%;
+	}
+}
+</style>
