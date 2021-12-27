@@ -1,10 +1,10 @@
 User should be able to register/login from multiple places
 <template>
 	<div class="social-login-wrapper">
-		<GoogleLogin class='login-option'>
+		<GoogleLogin class="login-option">
 			or login with Google
 		</GoogleLogin>
-		<FacebookLogin class='login-option'>
+		<FacebookLogin class="login-option">
 			or login with Google
 		</FacebookLogin>
 	</div>
@@ -34,7 +34,6 @@ export default {
 	justify-content: center;
 
 	.login-option {
-
 
 		.social-button {
 			background: white;

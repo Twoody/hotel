@@ -1,12 +1,12 @@
 The best loading spinner
 <template>
-	<div class='loading-spinner'>
+	<div class="loading-spinner">
 		<font-awesome-icon icon="spinner" spin />
 	</div>
 </template>
 
 <script>
 export default {
-	name: 'Spinner',
+	name: "Spinner",
 }
 </script>

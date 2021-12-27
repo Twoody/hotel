@@ -18,11 +18,11 @@ A testing page for showing the general layout
 				Show the footer
 			</div>
 		</div>
-		<div class='section-content'>
-			<div class='section-header'>
+		<div class="section-content">
+			<div class="section-header">
 				Spinner
 			</div>
-			<div class='section-content'>
+			<div class="section-content">
 				<Spinner />
 			</div>
 		</div>
@@ -30,7 +30,7 @@ A testing page for showing the general layout
 </template>
 
 <script>
-import Spinner from '@/components/common/loading/Spinner'
+import Spinner from "@/components/common/loading/Spinner"
 
 export default {
 	name: "Foobar",

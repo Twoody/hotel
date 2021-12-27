@@ -9,8 +9,9 @@
 		>
 			<font-awesome-icon
 				alt="Google Logo" 
-				class='svg-wrapper'
+				class="svg-wrapper"
 				:icon="['fab', 'google']"
+				:style="{ color: 'blue' }"
 			/>
 		</button>
 	</div>

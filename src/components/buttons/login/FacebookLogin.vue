@@ -9,8 +9,10 @@ Button to activate a facebook account authenticator
 			@click="facebookLogin"
 		>
 			<font-awesome-icon
-				class='svg-wrapper'
+				alt="Facebook Logo" 
+				class="svg-wrapper"
 				:icon="['fab', 'facebook']"
+				:style="{ color: 'blue' }"
 			/>
 		</button>
 	</div>
@@ -33,16 +35,17 @@ export default {
 		{
 			/* eslint-disable no-unused-vars */
 			const provider = new firebase.auth.FacebookAuthProvider()
-			provider.addScope("profile")
-			provider.addScope("email")
+			provider.addScope("user_birthday")
 
 			try
 			{
 				const response = await firebase.auth().signInWithPopup(provider)
-				// This gives you a Facebook Access Token.
-				const token = response.credential.accessToken
+
 				// The signed-in user info.
 				const user = response.user
+				// This gives you a Facebook Access Token.
+				const credential = response.credential
+				const token = credential.accessToken
 			}
 			catch (error)
 			{
