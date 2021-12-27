@@ -1,7 +1,7 @@
 <template>
 	<div class="google-login-wrapper">
 		<div class="social-button-dex">
-			<slot></slot>
+			<slot/>
 		</div>
 		<button
 			class="social-button"
@@ -16,7 +16,7 @@
 import firebase from "firebase"
 
 export default {
-	name: 'GoogleLogin',
+	name: "GoogleLogin",
 	methods:
 	{
 		/**

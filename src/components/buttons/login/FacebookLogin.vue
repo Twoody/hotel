@@ -2,7 +2,7 @@ Button to activate a facebook account authenticator
 <template>
 	<div class="facebook-login-wrapper">
 		<div class="social-button-dex">
-			<slot></slot>
+			<slot/>
 		</div>
 		<button
 			class="social-button"
@@ -17,7 +17,7 @@ Button to activate a facebook account authenticator
 import firebase from "firebase"
 
 export default {
-	name: 'FacebookLogin',
+	name: "FacebookLogin",
 	methods:
 	{
 		/**
