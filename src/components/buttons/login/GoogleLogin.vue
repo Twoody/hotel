@@ -1,7 +1,7 @@
 <template>
 	<div class="google-login-wrapper">
 		<div class="social-button-dex">
-			<slot/>
+			Google
 		</div>
 		<button
 			class="social-button"

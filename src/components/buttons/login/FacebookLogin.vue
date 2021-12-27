@@ -2,7 +2,7 @@ Button to activate a facebook account authenticator
 <template>
 	<div class="facebook-login-wrapper">
 		<div class="social-button-dex">
-			<slot/>
+			Facebook
 		</div>
 		<button
 			class="social-button"
@@ -68,3 +68,9 @@ export default {
 	},
 }
 </script>
+
+<style lang='less'>
+.svg-wrapper {
+	
+}
+</style>
