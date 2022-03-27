@@ -18,6 +18,7 @@
 		</AppSection>
 
 		<AppSection
+			centered
 			class="main-section"
 			is-showing
 		>

@@ -16,28 +16,25 @@ export default {
 	props:
 	{
 		/**
+		 * Whether justified center
+		 *
+		 * @since 0.1.0
+		 */
+		centered: Boolean,
+
+		/**
 		 * Whether the section is showing in a collapsed state or not
 		 *
 		 * @since 0.1.0
 		 */
-		isCollapsed:
-		{
-			default: false,
-			required: false,
-			type: Boolean,
-		},
+		isCollapsed: Boolean,
 
 		/**
 		 * Whether the section is showing at all or not
 		 *
 		 * @since 0.1.0
 		 */
-		isShowing:
-		{
-			default: false,
-			required: false,
-			type: Boolean,
-		},
+		isShowing: Boolean,
 
 		/**
 		 * String of styles to be applied to main wrapper;
@@ -63,6 +60,7 @@ export default {
 		getClasses ()
 		{
 			return {
+				"centered": this.isShowing && this.centered,
 				"is-collapsed": this.isShowing && this.isCollapsed,
 				"is-hidden": !this.isShowing,
 				"is-showing": this.isShowing && !this.isCollapsed,
@@ -78,6 +76,9 @@ export default {
 	overflow: hidden;
 	width: 100%;
 
+	&.centered {
+		justify-content: center;
+	}
 	&.is-collapsed {
 		height: auto;
 		max-height: 10px;
