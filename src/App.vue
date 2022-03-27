@@ -94,6 +94,7 @@ html, body {
 	background-color: @color-primary-triadic-1;
 	flex-grow: 1;
 	overflow: scroll;
+	padding-top: 233px;
 }
 
 .main-section {
