@@ -24,7 +24,6 @@ export default {
 	flex-direction: row;
 	padding-left: 10px;
 	padding-right: 10px;
-	width: 100%;
 
 	.category-section {
 		border-right: 1px solid black;
@@ -37,7 +36,6 @@ export default {
 		flex-grow: 1;
 		flex-shrink: 0;
 		text-align: center;
-		width: 100%;
 	}
 }
 </style>

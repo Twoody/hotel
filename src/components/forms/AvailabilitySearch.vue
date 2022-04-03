@@ -59,7 +59,7 @@ export default {
 			this.isLoading = true
 			try
 			{
-				// sleep for .5 seconds
+				// sleep for .5 seconds for faux https mgmt
 				await new Promise((r) => setTimeout(r, 5000))
 			}
 			catch (error)
