@@ -1,6 +1,7 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
-import Foobar from "../views/Foobar.vue"
+import Amenities from "../views/Amenities.vue"
+import Foobar from "../views/Amenities.vue"
 import Home from "../views/Home.vue"
 import Login from "../views/Login.vue"
 import Signup from "../views/Signup.vue"
@@ -20,6 +21,11 @@ const routes = [
 		component: Foobar,
 		name: "foobar",
 		path: "/foobar",
+	},
+	{
+		component: Amenities,
+		name: "amenities",
+		path: "/amenities",
 	},
 	{
 		component: Home,

@@ -15,6 +15,12 @@ The general navbar for our project
 				About
 			</router-link>
 			<router-link
+				class="nav-item"
+				to="/amenities"
+			>
+				Amenities
+			</router-link>
+			<router-link
 				v-if="!isLoggedIn"
 				class="nav-item"
 				to="/login"
@@ -48,7 +54,7 @@ The general navbar for our project
 
 <script>
 import firebase from "firebase"
-import store from "../../store/store.js"
+import store from "@/store/store.js"
 
 export default {
 	name: "NavBar",

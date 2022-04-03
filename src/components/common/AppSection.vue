@@ -5,7 +5,7 @@
 		:style="styles"
 		@click="$emit('click')"
 	>
-		<!-- @slot Use this slot to place the button content -->
+		<!-- @slot Use this slot to place the full section content -->
 		<slot />
 	</div>
 </template>
