@@ -27,6 +27,8 @@
 			</p>
 		</div>
 		<div class="about-section">
+			<!-- TODO: Componentize -->
+			<!-- TODO: Fix div centering on md -->
 			<h2>Outreach</h2>
 			<div class="statistics-section">
 				<div class="statistic">
@@ -76,7 +78,6 @@ export default {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	padding-bottom: 50px;
 	margin-left: 20px;
 	margin-right: 20px;

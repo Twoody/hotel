@@ -152,6 +152,9 @@ export default {
 		flex-grow: 0;
 		flex-shrink: 1;
 
+		&.options-guest {
+			border: none;
+		}
 		.user-item {
 			margin: 3px;
 			margin-left: 6px;
