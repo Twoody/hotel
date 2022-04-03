@@ -2,6 +2,7 @@
 	<div class="amenities-wrapper">
 		<h1>Amenities</h1>
 		<div class="amenities-section">
+			<!-- TODO: Componentize -->
 			<h2>Kitchen</h2>
 			<!-- TODO: Pull items from a database -->
 			<Accordion>
@@ -53,7 +54,6 @@ export default {
 	width: 100%;
 
 	h1 {
-		flex-grow:1;
 		width: 100%;
 	}
 	.amenities-section {
