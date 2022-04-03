@@ -27,14 +27,12 @@ export default {
 
 	.category-section {
 		border-right: 1px solid black;
-		flex-grow: 0;
-		flex-shrink: 1;
+		flex-basis: 15%;
 		padding-right: 7px;
 		width: auto;
 	}
 	.content-section {
-		flex-grow: 1;
-		flex-shrink: 0;
+		flex-basis: 85%;
 		text-align: center;
 	}
 }

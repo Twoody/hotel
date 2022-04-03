@@ -67,7 +67,7 @@ export default {
 
 	.content-section {
 		height: auto;
-		max-height: 100px;
+		max-height: 1000px;
 		overflow-y: hidden;
 		overflow-x: auto;
 		transition: all 0.4s;

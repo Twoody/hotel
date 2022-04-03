@@ -18,6 +18,23 @@
 							2021
 						</template>
 					</FlexTable>
+					<FlexTable>
+						<template #category>
+							Brand
+						</template>
+						<template #content>
+							Vitamix
+						</template>
+					</FlexTable>
+					<FlexTable>
+						<template #category>
+							Model
+						</template>
+						<template #content>
+							Ventura 800	
+						</template>
+					</FlexTable>
+
 				</template>
 			</Accordion>
 		</div>
