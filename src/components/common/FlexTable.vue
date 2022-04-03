@@ -1,10 +1,10 @@
 <template>
-	<div class='flex-table-wrapper'>
-		<div class='category-section'>
-			<slot name='category'></slot>
+	<div class="flex-table-wrapper">
+		<div class="category-section">
+			<slot name="category"/>
 		</div>
-		<div class='content-section'>
-			<slot name='content'></slot>
+		<div class="content-section">
+			<slot name="content"/>
 		</div>
 	</div>
 </template>

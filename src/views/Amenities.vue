@@ -4,21 +4,21 @@
 		<div class="amenities-section">
 			<h2>Kitchen</h2>
 			<!-- TODO: Pull items from a database -->
-			<accordion>
+			<Accordion>
 				<template #title>
 					Blender
 				</template>
 				<template #content>
-					<flex-table>
+					<FlexTable>
 						<template #category>
 							Year
 						</template>
 						<template #content>
 							2021
 						</template>
-					</flex-table>
+					</FlexTable>
 				</template>
-			</accordion>
+			</Accordion>
 		</div>
 	</div>
 </template>

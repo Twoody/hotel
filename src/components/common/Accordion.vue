@@ -1,20 +1,19 @@
 <template>
-	<div class='amenities-item-wrapper'>
+	<div class="amenities-item-wrapper">
 		<div
-			class='main-bar'
-			@click='selected = !selected'
+			class="main-bar"
+			@click="selected = !selected"
 		>
-			<div class='title-section'>
-				<slot name='title'></slot>
+			<div class="title-section">
+				<slot name="title"/>
 			</div>
 			<div
-				class='chevron'
+				class="chevron"
 				:class="{'collapsed': selected}"
-			>
-			</div>
+			/>
 		</div>
-		<div class='content-section'>
-			<slot name='content'></slot>
+		<div class="content-section">
+			<slot name="content"/>
 		</div>
 	</div>
 </template>
@@ -22,7 +21,8 @@
 <script>
 export default {
 	name: "Accordion",
-	data() {
+	data () 
+	{
 		return {
 			selected: false,
 		}
