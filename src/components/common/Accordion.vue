@@ -78,12 +78,12 @@ export default {
 		}
 	}
 	.main-bar {
+		align-items: baseline;
 		display: flex;
 		flex-grow: 1;
 		justify-content: space-between;
 
 		.chevron-section {
-			align-self: flex-end;
 			transition: all 0.4s;
 			transform: rotate(-90deg);
 			&.collapsed {
@@ -95,6 +95,7 @@ export default {
 			flex-shrink: 1;
 			font-size: 22px;
 			font-weight: 500;
+			margin-bottom:5px;
 		}
 	}
 }
