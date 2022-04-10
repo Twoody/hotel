@@ -15,8 +15,8 @@ TODO: Hover effect
 			>
 				<font-awesome-icon
 					icon="chevron"
-					class='chevron'
-			 	/>
+					class="chevron"
+				/>
 				&gt;
 			</div>
 		</div>
@@ -41,7 +41,7 @@ export default {
 	methods:
 	{
 		/** @returns {void} Suppress state change during current transition */
-		async handleClick()
+		async handleClick ()
 		{
 			if (this.isClicked)
 			{
@@ -52,7 +52,7 @@ export default {
 			this.selected = !this.selected
 			await new Promise((r) => setTimeout(r, 400))
 			this.isClicked = false
-		}
+		},
 	},
 }
 </script>
