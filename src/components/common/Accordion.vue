@@ -70,7 +70,7 @@ export default {
 		max-height: 1000px;
 		overflow-y: hidden;
 		overflow-x: auto;
-		transition: all 0.4s;
+		transition: all 0.6s cubic-bezier(0.95, 0.05, 0.05, 0.95);
 		width: 100%;
 
 		&.collapsed {
