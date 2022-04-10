@@ -145,8 +145,16 @@ module.exports = {
 						"VariableDeclarator": 1,
 					}
 				],
-
 			},
+		},
+		{
+			"files": [
+				"constants.js"
+			],
+			"rules": [
+				"max-len": ["never"],
+
+			],
 		},
 
 		// Ignored calls for testing and jest
