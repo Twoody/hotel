@@ -35,14 +35,5 @@ export default {
 	h1 {
 		width: 100%;
 	}
-	.amenities-section {
-		max-width: 500px;
-		width: 100%;
-
-		p {
-			text-align: left;
-			width: 100%;
-		}
-	}
 }
 </style>

@@ -1,40 +1,42 @@
 <template>
-	<div class="amenities-section">
-		<!-- TODO: Componentize -->
-		<h2>Kitchen</h2>
-		<!-- TODO: Pull items from a database -->
-		<Accordion>
-			<template #title>
-				Blender
-			</template>
-			<template #content>
-				<FlexTable>
-					<template #category>
-						Year
-					</template>
-					<template #content>
-						2021
-					</template>
-				</FlexTable>
-				<FlexTable>
-					<template #category>
-						Brand
-					</template>
-					<template #content>
-						Vitamix
-					</template>
-				</FlexTable>
-				<FlexTable>
-					<template #category>
-						Model
-					</template>
-					<template #content>
-						Explorian E310
-					</template>
-				</FlexTable>
+	<div class='amenities-table-wrapper'>
+		<div class="amenities-section">
+			<!-- TODO: Componentize -->
+			<h2>Kitchen</h2>
+			<!-- TODO: Pull items from a database -->
+			<Accordion>
+				<template #title>
+					Blender
+				</template>
+				<template #content>
+					<FlexTable>
+						<template #category>
+							Year
+						</template>
+						<template #content>
+							2021
+						</template>
+					</FlexTable>
+					<FlexTable>
+						<template #category>
+							Brand
+						</template>
+						<template #content>
+							Vitamix
+						</template>
+					</FlexTable>
+					<FlexTable>
+						<template #category>
+							Model
+						</template>
+						<template #content>
+							Explorian E310
+						</template>
+					</FlexTable>
 
-			</template>
-		</Accordion>
+				</template>
+			</Accordion>
+		</div>
 	</div>
 </template>
 
@@ -62,3 +64,16 @@ export default {
 	},
 }
 </script>
+
+<style lang="less" scoped>
+	.amenities-section {
+		max-width: 500px;
+		width: 100%;
+
+		p {
+			text-align: left;
+			width: 100%;
+		}
+	}
+
+</style>
