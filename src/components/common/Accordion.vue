@@ -50,6 +50,7 @@ export default {
 			}
 			this.isClicked = true
 			this.selected = !this.selected
+			this.$emit(this.selected ? "opened" : "closed")
 			await new Promise((r) => setTimeout(r, 400))
 			this.isClicked = false
 		},
