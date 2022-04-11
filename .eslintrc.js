@@ -151,10 +151,9 @@ module.exports = {
 			"files": [
 				"constants.js"
 			],
-			"rules": [
-				"max-len": ["never"],
-
-			],
+			"rules": {
+				"max-len": ["off"],
+			},
 		},
 
 		// Ignored calls for testing and jest
