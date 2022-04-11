@@ -1,6 +1,9 @@
 TODO: Hover effect
 <template>
-	<div class="amenities-item-wrapper">
+	<div
+		class="amenities-item-wrapper"
+		:class="{'selected': selected}"
+	>
 		<div
 			class="main-bar"
 			@click="handleClick()"
@@ -50,7 +53,6 @@ export default {
 			}
 			this.isClicked = true
 			this.selected = !this.selected
-			this.$emit(this.selected ? "opened" : "closed")
 			await new Promise((r) => setTimeout(r, 400))
 			this.isClicked = false
 		},
@@ -59,13 +61,29 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "~styles/styles";
+
+// TODO: Why no color imports working?
+// TODO: Remove hover for mobile and clicks??
+
+.amenities-item-wrapper:hover {
+	transform: scale(1.03);
+}
 .amenities-item-wrapper {
+	border: 1px solid #dea5ce;
+	border-radius: 7px;
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
 	flex-shrink: 0;
 	justify-content: space-between;
+	margin: 7px;
+	padding: 7px;
+	transition: all 0.2s linear;
 
+	&.selected {
+		border: 2px solid transparent;
+	}
 	.content-section {
 		height: auto;
 		max-height: 1000px;

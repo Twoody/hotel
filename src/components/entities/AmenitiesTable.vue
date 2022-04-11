@@ -6,7 +6,7 @@
 			:amenities="AMENITIES[key]"
 		>
 			<template #title>
-				{{ key }}
+				{{ formatTitle(key) }}
 			</template>
 		</AmenitiesSection>
 	</div>
@@ -39,11 +39,18 @@ export default {
 		{
 			return Object.keys(AMENITIES)
 		},
-
-		/** @returns {Array} The different amenities located and associated with the kitchen */
-		kitchen () 
+	},
+	methods:
+	{
+		/**
+		 * @param key
+		 * @returns {string} Formatted title string from a hashmap key
+		 */
+		formatTitle (key)
 		{
-			return AMENITIES.KITCHEN
+			let title = key
+			title = title.replace(/_/g, " ")
+			return title
 		},
 	},
 }
@@ -51,6 +58,10 @@ export default {
 
 <style lang="less" scoped>
 .amenities-table-wrapper {
+	align-content: center;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
 	width: 100%;
 }
 </style>

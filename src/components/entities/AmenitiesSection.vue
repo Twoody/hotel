@@ -8,7 +8,9 @@
 			:key="amenitie.id"
 		>
 			<template #title>
-				{{ amenitie.title }}
+				<div class="shown-title">
+					{{ amenitie.title }}
+				</div>
 			</template>
 			<template #content>
 				<FlexTable>
@@ -60,21 +62,31 @@ export default {
 			type: Array,
 		},
 	},
+	methods:
+	{},
 }
 </script>
 
 <style lang="less" scoped>
-	.amenities-section {
-		max-width: 500px;
-		width: 100%;
+.amenities-section {
+	border: 1px solid black;
+	border-radius: 7px;
+	margin-left: 11px;
+	margin-right: 11px;
+	margin-bottom: 11px;
+	max-width: 500px;
+	width: 100%;
 
-		h2 {
-			text-transform: uppercase;
-		}
-		p {
-			text-align: left;
-			width: 100%;
-		}
+	h2 {
+		border-bottom: 1px solid black;
+		margin-bottom: 0px;
+		margin-top: 0px;
+		padding: 7px;
+		text-transform: uppercase;
 	}
-
-<
+	p {
+		text-align: left;
+		width: 100%;
+	}
+}
+</style>
