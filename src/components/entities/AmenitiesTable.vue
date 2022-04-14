@@ -43,7 +43,7 @@ export default {
 	methods:
 	{
 		/**
-		 * @param key
+		 * @param {string} key - A MACRO_CASE key for key-value data
 		 * @returns {string} Formatted title string from a hashmap key
 		 */
 		formatTitle (key)
@@ -62,6 +62,6 @@ export default {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
-	width: 100%;
+	width: 99%;
 }
 </style>

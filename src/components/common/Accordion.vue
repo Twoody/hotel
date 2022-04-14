@@ -77,7 +77,7 @@ export default {
 	flex-grow: 1;
 	flex-shrink: 0;
 	justify-content: space-between;
-	margin: 7px;
+	margin: 11px;
 	padding: 7px;
 	transition: all 0.2s linear;
 

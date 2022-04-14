@@ -27,9 +27,9 @@ export default {
 
 	.category-section {
 		border-right: 1px solid black;
-		flex-basis: 15%;
+		flex-basis: 60px;
 		padding-right: 7px;
-		width: auto;
+		width: 100%;
 	}
 	.content-section {
 		flex-basis: 85%;
