@@ -31,13 +31,15 @@ export default {
 	computed:
 	{
 		/**
+		 * Get and sort the main keys in the data file
+		 *
 		 * @example
-		 * // return ['LIVING_ROOM', 'KITCHEN']
+		 * // return ['KITCHEN', 'LIVING_ROOM']
 		 * @returns {Array} Basically a list of room in a house which categorizes amenities
 		 */
 		keys ()
 		{
-			return Object.keys(AMENITIES)
+			return Object.keys(AMENITIES).sort( (a,b) => a.localeCompare(b))
 		},
 	},
 	methods:

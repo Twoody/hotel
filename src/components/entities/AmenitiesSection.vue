@@ -4,7 +4,7 @@
 			<slot name="title" />
 		</h2>
 		<Accordion
-			v-for="amenitie in amenities"
+			v-for="amenitie in sortedAmenities"
 			:key="amenitie.id"
 		>
 			<template #title>
@@ -60,6 +60,24 @@ export default {
 			default: () => [],
 			required: true,
 			type: Array,
+		},
+	},
+	computed:
+	{
+		/**
+		 * @example
+		 * // returns [{title: 'Axe body spray'}, {title: 'Baby Wipes'} }]
+		 * @returns {Array} Sorted by amenitie title
+		 */
+		sortedAmenities ()
+		{
+			let sortThis = this.amenities || []
+			return sortThis.sort( (a, b) => 
+			{
+				const A = a.title || ""
+				const B = b.title || ""
+				A.title.localeCompare(B.title)
+			})
 		},
 	},
 	methods:
