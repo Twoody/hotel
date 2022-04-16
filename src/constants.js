@@ -1,8 +1,3 @@
-const OPTIONS = {
-	BEDROOM: [
-	]
-}
-
 const AMENITIES = {
 	GENERAL: [
 		{
@@ -64,7 +59,7 @@ const AMENITIES = {
 			id: 24,
 			title: "Brita Water Filter",
 			brand: "Brita",
-			notes: 'Fits in fridge; Filters need replaced every 2 months',
+			notes: "Fits in fridge; Filters need replaced every 2 months",
 		},
 	],
 	BATHROOM : [

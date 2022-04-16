@@ -13,7 +13,8 @@
 				</div>
 			</template>
 			<template #content>
-				<FlexTable>
+				<!-- Show these ones first -->
+				<FlexTable v-if="amenitie.year">
 					<template #category>
 						Year
 					</template>
@@ -21,7 +22,7 @@
 						{{ amenitie.year }}
 					</template>
 				</FlexTable>
-				<FlexTable>
+				<FlexTable v-if="amenitie.brand">
 					<template #category>
 						Brand
 					</template>
@@ -29,12 +30,25 @@
 						{{ amenitie.brand }}
 					</template>
 				</FlexTable>
-				<FlexTable>
+				<FlexTable v-if="amenitie.model">
 					<template #category>
 						Model
 					</template>
 					<template #content>
 						{{ amenitie.model }}
+					</template>
+				</FlexTable>
+
+				<!-- All of the other details if other details exist -->
+				<FlexTable
+					v-for="(detail, index) in getDetails(amenitie)"
+					:key="index"
+				>
+					<template #category>
+						{{ formatTitle(detail) }}
+					</template>
+					<template #content>
+						{{ amenitie[detail] }}
 					</template>
 				</FlexTable>
 			</template>
@@ -76,12 +90,46 @@ export default {
 			{
 				const A = a.title || ""
 				const B = b.title || ""
-				A.title.localeCompare(B.title)
+				A.localeCompare(B)
 			})
 		},
 	},
 	methods:
-	{},
+	{
+		/**
+		 * @param {string} detail - Json key associated with 
+		 * @returns {string} Properly formatted title
+		 */
+		formatTitle (detail) 
+		{
+			// Replace underscores and make all lowercase
+			let title = detail.replace(/_/g, " ").toLowerCase()
+
+			// Capitalize the first letter
+			title = title.charAt(0).toUpperCase() + title.slice(1)
+			return title
+		},
+
+		/**
+		 * @param {object} amenitieObj - Amenitie object via json data
+		 * @returns {Array} List of the custom amenities for said object
+		 */
+		getDetails (amenitieObj) 
+		{
+			// These are handled elsewhere 
+			const EXCLUDED = [
+				"id",
+				"title",
+				"year",
+				"model",
+				"brand",
+			]
+			return Object.keys(amenitieObj).filter((detail) => 
+			{
+				return ! EXCLUDED.includes(detail.toLowerCase())
+			})
+		},
+	},
 }
 </script>
 
