@@ -1,4 +1,72 @@
+const OPTIONS = {
+	BEDROOM: [
+	]
+}
+
 const AMENITIES = {
+	GENERAL: [
+		{
+			id: 11,
+			title: "Fiber Wifi",
+			download: "160mbps",
+			help: "Call or text Tanner :)",
+			password: "See the peg board",
+			upload: "117mbps",
+		},
+		{
+			id: 12,
+			title: "Books Entertainment",
+			notables: "Calvin & Hobbes Collection, Chicken Soup for the Soul",
+		},
+		{
+			id: 13,
+			title: "Books Recreational",
+			notables: "Hiking, eating, traveling, exploring, birds, plants, dogs",
+		},
+		{
+			id: 14,
+			title: "Board Games & Cards & Puzzles",
+			notables: "Oregon Trail, Uno, ...",
+		},
+		{
+			id: 15,
+			title: "Public Parking",
+			Notes: "See more in the **Home Instructions**",
+		},
+	],
+	GROCERIES: [
+		{
+			id: 16,
+			title: "Olive Oil",
+			brand: "Kirkland",
+		},
+		{
+			id: 17,
+			title: "Pink Salt",
+			brand: "Kirkland",
+		},
+		{
+			id: 18,
+			title: "Ground Pepper",
+			brand: "Kirkland",
+		},
+		{
+			id: 19,
+			title: "Premium Coffee",
+			brand: "Kirkland",
+		},
+		{
+			id: 20,
+			title: "Premium Tea Selection",
+			brand: "Kirkland",
+		},
+		{
+			id: 24,
+			title: "Brita Water Filter",
+			brand: "Brita",
+			notes: 'Fits in fridge; Filters need replaced every 2 months',
+		},
+	],
 	BATHROOM : [
 		//		{
 		//			id: 9999,
@@ -57,6 +125,25 @@ const AMENITIES = {
 			year: 2021,
 		},
 
+	],
+	BEDRROM: [
+		{
+			id: 23,
+			title: "Bedroom Fan w/ Remote control",
+			brand: "",
+			model: "",
+			notes: "Remote takes xxx batteries",
+		},
+		{
+			id: 22,
+			title: "Comforters and Sheets",
+			notes: "Cotton, flannel, hypoallergenic, ...",
+		},
+		{
+			id: 21,
+			title: "Pillows and Pillow Cases",
+			notes: "Cotton, flannel, satin, silk, ...",
+		},
 	],
 	KITCHEN: [
 		{
