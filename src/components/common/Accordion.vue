@@ -70,6 +70,7 @@ export default {
 	transform: scale(1.03);
 }
 .amenities-item-wrapper {
+	align-content: center;
 	border: 1px solid #dea5ce;
 	border-radius: 7px;
 	display: flex;
@@ -103,6 +104,7 @@ export default {
 		justify-content: space-between;
 
 		.chevron-section {
+			align-self: center;
 			transition: all 0.4s;
 			transform: rotate(-90deg);
 			&.collapsed {

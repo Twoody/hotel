@@ -17,7 +17,7 @@ export default {
 
 <style lang="less" scoped>
 .flex-table-wrapper {
-	align-items: flex-start;
+	align-items: center;
 	border: 1px solid black;
 	border-radius: 4px;
 	display: flex;
@@ -26,12 +26,12 @@ export default {
 	padding-right: 10px;
 
 	.category-section {
-		border-right: 1px solid black;
-		flex-basis: 60px;
+		flex-basis: 98px;
 		padding-right: 7px;
 		width: 100%;
 	}
 	.content-section {
+		border-left: 1px solid black;
 		flex-basis: 85%;
 		text-align: center;
 	}

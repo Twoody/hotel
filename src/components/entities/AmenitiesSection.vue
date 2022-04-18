@@ -48,7 +48,7 @@
 						{{ formatTitle(detail) }}
 					</template>
 					<template #content>
-						{{ amenitie[detail] }}
+						{{ amenitie[detail] || '-' }}
 					</template>
 				</FlexTable>
 			</template>
