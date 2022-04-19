@@ -21,7 +21,7 @@ The general navbar for our project
 				Amenities
 			</router-link>
 			<router-link
-				v-if="!isLoggedIn"
+				v-if="!isLoggedIn && isDev"
 				class="nav-item"
 				to="/login"
 			>
@@ -66,6 +66,14 @@ export default {
 		firstName ()
 		{
 			return store.state.user.user.firstName || ""
+		},
+
+		/**
+		 * @returns {boolean} - Show certain only things while under development
+		 */
+		isDev ()
+		{
+			return process.env.VUE_APP_CI
 		},
 
 		/**
