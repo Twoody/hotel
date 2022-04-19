@@ -73,7 +73,7 @@ export default {
 		 */
 		isDev ()
 		{
-			return process.env.VUE_APP_CI
+			return parseFloat(process.env.VUE_APP_CI)
 		},
 
 		/**
