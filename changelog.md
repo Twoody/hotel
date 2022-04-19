@@ -1,5 +1,7 @@
 0.1.3
    * Install vue-cal and demo on home page
+	* Groundwork for logging in and users
+	* Amenities section and base components
 	* Setup more dev environment factors:
 	** Jest (w/ bad coverage unfortunately)
 	** This changelog file
