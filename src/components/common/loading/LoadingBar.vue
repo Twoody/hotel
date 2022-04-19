@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="loading-bar"
+		class="loading-bar-wrapper"
 		:class="classes"
 	/>
 </template>
@@ -73,7 +73,7 @@ export default
 	@bar-h-short: 10px;
 	@bar-h-tall: @bar-h-short * 2;
 
-	.loading-bar {
+	.loading-bar-wrapper {
 		background-color: #DDDBDD;
 		display: inline-block;
 		position: relative;

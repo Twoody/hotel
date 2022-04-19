@@ -1,9 +1,19 @@
 import Vue from "vue"
 import App from "./App.vue"
+import firebase from "firebase/app"
 import router from "./router"
 import store from "./store/store.js"
-import firebase from "firebase/app"
+import { faFacebook } from "@fortawesome/free-brands-svg-icons"
+import { faGoogle } from "@fortawesome/free-brands-svg-icons"
+import { faSpinner } from "@fortawesome/free-solid-svg-icons/faSpinner"
 import { firestorePlugin } from "vuefire"
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
+import { library } from "@fortawesome/fontawesome-svg-core"
+
+// Font awesome
+library.add(faFacebook)
+library.add(faGoogle)
+library.add(faSpinner)
 
 const firebaseConfig = {
 	apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
@@ -46,6 +56,7 @@ firebase.auth().onAuthStateChanged(
 )
 
 Vue.use(firestorePlugin)
+Vue.component("font-awesome-icon", FontAwesomeIcon)
 
 new Vue({
 	router,

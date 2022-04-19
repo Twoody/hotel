@@ -18,6 +18,7 @@
 		</AppSection>
 
 		<AppSection
+			centered
 			class="main-section"
 			is-showing
 		>
@@ -91,7 +92,6 @@ html, body {
 }
 #content-wrapper {
 	background-color: @color-primary-triadic-1;
-	flex-grow: 1;
 	overflow: scroll;
 }
 

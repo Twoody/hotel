@@ -1,4 +1,4 @@
-
+Button to book a stay
 <template>
 	<div
 		class="search-execute"
@@ -10,14 +10,14 @@
 		>
 			<span
 				v-if="isLoading"
-				class="execute-text"
+				class="execute-text execute-loading"
 				key="loading"
 			>
 				Loading
 			</span>
 			<span
 				v-else
-				class="execute-text"
+				class="execute-text execute-clickable"
 				key="booking"
 			>
 				Book

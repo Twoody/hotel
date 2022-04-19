@@ -3,56 +3,27 @@
 		<div v-if="isLoggedIn">
 			<h3>Already Logged in</h3>
 			<p>
-				It looks like you already have an account and are logged in.
-				<br >
-				If need be, 
+				Logging in a second time is weird. Please contine or logout.
 			</p>
 		</div>
 		<div v-if="!isLoggedIn">
-			<h3>Register now</h3>
+			<h3>Sign In</h3>
 
-			<!-- TODO: Put all of this in /forms ... -->
-			<div class="register-form">
+			<div class="login-form">
 				<input
-					v-model="firstName"
-					class="register-item"
-					placeholder="First Name"
+					v-model="email"
+					class="login-item"
+					placeholder="Email"
 					type="text"
 				>
 				<input
-					v-model="lastName"
-					class="register-item"
-					placeholder="Last Name"
-					type="text"
+					v-model="password"
+					class="login-item"
+					placeholder="Password"
+					type="password"
 				>
-				<input
-					v-model="phone"
-					class="register-item"
-					placeholder="1+ 123 456 7890"
-					type="text"
-				>
-				<input
-					v-model="street"
-					class="register-item"
-					placeholder="Street"
-					type="text"
-				>
-				<input
-					v-model="city"
-					class="register-item"
-					placeholder="City"
-					type="text"
-				>
-				<!-- TODO: Make a dropdown -->
-				<input
-					v-model="state"
-					class="register-item"
-					placeholder="state"
-					type="text"
-				>
-
-				<button class="register-button" @click="register">
-					Register	
+				<button class="login-button" @click="login">
+					Log In
 				</button>
 			</div>
 
@@ -64,10 +35,10 @@
 <script>
 import firebase from "firebase"
 import SocialLogin from "@/components/forms/SocialLogin.vue"
-import store from "../store/store.js"
+import store from "@/store/store.js"
 
 export default {
-	name: "Signup",
+	name: "Login",
 	components:
 	{
 		SocialLogin,
@@ -77,13 +48,9 @@ export default {
 	data: function()
 	{
 		return {
-			city: "",
-			firstName: "",
+			email: "",
 			isLoading: true,
-			lastName: "",
-			phone: "",
-			state: "",
-			street: "",
+			password: "",
 		}
 	},
 
@@ -91,7 +58,7 @@ export default {
 	{
 		/**
 		 * @returns {boolean} - Whether a user is logged in or not
-		 * @since 0.1.3
+		 * @since 0.1.0
 		 */
 		isLoggedIn ()
 		{
@@ -101,7 +68,7 @@ export default {
 		/**
 		 * @todo Setup a spinner in template when user is logging in
 		 * @returns {boolean} - Whether a user is logging in or not
-		 * @since 0.1.3
+		 * @since 0.1.0
 		 */
 		isLoggingIn ()
 		{
@@ -113,10 +80,12 @@ export default {
 		/**
 		 * Use firebase to support logging in with any email account
 		 *
+		 * @todo https://firebase.google.com/docs/auth/web/email-link-auth?authuser=0#web-version-9_1
+		 *			Use link to provide signup with email
 		 * @returns {void}
-		 * @since 0.1.3
+		 * @since 0.1.0
 		 */
-		async register ()
+		async login ()
 		{
 			try
 			{
@@ -131,11 +100,15 @@ export default {
 			catch (error)
 			{
 				// TODO: Show error state/message in template
+				console.group()
+				console.error(this.$options.name)
 				console.error(
 					error
 				)
+				console.groupEnd()
 			}
 		},
+
 	},
 }
 </script>
@@ -160,6 +133,22 @@ export default {
 			margin-bottom: 10px;
 			margin-top: 10px;
 		}
+	}
+	.social-button {
+		width: 75px;
+		background: white;
+		padding: 10px;
+		border-radius: 100%;
+		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0,2);
+		outline: 0;
+		border: 0;
+	}
+	.social-button:active {
+		display: relative;
+		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+	}
+	.social-button img {
+		width: 100%;
 	}
 }
 </style>

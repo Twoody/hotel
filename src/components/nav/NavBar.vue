@@ -2,13 +2,29 @@ The general navbar for our project
 <template>
 	<div class="nav-wrapper">
 		<div class="nav-items">
-			<router-link to="/">
+			<router-link
+				class="nav-item"
+				to="/"
+			>
 				Home
-			</router-link> |
-			<router-link to="/about">
+			</router-link>
+			<router-link
+				class="nav-item"
+				to="/about"
+			>
 				About
-			</router-link> |
-			<router-link to="/signup">
+			</router-link>
+			<router-link
+				class="nav-item"
+				to="/amenities"
+			>
+				Amenities
+			</router-link>
+			<router-link
+				v-if="!isLoggedIn && isDev"
+				class="nav-item"
+				to="/login"
+			>
 				Login
 			</router-link>
 		</div>
@@ -38,7 +54,7 @@ The general navbar for our project
 
 <script>
 import firebase from "firebase"
-import store from "../../store/store.js"
+import store from "@/store/store.js"
 
 export default {
 	name: "NavBar",
@@ -50,6 +66,14 @@ export default {
 		firstName ()
 		{
 			return store.state.user.user.firstName || ""
+		},
+
+		/**
+		 * @returns {boolean} - Show certain only things while under development
+		 */
+		isDev ()
+		{
+			return parseFloat(process.env.VUE_APP_CI)
 		},
 
 		/**
@@ -97,8 +121,7 @@ export default {
 		{
 			try
 			{
-				const response = await firebase.auth().signOut()
-				console.log(response)
+				await firebase.auth().signOut()
 			}
 			catch (error)
 			{
@@ -130,6 +153,10 @@ export default {
 
 	.nav-items {
 		flex-grow: 1;
+
+		.nav-item {
+			margin: 5px;
+		}
 	}
 	.user-items {
 		border: 1px solid black;
@@ -139,6 +166,9 @@ export default {
 		flex-grow: 0;
 		flex-shrink: 1;
 
+		&.options-guest {
+			border: none;
+		}
 		.user-item {
 			margin: 3px;
 			margin-left: 6px;
@@ -161,6 +191,4 @@ a {
 a.router-link-exact-active {
 	color: #42b983;
 }
-
 </style>
-

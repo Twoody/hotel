@@ -1,7 +1,12 @@
+TODO: Error handling
+TODO: PRobably plugin inputs... :eye_roll:
 <template>
-	<div class="search-wrapper">
+	<div class="availability-search-wrapper">
 		<div class="content-section">
-			<form class="search-box">
+			<form
+				class="search-box"
+				:class="{'is-loading': isLoading}"
+			>
 				<AvailabilitySearchBar
 					class="inputs-container"
 					:isLoading="isLoading"
@@ -35,6 +40,7 @@ export default {
 	data: function()
 	{
 		return {
+			hasError: false,
 			isLoading: false,
 			searchQuery: "",
 		}
@@ -44,28 +50,30 @@ export default {
 	methods:
 	{
 		/**
+		 * @todo docblock
+		 * @todo acutally send this request to firebase 
 		 */
 		async handleAvailabilitySearch ()
 		{
+			this.hasError = false
 			this.isLoading = true
 			try
 			{
-				// sleep for .5 seconds
+				// sleep for .5 seconds for faux https mgmt
 				await new Promise((r) => setTimeout(r, 5000))
-				this.isLoading = false
 			}
 			catch (error)
 			{
 				this.hasError = true
-				this.isLoading = false
 			}
+			this.isLoading = false
 		},
 	},
 }
 </script>
 
 <style lang="less" scoped>
-.search-wrapper {
+.availability-search-wrapper {
 	display: relative;
 	height: auto;
 	padding-bottom: 15px;
@@ -100,4 +108,3 @@ export default {
 
 <docs>
 </docs>
-

@@ -145,7 +145,14 @@ module.exports = {
 						"VariableDeclarator": 1,
 					}
 				],
-
+			},
+		},
+		{
+			"files": [
+				"constants.js"
+			],
+			"rules": {
+				"max-len": ["off"],
 			},
 		},
 
