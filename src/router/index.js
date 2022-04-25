@@ -4,6 +4,7 @@ import Amenities from "../views/Amenities.vue"
 import Foobar from "../views/Amenities.vue"
 import Home from "../views/Home.vue"
 import Login from "../views/Login.vue"
+import Maps from "../views/Maps.vue"
 import Signup from "../views/Signup.vue"
 
 Vue.use(VueRouter)
@@ -36,6 +37,11 @@ const routes = [
 		component: Login,
 		name: "login",
 		path: "/login",
+	},
+	{
+		component: Maps,
+		name: "maps",
+		path: "/maps",
 	},
 	{
 		component: Signup,

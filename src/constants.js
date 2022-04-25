@@ -178,6 +178,244 @@ const AMENITIES = {
 	],
 }
 
+// TODO: Downtown things to do
+const DOWNTOWN = {
+	MARKET: {
+	},
+	COFFEE: {
+	},
+	FOOD: {
+	},
+	MUSIC: {
+	},
+	DOG_BAR: {
+	},
+}
+
+// TODO: Day iteneraries
+const DAY_PLANS = {
+	RIVER_GORGE: {
+	},
+	DOWNTOWN_SUMMER: {
+	},
+	DOWNTONW_SPRING: {
+	},
+	DOWNTOWN_FOODIE: {
+	},
+	DOWNTOWN_FALL: {
+	},
+	DOWNTOWN_WINTER: {
+		// christmas boat parade
+		// spaghetti factory
+	},
+}
+
+// TODO: Make polymorphic and just pull out IDs in other entities
+const MAPS = {
+	LOCAL: {
+		BURNSIDE: {
+			description: '',
+			end_at: '',
+			start_at: '',
+			tags: [
+				'dog friendly',
+				'walk',
+				'relaxing',
+			],
+			title: '',
+		},
+		MADDOX: {
+			description: '',
+			end_at: '',
+			start_at: '',
+			tags: [
+				'dog friendly',
+				'walk',
+				'relaxing',
+			],
+			title: '',
+		},
+		MARKETS: {
+			description: '',
+			end_at: '',
+			start_at: '',
+			tags: [
+				'dog friendly',
+				'walk',
+				'food',
+				'relaxing',
+			],
+			title: '',
+		},
+		WILDNERNESS: {
+			description: '',
+			end_at: '',
+			start_at: '',
+			tags: [
+				'dog friendly',
+				'run',
+				'walk',
+				'relaxing',
+			],
+			title: '',
+		},
+		MSY: {
+			description: '',
+			end_at: '',
+			start_at: '',
+			tags: [
+				'dog friendly',
+				'run',
+				'walk',
+				'relaxing',
+				'state park',
+				'dog beach',
+				'dog park',
+			],
+			title: '',
+		},
+		OREGON_CITY: {
+			description: '',
+			end_at: '',
+			start_at: '',
+			tags: [
+				'long walk',
+				'run',
+				'food carts',
+				'dog friendly',
+				'',
+			],
+			title: '',
+		},
+		ORANGE_THEORY: {
+			description: '',
+			end_at: '',
+			start_at: '',
+			tags: [
+				'',
+				'',
+				'',
+			],
+			title: '',
+		},
+		LAKE_OSWEGO: {
+			description: '',
+			end_at: '',
+			start_at: '',
+			tags: [
+				'',
+				'',
+				'',
+			],
+			title: '',
+		},
+		WILAMETE_RIVER: {
+			description: '',
+			end_at: '',
+			start_at: '',
+			tags: [
+				'kayak rental',
+				'sup rental',
+				'',
+			],
+			title: '',
+		},
+		CANBY: {
+			description: '',
+			end_at: '',
+			start_at: '',
+			tags: [
+				'live music',
+				'drive',
+				'bike',
+			],
+			title: '',
+		},
+		TRYON: {
+			description: '',
+			end_at: '',
+			start_at: '',
+			tags: [
+				'long run',
+				'bike',
+				'hike',
+				'dog friendly',
+			],
+			title: '',
+		},
+	},
+	DAY_TRIPS: {
+		EUGENE: {
+			description: '',
+			tags: [
+				'',
+				'',
+				'',
+			],
+			title: '',
+		},
+		OREGON_COAST: {
+			description: '',
+			tags: [
+				'',
+				'',
+				'',
+			],
+			title: '',
+			subtitle: 'Haystack rock, Seaside,',
+		},
+		SAUVY_ISLAND: {
+			description: '',
+			tags: [
+				'',
+				'',
+				'',
+			],
+			title: '',
+		},
+		MT_HOOD: {
+			description: '',
+			tags: [
+				'',
+				'',
+				'',
+			],
+			title: '',
+			subtitle: 'Trillium Lake, Timberline Ridge, ski lodges,',
+		},
+		LAVENDER_FARMS: {
+			description: '',
+			tags: [
+				'',
+				'',
+				'',
+			],
+			title: '',
+		},
+		STUB_STEWART: {
+			description: '',
+			tags: [
+				'frisbee golf',
+				'',
+				'',
+			],
+			title: '',
+		},
+		COLUMBIA_RIVER_GORGE: {
+			description: '',
+			tags: [
+				'',
+				'',
+				'',
+			],
+			title: '',
+		},
+	},
+}
+
 export {
-	AMENITIES as AMENITIES
+	AMENITIES as AMENITIES,
+	DOWNTOWN as DOWNTOWN_ACTIVITIES,
+	DAY_PLANS as DAY_PLANS,
+	MAPS as MAPS,
 }
