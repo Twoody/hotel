@@ -212,141 +212,220 @@ const DAY_PLANS = {
 
 // TODO: Make polymorphic and just pull out IDs in other entities
 const MAPS = {
-	LOCAL: {
-		BURNSIDE: {
-			description: '',
-			end_at: '',
-			start_at: '',
-			tags: [
-				'dog friendly',
-				'walk',
-				'relaxing',
-			],
-			title: '',
-		},
-		MADDOX: {
-			description: '',
-			end_at: '',
-			start_at: '',
-			tags: [
-				'dog friendly',
-				'walk',
-				'relaxing',
-			],
-			title: '',
-		},
-		MARKETS: {
-			description: '',
-			end_at: '',
-			start_at: '',
-			tags: [
-				'dog friendly',
-				'walk',
-				'food',
-				'relaxing',
-			],
-			title: '',
-		},
-		WILDNERNESS: {
-			description: '',
-			end_at: '',
-			start_at: '',
-			tags: [
-				'dog friendly',
-				'run',
-				'walk',
-				'relaxing',
-			],
-			title: '',
-		},
-		MSY: {
-			description: '',
-			end_at: '',
-			start_at: '',
-			tags: [
-				'dog friendly',
-				'run',
-				'walk',
-				'relaxing',
-				'state park',
-				'dog beach',
-				'dog park',
-			],
-			title: '',
-		},
-		OREGON_CITY: {
-			description: '',
-			end_at: '',
-			start_at: '',
-			tags: [
-				'long walk',
-				'run',
-				'food carts',
-				'dog friendly',
-				'',
-			],
-			title: '',
-		},
-		ORANGE_THEORY: {
-			description: '',
-			end_at: '',
-			start_at: '',
-			tags: [
-				'',
-				'',
-				'',
-			],
-			title: '',
-		},
-		LAKE_OSWEGO: {
-			description: '',
-			end_at: '',
-			start_at: '',
-			tags: [
-				'',
-				'',
-				'',
-			],
-			title: '',
-		},
-		WILAMETE_RIVER: {
-			description: '',
-			end_at: '',
-			start_at: '',
-			tags: [
-				'kayak rental',
-				'sup rental',
-				'',
-			],
-			title: '',
-		},
-		CANBY: {
-			description: '',
-			end_at: '',
-			start_at: '',
-			tags: [
-				'live music',
-				'drive',
-				'bike',
-			],
-			title: '',
-		},
-		TRYON: {
-			description: '',
-			end_at: '',
-			start_at: '',
-			tags: [
-				'long run',
-				'bike',
-				'hike',
-				'dog friendly',
-			],
-			title: '',
-		},
+	BURNSIDE: {
+		id: 1,
+		map_map_id: 1,
 	},
-	DAY_TRIPS: {
+	CANBY: {
+		id: 10,
+		map_id: 10,
+	},
+	COLUMBIA_RIVER_GORGE: {
+		id: 11,
+		map_id: 11,
+	},
+	EUGENE: {
+		id: 11,
+		map_id: 11,
+	},
+	LAKE_OSWEGO: {
+		id: 8,
+		map_id: 8,
+	},
+	LAVENDER_FARMS: {
+		id: 11,
+		map_id: 11,
+	},
+	MADDOX: {
+		id: 2,
+		map_id: 2,
+	},
+	MARKETS: {
+		id: 3,
+		map_id: 3,
+	},
+	MSY: {
+		id: 5,
+		map_id: 5,
+	},
+	MT_HOOD: {
+		id: 11,
+		map_id: 11,
+	},
+	OREGON_CITY: {
+		id: 6,
+		map_id: 6,
+	},
+	OREGON_COAST: {
+		id: 11,
+		map_id: 11,
+	},
+	SAUVY_ISLAND: {
+		id: 11,
+		map_id: 11,
+	},
+	STUB_STEWART: {
+		id: 11,
+		map_id: 11,
+	},
+	TRYON: {
+		id: 11,
+		map_id: 11,
+	},
+	WILAMETE_RIVER: {
+		id: 9,
+		map_id: 9,
+	},
+	WILDNERNESS: {
+		id: 4,
+		map_id: 4,
+	},
+}
+const LOCAL: {
+	BURNSIDE: {
+		description: '',
+		maps_id: 1,
+		tags: [
+			'dog friendly',
+			'walk',
+			'relaxing',
+		],
+		title: '',
+	},
+	MADDOX: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 2,
+		tags: [
+			'dog friendly',
+			'walk',
+			'relaxing',
+		],
+		title: '',
+	},
+	MARKETS: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 3,
+		tags: [
+			'dog friendly',
+			'walk',
+			'food',
+			'relaxing',
+		],
+		title: '',
+	},
+	WILDNERNESS: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 4,
+		tags: [
+			'dog friendly',
+			'run',
+			'walk',
+			'relaxing',
+		],
+		title: '',
+	},
+	MSY: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 5,
+		tags: [
+			'dog friendly',
+			'run',
+			'walk',
+			'relaxing',
+			'state park',
+			'dog beach',
+			'dog park',
+		],
+		title: '',
+	},
+	OREGON_CITY: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 6,
+		tags: [
+			'long walk',
+			'run',
+			'food carts',
+			'dog friendly',
+			'',
+		],
+		title: '',
+	},
+	ORANGE_THEORY: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 7,
+		tags: [
+			'',
+			'',
+			'',
+		],
+		title: '',
+	},
+	LAKE_OSWEGO: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 8,
+		tags: [
+			'',
+			'',
+			'',
+		],
+		title: '',
+	},
+	WILAMETE_RIVER: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 9,
+		tags: [
+			'kayak rental',
+			'sup rental',
+			'',
+		],
+		title: '',
+	},
+	CANBY: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 10,
+		tags: [
+			'live music',
+			'drive',
+			'bike',
+		],
+		title: '',
+	},
+	TRYON: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 11,
+		tags: [
+			'long run',
+			'bike',
+			'hike',
+			'dog friendly',
+		],
+		title: '',
+	},
+},
+const DAY_TRIPS: {
 		EUGENE: {
 			description: '',
+			maps_id: 12,
 			tags: [
 				'',
 				'',
@@ -356,6 +435,7 @@ const MAPS = {
 		},
 		OREGON_COAST: {
 			description: '',
+			maps_id: 13,
 			tags: [
 				'',
 				'',
@@ -366,6 +446,7 @@ const MAPS = {
 		},
 		SAUVY_ISLAND: {
 			description: '',
+			maps_id: 14,
 			tags: [
 				'',
 				'',
@@ -375,6 +456,7 @@ const MAPS = {
 		},
 		MT_HOOD: {
 			description: '',
+			maps_id: 15,
 			tags: [
 				'',
 				'',
@@ -385,6 +467,7 @@ const MAPS = {
 		},
 		LAVENDER_FARMS: {
 			description: '',
+			maps_id: 16,
 			tags: [
 				'',
 				'',
@@ -394,6 +477,7 @@ const MAPS = {
 		},
 		STUB_STEWART: {
 			description: '',
+			maps_id: 17,
 			tags: [
 				'frisbee golf',
 				'',
@@ -403,6 +487,7 @@ const MAPS = {
 		},
 		COLUMBIA_RIVER_GORGE: {
 			description: '',
+			maps_id: 18,
 			tags: [
 				'',
 				'',
