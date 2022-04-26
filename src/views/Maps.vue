@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import {MAPS} from "src/constants.js"
+import {MAPS} from "src/misc.js"
 import firebase from "firebase"
 import store from "@/store/store.js"
 

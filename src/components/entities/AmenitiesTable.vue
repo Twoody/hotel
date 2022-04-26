@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import {AMENITIES} from "src/constants.js"
+import {AMENITIES} from "src/constants/amenities.js"
 import AmenitiesSection from "components/entities/AmenitiesSection"
 
 export default {
