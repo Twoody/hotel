@@ -1,0 +1,145 @@
+const LOCAL: {
+	BURNSIDE: {
+		description: '',
+		maps_id: 1,
+		tags: [
+			'dog friendly',
+			'walk',
+			'relaxing',
+		],
+		title: '',
+	},
+	MADDOX: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 2,
+		tags: [
+			'dog friendly',
+			'walk',
+			'relaxing',
+		],
+		title: '',
+	},
+	MARKETS: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 3,
+		tags: [
+			'dog friendly',
+			'walk',
+			'food',
+			'relaxing',
+		],
+		title: '',
+	},
+	WILDNERNESS: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 4,
+		tags: [
+			'dog friendly',
+			'run',
+			'walk',
+			'relaxing',
+		],
+		title: '',
+	},
+	MSY: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 5,
+		tags: [
+			'dog friendly',
+			'run',
+			'walk',
+			'relaxing',
+			'state park',
+			'dog beach',
+			'dog park',
+		],
+		title: '',
+	},
+	OREGON_CITY: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 6,
+		tags: [
+			'long walk',
+			'run',
+			'food carts',
+			'dog friendly',
+			'',
+		],
+		title: '',
+	},
+	ORANGE_THEORY: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 7,
+		tags: [
+			'',
+			'',
+			'',
+		],
+		title: '',
+	},
+	LAKE_OSWEGO: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 8,
+		tags: [
+			'',
+			'',
+			'',
+		],
+		title: '',
+	},
+	WILAMETE_RIVER: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 9,
+		tags: [
+			'kayak rental',
+			'sup rental',
+			'',
+		],
+		title: '',
+	},
+	CANBY: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 10,
+		tags: [
+			'live music',
+			'drive',
+			'bike',
+		],
+		title: '',
+	},
+	TRYON: {
+		description: '',
+		end_at: '',
+		start_at: '',
+		maps_id: 11,
+		tags: [
+			'long run',
+			'bike',
+			'hike',
+			'dog friendly',
+		],
+		title: '',
+	},
+}
+
+export {
+	LOCAL as LOCAL
+}
