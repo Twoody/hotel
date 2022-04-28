@@ -36,7 +36,7 @@
 
 <script>
 import {MAPS} from "constants/misc.js"
-import firebase from "firebase"
+// import firebase from "firebase"
 import store from "@/store/store.js"
 
 export default {
@@ -48,9 +48,7 @@ export default {
 	data: function()
 	{
 		return {
-			email: "",
-			isLoading: true,
-			password: "",
+			MAPS: MAPS,
 		}
 	},
 
@@ -75,45 +73,6 @@ export default {
 			return store.state.user.isLoggingIn
 		},
 
-		maps () 
-		{
-			return MAPS
-		},
-	},
-	methods: 
-	{
-		/**
-		 * Use firebase to support logging in with any email account
-		 *
-		 * @todo https://firebase.google.com/docs/auth/web/email-link-auth?authuser=0#web-version-9_1
-		 *			Use link to provide signup with email
-		 * @returns {void}
-		 * @since 0.1.0
-		 */
-		async login ()
-		{
-			try
-			{
-				const response = await firebase.auth().signInWithEmailAndPassword(
-					this.email,
-					this.password
-				)
-				console.log("logged in!")
-				console.log(response)
-				return response
-			}
-			catch (error)
-			{
-				// TODO: Show error state/message in template
-				console.group()
-				console.error(this.$options.name)
-				console.error(
-					error
-				)
-				console.groupEnd()
-			}
-		},
-
 		/**
 		 * @todo Figure out data structure for showing all of the different maps
 		 * @returns {object} Some form of data structure with the goods we need
@@ -123,45 +82,90 @@ export default {
 			return {}
 		},
 	},
+	methods: 
+	{},
 }
 </script>
 
 <style scoped lang="less">
-.page-wrapper {
-	display: relative;
+.maps-page-wrapper {
+	height: 100%;
 	padding: 10px;
-	.login-form {
+	width: 100%;
+
+	.maps-content {
+		align-content: center;
+		align-items: center;
+		justify-content: center;
 		display: flex;
-		flex-direction: column;
-		height: auto;
-		margin-bottom: 20px;
-		position: relative;
-		width: 100%;
+		flex-direction: row;
+		flex-wrap: wrap;
 
-		.login-item {
-			margin-bottom: 10px;
+		.map-card {
+			border: 1px solid red;
+			border-radius: 7px;
+			display: flex;
+			flex-direction: column;
+			flex-wrap: wrap;
+			margin: 10px;
+			max-width: 22vw;
+			min-width: 177px;
+
+			.top-section {
+				display: flex;
+				flex-direction: column;
+				flex-wrap: no-wrap;
+				padding-top: 10px;
+
+				.row {
+					align-content: center;
+					align-items: center;
+					display: flex;
+					gap: 1rem;
+					flex-grow: 1;
+					flex-wrap: nowrap;
+					font-size: 4.1vw;
+					justify-content: space-between;
+						overflow: hidden;
+
+					.map-card-title {
+						flex-grow: 1;
+						padding-left: 10px;
+						overflow: hidden;
+					}
+					.favorites-star {
+						flex-grow: 0;
+						flex-shrink: 1;
+						padding-right: 10px;
+					}
+				}
+				.map-card-subtitle {
+					padding-bottom: 5px;
+					padding-left: 10px;
+					padding-right: 10px;
+					text-align: left;
+					font-size: 1.9vw;
+				}
+			}
+			.map-card-map {
+				background-image: linear-gradient(to right, red , yellow);
+				border-bottom: 1px solid red;
+				border-top: 1px solid red;
+				height: 100px;
+			}
+			.map-card-button {
+				border: 1px solid black;
+				border-radius: 7px;
+				font-size: 2.9vw;
+				margin: 10px;
+				padding: 5px;
+				transition: all 0.2s linear;
+			}
+			.map-card-button:hover {
+				transform: scale(1.1);
+			}
 		}
 
-		.login-button {
-			margin-bottom: 10px;
-			margin-top: 10px;
-		}
-	}
-	.social-button {
-		width: 75px;
-		background: white;
-		padding: 10px;
-		border-radius: 100%;
-		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0,2);
-		outline: 0;
-		border: 0;
-	}
-	.social-button:active {
-		display: relative;
-		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-	}
-	.social-button img {
-		width: 100%;
 	}
 }
 </style>
