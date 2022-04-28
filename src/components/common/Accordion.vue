@@ -17,10 +17,8 @@ TODO: Hover effect
 				:class="{'collapsed': !selected}"
 			>
 				<font-awesome-icon
-					icon="chevron"
-					class="chevron"
+								:icon="['fa', 'chevron-right']"
 				/>
-				&gt;
 			</div>
 		</div>
 		<div
@@ -99,6 +97,7 @@ export default {
 	}
 	.main-bar {
 		align-items: baseline;
+		cursor: pointer;
 		display: flex;
 		flex-grow: 1;
 		justify-content: space-between;

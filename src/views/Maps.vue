@@ -14,7 +14,10 @@
 							Foo bar
 						</div>
 						<div class="favorites-star">
-							*
+							<font-awesome-icon
+								:icon="['fa', 'star']"
+								inverse
+							/>
 						</div>
 					</div>
 					<div class="row">
@@ -26,9 +29,9 @@
 				<div class="map-card-map">
 					<!-- stuff -->
 				</div>
-				<div class="map-card-button">
+				<button class="map-card-button">
 					View Details
-				</div>
+				</button>
 			</div>
 		</div>
 	</div>
@@ -109,34 +112,30 @@ export default {
 			flex-wrap: wrap;
 			margin: 10px;
 			max-width: 22vw;
-			min-width: 130px;
+			min-width: 140px;
+			overflow: hidden;
 
 			.top-section {
 				display: flex;
 				flex-direction: column;
-				flex-wrap: no-wrap;
 				padding-top: 10px;
 
 				.row {
 					align-content: center;
 					align-items: center;
 					display: flex;
-					gap: 1rem;
+					gap: 0.1rem;
 					flex-grow: 1;
-					flex-wrap: nowrap;
 					font-size: 4.1vw;
 					justify-content: space-between;
-						overflow: hidden;
 
 					.map-card-title {
 						flex-grow: 1;
-						padding-left: 10px;
-						overflow: hidden;
 					}
 					.favorites-star {
 						flex-grow: 0;
 						flex-shrink: 1;
-						padding-right: 10px;
+						padding-left: 10px;
 					}
 				}
 				.map-card-subtitle {
@@ -151,7 +150,8 @@ export default {
 				background-image: linear-gradient(to right, red , yellow);
 				border-bottom: 1px solid red;
 				border-top: 1px solid red;
-				height: 100px;
+				height: 15vw;
+				min-height: 100px;
 			}
 			.map-card-button {
 				border: 1px solid black;
@@ -160,9 +160,12 @@ export default {
 				margin: 10px;
 				padding: 5px;
 				transition: all 0.2s linear;
+				flex-shrink: 1;
+				flex-grow: 0;
+				width: auto;
 			}
 			.map-card-button:active {
-				transform: scale(1.1);
+				transform: scale(1.07);
 			}
 		}
 
@@ -172,7 +175,7 @@ export default {
 @media (hover: hover) {
   .map-card-button:hover{
 		cursor: pointer;
-		transform: scale(1.1);
+		transform: scale(1.07);
   }
 }
 </style>
