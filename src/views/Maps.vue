@@ -109,7 +109,7 @@ export default {
 			flex-wrap: wrap;
 			margin: 10px;
 			max-width: 22vw;
-			min-width: 177px;
+			min-width: 130px;
 
 			.top-section {
 				display: flex;
@@ -161,12 +161,19 @@ export default {
 				padding: 5px;
 				transition: all 0.2s linear;
 			}
-			.map-card-button:hover {
+			.map-card-button:active {
 				transform: scale(1.1);
 			}
 		}
 
 	}
+}
+
+@media (hover: hover) {
+  .map-card-button:hover{
+		cursor: pointer;
+		transform: scale(1.1);
+  }
 }
 </style>
 
