@@ -19,5 +19,5 @@ const MAPS = {
 }
 
 export {
-	MAPS as MAPS,
+	MAPS as MAPS
 }

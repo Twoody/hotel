@@ -179,5 +179,5 @@ const AMENITIES = {
 }
 
 export {
-	AMENITIES as AMENITIES,
+	AMENITIES as AMENITIES
 }
