@@ -7,7 +7,7 @@ const LOCAL = {
 			"walk",
 			"relaxing",
 		],
-		title: "",
+		title: "Burnside Park",
 	},
 	MADDOX: {
 		description: "",
@@ -19,7 +19,7 @@ const LOCAL = {
 			"walk",
 			"relaxing",
 		],
-		title: "",
+		title: "Maddox Woods",
 	},
 	MARKETS: {
 		description: "",
@@ -32,7 +32,7 @@ const LOCAL = {
 			"food",
 			"relaxing",
 		],
-		title: "",
+		title: "Local Shops",
 	},
 	WILDNERNESS: {
 		description: "",
@@ -45,7 +45,7 @@ const LOCAL = {
 			"walk",
 			"relaxing",
 		],
-		title: "",
+		title: "Wilderness Park",
 	},
 	MSY: {
 		description: "",
@@ -61,7 +61,7 @@ const LOCAL = {
 			"dog beach",
 			"dog park",
 		],
-		title: "",
+		title: "Mary S. Young Park",
 	},
 	OREGON_CITY: {
 		description: "",
@@ -73,7 +73,7 @@ const LOCAL = {
 			"run",
 			"food carts",
 			"dog friendly",
-			"",
+			"Oregon City Downtown",
 		],
 		title: "",
 	},
@@ -87,7 +87,7 @@ const LOCAL = {
 			"",
 			"",
 		],
-		title: "",
+		title: "Orange Theory",
 	},
 	LAKE_OSWEGO: {
 		description: "",
@@ -99,7 +99,7 @@ const LOCAL = {
 			"",
 			"",
 		],
-		title: "",
+		title: "Lake Oswego Downtown",
 	},
 	WILAMETE_RIVER: {
 		description: "",
@@ -111,7 +111,7 @@ const LOCAL = {
 			"sup rental",
 			"",
 		],
-		title: "",
+		title: "Willamette River",
 	},
 	CANBY: {
 		description: "",
@@ -123,7 +123,7 @@ const LOCAL = {
 			"drive",
 			"bike",
 		],
-		title: "",
+		title: "Canby",
 	},
 	TRYON: {
 		description: "",
@@ -136,10 +136,10 @@ const LOCAL = {
 			"hike",
 			"dog friendly",
 		],
-		title: "",
+		title: "Tryon State Park",
 	},
 }
 
 export {
-	LOCAL as LOCAL
+	LOCAL as LOCAL_ACTIVITIES
 }

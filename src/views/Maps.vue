@@ -4,14 +4,14 @@
 		<div class="maps-content">
 			<!-- TODO: Probably need some kind of DS for this... -->
 			<div
-				v-for="(map, index) in MAPS"
+				v-for="(activity, index) in LOCAL_ACTIVITIES"
 				:key="index"
 				class="map-card"
 			>
 				<div class="top-section">
 					<div class="row">
 						<div class="map-card-title">
-							Foo bar
+							{{ formatTitle(activity) }}
 						</div>
 						<div class="favorites-star">
 							<font-awesome-icon
@@ -20,11 +20,9 @@
 							/>
 						</div>
 					</div>
-					<div class="row">
 						<div class="map-card-subtitle">
 							This is a lovely foo bar baz in the best of PDX
 						</div>
-					</div>
 				</div>
 				<div class="map-card-map">
 					<!-- stuff -->
@@ -39,6 +37,7 @@
 
 <script>
 import {MAPS} from "constants/misc.js"
+import {LOCAL_ACTIVITIES} from "constants/localActivities.js"
 // import firebase from "firebase"
 import store from "@/store/store.js"
 
@@ -52,6 +51,7 @@ export default {
 	{
 		return {
 			MAPS: MAPS,
+			LOCAL_ACTIVITIES: LOCAL_ACTIVITIES,
 		}
 	},
 
@@ -86,13 +86,21 @@ export default {
 		},
 	},
 	methods: 
-	{},
+	{
+		/** */
+		formatTitle(activity) {
+			console.log(activity)
+			let ret = activity.title || '-'
+			return ret
+		}
+	},
 }
 </script>
 
 <style scoped lang="less">
+// TODO some width calcs and flex-basis calcs based off of that...
 .maps-page-wrapper {
-	height: 100%;
+	height: auto;
 	padding: 10px;
 	width: 100%;
 
@@ -111,7 +119,7 @@ export default {
 			flex-direction: column;
 			flex-wrap: wrap;
 			margin: 10px;
-			max-width: 22vw;
+			max-width: 240px;
 			min-width: 140px;
 			overflow: hidden;
 
@@ -126,8 +134,10 @@ export default {
 					display: flex;
 					gap: 0.1rem;
 					flex-grow: 1;
-					font-size: 4.1vw;
+					flex-wrap: nowrap;
+					font-size: 3.1vw;
 					justify-content: space-between;
+					white-space: nowrap;
 
 					.map-card-title {
 						flex-grow: 1;
@@ -139,18 +149,20 @@ export default {
 					}
 				}
 				.map-card-subtitle {
+					flex-wrap: wrap;
+					white-space: wrap;
 					padding-bottom: 5px;
 					padding-left: 10px;
 					padding-right: 10px;
+					font-size: 2.3vw;
 					text-align: left;
-					font-size: 1.9vw;
 				}
 			}
 			.map-card-map {
 				background-image: linear-gradient(to right, red , yellow);
 				border-bottom: 1px solid red;
 				border-top: 1px solid red;
-				height: 15vw;
+				height: 25vw;
 				min-height: 100px;
 			}
 			.map-card-button {
