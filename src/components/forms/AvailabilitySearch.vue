@@ -13,10 +13,10 @@ TODO: PRobably plugin inputs... :eye_roll:
 				/>
 				<VueCal
 					class="vue-cal-container"
-    hide-view-selector
-    active-view="month"
-    :time="false"
-	 :min-date="minDate"
+					hide-view-selector
+					active-view="month"
+					:time="false"
+					:min-date="minDate"
 				/>
 				<BookButton
 					:isLoading="isLoading"
@@ -53,8 +53,9 @@ export default {
 	{},
 	computed: 
 	{
-		minDate () {
-		  return new Date().addDays(1)
+		minDate () 
+		{
+			return new Date().addDays(1)
 		},
 	},
 	methods:
@@ -111,15 +112,15 @@ export default {
 				height: 53vw;
 				margin: 10px;
 				margin-bottom: 15px;
-    			width: 53vw;
+				width: 53vw;
 
 			}
 		}
 	}
 }
-				.vuecal__cell--disabled {text-decoration: line-through !important;}
-				.vuecal__cell--before-min {color: #b6d6c7;}
-				.vuecal__cell--after-max {color: #008b8b;}
+.vuecal__cell--disabled {text-decoration: line-through !important;}
+.vuecal__cell--before-min {color: #b6d6c7;}
+.vuecal__cell--after-max {color: #008b8b;}
 </style>
 
 <docs>

@@ -17,7 +17,7 @@ TODO: Hover effect
 				:class="{'collapsed': !selected}"
 			>
 				<font-awesome-icon
-								:icon="['fa', 'chevron-right']"
+					:icon="['fa', 'chevron-right']"
 				/>
 			</div>
 		</div>
