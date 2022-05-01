@@ -1,6 +1,11 @@
 <template>
 	<div class="maps-page-wrapper">
 		<h1>Maps</h1>
+		<div class="filters">
+			<div class="filter">
+				Dog Friendly
+			</div>
+		</div>
 		<div class="maps-content">
 			<!-- TODO: Probably need some kind of DS for this... -->
 			<div
@@ -108,6 +113,23 @@ export default {
 	padding: 10px;
 	width: 100%;
 
+	.filters {
+		align-content: center;
+		align-items: center;
+		justify-content: center;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		overflow: scroll;
+
+		.filter {
+			background: green;
+			border: 1px solid green;
+			border-radius: 9px;
+			color: white;
+			padding: 3px;
+		}
+	}
 	.maps-content {
 		align-content: center;
 		align-items: center;
@@ -117,7 +139,6 @@ export default {
 		flex-wrap: wrap;
 
 		.map-card:active {
-			border: 5px solid #dea5ce;
 		}
 
 		.map-card {
