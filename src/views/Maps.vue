@@ -20,9 +20,9 @@
 							/>
 						</div>
 					</div>
-						<div class="map-card-subtitle">
-							This is a lovely foo bar baz in the best of PDX
-						</div>
+					<div class="map-card-subtitle">
+						This is a lovely foo bar baz in the best of PDX
+					</div>
 				</div>
 				<div class="map-card-map">
 					<!-- stuff -->
@@ -50,8 +50,8 @@ export default {
 	data: function()
 	{
 		return {
-			MAPS: MAPS,
 			LOCAL_ACTIVITIES: LOCAL_ACTIVITIES,
+			MAPS: MAPS,
 		}
 	},
 
@@ -87,12 +87,16 @@ export default {
 	},
 	methods: 
 	{
-		/** */
-		formatTitle(activity) {
+		/**
+		 * @param {object} activity - Object of all the info
+		 * @returns {string} - A title if exists, else dash
+		 */
+		formatTitle (activity) 
+		{
 			console.log(activity)
-			let ret = activity.title || '-'
+			let ret = activity.title || "-"
 			return ret
-		}
+		},
 	},
 }
 </script>
@@ -112,8 +116,12 @@ export default {
 		flex-direction: row;
 		flex-wrap: wrap;
 
+		.map-card:active {
+			border: 5px solid #dea5ce;
+		}
+
 		.map-card {
-			border: 1px solid red;
+			border: 1px solid #dea5ce;
 			border-radius: 7px;
 			display: flex;
 			flex-direction: column;
@@ -122,6 +130,7 @@ export default {
 			max-width: 240px;
 			min-width: 140px;
 			overflow: hidden;
+			transition: all 0.2s linear;
 
 			.top-section {
 				display: flex;
@@ -140,12 +149,22 @@ export default {
 					white-space: nowrap;
 
 					.map-card-title {
+						text-align: left;
 						flex-grow: 1;
+						overflow: hidden;
+						padding-left: 5px;
+						width: 100px;
 					}
 					.favorites-star {
 						flex-grow: 0;
 						flex-shrink: 1;
-						padding-left: 10px;
+						padding-right: 5px;
+						transition: all 0.2s linear;
+					}
+					.favorites-star:active {
+						stroke: gold;
+						stroke-width: 50px;
+						transform: scale(1.27);
 					}
 				}
 				.map-card-subtitle {
@@ -162,6 +181,7 @@ export default {
 				background-image: linear-gradient(to right, red , yellow);
 				border-bottom: 1px solid red;
 				border-top: 1px solid red;
+				cursor: pointer;
 				height: 25vw;
 				min-height: 100px;
 			}
@@ -185,10 +205,22 @@ export default {
 }
 
 @media (hover: hover) {
+	.map-card:hover {
+		box-shadow:
+			inset 0 -3em 3em rgba(0, 0, 0, 0.1),
+			0 0  0 2px rgb(222, 165, 206),
+			0.3em 0.3em 1em rgba(2, 1, 2, 0.3);
+	}
   .map-card-button:hover{
 		cursor: pointer;
 		transform: scale(1.07);
   }
+	.favorites-star:hover {
+		cursor: pointer;
+		stroke: gold;
+		stroke-width: 50px;
+		transform: scale(1.27);
+	}
 }
 </style>
 
