@@ -2,9 +2,50 @@
 	<div class="maps-page-wrapper">
 		<h1>Maps</h1>
 		<div class="filters">
-			<div class="filter">
+			<button
+				class="filter"
+				type='button'
+			>
+				dog friendly
+			</button>
+			<button
+				class="filter"
+				type='button'
+			>
+				dog friendly
+			</button>
+			<button
+				class="filter"
+				type='button'
+			>
+				dog friendly
+			</button>
+
+			<button
+				class="filter"
+				type='button'
+			>
+				dog friendly
+			</button>
+			<button
+				class="filter"
+				type='button'
+			>
 				Dog Friendly
-			</div>
+			</button>
+			<button
+				class="filter"
+				type='button'
+			>
+				Dog Friendly
+			</button>
+			<button
+				class="filter"
+				type='button'
+			>
+				Dog Friendly
+			</button>
+
 		</div>
 		<div class="maps-content">
 			<!-- TODO: Probably need some kind of DS for this... -->
@@ -107,25 +148,43 @@ export default {
 </script>
 
 <style scoped lang="less">
+@import "~styles/styles";
 .maps-page-wrapper {
 	height: auto;
 	padding: 10px;
 	width: 100%;
 
 	.filters {
+		-ms-overflow-style: none;  /* IE and Edge scrollbar */
 		align-content: center;
 		align-items: center;
-		justify-content: center;
+		justify-content: flex-start;
 		display: flex;
 		flex-direction: row;
-		flex-wrap: nowrap;
-		overflow: scroll;
+		flex-grow: 1;
+		flex-shrink: 0;
+		margin-left: 20px;
+		margin-right: 20px;
+		width: auto;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;  /* Firefox scrollbar */
+
+		/* Hide scrollbar for Chrome, Safari and Opera */
+		overflow-x: auto;
+		&::-webkit-scrollbar {
+			display: none;
+		}
+
 
 		.filter {
-			background: green;
-			border: 1px solid green;
+			background: @color-pastel-blue;
+			border: 1px solid #01016E;
 			border-radius: 9px;
-			color: white;
+			color: #01016E;
+			flex-grow: 1;
+			flex-shrink: 0;
+			font-family: monospace;
+			margin: 5px;
 			padding: 3px;
 		}
 	}
