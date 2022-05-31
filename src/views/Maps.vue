@@ -4,44 +4,44 @@
 		<div class="filters">
 			<button
 				class="filter"
-				type='button'
+				type="button"
 			>
 				dog friendly
 			</button>
 			<button
 				class="filter"
-				type='button'
+				type="button"
 			>
 				dog friendly
 			</button>
 			<button
 				class="filter"
-				type='button'
+				type="button"
 			>
 				dog friendly
 			</button>
 
 			<button
 				class="filter"
-				type='button'
+				type="button"
 			>
 				dog friendly
 			</button>
 			<button
 				class="filter"
-				type='button'
+				type="button"
 			>
 				Dog Friendly
 			</button>
 			<button
 				class="filter"
-				type='button'
+				type="button"
 			>
 				Dog Friendly
 			</button>
 			<button
 				class="filter"
-				type='button'
+				type="button"
 			>
 				Dog Friendly
 			</button>
@@ -174,7 +174,6 @@ export default {
 		&::-webkit-scrollbar {
 			display: none;
 		}
-
 
 		.filter {
 			background: @color-pastel-blue;
