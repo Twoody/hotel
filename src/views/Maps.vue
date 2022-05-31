@@ -107,7 +107,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-// TODO some width calcs and flex-basis calcs based off of that...
 .maps-page-wrapper {
 	height: auto;
 	padding: 10px;
@@ -147,11 +146,13 @@ export default {
 			display: flex;
 			flex-direction: column;
 			flex-wrap: wrap;
+			height: clamp(140px, auto, 255px);
 			margin: 10px;
 			max-width: 240px;
 			min-width: 140px;
 			overflow: hidden;
 			transition: all 0.2s linear;
+			width: clamp(140px, 33vw, 255px);
 
 			.top-section {
 				display: flex;
@@ -165,7 +166,7 @@ export default {
 					gap: 0.1rem;
 					flex-grow: 1;
 					flex-wrap: nowrap;
-					font-size: 3.1vw;
+					font-size: 2.1vw;
 					justify-content: space-between;
 					white-space: nowrap;
 
@@ -194,7 +195,7 @@ export default {
 					padding-bottom: 5px;
 					padding-left: 10px;
 					padding-right: 10px;
-					font-size: 2.3vw;
+					font-size: 1.7vw;
 					text-align: left;
 				}
 			}
@@ -203,13 +204,12 @@ export default {
 				border-bottom: 1px solid red;
 				border-top: 1px solid red;
 				cursor: pointer;
-				height: 25vw;
 				min-height: 100px;
 			}
 			.map-card-button {
 				border: 1px solid black;
 				border-radius: 7px;
-				font-size: 2.9vw;
+				font-size: 2.0vw;
 				margin: 10px;
 				padding: 5px;
 				transition: all 0.2s linear;
