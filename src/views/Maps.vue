@@ -1,51 +1,27 @@
 <template>
 	<div class="maps-page-wrapper">
 		<h1>Maps</h1>
-		<div class="filters">
+		<div class="filters inactive">
 			<button
-				class="filter"
+				v-for="(filter, index) in filtersInactive"
+				:key="index"
+				class="filter inactive"
 				type="button"
+				@click="filters[filter.id].active = true"
 			>
-				dog friendly
+				{{ filter.title }}
 			</button>
+		</div>
+		<div class="filters active">
 			<button
-				class="filter"
+				v-for="(filter, index) in filtersActive"
+				:key="index"
+				class="filter active"
 				type="button"
+				@click="filters[filter.id].active = false"
 			>
-				dog friendly
+				{{ filter.title }}
 			</button>
-			<button
-				class="filter"
-				type="button"
-			>
-				dog friendly
-			</button>
-
-			<button
-				class="filter"
-				type="button"
-			>
-				dog friendly
-			</button>
-			<button
-				class="filter"
-				type="button"
-			>
-				Dog Friendly
-			</button>
-			<button
-				class="filter"
-				type="button"
-			>
-				Dog Friendly
-			</button>
-			<button
-				class="filter"
-				type="button"
-			>
-				Dog Friendly
-			</button>
-
 		</div>
 		<div class="maps-content">
 			<!-- TODO: Probably need some kind of DS for this... -->
@@ -84,8 +60,6 @@
 <script>
 import {MAPS} from "constants/misc.js"
 import {LOCAL_ACTIVITIES} from "constants/localActivities.js"
-// import firebase from "firebase"
-import store from "@/store/store.js"
 
 export default {
 	name: "Maps",
@@ -98,28 +72,82 @@ export default {
 		return {
 			LOCAL_ACTIVITIES: LOCAL_ACTIVITIES,
 			MAPS: MAPS,
+			filters: {
+				1: {
+					active: false,
+					title: "Dog Friendly",
+				},
+				2: {
+					active: false,
+					title: "Food",
+				},
+				3: {
+					active: false,
+					title: "Groceries",
+				},
+				4: {
+					active: false,
+					title: "Child Friendly",
+				},
+				5: {
+					active: false,
+					title: "Running",
+				},
+				6: {
+					active: false,
+					title: "Hiking",
+				},
+				7: {
+					active: false,
+					title: "Workout",
+				},
+				8: {
+					active: false,
+					title: "Attractions",
+				},
+			},
 		}
 	},
 
 	computed:
 	{
+
 		/**
-		 * @returns {boolean} - Whether a user is logged in or not
-		 * @since 0.1.0
+		 * @todo Store active filters in localstorage with a "last visited time"
+		 * @returns {Array} List of the filters the user has activated since page loaded
 		 */
-		isLoggedIn ()
+		filtersActive () 
 		{
-			return store.state.user.isLoggedIn
+			let active = []
+			for (let id in this.filters)
+			{
+				let filter = this.filters[id]
+				filter.id = id
+				if (filter.active) 
+				{
+					active.push(filter)
+				}
+			}
+			return active.sort( (a, b) => this.sortFilter(a, b))
 		},
 
 		/**
-		 * @todo Setup a spinner in template when user is logging in
-		 * @returns {boolean} - Whether a user is logging in or not
-		 * @since 0.1.0
+		 * @returns {Array} List of the filters the user has not activated
 		 */
-		isLoggingIn ()
+		filtersInactive () 
 		{
-			return store.state.user.isLoggingIn
+			let inactive = []
+
+			for (let id in this.filters)
+			{
+				let filter = this.filters[id]
+				filter.id = id
+				if (! filter.active) 
+				{
+					inactive.push(filter)
+				}
+			}
+			return inactive.sort( (a, b) => this.sortFilter(a, b))
 		},
 
 		/**
@@ -139,9 +167,20 @@ export default {
 		 */
 		formatTitle (activity) 
 		{
-			console.log(activity)
 			let ret = activity.title || "-"
 			return ret
+		},
+
+		/**
+		 * @param {object} a - A filter
+		 * @param {object} b - A filter
+		 * @returns {boolean} Should `a` come after `b` alphabetically?
+		 */
+		sortFilter (a, b) 
+		{
+			let at = a.title.toUpperCase()
+			let bt = b.title.toUpperCase()
+			return (at < bt) ? -1 : (at > bt) ? 1 : 0
 		},
 	},
 }
@@ -180,11 +219,21 @@ export default {
 			border: 1px solid #01016E;
 			border-radius: 9px;
 			color: #01016E;
-			flex-grow: 1;
+			flex-grow: 0;
 			flex-shrink: 0;
 			font-family: monospace;
 			margin: 5px;
 			padding: 3px;
+			padding-left: 7px;
+			padding-right: 7px;
+			min-width: 69px;
+
+			&.active {
+				filter: brightness(110%);
+			}
+			&.inactive {
+				filter: brightness(90%);
+			}
 		}
 	}
 	.maps-content {
@@ -224,7 +273,7 @@ export default {
 					gap: 0.1rem;
 					flex-grow: 1;
 					flex-wrap: nowrap;
-					font-size: 2.1vw;
+					font-size: max(2.1vw, 20px);
 					justify-content: space-between;
 					white-space: nowrap;
 
@@ -253,7 +302,7 @@ export default {
 					padding-bottom: 5px;
 					padding-left: 10px;
 					padding-right: 10px;
-					font-size: 1.7vw;
+					font-size: max(1.7vw, 13px);
 					text-align: left;
 				}
 			}
@@ -267,7 +316,7 @@ export default {
 			.map-card-button {
 				border: 1px solid black;
 				border-radius: 7px;
-				font-size: 2.0vw;
+				font-size: max(2.0vw, 17px);
 				margin: 10px;
 				padding: 5px;
 				transition: all 0.2s linear;
