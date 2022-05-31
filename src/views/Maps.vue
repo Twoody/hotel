@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import {FILTERS} from "constants/misc.js"
 import {MAPS} from "constants/misc.js"
 import {LOCAL_ACTIVITIES} from "constants/localActivities.js"
 
@@ -72,40 +73,7 @@ export default {
 		return {
 			LOCAL_ACTIVITIES: LOCAL_ACTIVITIES,
 			MAPS: MAPS,
-			filters: {
-				1: {
-					active: false,
-					title: "Dog Friendly",
-				},
-				2: {
-					active: false,
-					title: "Food",
-				},
-				3: {
-					active: false,
-					title: "Groceries",
-				},
-				4: {
-					active: false,
-					title: "Child Friendly",
-				},
-				5: {
-					active: false,
-					title: "Running",
-				},
-				6: {
-					active: false,
-					title: "Hiking",
-				},
-				7: {
-					active: false,
-					title: "Workout",
-				},
-				8: {
-					active: false,
-					title: "Attractions",
-				},
-			},
+			filters: FILTERS,
 		}
 	},
 
