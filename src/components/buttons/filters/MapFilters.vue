@@ -3,12 +3,12 @@
 		<Filters
 			:filters="filtersInactive"
 			inactive
-			@click="filters[filter.id].active = true"
+			@click="handleClick($event)"
 		/>
 		<Filters
 			:filters="filtersActive"
 			inactive
-			@click="filters[filter.id].active = false"
+			@click="handleClick($event)"
 		/>
 	</div>
 </template>
@@ -27,6 +27,7 @@ export default {
 	data: function()
 	{
 		return {
+			/** Store a local copy to manage state */
 			filters: FILTERS,
 		}
 	},
@@ -73,6 +74,12 @@ export default {
 	},
 	methods: 
 	{
+		handleClick (id) 
+		{
+			this.filters[id].active = !this.filters[id].active
+			this.$emit("updated-active", this.filtersActive)
+		},
+
 		/**
 		 * @param {object} a - A filter
 		 * @param {object} b - A filter

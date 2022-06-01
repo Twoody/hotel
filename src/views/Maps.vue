@@ -1,7 +1,9 @@
 <template>
 	<div class="maps-page-wrapper">
 		<h1>Maps</h1>
-		<MapFilters />
+		<MapFilters
+			@updated-active="activeFilters = arguments[0]"
+		/>
 		<div class="maps-content">
 			<!-- TODO: Probably need some kind of DS for this... -->
 			<div
@@ -55,6 +57,7 @@ export default {
 		return {
 			LOCAL_ACTIVITIES: LOCAL_ACTIVITIES,
 			MAPS: MAPS,
+			activeFilters: [],
 		}
 	},
 
