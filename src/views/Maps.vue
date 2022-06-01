@@ -1,28 +1,7 @@
 <template>
 	<div class="maps-page-wrapper">
 		<h1>Maps</h1>
-		<div class="filters inactive">
-			<button
-				v-for="(filter, index) in filtersInactive"
-				:key="index"
-				class="filter inactive"
-				type="button"
-				@click="filters[filter.id].active = true"
-			>
-				{{ filter.title }}
-			</button>
-		</div>
-		<div class="filters active">
-			<button
-				v-for="(filter, index) in filtersActive"
-				:key="index"
-				class="filter active"
-				type="button"
-				@click="filters[filter.id].active = false"
-			>
-				{{ filter.title }}
-			</button>
-		</div>
+		<MapFilters />
 		<div class="maps-content">
 			<!-- TODO: Probably need some kind of DS for this... -->
 			<div
@@ -58,14 +37,17 @@
 </template>
 
 <script>
-import {FILTERS} from "constants/misc.js"
 import {MAPS} from "constants/misc.js"
 import {LOCAL_ACTIVITIES} from "constants/localActivities.js"
+
+import MapFilters from "components/buttons/filters/MapFilters"
 
 export default {
 	name: "Maps",
 	components:
-	{},
+	{
+		MapFilters,
+	},
 
 	props: {},
 	data: function()
@@ -73,51 +55,11 @@ export default {
 		return {
 			LOCAL_ACTIVITIES: LOCAL_ACTIVITIES,
 			MAPS: MAPS,
-			filters: FILTERS,
 		}
 	},
 
 	computed:
 	{
-
-		/**
-		 * @todo Store active filters in localstorage with a "last visited time"
-		 * @returns {Array} List of the filters the user has activated since page loaded
-		 */
-		filtersActive () 
-		{
-			let active = []
-			for (let id in this.filters)
-			{
-				let filter = this.filters[id]
-				filter.id = id
-				if (filter.active) 
-				{
-					active.push(filter)
-				}
-			}
-			return active.sort( (a, b) => this.sortFilter(a, b))
-		},
-
-		/**
-		 * @returns {Array} List of the filters the user has not activated
-		 */
-		filtersInactive () 
-		{
-			let inactive = []
-
-			for (let id in this.filters)
-			{
-				let filter = this.filters[id]
-				filter.id = id
-				if (! filter.active) 
-				{
-					inactive.push(filter)
-				}
-			}
-			return inactive.sort( (a, b) => this.sortFilter(a, b))
-		},
-
 		/**
 		 * @todo Figure out data structure for showing all of the different maps
 		 * @returns {object} Some form of data structure with the goods we need
@@ -138,18 +80,6 @@ export default {
 			let ret = activity.title || "-"
 			return ret
 		},
-
-		/**
-		 * @param {object} a - A filter
-		 * @param {object} b - A filter
-		 * @returns {boolean} Should `a` come after `b` alphabetically?
-		 */
-		sortFilter (a, b) 
-		{
-			let at = a.title.toUpperCase()
-			let bt = b.title.toUpperCase()
-			return (at < bt) ? -1 : (at > bt) ? 1 : 0
-		},
 	},
 }
 </script>
@@ -161,49 +91,6 @@ export default {
 	padding: 10px;
 	width: 100%;
 
-	.filters {
-		-ms-overflow-style: none;  /* IE and Edge scrollbar */
-		align-content: center;
-		align-items: center;
-		justify-content: flex-start;
-		display: flex;
-		flex-direction: row;
-		flex-grow: 1;
-		flex-shrink: 0;
-		margin-left: 20px;
-		margin-right: 20px;
-		width: auto;
-		scroll-snap-type: x mandatory;
-		scrollbar-width: none;  /* Firefox scrollbar */
-
-		/* Hide scrollbar for Chrome, Safari and Opera */
-		overflow-x: auto;
-		&::-webkit-scrollbar {
-			display: none;
-		}
-
-		.filter {
-			background: @color-pastel-blue;
-			border: 1px solid #01016E;
-			border-radius: 9px;
-			color: #01016E;
-			flex-grow: 0;
-			flex-shrink: 0;
-			font-family: monospace;
-			margin: 5px;
-			padding: 3px;
-			padding-left: 7px;
-			padding-right: 7px;
-			min-width: 69px;
-
-			&.active {
-				filter: brightness(110%);
-			}
-			&.inactive {
-				filter: brightness(90%);
-			}
-		}
-	}
 	.maps-content {
 		align-content: center;
 		align-items: center;

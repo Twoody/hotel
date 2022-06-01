@@ -2,26 +2,19 @@
 	<button
 		class="filter-wrapper"
 		type="button"
+		@click="$emit(&quot;click&quot;)"
 	>
-		<slot name="title"/>
+		<slot/>
 	</button>
 </template>
 
 <script>
 
 export default {
-	name: "Maps",
-	components:
-	{},
-
+	name: "Filter",
 	props: {
 		/** Is current filter being applied */
-		inactive: boolean,
-	},
-	data: function()
-	{
-		return {
-		}
+		inactive: Boolean,
 	},
 }
 </script>
