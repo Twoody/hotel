@@ -3,7 +3,7 @@
 		<MyFilter
 			v-for="(filter, index) in filters"
 			:key="index"
-			:inactive="filter.active || true"
+			:inactive="! filter.active"
 			type="button"
 			@click="$emit('click', filter.id)"
 		>
@@ -23,6 +23,7 @@ export default {
 	},
 	props:
 	{
+		/** An array of filters to be applied to some selection */
 		filters: {
 			required: true,
 			type: Array,

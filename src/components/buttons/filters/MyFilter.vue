@@ -1,6 +1,7 @@
 <template>
 	<button
 		class="filter-wrapper"
+		:class="{'active': !inactive, 'inactive': inactive}"
 		type="button"
 		@click="$emit('click')"
 	>
@@ -35,7 +36,7 @@ export default {
 	padding-right: 7px;
 	min-width: 69px;
 
-	:not(.inactive) {
+	&.active {
 		filter: brightness(110%);
 	}
 	&.inactive {
