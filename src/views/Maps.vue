@@ -2,12 +2,12 @@
 	<div class="maps-page-wrapper">
 		<h1>Maps</h1>
 		<MapFilters
-			@updated-active="activeFilters = arguments[0]"
+			@updated-active="updateFilters($event)"
 		/>
 		<div class="maps-content">
 			<!-- TODO: Probably need some kind of DS for this... -->
 			<div
-				v-for="(activity, index) in LOCAL_ACTIVITIES"
+				v-for="(activity, index) in shownActivies"
 				:key="index"
 				class="map-card"
 			>
@@ -24,7 +24,7 @@
 						</div>
 					</div>
 					<div class="map-card-subtitle">
-						This is a lovely foo bar baz in the best of PDX
+						{{ activity.subtitle || '-' }}
 					</div>
 				</div>
 				<div class="map-card-map">
@@ -55,9 +55,9 @@ export default {
 	data: function()
 	{
 		return {
-			LOCAL_ACTIVITIES: LOCAL_ACTIVITIES,
 			MAPS: MAPS,
 			activeFilters: [],
+			activites: LOCAL_ACTIVITIES,
 		}
 	},
 
@@ -71,6 +71,47 @@ export default {
 		{
 			return {}
 		},
+
+		shownActivies () 
+		{
+			let shown = {}
+			let index = 0
+			let keys = Object.keys(this.activites)
+
+			if (this.activeFilters.length)
+			{
+				for (let i = 0; i < keys.length; i += 1)
+				{
+					let activity = this.activites[keys[i]]
+					let filters = activity.tags
+					let isShowing = true
+					console.log(filters)
+					if (this.activeFilters.length && filters.length)
+					{
+						for (let j = 0; j < this.activeFilters.length; j += 1)
+						{
+							console.log(this.activeFilters[j])
+							if (!filters.includes(this.activeFilters[j].id))
+							{
+								isShowing = false
+								break
+							}
+						}
+					}
+					if (isShowing)
+					{
+						shown[index] = activity
+						index += 1
+					}
+				}
+				return shown
+			}
+			else
+			{
+				// If no filters are selected, show everything
+				return this.activites
+			}
+		},
 	},
 	methods: 
 	{
@@ -82,6 +123,11 @@ export default {
 		{
 			let ret = activity.title || "-"
 			return ret
+		},
+
+		updateFilters (newFilters) 
+		{
+			this.activeFilters = newFilters
 		},
 	},
 }

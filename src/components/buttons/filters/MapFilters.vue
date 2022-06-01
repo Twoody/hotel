@@ -44,7 +44,7 @@ export default {
 			for (let id in this.filters)
 			{
 				let filter = this.filters[id]
-				filter.id = id
+				filter.id = id * 1
 				if (filter.active) 
 				{
 					active.push(filter)
@@ -63,7 +63,7 @@ export default {
 			for (let id in this.filters)
 			{
 				let filter = this.filters[id]
-				filter.id = id
+				filter.id = id * 1
 				if (! filter.active) 
 				{
 					inactive.push(filter)
@@ -76,7 +76,8 @@ export default {
 	{
 		handleClick (id) 
 		{
-			this.filters[id].active = !this.filters[id].active
+			const ID = id * 1
+			this.filters[ID].active = !this.filters[ID].active
 			this.$emit("updated-active", this.filtersActive)
 		},
 
