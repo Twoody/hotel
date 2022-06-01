@@ -1,32 +1,38 @@
 <template>
 	<div class="filters-wrapper">
-		<Filter
+		<MyFilter
 			v-for="(filter, index) in filters"
 			:key="index"
-			class="filter"
 			:inactive="filter.active || true"
 			type="button"
 			@click="$emit('click', filter.id)"
 		>
-			{{ filter.title }}
-		</Filter>
+			{{ formatTitle(filter) }}
+		</MyFilter>
 	</div>
 </template>
 
 <script>
-import Filter from "components/buttons/filters/Filter"
+import MyFilter from "components/buttons/filters/MyFilter"
 
 export default {
 	name: "Filters",
 	components:
 	{
-		Filter,
+		MyFilter,
 	},
 	props:
 	{
 		filters: {
 			required: true,
-			type: Object,
+			type: Array,
+		},
+	},
+	methods:
+	{
+		formatTitle (filter) 
+		{
+			return filter.title
 		},
 	},
 }
@@ -45,7 +51,6 @@ export default {
 	flex-shrink: 0;
 	margin-left: 20px;
 	margin-right: 20px;
-	width: auto;
 	scroll-snap-type: x mandatory;
 	scrollbar-width: none;  /* Firefox scrollbar */
 

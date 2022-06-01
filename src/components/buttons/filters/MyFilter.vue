@@ -2,7 +2,7 @@
 	<button
 		class="filter-wrapper"
 		type="button"
-		@click="$emit(&quot;click&quot;)"
+		@click="$emit('click')"
 	>
 		<slot/>
 	</button>
@@ -11,7 +11,7 @@
 <script>
 
 export default {
-	name: "Filter",
+	name: "MyFilter",
 	props: {
 		/** Is current filter being applied */
 		inactive: Boolean,
