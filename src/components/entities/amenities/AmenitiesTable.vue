@@ -14,7 +14,7 @@
 
 <script>
 import {AMENITIES} from "src/constants/amenities.js"
-import AmenitiesSection from "components/entities/AmenitiesSection"
+import AmenitiesSection from "components/entities/amenities/AmenitiesSection"
 
 export default {
 	name: "AmenitiesTable",

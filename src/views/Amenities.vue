@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import AmenitiesTable from "components/entities/AmenitiesTable"
+import AmenitiesTable from "components/entities/amenities/AmenitiesTable"
 
 export default {
 	name: "Amenities",
