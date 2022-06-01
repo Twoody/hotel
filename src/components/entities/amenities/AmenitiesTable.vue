@@ -64,6 +64,6 @@ export default {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
-	width: 99%;
+	width: 98%;
 }
 </style>
