@@ -85,8 +85,11 @@ export default {
 					let activity = this.activites[keys[i]]
 					let filters = activity.tags
 					let isShowing = true
-					console.log(filters)
-					if (this.activeFilters.length && filters.length)
+					if (this.activeFilters && !filters.length)
+					{
+						isShowing = false
+					}
+					else if (this.activeFilters.length && filters.length)
 					{
 						for (let j = 0; j < this.activeFilters.length; j += 1)
 						{
@@ -135,6 +138,11 @@ export default {
 
 <style scoped lang="less">
 @import "~styles/styles";
+
+@wtotal: clamp(140px, 25vw, 240px);
+@star: 35px;
+@title: calc(@wtotal - @star); 
+
 .maps-page-wrapper {
 	height: auto;
 	padding: 10px;
@@ -157,7 +165,8 @@ export default {
 			display: flex;
 			flex-direction: column;
 			flex-wrap: wrap;
-			height: clamp(140px, auto, 255px);
+			justify-content: space-around;
+			min-height: @wtotal;
 			margin: 10px;
 			max-width: 240px;
 			min-width: 140px;
@@ -168,31 +177,29 @@ export default {
 			.top-section {
 				display: flex;
 				flex-direction: column;
-				padding-top: 10px;
+				padding-top: 5px;
 
 				.row {
 					align-content: center;
 					align-items: center;
 					display: flex;
-					gap: 0.1rem;
 					flex-grow: 1;
 					flex-wrap: nowrap;
-					font-size: max(2.1vw, 20px);
+					font-size: max(2.1vw, 15px);
 					justify-content: space-between;
-					white-space: nowrap;
 
 					.map-card-title {
-						text-align: left;
-						flex-grow: 1;
 						overflow: hidden;
-						padding-left: 5px;
-						width: 100px;
+						padding-left: 3px;
+						text-align: left;
+						white-space: nowrap;
+						width: @title;
 					}
 					.favorites-star {
-						flex-grow: 0;
-						flex-shrink: 1;
-						padding-right: 5px;
+						flex-basis: @star;
+						padding-right: 9px;
 						transition: all 0.2s linear;
+						width: @star;
 					}
 					.favorites-star:active {
 						stroke: gold;
@@ -201,13 +208,13 @@ export default {
 					}
 				}
 				.map-card-subtitle {
-					flex-wrap: wrap;
-					white-space: wrap;
+					font-size: max(1.7vw, 12px);
+					overflow: hidden;
 					padding-bottom: 5px;
-					padding-left: 10px;
-					padding-right: 10px;
-					font-size: max(1.7vw, 13px);
+					padding-left: 3px;
 					text-align: left;
+					white-space: nowrap;
+					width: @wtotal;
 				}
 			}
 			.map-card-map {
@@ -222,11 +229,11 @@ export default {
 				border-radius: 7px;
 				font-size: max(2.0vw, 17px);
 				margin: 10px;
+				max-width: 220px;
+				min-width: 140px;
 				padding: 5px;
 				transition: all 0.2s linear;
-				flex-shrink: 1;
-				flex-grow: 0;
-				width: auto;
+				width: clamp(140px, 30vw, 220px);
 			}
 			.map-card-button:active {
 				transform: scale(1.07);
