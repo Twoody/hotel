@@ -28,7 +28,11 @@
 					</div>
 				</div>
 				<div class="map-card-map">
-					<!-- stuff -->
+					<img
+						height="140"
+						src="http://i.stack.imgur.com/aEEkn.png"
+						width="140"
+					>
 				</div>
 				<button class="map-card-button">
 					View Details
@@ -160,19 +164,20 @@ export default {
 		}
 
 		.map-card {
-			border: 1px solid #dea5ce;
+			background: @color-primary-triadic-3;
+			border: 1px solid @color-purple;
 			border-radius: 7px;
 			display: flex;
 			flex-direction: column;
 			flex-wrap: wrap;
+			min-height: clamp(200px, 33vw, 299px);
 			justify-content: space-around;
-			min-height: @wtotal;
 			margin: 10px;
 			max-width: 240px;
 			min-width: 140px;
 			overflow: hidden;
 			transition: all 0.2s linear;
-			width: clamp(140px, 33vw, 255px);
+			width: clamp(140px, 33vw, 288px);
 
 			.top-section {
 				display: flex;
@@ -189,6 +194,7 @@ export default {
 					justify-content: space-between;
 
 					.map-card-title {
+						font-weight: 600;
 						overflow: hidden;
 						padding-left: 3px;
 						text-align: left;
@@ -208,7 +214,9 @@ export default {
 					}
 				}
 				.map-card-subtitle {
-					font-size: max(1.7vw, 12px);
+					font-style: italic;
+					font-size: max(1.3vw, 12px);
+					font-weight: 400;
 					overflow: hidden;
 					padding-bottom: 5px;
 					padding-left: 3px;
@@ -218,14 +226,26 @@ export default {
 				}
 			}
 			.map-card-map {
-				background-image: linear-gradient(to right, red , yellow);
-				border-bottom: 1px solid red;
-				border-top: 1px solid red;
+				align-content: center;
+				align-items: center;
+				background: @color-purple;
+				border-bottom: 1px solid @myblack;
+				border-top: 1px solid @myblack;
 				cursor: pointer;
+				display: flex;
+				justify-content: center;
 				min-height: 100px;
+
+				img {
+					display: block;
+					max-height: 200px;
+					max-width: 170px;
+					width: auto;
+					height: auto;
+				}
 			}
 			.map-card-button {
-				border: 1px solid black;
+				border: 1px solid @myblack;
 				border-radius: 7px;
 				font-size: max(2.0vw, 17px);
 				margin: 10px;
@@ -246,8 +266,8 @@ export default {
 @media (hover: hover) {
 	.map-card:hover {
 		box-shadow:
-			inset 0 -3em 3em rgba(0, 0, 0, 0.1),
-			0 0  0 2px rgb(222, 165, 206),
+			inset 0 -3vw 3vw rgba(0, 0, 0, 0.1),
+			0 0  0 3px @color-purple,
 			0.3em 0.3em 1em rgba(2, 1, 2, 0.3);
 	}
   .map-card-button:hover{
@@ -257,8 +277,8 @@ export default {
 	.favorites-star:hover {
 		cursor: pointer;
 		stroke: gold;
-		stroke-width: 50px;
-		transform: scale(1.27);
+		stroke-width: 70px;
+		transform: scale(1.57);
 	}
 }
 </style>
