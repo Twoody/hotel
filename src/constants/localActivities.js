@@ -7,6 +7,7 @@ const LOCAL = {
 			10,
 		],
 		title: "Burnside Park",
+		subtitle: "River accessible nature trail",
 	},
 	MADDOX: {
 		description: "",
@@ -18,6 +19,7 @@ const LOCAL = {
 			10,
 		],
 		title: "Maddox Woods",
+		subtitle: "River accessible historical trail",
 	},
 	MARKETS: {
 		description: "",
@@ -33,7 +35,8 @@ const LOCAL = {
 			9,
 			10,
 		],
-		title: "Local Shops",
+		title: "Central Village",
+		subtitle: "Coffee, sushi, pet store, ...",
 	},
 	WILDNERNESS: {
 		description: "",
@@ -70,6 +73,7 @@ const LOCAL = {
 			5,
 		],
 		title: "Oregon City",
+		subtitle: "Food carts, music, & more!",
 	},
 	ORANGE_THEORY: {
 		description: "",
@@ -111,7 +115,7 @@ const LOCAL = {
 			9,
 			11,
 		],
-		title: "Lake Oswego Downtown",
+		title: "Lake Oswego",
 		subtitle: "Movies, food, music, & more!",
 	},
 	WILAMETE_RIVER: {
