@@ -26,7 +26,7 @@ export default {
 	background: @color-pastel-blue;
 	border: 1px solid #01016E;
 	border-radius: 9px;
-	color: #01016E;
+	color: @myblack;
 	flex-grow: 0;
 	flex-shrink: 0;
 	font-family: monospace;
