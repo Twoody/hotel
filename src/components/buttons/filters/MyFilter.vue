@@ -24,7 +24,7 @@ export default {
 @import "~styles/styles";
 .filter-wrapper {
 	background: @color-pastel-blue;
-	border: 1px solid #01016E;
+	border: 1px solid @myblack;
 	border-radius: 9px;
 	color: @myblack;
 	flex-grow: 0;
@@ -35,6 +35,7 @@ export default {
 	padding-left: 7px;
 	padding-right: 7px;
 	min-width: 69px;
+	transition: all 0.2s linear;
 
 	&.active {
 		filter: brightness(110%);
@@ -45,22 +46,12 @@ export default {
 }
 
 @media (hover: hover) {
-	.map-card:hover {
-		box-shadow:
-			inset 0 -3em 3em rgba(0, 0, 0, 0.1),
-			0 0  0 2px rgb(222, 165, 206),
-			0.3em 0.3em 1em rgba(2, 1, 2, 0.3);
-	}
-  .map-card-button:hover{
+	.filter-wrapper:hover {
+		box-shadow: 0 10px 6px -6px #777;
+		border: 1px solid @color-pastel-blue;;
 		cursor: pointer;
+		filter: brightness(102%);
 		transform: scale(1.07);
-  }
-	.favorites-star:hover {
-		cursor: pointer;
-		stroke: gold;
-		stroke-width: 50px;
-		transform: scale(1.27);
 	}
 }
 </style>
-
