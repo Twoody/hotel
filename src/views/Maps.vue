@@ -34,7 +34,10 @@
 						width="140"
 					>
 				</div>
-				<button class="map-card-button">
+				<button
+					class="map-card-button"
+					@click="gotoItem(activity.id)"
+				>
 					View Details
 				</button>
 			</div>
@@ -130,6 +133,16 @@ export default {
 		{
 			let ret = activity.title || "-"
 			return ret
+		},
+
+		/**
+		 * @param {string} id - Poorly names object s.t. id is string and not int
+		 */
+		gotoItem (id) 
+		{
+			this.$router.push({
+				path: `maps/${id}`, 
+			})
 		},
 
 		updateFilters (newFilters) 

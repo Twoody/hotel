@@ -1,5 +1,6 @@
 const LOCAL = {
 	BURNSIDE: {
+		id: "BURNSIDE",
 		description: "",
 		maps_id: 1,
 		tags: [
@@ -10,6 +11,7 @@ const LOCAL = {
 		subtitle: "River accessible nature trail",
 	},
 	MADDOX: {
+		id: "MADDOX",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -22,6 +24,7 @@ const LOCAL = {
 		subtitle: "River accessible historical trail",
 	},
 	MARKETS: {
+		id: "MARKETS",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -39,6 +42,7 @@ const LOCAL = {
 		subtitle: "Coffee, sushi, pet store, ...",
 	},
 	WILDNERNESS: {
+		id: "WILDNERNESS",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -51,6 +55,7 @@ const LOCAL = {
 		title: "Wilderness Park",
 	},
 	MSY: {
+		id: "MSY",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -63,6 +68,7 @@ const LOCAL = {
 		title: "Mary S. Young Park",
 	},
 	OREGON_CITY: {
+		id: "OREGON_CITY",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -76,6 +82,7 @@ const LOCAL = {
 		subtitle: "Food carts, music, & more!",
 	},
 	ORANGE_THEORY: {
+		id: "ORANGE_THEORY",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -88,6 +95,7 @@ const LOCAL = {
 		subtitle: "Group Fitness Center",
 	},
 	SUSHI_HURRAY: {
+		id: "SUSHI_HURRAY",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -100,6 +108,7 @@ const LOCAL = {
 		subtitle: "Conveyor belt sushi",
 	},
 	LAKE_OSWEGO: {
+		id: "LAKE_OSWEGO",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -119,6 +128,7 @@ const LOCAL = {
 		subtitle: "Movies, food, music, & more!",
 	},
 	WILAMETE_RIVER: {
+		id: "WILAMETE_RIVER",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -128,6 +138,7 @@ const LOCAL = {
 		subtitle: "Boating to kayaking with Herrons and Bald Eagle",
 	},
 	CANBY: {
+		id: "CANBY",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -140,6 +151,7 @@ const LOCAL = {
 		title: "Canby",
 	},
 	TRYON: {
+		id: "TRYON",
 		description: "",
 		end_at: "",
 		start_at: "",
