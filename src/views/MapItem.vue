@@ -1,6 +1,9 @@
 <template>
 	<div class="map-item-page-wrapper">
 		<h1>Map Item: {{ title }}</h1>
+		<p>
+			Work in Progress... Check back later
+		</p>
 	</div>
 </template>
 
@@ -41,6 +44,10 @@ export default {
 	height: auto;
 	padding: 10px;
 	width: 100%;
+
+	p {
+		font-size: 25px;
+	}
 }
 </style>
 
