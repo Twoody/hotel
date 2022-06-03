@@ -156,7 +156,8 @@ export default {
 <style scoped lang="less">
 @import "~styles/styles";
 
-@wtotal: clamp(140px, 25vw, 240px);
+@wmax: 288px;
+@wtotal: clamp(140px, 25vw, @wmax);
 @star: 35px;
 @title: calc(@wtotal - @star); 
 
@@ -190,12 +191,13 @@ export default {
 			min-width: 140px;
 			overflow: hidden;
 			transition: all 0.2s linear;
-			width: clamp(140px, 33vw, 288px);
+			width: clamp(140px, 33vw, calc(@wmax + 20px));
 
 			.top-section {
 				display: flex;
 				flex-direction: column;
 				padding-top: 5px;
+				max-width: 99%;
 
 				.row {
 					align-content: center;
@@ -216,7 +218,7 @@ export default {
 					}
 					.favorites-star {
 						flex-basis: @star;
-						padding-right: 9px;
+						padding-right: calc(1vw / 6);
 						transition: all 0.2s linear;
 						width: @star;
 					}
@@ -261,7 +263,7 @@ export default {
 				border: 1px solid @myblack;
 				border-radius: 7px;
 				font-size: max(2.0vw, 17px);
-				margin: 10px;
+				margin: 7px;
 				max-width: 220px;
 				min-width: 140px;
 				padding: 5px;
