@@ -81,6 +81,19 @@ const LOCAL = {
 			7,
 		],
 		title: "Orange Theory",
+		subtitle: "Group Fitness Center",
+	},
+	SUSHI_HURRAY: {
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 8,
+		tags: [
+			2,
+			4,
+		],
+		title: "Sushi Hurray",
+		subtitle: "Conveyor belt sushi",
 	},
 	LAKE_OSWEGO: {
 		description: "",
@@ -99,7 +112,7 @@ const LOCAL = {
 			11,
 		],
 		title: "Lake Oswego Downtown",
-		subtitle: "Movie theater, restuarants, live dancing, farmers market, and more!",
+		subtitle: "Movies, food, music, & more!",
 	},
 	WILAMETE_RIVER: {
 		description: "",
