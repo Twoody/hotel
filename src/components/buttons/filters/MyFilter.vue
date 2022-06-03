@@ -35,7 +35,7 @@ export default {
 	padding-left: 7px;
 	padding-right: 7px;
 	min-width: 69px;
-	transition: all 0.2s linear;
+	transition: all 0.2s ease;
 
 	&.active {
 		filter: brightness(110%);
@@ -47,11 +47,18 @@ export default {
 
 @media (hover: hover) {
 	.filter-wrapper:hover {
-		box-shadow: 0 10px 6px -6px #777;
+		box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
 		border: 1px solid @color-pastel-blue;;
 		cursor: pointer;
 		filter: brightness(102%);
 		transform: scale(1.07);
 	}
+}
+.filter-wrapper:active {
+	box-shadow: 3px -2px 3px 0px rgb(0 0 0 / 50%);
+	border: 1px solid @color-pastel-blue;;
+	cursor: pointer;
+	filter: brightness(102%);
+	transform: scale(1.07);
 }
 </style>

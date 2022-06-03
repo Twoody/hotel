@@ -31,6 +31,10 @@ export default {
 	},
 	methods:
 	{
+		/**
+		 * @param {object} filter - A self made filter object
+		 * @returns {string} A formatted title
+		 */
 		formatTitle (filter) 
 		{
 			return filter.title
@@ -62,4 +66,3 @@ export default {
 	}
 }
 </style>
-

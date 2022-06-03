@@ -74,9 +74,11 @@ export default {
 	},
 	methods: 
 	{
-		handleClick (id) 
+		async handleClick (id) 
 		{
 			const ID = id * 1
+			// Await the animation
+			await new Promise((resolve) => setTimeout(resolve, 200))
 			this.filters[ID].active = !this.filters[ID].active
 			this.$emit("updated-active", this.filtersActive)
 		},
