@@ -28,8 +28,9 @@ module.exports = {
 		// "./src/views/*.{js,vue}",
 
 		// Ignored files
-		"!src/main.js", // No need to cover bootstrap file
-		"!**/styleguidist/**", // Built directory for documentation
+		"!src/main.js",			// No need to cover bootstrap file
+		"!**/styleguidist/**",	// Built directory for documentation
+		"!**/constants/**",		// Just constant directory
 		"!**/node_modules/**",
 	],
 	"coverageThreshold": {

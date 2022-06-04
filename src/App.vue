@@ -22,7 +22,12 @@
 			class="main-section"
 			is-showing
 		>
-			<router-view id="content-wrapper" />
+			<transition
+				name="fade"
+				mode="out-in"
+			>
+				<router-view id="content-wrapper" />
+			</transition>
 		</AppSection>
 		<AppSection
 			:isShowing="$store.state.layout.isShowingFooter"
@@ -54,13 +59,13 @@ export default {
 	{},
 	created: function()
 	{
-		// console.log(this.$store.state.layout.isShowingBanner)
 	},
 }
 </script>
 
 <style lang='less'>
 @import "~styles/styles";
+@import (css) url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
 html, body {
 	height: 100%;
@@ -73,10 +78,11 @@ html, body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	background-color: @color-primary-triadic-1;
-	color: #2c3e50;
+	color: @myblack;
 	display: flex;
 	flex-direction: column;
-	font-family: Avenir, Helvetica, Arial, sans-serif;
+	//font-family: Avenir, Helvetica, Arial, sans-serif;
+	font-family: 'Poppins', sans-serif;
 	height: 100%;
 	max-height: 100%;
 	min-height: 100%;
@@ -113,5 +119,16 @@ html, body {
 	padding: 0;
 	margin: 0;
 	width: 100%;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.2s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
 }
 </style>

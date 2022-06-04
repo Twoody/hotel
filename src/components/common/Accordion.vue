@@ -1,26 +1,27 @@
 TODO: Hover effect
 <template>
 	<div
-		class="amenities-item-wrapper"
-		:class="{'selected': selected}"
+		class="accordion-wrapper"
+		:class="{'has-nested': hasNested, 'selected': selected}"
 	>
 		<div
 			class="main-bar"
+			:class="{'has-nested': hasNested, 'not-selected': !selected}"
 			@click="handleClick()"
 		>
-			<div class="title-section">
+			<div
+				class="title-section"
+				:class="{'bigger': hasNested}"
+			>
 				<slot name="title"/>
 			</div>
-			<!-- TODO: Find icon name... -->
 			<div
 				class="chevron-section"
 				:class="{'collapsed': !selected}"
 			>
 				<font-awesome-icon
-					icon="chevron"
-					class="chevron"
+					:icon="['fa', 'chevron-right']"
 				/>
-				&gt;
 			</div>
 		</div>
 		<div
@@ -40,6 +41,11 @@ export default {
 		return {
 			selected: false,
 		}
+	},
+	props:
+	{
+		/** Whether the accordion has a nested accordion inside */
+		hasNested: Boolean,
 	},
 	methods:
 	{
@@ -66,10 +72,10 @@ export default {
 // TODO: Why no color imports working?
 // TODO: Remove hover for mobile and clicks??
 
-.amenities-item-wrapper:hover {
+.accordion-wrapper:hover {
 	transform: scale(1.03);
 }
-.amenities-item-wrapper {
+.accordion-wrapper {
 	align-content: center;
 	border: 1px solid #dea5ce;
 	border-radius: 7px;
@@ -79,11 +85,13 @@ export default {
 	flex-shrink: 0;
 	justify-content: space-between;
 	margin: 11px;
-	padding: 7px;
 	transition: all 0.2s linear;
 
 	&.selected {
 		border: 2px solid transparent;
+	}
+	&.has-nested {
+		border: 1px solid black;
 	}
 	.content-section {
 		height: auto;
@@ -91,7 +99,6 @@ export default {
 		overflow-y: hidden;
 		overflow-x: auto;
 		transition: all 0.6s cubic-bezier(0.95, 0.05, 0.05, 0.95);
-		width: 100%;
 
 		&.collapsed {
 			max-height: 0px;
@@ -99,12 +106,24 @@ export default {
 	}
 	.main-bar {
 		align-items: baseline;
+		cursor: pointer;
 		display: flex;
 		flex-grow: 1;
 		justify-content: space-between;
+		transition: all 0.2s linear;
 
+		&.has-nested {
+			border-bottom: 1px solid black;
+			&.not-selected {
+				border: 2px solid transparent;
+			}
+		}
+		:not(.has-nested) {
+			padding: 3px;
+		}
 		.chevron-section {
 			align-self: center;
+			margin-right: 15px;
 			transition: all 0.4s;
 			transform: rotate(-90deg);
 			&.collapsed {
@@ -117,6 +136,14 @@ export default {
 			font-size: 22px;
 			font-weight: 500;
 			margin-bottom:5px;
+			text-align: left;
+
+			&.bigger {
+				margin-bottom: 0px;
+				margin-top: 0px;
+				padding: 7px;
+				text-transform: uppercase;
+			}
 		}
 	}
 }

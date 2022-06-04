@@ -13,6 +13,10 @@ TODO: PRobably plugin inputs... :eye_roll:
 				/>
 				<VueCal
 					class="vue-cal-container"
+					hide-view-selector
+					active-view="month"
+					:time="false"
+					:min-date="minDate"
 				/>
 				<BookButton
 					:isLoading="isLoading"
@@ -47,6 +51,13 @@ export default {
 	},
 	props:
 	{},
+	computed: 
+	{
+		minDate () 
+		{
+			return new Date().addDays(1)
+		},
+	},
 	methods:
 	{
 		/**
@@ -72,7 +83,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .availability-search-wrapper {
 	display: relative;
 	height: auto;
@@ -98,12 +109,18 @@ export default {
 				padding-bottom: 15px;
 			}
 			.vue-cal-container {
-				height: 200px;
-				padding-bottom:10px;
+				height: 53vw;
+				margin: 10px;
+				margin-bottom: 15px;
+				width: 53vw;
+
 			}
 		}
 	}
 }
+.vuecal__cell--disabled {text-decoration: line-through !important;}
+.vuecal__cell--before-min {color: #b6d6c7;}
+.vuecal__cell--after-max {color: #008b8b;}
 </style>
 
 <docs>

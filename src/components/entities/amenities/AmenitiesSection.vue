@@ -1,59 +1,66 @@
 <template>
-	<div class="amenities-section">
-		<h2>
-			<slot name="title" />
-		</h2>
-		<Accordion
-			v-for="amenitie in sortedAmenities"
-			:key="amenitie.id"
-		>
-			<template #title>
-				<div class="shown-title">
-					{{ amenitie.title }}
-				</div>
-			</template>
-			<template #content>
-				<!-- Show these ones first -->
-				<FlexTable v-if="amenitie.year">
-					<template #category>
-						Year
-					</template>
-					<template #content>
-						{{ amenitie.year }}
-					</template>
-				</FlexTable>
-				<FlexTable v-if="amenitie.brand">
-					<template #category>
-						Brand
-					</template>
-					<template #content>
-						{{ amenitie.brand }}
-					</template>
-				</FlexTable>
-				<FlexTable v-if="amenitie.model">
-					<template #category>
-						Model
-					</template>
-					<template #content>
-						{{ amenitie.model }}
-					</template>
-				</FlexTable>
+	<Accordion
+		class="amenities-section"
+		has-nested
+	>
+		<template #title>
+			<h2>
+				<slot name="title" />
+			</h2>
+		</template>
+		<template #content>
+			<Accordion
+				v-for="amenitie in sortedAmenities"
+				:key="amenitie.id"
+			>
+				<template #title>
+					<div class="shown-title">
+						{{ amenitie.title }}
+					</div>
+				</template>
+				<template #content>
+					<!-- Show these ones first -->
+					<FlexTable v-if="amenitie.year">
+						<template #category>
+							Year
+						</template>
+						<template #content>
+							{{ amenitie.year }}
+						</template>
+					</FlexTable>
+					<FlexTable v-if="amenitie.brand">
+						<template #category>
+							Brand
+						</template>
+						<template #content>
+							{{ amenitie.brand }}
+						</template>
+					</FlexTable>
+					<FlexTable v-if="amenitie.model">
+						<template #category>
+							Model
+						</template>
+						<template #content>
+							{{ amenitie.model }}
+						</template>
+					</FlexTable>
 
-				<!-- All of the other details if other details exist -->
-				<FlexTable
-					v-for="(detail, index) in getDetails(amenitie)"
-					:key="index"
-				>
-					<template #category>
-						{{ formatTitle(detail) }}
-					</template>
-					<template #content>
-						{{ amenitie[detail] || '-' }}
-					</template>
-				</FlexTable>
-			</template>
-		</Accordion>
-	</div>
+					<!-- All of the other details if other details exist -->
+					<FlexTable
+						v-for="(detail, index) in getDetails(amenitie)"
+						:key="index"
+					>
+						<template #category>
+							{{ formatTitle(detail) }}
+						</template>
+						<template #content>
+							{{ amenitie[detail] || '-' }}
+						</template>
+					</FlexTable>
+				</template>
+			</Accordion>
+		</template>
+	</Accordion>
 </template>
 
 <script>
@@ -137,22 +144,13 @@ export default {
 .amenities-section {
 	border: 1px solid black;
 	border-radius: 7px;
-	margin-left: 11px;
-	margin-right: 11px;
-	margin-bottom: 11px;
 	max-width: 500px;
-	width: 100%;
+	width: 96%;
 
 	h2 {
-		border-bottom: 1px solid black;
+		font-size: 25px;
 		margin-bottom: 0px;
 		margin-top: 0px;
-		padding: 7px;
-		text-transform: uppercase;
-	}
-	p {
-		text-align: left;
-		width: 100%;
 	}
 }
 </style>

@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import {AMENITIES} from "src/constants.js"
-import AmenitiesSection from "components/entities/AmenitiesSection"
+import {AMENITIES} from "src/constants/amenities.js"
+import AmenitiesSection from "components/entities/amenities/AmenitiesSection"
 
 export default {
 	name: "AmenitiesTable",
@@ -64,6 +64,6 @@ export default {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
-	width: 99%;
+	width: 98%;
 }
 </style>
