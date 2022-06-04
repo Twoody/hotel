@@ -169,20 +169,16 @@ export default {
 			height: auto;
 		}
 	}
-	// TODO: Coexist with image
 	.map-card-button {
-		//align-self: center;
+		align-self: center;
 		border: 1px solid @myblack;
 		border-radius: 7px;
 		font-size: max(2.0vw, 17px);
 		margin-bottom: 7px;
 		margin-top: 7px;
-		//max-width: 220px;
-		//min-width: 140px;
 		padding: 5px;
 		transition: all 0.2s linear;
-		//width: clamp(140px, 30vw, 220px);
-		width: 100%;
+		width: 86%;
 	}
 	.map-card-button:active {
 		transform: scale(1.07);

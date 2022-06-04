@@ -284,7 +284,6 @@ const LOCAL = {
 		subtitle: "April & May bloomages",
 	},
 
-
 }
 
 export {
