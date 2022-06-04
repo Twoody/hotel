@@ -283,6 +283,19 @@ const LOCAL = {
 		title: "Camassia Park",
 		subtitle: "April & May bloomages",
 	},
+	21: {
+		id: 21,
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 21,
+		tags: [
+			7,
+			9,
+		],
+		title: "Brew Group",
+		subtitle: "Beer, Bike, and Portland",
+	},
 
 }
 
