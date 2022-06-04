@@ -238,10 +238,53 @@ const LOCAL = {
 		maps_id: 17,
 		tags: [
 			3,
+			4,
+			9,
 		],
 		title: "Market of Choice",
 		subtitle: "Groceries + Hot food + Cafe + Dessert",
 	},
+	18: {
+		id: 18,
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 18,
+		tags: [
+			1,
+			4,
+		],
+		title: "Splash Pad",
+		subtitle: "Open Memorial day to October",
+	},
+	19: {
+		id: 19,
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 19,
+		tags: [
+			1,
+			4,
+		],
+		title: "Public Playground",
+		subtitle: "Great for the family",
+	},
+	20: {
+		id: 20,
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 20,
+		tags: [
+			1,
+			4,
+		],
+		title: "Camassia Park",
+		subtitle: "April & May bloomages",
+	},
+
+
 }
 
 export {
