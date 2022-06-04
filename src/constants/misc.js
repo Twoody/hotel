@@ -18,50 +18,18 @@ const MAPS = {
 	WILDNERNESS: 4,
 }
 const FILTERS ={
-	1: {
-		active: false,
-		title: "Dog Friendly",
-	},
-	2: {
-		active: false,
-		title: "Food",
-	},
-	3: {
-		active: false,
-		title: "Groceries",
-	},
-	4: {
-		active: false,
-		title: "Child Friendly",
-	},
-	5: {
-		active: false,
-		title: "Running",
-	},
-	6: {
-		active: false,
-		title: "Hiking",
-	},
-	7: {
-		active: false,
-		title: "Exercise",
-	},
-	8: {
-		active: false,
-		title: "Attractions",
-	},
-	9: {
-		active: false,
-		title: "Drinks",
-	},
-	10: {
-		active: false,
-		title: "Walking",
-	},
-	11: {
-		active: false,
-		title: "Shopping",
-	},
+	1: "Dog Friendly",
+	2: "Food",
+	3: "Groceries",
+	4: "Child Friendly",
+	5: "Running",
+	6: "Hiking",
+	7: "Exercise",
+	8: "Attractions",
+	9: "Drinks",
+	10: "Walking",
+	11: "Shopping",
+	12: "Music",
 }
 
 export {

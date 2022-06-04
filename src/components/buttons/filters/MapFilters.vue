@@ -29,6 +29,7 @@ export default {
 		return {
 			/** Store a local copy to manage state */
 			filters: FILTERS,
+			filtersAll: {},
 		}
 	},
 
@@ -41,9 +42,9 @@ export default {
 		filtersActive () 
 		{
 			let active = []
-			for (let id in this.filters)
+			for (let id in this.filtersAll)
 			{
-				let filter = this.filters[id]
+				let filter = this.filtersAll[id]
 				filter.id = id * 1
 				if (filter.active) 
 				{
@@ -60,9 +61,9 @@ export default {
 		{
 			let inactive = []
 
-			for (let id in this.filters)
+			for (let id in this.filtersAll)
 			{
-				let filter = this.filters[id]
+				let filter = this.filtersAll[id]
 				filter.id = id * 1
 				if (! filter.active) 
 				{
@@ -74,12 +75,26 @@ export default {
 	},
 	methods: 
 	{
+		buildFilters () 
+		{
+			let ret = {}
+			for (let id in this.filters)
+			{
+				ret[id] = {
+					active: false,
+					id: id,
+					title: this.filters[id],
+				}
+			}
+			return ret
+		},
+
 		async handleClick (id) 
 		{
 			const ID = id * 1
 			// Await the animation
 			await new Promise((resolve) => setTimeout(resolve, 200))
-			this.filters[ID].active = !this.filters[ID].active
+			this.filtersAll[ID].active = !this.filtersAll[ID].active
 			this.$emit("updated-active", this.filtersActive)
 		},
 
@@ -94,6 +109,10 @@ export default {
 			let bt = b.title.toUpperCase()
 			return (at < bt) ? -1 : (at > bt) ? 1 : 0
 		},
+	},
+	created () 
+	{
+		this.filtersAll = this.buildFilters()
 	},
 }
 </script>
