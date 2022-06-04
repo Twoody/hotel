@@ -96,7 +96,7 @@ export default {
 	min-height: clamp(200px, 33vw, 299px);
 	justify-content: space-around;
 	margin: 10px;
-	max-width: 240px;
+	max-width: @wmax;
 	min-width: 140px;
 	opacity: 1;
 	overflow: hidden;
