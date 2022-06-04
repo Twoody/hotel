@@ -75,7 +75,7 @@ export default {
 		gotoItem (id) 
 		{
 			this.$router.push({
-				path: `maps/${id}`, 
+				path: `manual/${id}`, 
 			})
 		},
 	},

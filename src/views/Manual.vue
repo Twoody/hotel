@@ -3,7 +3,7 @@
 		<h1>House Manuel</h1>
 		<div class="manual-content">
 			<ManualCard
-				v-for="(activity, index) in activities"
+				v-for="(activity, index) in allActivities"
 				:key="index"
 				:activity="activity"
 				:shown="activity.shown"
@@ -99,6 +99,7 @@ export default {
 			for (let i = 0; i < keys.length; i += 1)
 			{
 				let activity = this.activities[keys[i]]
+				activity.id = keys[i]
 				activity.shown = true
 				all.push(activity)
 			}
@@ -116,12 +117,12 @@ export default {
 <style scoped lang="less">
 @import "~styles/styles";
 
-.maps-page-wrapper {
+.manual-page-wrapper {
 	height: auto;
 	padding: 10px;
 	width: 100%;
 
-	.maps-content {
+	.manual-content {
 		align-content: center;
 		align-items: center;
 		justify-content: center;

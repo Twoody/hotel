@@ -16,6 +16,12 @@ The general navbar for our project
 			</router-link>
 			<router-link
 				class="nav-item"
+				to="/manual"
+			>
+				Manual
+			</router-link>
+			<router-link
+				class="nav-item"
 				to="/maps"
 			>
 				Maps
