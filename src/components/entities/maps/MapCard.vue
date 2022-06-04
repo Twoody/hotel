@@ -1,5 +1,8 @@
 <template>
-	<div class="map-card-wrapper">
+	<div
+		class="map-card-wrapper"
+		:class="{'hidden': !activity.shown, 'shown': activity.shown}"
+	>
 		<div class="top-section">
 			<div class="row">
 				<div class="map-card-title">
@@ -179,6 +182,14 @@ export default {
 	}
 	.map-card-button:active {
 		transform: scale(1.07);
+	}
+
+	&.hidden {
+		border: none;
+		margin: 0;
+		max-width: 0;
+		min-width: 0;
+		width: auto;
 	}
 }
 
