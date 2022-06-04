@@ -1,3 +1,4 @@
+A filterable list of things to do
 <template>
 	<div class="maps-page-wrapper">
 		<h1>Maps</h1>
