@@ -1,5 +1,5 @@
 <template>
-	<div class="home">
+	<div class="home-wrapper">
 		<AvailabilitySearch />
 	</div>
 </template>
@@ -18,3 +18,10 @@ export default {
 	},
 }
 </script>
+
+<style scoped lang="less">
+.home-wrapper {
+	overflow: scroll;
+	width: 100%;
+}
+</style>

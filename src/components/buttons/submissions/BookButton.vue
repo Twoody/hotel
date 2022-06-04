@@ -55,7 +55,7 @@ export default {
 	padding: 3px;
 	text-align: center;
 	vertical-align: middle;
-	width: 60%;
+	width: 50vw;
 
 	.execute-text {
 		margin: auto;

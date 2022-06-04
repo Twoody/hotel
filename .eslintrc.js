@@ -149,7 +149,7 @@ module.exports = {
 		},
 		{
 			"files": [
-				"constants.js"
+				"**/constants/*.js"
 			],
 			"rules": {
 				"max-len": ["off"],
