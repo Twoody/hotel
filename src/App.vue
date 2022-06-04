@@ -22,7 +22,12 @@
 			class="main-section"
 			is-showing
 		>
-			<router-view id="content-wrapper" />
+			<transition
+				name="fade"
+				mode="out-in"
+			>
+				<router-view id="content-wrapper" />
+			</transition>
 		</AppSection>
 		<AppSection
 			:isShowing="$store.state.layout.isShowingFooter"
@@ -114,5 +119,16 @@ html, body {
 	padding: 0;
 	margin: 0;
 	width: 100%;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.2s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
 }
 </style>
