@@ -7,8 +7,9 @@
 		<div class="maps-content">
 			<MapCard
 				v-for="(activity, index) in shownActivies"
-				:key="activity.title + activity.shown"
+				:key="index"
 				:activity="activity"
+				:shown="activity.shown"
 			/>
 		</div>
 	</div>

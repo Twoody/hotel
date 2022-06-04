@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="map-card-wrapper"
-		:class="{'hidden': !activity.shown, 'shown': activity.shown}"
+		:class="{'hidden': !shown, 'shown': shown}"
 	>
 		<div class="top-section">
 			<div class="row">
@@ -40,11 +40,14 @@ export default {
 	name: "MapCard",
 	props:
 	{
-		/** */
+		/** Title, subtitle, addy, phone, etc. object */
 		activity: {
 			required: true,
 			type: Object,
 		},
+
+		/** Is the card shown or not */
+		shown: Boolean,
 	},
 	computed:
 	{
@@ -95,9 +98,10 @@ export default {
 	margin: 10px;
 	max-width: 240px;
 	min-width: 140px;
+	opacity: 1;
 	overflow: hidden;
 	transition: all 0.2s linear;
-	width: clamp(140px, 33vw, calc(@wmax + 20px));
+	width: auto;
 
 	.top-section {
 		display: flex;
@@ -189,7 +193,7 @@ export default {
 		margin: 0;
 		max-width: 0;
 		min-width: 0;
-		width: auto;
+		opacity: 0;
 	}
 }
 
