@@ -1,13 +1,17 @@
 <template>
 	<div class="home-wrapper">
-		<AvailabilitySearch />
+		<div class="booking-section">
+			<AvailabilitySearch />
+		</div>
 		<div class="accordion-sections">
 			<CheckInAndOutAccordion />
+			<AccessibilityAccordion />
 		</div>
 	</div>
 </template>
 
 <script>
+import AccessibilityAccordion from "@/components/entities/AccessibilityAccordion"
 import AvailabilitySearch from "@/components/forms/AvailabilitySearch.vue"
 import CheckInAndOutAccordion from "@/components/entities/CheckInAndOutAccordion"
 
@@ -15,6 +19,7 @@ export default {
 	name: "Home",
 	components:
 	{
+		AccessibilityAccordion,
 		AvailabilitySearch,
 		CheckInAndOutAccordion,
 	},
@@ -22,8 +27,8 @@ export default {
 </script>
 
 <style lang="less">
+@import "~styles/styles";
 .home-wrapper {
-	padding-bottom: 50px;
 	overflow: scroll;
 	width: 100%;
 
@@ -33,9 +38,18 @@ export default {
 		margin-top: 0px;
 	}
 
+	.booking-section {
+		background: @color-lavendar;
+	}
+
 	.accordion-sections {
-		margin-left: 30px;
-		margin-right: 30px;
+		background: @color-purple;
+		color: #3D373C;
+		padding-bottom: 50px;
+		padding-left: 30px;
+		padding-right: 30px;
+		padding-top: 20px;
+		width: fit-content;;
 
 		.accordion-section {
 
