@@ -1,6 +1,6 @@
 A detailed description of something to do in the area
 <template>
-	<div class="map-item-page-wrapper">
+	<div class="manual-item-page-wrapper">
 		<h1>Manual Entry: {{ title }}</h1>
 		<p
 			v-if="subtitle.length"
@@ -11,7 +11,7 @@ A detailed description of something to do in the area
 		<p
 			v-if="description.length"
 			v-html="description"
-			class="description"
+			class="description text-s-center text-xs-left"
 		/>
 	</div>
 </template>
@@ -69,14 +69,19 @@ export default {
 <style scoped lang="less">
 @import "~styles/styles";
 
-.map-item-page-wrapper {
+.manual-item-page-wrapper {
 	height: auto;
 	padding: 10px;
 	width: 100%;
 
 	p {
-		text-align: left;
 		font-size: 1em;
+	text-align: left;
+	}
+
+	.description {
+		margin-left: 20px;
+		margin-right: 20px;
 	}
 }
 </style>

@@ -1,6 +1,14 @@
 const MANUAL = {
 	1: {
-		description: "Trash, recycling, and composte is picked up <strong>every Tuesday morning</strong>.<br/><div style=\"text-align:center\"><span style=\"color:green;\">Trash is the green bin.</span></br><span style=\"color:blue;\">Recyling is the blue bin.</span></br><span style=\"color:brown;\">Composte is the brown bin.</span></div>",
+		description: `Trash, recycling, and composte is picked up <strong>every Tuesday morning</strong>.
+		<br/>
+		<div style=\"text-align:center\">
+		<span style=\"color:green;\">Trash is the green bin.</span>
+		</br>
+		<span style=\"color:blue;\">Recyling is the blue bin.</span>
+		</br>
+		<span style=\"color:brown;\">Composte is the brown bin.</span>
+		</div>`,
 		subtitle: "",
 		title: "Trash",
 	},
