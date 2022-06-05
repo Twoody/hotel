@@ -28,7 +28,7 @@
 		</div>
 		<button
 			class="map-card-button"
-			@click="gotoItem(activity.id)"
+			@click="gotoItem(entry.id)"
 		>
 			View Details
 		</button>
@@ -48,7 +48,7 @@ export default {
 	props:
 	{
 		/** Title, subtitle, addy, phone, etc. object */
-		activity: {
+		entry: {
 			required: true,
 			type: Object,
 		},
@@ -60,12 +60,12 @@ export default {
 	{
 		formattedSubtitle ()
 		{
-			return this.activity.subtitle || "-"
+			return this.entry.subtitle || "-"
 		},
 
 		formattedTitle ()
 		{
-			return this.activity.title || "-"
+			return this.entry.title || "-"
 		},
 	},
 	methods: {

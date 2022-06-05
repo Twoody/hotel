@@ -2,8 +2,17 @@ A detailed description of something to do in the area
 <template>
 	<div class="map-item-page-wrapper">
 		<h1>Manual Item: {{ title }}</h1>
-		<p>
-			Work in Progress... Check back later
+		<p
+			v-if="subtitle.length"
+			class="subtitle"
+		>
+			{{ subtitle }}
+		</p>
+		<p
+			v-if="description.length"
+			class="description"
+		>
+			{{ description }}
 		</p>
 	</div>
 </template>
@@ -21,13 +30,33 @@ export default {
 
 	computed:
 	{
+		/** @returns {string} Description IFF exists; Else an empty string */
+		description ()
+		{
+			return this.entry.description || ""
+		},
+
 		/**
 		 * @todo start putting and fetching from the store...
-		 * @returns {void} wip
+		 * @returns {object} Looked up item based off of subdirectory path :id
+		 */
+		entry ()
+		{
+			return this.activites[this.$route.params.id]
+		},
+
+		/** @returns {string} Subtitle IFF exists; Else an empty string */
+		subtitle () 
+		{
+			return this.entry.subtitle || ""
+		},
+
+		/**
+		 * @returns {string} Title IFF exists; Else a dash
 		 */
 		title () 
 		{
-			return "WIP"
+			return this.entry.title || "-"
 		},
 	},
 	methods: 

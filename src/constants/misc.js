@@ -17,7 +17,7 @@ const MAPS = {
 	WILAMETE_RIVERd: 9,
 	WILDNERNESS: 4,
 }
-const FILTERS ={
+const FILTERS = {
 	1: "Dog Friendly",
 	2: "Food",
 	3: "Groceries",
