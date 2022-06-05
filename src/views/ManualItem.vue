@@ -18,6 +18,7 @@ A detailed description of something to do in the area
 </template>
 
 <script>
+import {MANUAL} from "constants/manual.js"
 
 export default {
 	name: "ManualItem",
@@ -25,7 +26,9 @@ export default {
 	props: {},
 	data: function()
 	{
-		return {}
+		return {
+			manual: MANUAL,
+		}
 	},
 
 	computed:
@@ -42,7 +45,7 @@ export default {
 		 */
 		entry ()
 		{
-			return this.activites[this.$route.params.id]
+			return this.manual[this.$route.params.id]
 		},
 
 		/** @returns {string} Subtitle IFF exists; Else an empty string */
