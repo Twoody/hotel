@@ -11,9 +11,10 @@
 				Most Asked Questions
 			</h2>
 			<CheckInAndOutAccordion />
-			<AccessibilityAccordion />
 			<WifiAccordion />
+			<TrashAccordion />
 			<ParkingAccordion />
+			<AccessibilityAccordion />
 			<GuestSafetyAccordion />
 		</div>
 	</div>
@@ -25,6 +26,7 @@ import AvailabilitySearch from "@/components/forms/AvailabilitySearch.vue"
 import CheckInAndOutAccordion from "@/components/entities/questions/CheckInAndOutAccordion"
 import GuestSafetyAccordion from "@/components/entities/questions/GuestSafetyAccordion"
 import ParkingAccordion from "@/components/entities/questions/ParkingAccordion"
+import TrashAccordion from "@/components/entities/questions/TrashAccordion"
 import WifiAccordion from "@/components/entities/questions/WifiAccordion"
 
 export default {
@@ -36,6 +38,7 @@ export default {
 		CheckInAndOutAccordion,
 		GuestSafetyAccordion,
 		ParkingAccordion,
+		TrashAccordion,
 		WifiAccordion,
 	},
 }
