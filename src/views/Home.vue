@@ -1,11 +1,20 @@
 <template>
 	<div class="home-wrapper">
 		<div class="booking-section">
+			<h2>
+				Book with Us
+			</h2>
 			<AvailabilitySearch />
 		</div>
 		<div class="accordion-sections">
+			<h2>
+				Most Asked Questions
+			</h2>
 			<CheckInAndOutAccordion />
 			<AccessibilityAccordion />
+			<WifiAccordion />
+			<ParkingAccordion />
+			<GuestSafetyAccordion />
 		</div>
 	</div>
 </template>
@@ -14,6 +23,9 @@
 import AccessibilityAccordion from "@/components/entities/AccessibilityAccordion"
 import AvailabilitySearch from "@/components/forms/AvailabilitySearch.vue"
 import CheckInAndOutAccordion from "@/components/entities/CheckInAndOutAccordion"
+import GuestSafetyAccordion from "@/components/entities/GuestSafetyAccordion"
+import ParkingAccordion from "@/components/entities/ParkingAccordion"
+import WifiAccordion from "@/components/entities/WifiAccordion"
 
 export default {
 	name: "Home",
@@ -22,6 +34,9 @@ export default {
 		AccessibilityAccordion,
 		AvailabilitySearch,
 		CheckInAndOutAccordion,
+		GuestSafetyAccordion,
+		WifiAccordion,
+		ParkingAccordion,
 	},
 }
 </script>
@@ -29,7 +44,8 @@ export default {
 <style lang="less">
 @import "~styles/styles";
 .home-wrapper {
-	overflow: scroll;
+	display: flex;
+	flex-direction: column;
 	width: 100%;
 
 	h2 {
@@ -45,6 +61,7 @@ export default {
 	.accordion-sections {
 		background: @color-purple;
 		color: #3D373C;
+		flex-grow: 1;
 		padding-bottom: 50px;
 		padding-left: 30px;
 		padding-right: 30px;

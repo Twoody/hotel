@@ -5,15 +5,13 @@
 	>
 		<template #title>
 			<h2>
-				Check In / Check Out
+				Guest Safety
 			</h2>
 		</template>
 		<template #content>
 			<div class="accordion-content">
-				<strong>Check in</strong> by getting the details via airbnb for now.
-				<br>
-				<strong>Check out</strong> by just sending us a text,
-				letting us know when you are gone.
+				We live in the area and are in touch with leading local experts.
+				We encourage communication and provide guests with important local information.
 			</div>
 		</template>
 	</Accordion>
@@ -23,7 +21,7 @@
 import Accordion from "components/common/Accordion"
 
 export default {
-	name: "CheckInAndOutAccordion",
+	name: "GuestSafetyAccordion",
 	components:
 	{
 		Accordion,

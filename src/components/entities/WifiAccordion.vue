@@ -5,15 +5,16 @@
 	>
 		<template #title>
 			<h2>
-				Check In / Check Out
+				Wifi
 			</h2>
 		</template>
 		<template #content>
 			<div class="accordion-content">
-				<strong>Check in</strong> by getting the details via airbnb for now.
+				We have fiber optic internet, with a blazing up and down time.
 				<br>
-				<strong>Check out</strong> by just sending us a text,
-				letting us know when you are gone.
+				If it is working from home or streaming, our internet speeds have you covered.
+				<br>
+				If you have problems with the password, please contact Tanner.
 			</div>
 		</template>
 	</Accordion>
@@ -23,7 +24,7 @@
 import Accordion from "components/common/Accordion"
 
 export default {
-	name: "CheckInAndOutAccordion",
+	name: "WifiAccordion",
 	components:
 	{
 		Accordion,

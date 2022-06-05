@@ -5,15 +5,25 @@
 	>
 		<template #title>
 			<h2>
-				Check In / Check Out
+				Parking
 			</h2>
 		</template>
 		<template #content>
 			<div class="accordion-content">
-				<strong>Check in</strong> by getting the details via airbnb for now.
+				Street parking is available outside of the entrance to the studio.
 				<br>
-				<strong>Check out</strong> by just sending us a text,
-				letting us know when you are gone.
+				We keep an orange cone out for multiple functions.
+				<ul>
+					<li>
+						Feel free to keep the door open as need be with it. 
+					</li>
+					<li>
+						Place it behind your car if you are worried about the corner.
+					</li>
+					<li>
+						Use it as a sign you are at the right place.
+					</li>
+				</ul>
 			</div>
 		</template>
 	</Accordion>
@@ -23,7 +33,7 @@
 import Accordion from "components/common/Accordion"
 
 export default {
-	name: "CheckInAndOutAccordion",
+	name: "ParkingAccordion",
 	components:
 	{
 		Accordion,
