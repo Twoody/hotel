@@ -1,3 +1,4 @@
+A filterable list of things to do
 <template>
 	<div class="maps-page-wrapper">
 		<h1>Maps</h1>
@@ -9,6 +10,7 @@
 				v-for="(activity, index) in shownActivies"
 				:key="index"
 				:activity="activity"
+				:shown="activity.shown"
 			/>
 		</div>
 	</div>
@@ -47,8 +49,12 @@ export default {
 			for (let i = 0; i < keys.length; i += 1)
 			{
 				let activity = this.activities[keys[i]]
+				activity.shown = true
 				all.push(activity)
 			}
+
+			// Sort alphabetically
+			all.sort((a, b) => (a.title > b.title) ? 1 : -1)
 			return all
 		},
 
@@ -57,45 +63,39 @@ export default {
 		 */
 		shownActivies () 
 		{
-			let shown = []
+			let ret = []
 
-			if (this.activeFilters.length)
+			for (let index in this.allActivies)
 			{
-				for (let index in this.allActivies)
+				let activity = this.allActivies[index]
+				let filters = activity.tags
+
+				// Reset local value
+				activity.shown = true
+				if (this.activeFilters && !filters.length)
 				{
-					let activity = this.allActivies[index]
-					let filters = activity.tags
-					let isShowing = true
-					if (this.activeFilters && !filters.length)
+					activity.shown = false
+				}
+				else if (this.activeFilters.length && filters.length)
+				{
+					for (let j = 0; j < this.activeFilters.length; j += 1)
 					{
-						isShowing = false
-					}
-					else if (this.activeFilters.length && filters.length)
-					{
-						for (let j = 0; j < this.activeFilters.length; j += 1)
+						if (!filters.includes(this.activeFilters[j].id))
 						{
-							if (!filters.includes(this.activeFilters[j].id))
-							{
-								isShowing = false
-								break
-							}
+							activity.shown = false
+							break
 						}
 					}
-					if (isShowing)
-					{
-						shown.push(activity)
-					}
 				}
-			}
-			else
-			{
+				else if (!this.activeFilters.length)
+				{
 				// If no filters are selected, show everything
-				shown = this.allActivies
+					activity.shown = true
+				}
+				ret.push(activity)
 			}
 
-			// Sort alphabetically
-			shown.sort((a, b) => (a.title > b.title) ? 1 : -1)
-			return shown
+			return ret 
 		},
 	},
 	methods: 
@@ -127,7 +127,7 @@ export default {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-
+		transition: all 0.2s ease;
 	}
 }
 </style>

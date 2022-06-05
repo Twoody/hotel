@@ -69,10 +69,7 @@ export default {
 <style lang="less" scoped>
 @import "~styles/styles";
 
-// TODO: Why no color imports working?
-// TODO: Remove hover for mobile and clicks??
-
-.accordion-wrapper:hover {
+.accordion-wrapper:active, .accordion-wrapper:focus {
 	transform: scale(1.03);
 }
 .accordion-wrapper {
@@ -145,6 +142,11 @@ export default {
 				text-transform: uppercase;
 			}
 		}
+	}
+}
+@media (hover: hover) {
+	.accordion-wrapper:hover {
+		transform: scale(1.03);
 	}
 }
 </style>
