@@ -12,7 +12,8 @@
 			<div class="accordion-content">
 				<p>
 					We believe that anyone can belong anywhere, 
-					and we want to make it easier for people with disabilities and other accessibility needs to travel.
+					and we want to make it easier for people with disabilities and
+					other accessibility needs to travel.
 				</p>
 				<p>
 					Please reach out,

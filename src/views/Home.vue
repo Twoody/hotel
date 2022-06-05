@@ -35,8 +35,8 @@ export default {
 		AvailabilitySearch,
 		CheckInAndOutAccordion,
 		GuestSafetyAccordion,
-		WifiAccordion,
 		ParkingAccordion,
+		WifiAccordion,
 	},
 }
 </script>
