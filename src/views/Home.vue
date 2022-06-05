@@ -20,12 +20,12 @@
 </template>
 
 <script>
-import AccessibilityAccordion from "@/components/entities/AccessibilityAccordion"
+import AccessibilityAccordion from "@/components/entities/questions/AccessibilityAccordion"
 import AvailabilitySearch from "@/components/forms/AvailabilitySearch.vue"
-import CheckInAndOutAccordion from "@/components/entities/CheckInAndOutAccordion"
-import GuestSafetyAccordion from "@/components/entities/GuestSafetyAccordion"
-import ParkingAccordion from "@/components/entities/ParkingAccordion"
-import WifiAccordion from "@/components/entities/WifiAccordion"
+import CheckInAndOutAccordion from "@/components/entities/questions/CheckInAndOutAccordion"
+import GuestSafetyAccordion from "@/components/entities/questions/GuestSafetyAccordion"
+import ParkingAccordion from "@/components/entities/questions/ParkingAccordion"
+import WifiAccordion from "@/components/entities/questions/WifiAccordion"
 
 export default {
 	name: "Home",
