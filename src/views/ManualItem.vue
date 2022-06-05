@@ -1,7 +1,7 @@
 A detailed description of something to do in the area
 <template>
 	<div class="map-item-page-wrapper">
-		<h1>Manual Item: {{ title }}</h1>
+		<h1>Manual Entry: {{ title }}</h1>
 		<p
 			v-if="subtitle.length"
 			class="subtitle"
@@ -10,10 +10,9 @@ A detailed description of something to do in the area
 		</p>
 		<p
 			v-if="description.length"
+			v-html="description"
 			class="description"
-		>
-			{{ description }}
-		</p>
+		/>
 	</div>
 </template>
 
@@ -33,10 +32,10 @@ export default {
 
 	computed:
 	{
-		/** @returns {string} Description IFF exists; Else an empty string */
+		/** @returns {string} Description IFF exists; Else an "in construction" disclaimer */
 		description ()
 		{
-			return this.entry.description || ""
+			return this.entry.description || "In construction, please come back later"
 		},
 
 		/**
@@ -76,7 +75,8 @@ export default {
 	width: 100%;
 
 	p {
-		font-size: 25px;
+		text-align: left;
+		font-size: 1em;
 	}
 }
 </style>

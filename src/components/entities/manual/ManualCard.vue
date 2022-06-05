@@ -8,12 +8,6 @@
 				<div class="map-card-title">
 					{{ formattedTitle }}
 				</div>
-				<div class="favorites-star">
-					<font-awesome-icon
-						:icon="['fa', 'star']"
-						inverse
-					/>
-				</div>
 			</div>
 			<div class="map-card-subtitle">
 				{{ formattedSubtitle }}
@@ -47,13 +41,13 @@ export default {
 	},
 	props:
 	{
-		/** Title, subtitle, addy, phone, etc. object */
+		/** Object to manage title, subtitle, addy, phone, etc. */
 		entry: {
 			required: true,
 			type: Object,
 		},
 
-		/** Is the card shown or not */
+		/** Is a card shown or not */
 		shown: Boolean,
 	},
 	computed:
@@ -71,6 +65,7 @@ export default {
 	methods: {
 		/**
 		 * @param {string} id - Poorly names object s.t. id is string and not int
+		 * @returns {void} Push user to subdirectory using entry id
 		 */
 		gotoItem (id) 
 		{
@@ -87,8 +82,7 @@ export default {
 
 @wmax: 288px;
 @wtotal: clamp(140px, 25vw, @wmax);
-@star: 35px;
-@title: calc(@wtotal - @star); 
+@title: @wtotal;
 
 .map-card-wrapper:active {
 }
@@ -132,17 +126,6 @@ export default {
 				text-align: left;
 				white-space: nowrap;
 				width: @title;
-			}
-			.favorites-star {
-				flex-basis: @star;
-				padding-right: calc(1vw / 6);
-				transition: all 0.2s linear;
-				width: @star;
-			}
-			.favorites-star:active {
-				stroke: gold;
-				stroke-width: 50px;
-				transform: scale(1.27);
 			}
 		}
 		.map-card-subtitle {
@@ -211,11 +194,5 @@ export default {
 		cursor: pointer;
 		transform: scale(1.07);
   }
-	.favorites-star:hover {
-		cursor: pointer;
-		stroke: gold;
-		stroke-width: 70px;
-		transform: scale(1.57);
-	}
 }
 </style>
