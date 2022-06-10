@@ -1,33 +1,29 @@
 <template>
-	<Accordion
+	<QuestionAccordion
 		class="accordion-section"
 		has-nested
 	>
 		<template #title>
-			<h2>
-				Wifi
-			</h2>
+			Wifi
 		</template>
 		<template #content>
-			<div class="accordion-content">
-				We have fiber optic internet, with a blazing up and down time.
-				<br>
-				If it is working from home or streaming, our internet speeds have you covered.
-				<br>
-				If you have problems with the password, please contact Tanner.
-			</div>
+			We have fiber optic internet, with a blazing up and down time.
+			<br>
+			If it is working from home or streaming, our internet speeds have you covered.
+			<br>
+			If you have problems with the password, please contact Tanner.
 		</template>
-	</Accordion>
+	</QuestionAccordion>
 </template>
 
 <script>
-import Accordion from "components/common/Accordion"
+import QuestionAccordion from "components/entities/questions/QuestionAccordion"
 
 export default {
-	name: "WifiAccordion",
+	name: "WifiQuestionAccordion",
 	components:
 	{
-		Accordion,
+		QuestionAccordion,
 	},
 }
 </script>

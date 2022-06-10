@@ -1,30 +1,26 @@
 <template>
-	<Accordion
+	<QuestionAccordion
 		class="accordion-section"
 		has-nested
 	>
 		<template #title>
-			<h2>
-				Guest Safety
-			</h2>
+			Guest Safety
 		</template>
 		<template #content>
-			<div class="accordion-content">
-				We live in the area and are in touch with leading local experts.
-				We encourage communication and provide guests with important local information.
-			</div>
+			We live in the area and are in touch with leading local experts.
+			We encourage communication and provide guests with important local information.
 		</template>
-	</Accordion>
+	</QuestionAccordion>
 </template>
 
 <script>
-import Accordion from "components/common/Accordion"
+import QuestionAccordion from "components/entities/questions/QuestionAccordion"
 
 export default {
-	name: "GuestSafetyAccordion",
+	name: "GuestSafetyQuestionAccordion",
 	components:
 	{
-		Accordion,
+		QuestionAccordion,
 	},
 }
 </script>
