@@ -1,5 +1,5 @@
 <template>
-	<Accordion
+	<QuestionAccordion
 		class="accordion-section"
 		has-nested
 	>
@@ -14,17 +14,17 @@
 				We encourage communication and provide guests with important local information.
 			</div>
 		</template>
-	</Accordion>
+	</QuestionAccordion>
 </template>
 
 <script>
-import Accordion from "components/common/Accordion"
+import QuestionAccordion from "components/entities/questions/QuestionAccordion"
 
 export default {
-	name: "GuestSafetyAccordion",
+	name: "GuestSafetyQuestionAccordion",
 	components:
 	{
-		Accordion,
+		QuestionAccordion,
 	},
 }
 </script>

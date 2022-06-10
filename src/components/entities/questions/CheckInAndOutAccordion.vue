@@ -1,5 +1,5 @@
 <template>
-	<Accordion
+	<QuestionAccordion
 		class="accordion-section"
 		has-nested
 	>
@@ -16,17 +16,17 @@
 				letting us know when you are gone.
 			</div>
 		</template>
-	</Accordion>
+	</QuestionAccordion>
 </template>
 
 <script>
-import Accordion from "components/common/Accordion"
+import QuestionAccordion from "components/entities/questions/QuestionAccordion"
 
 export default {
-	name: "CheckInAndOutAccordion",
+	name: "CheckInAndOutQuestionAccordion",
 	components:
 	{
-		Accordion,
+		QuestionAccordion,
 	},
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-	<Accordion
+	<QuestionAccordion
 		class="accordion-section"
 		has-nested
 	>
@@ -17,17 +17,17 @@
 				If you have problems with the password, please contact Tanner.
 			</div>
 		</template>
-	</Accordion>
+	</QuestionAccordion>
 </template>
 
 <script>
-import Accordion from "components/common/Accordion"
+import QuestionAccordion from "components/entities/questions/QuestionAccordion"
 
 export default {
-	name: "WifiAccordion",
+	name: "WifiQuestionAccordion",
 	components:
 	{
-		Accordion,
+		QuestionAccordion,
 	},
 }
 </script>
