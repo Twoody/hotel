@@ -32,7 +32,7 @@ export default {
 
 <style lang="less">
 @import "~styles/styles";
-@size: max(65vw, 400px);
+@size: max(65vw, 300px);
 
 .question-accordion-wrapper {
 	margin: 0;
@@ -44,6 +44,7 @@ export default {
 		margin-top: 7px;
 
 		h2 {
+			font-size: max(2.3vw, 1em);
 			margin-bottom: 0px;
 			margin-top: 0px;
 		}

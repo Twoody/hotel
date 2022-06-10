@@ -70,7 +70,7 @@ export default {
 		padding-left: 30px;
 		padding-right: 30px;
 		padding-top: 20px;
-		width: 100%;
+		width: auto;
 
 		.flex-box {
 			align-items: center;

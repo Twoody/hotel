@@ -47,3 +47,9 @@ export default {
 	},
 }
 </script>
+
+<style lang="less" scoped>
+ul {
+	margin-inline-start: -10px;
+}
+</style>
