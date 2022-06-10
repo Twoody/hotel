@@ -84,17 +84,24 @@ export default {
 </script>
 
 <style lang="less">
+
+@size: min(55vw, 55vh);
+
 .availability-search-wrapper {
-	display: relative;
-	height: auto;
+	align-items: center;
+	align-content: center;
+	display: flex;
+	flex-shrink: 0;
+	justify-content: center;
 	padding-bottom: 15px;
+	height: auto;
 	width: 100%;
 
 	.content-section {
 		display: relative;
 		height: 100%;;
 		overflow: hidden;
-		width: 100%;
+		width: 100%;;
 
 		.search-box {
 			align-items: center;
@@ -112,6 +119,8 @@ export default {
 				height: 53vw;
 				margin: 10px;
 				margin-bottom: 15px;
+				max-height: @size;
+				max-width: @size;
 				width: 53vw;
 
 			}
