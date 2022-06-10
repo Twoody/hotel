@@ -4,15 +4,11 @@
 		has-nested
 	>
 		<template #title>
-			<h2>
-				Guest Safety
-			</h2>
+			Guest Safety
 		</template>
 		<template #content>
-			<div class="accordion-content">
-				We live in the area and are in touch with leading local experts.
-				We encourage communication and provide guests with important local information.
-			</div>
+			We live in the area and are in touch with leading local experts.
+			We encourage communication and provide guests with important local information.
 		</template>
 	</QuestionAccordion>
 </template>

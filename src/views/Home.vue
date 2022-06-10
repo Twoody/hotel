@@ -10,12 +10,14 @@
 			<h2>
 				Most Asked Questions
 			</h2>
-			<CheckInAndOutAccordion />
-			<WifiAccordion />
-			<TrashAccordion />
-			<ParkingAccordion />
-			<AccessibilityAccordion />
-			<GuestSafetyAccordion />
+			<div class="flex-box">
+				<CheckInAndOutAccordion class="flex-item" />
+				<WifiAccordion class="flex-item" />
+				<TrashAccordion class="flex-item" />
+				<ParkingAccordion class="flex-item" />
+				<AccessibilityAccordion class="flex-item" />
+				<GuestSafetyAccordion class="flex-item" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -44,7 +46,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style scoped lang="less">
 @import "~styles/styles";
 .home-wrapper {
 	display: flex;
@@ -60,7 +62,6 @@ export default {
 	.booking-section {
 		background: @color-lavendar;
 	}
-
 	.accordion-sections {
 		background: @color-purple;
 		color: #3D373C;
@@ -69,16 +70,20 @@ export default {
 		padding-left: 30px;
 		padding-right: 30px;
 		padding-top: 20px;
-		width: fit-content;;
+		width: 100%;
 
-		.accordion-section {
+		.flex-box {
+			align-items: center;
+			align-content: center;
+			display: flex;
+			flex-direction: column;
 
-			.accordion-content {
-				text-align: left;
-				padding-left: 17px;
-				padding-right: 17px;
+			.flex-item {
+				flex-grow: 1;
+				width: 100%;
 			}
 		}
 	}
+
 }
 </style>
