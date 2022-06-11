@@ -3,7 +3,7 @@
 		class="my-button-wrapper"
 		:class="classes"
 		:disabled="inProgress"
-		:type="typeButton? 'button' : 'submit'"
+		:type="submit ? 'submit' : 'button'"
 		@animationend="onShakeEnd()"
 		@click.stop="onClick()"
 	>
@@ -14,17 +14,16 @@
 			{{ badgeContent }}
 		</div>
 
-		<div :class="fill">
+		<div>
 			<Spinner v-if="inProgress" />
 			<font-awesome-icon
 				v-if="success"
-				check-color="white"
 				class="check-icon"
 				:icon="['fa', 'check']"
 			/>
 		</div>
 
-		<div class="fill">
+		<div>
 			<slot/>
 		</div>
 
@@ -42,16 +41,20 @@ export default
 	},
 	props:
 	{
-		active: Boolean,
+		/** Content to show in a badge */
 		badgeContent: String,
+
+		/** Is button disabled */
 		disabled: Boolean,
+
+		/** Is button currently doing a job */
 		inProgress: Boolean,
-		noShrink: Boolean,
+
+		/** Is button for submitting */
+		submit: Boolean,
+
+		/** Is button showing success */
 		success: Boolean,
-		type: String,
-		// To be read as, "This buttons type is 'button' (vs submit or reset)"
-		typeButton: Boolean,
-		wire: Boolean,
 	},
 	data ()
 	{
@@ -70,32 +73,12 @@ export default
 			const classes = {
 				button: true,
 			}
-			classes.active = this.active
 			classes.disabled = this.disabled
 			classes.progress = this.inProgress
 			classes.success = this.success
 			classes.shake = this.shaking
-			classes.wire = this.wire
-			classes["btn-" + (this.type || "primary")] = true
 
 			return classes
-		},
-
-		/** @returns {string} CSS class to determine size of button and filler space */
-		fill ()
-		{
-			if (!this.isButtonText || this.noShrink)
-			{
-				return "fill"
-			}
-			return "shrink"
-
-		},
-
-		/** @returns {boolean} True if there is content in the slot */
-		isButtonText ()
-		{
-			return !!this.$slots.default
 		},
 	},
 	methods:
@@ -170,16 +153,6 @@ export default
 		left: 30px;
 		top: 50%;
 		transform: translateY(-50%);
-	}
-
-	/* Display in the center */
-	.fill {
-		width: 100%;
-		text-align: center;
-	}
-
-	&.wire {
-		border-radius: 8px;
 	}
 
 	&.success

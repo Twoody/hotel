@@ -22,8 +22,13 @@
 					placeholder="Password"
 					type="password"
 				>
-				<MyButton class="login-button" @click="login">
-					Log In
+				<MyButton
+					class="login-button"
+					@click="login"
+					no-shrink
+					:success="success"
+				>
+					{{ buttonText }}
 				</MyButton>
 			</div>
 
@@ -53,11 +58,23 @@ export default {
 			email: "",
 			isLoading: true,
 			password: "",
+			success: false,
 		}
 	},
 
 	computed:
 	{
+		/**
+		 */
+		buttonText () 
+		{
+			if (this.success)
+			{
+				return ""
+			}
+			return "Log In"
+		},
+
 		/**
 		 * @returns {boolean} - Whether a user is logged in or not
 		 * @since 0.1.0
@@ -109,6 +126,7 @@ export default {
 				)
 				console.groupEnd()
 			}
+			this.success = !this.success
 		},
 
 	},
