@@ -22,9 +22,9 @@
 					placeholder="Password"
 					type="password"
 				>
-				<button class="login-button" @click="login">
+				<MyButton class="login-button" @click="login">
 					Log In
-				</button>
+				</MyButton>
 			</div>
 
 			<SocialLogin />
@@ -34,6 +34,7 @@
 
 <script>
 import firebase from "firebase"
+import MyButton from "@/components/buttons/MyButton.vue"
 import SocialLogin from "@/components/forms/SocialLogin.vue"
 import store from "@/store/store.js"
 
@@ -41,6 +42,7 @@ export default {
 	name: "Login",
 	components:
 	{
+		MyButton,
 		SocialLogin,
 	},
 
