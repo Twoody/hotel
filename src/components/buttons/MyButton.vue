@@ -41,6 +41,8 @@ export default
 	},
 	props:
 	{
+		active: Boolean, 
+
 		/** Content to show in a badge */
 		badgeContent: String,
 
@@ -49,6 +51,11 @@ export default
 
 		/** Is button currently doing a job */
 		inProgress: Boolean,
+
+		inactive: Boolean, 
+
+		/** Whether is a smaller pill button or not */
+		pill: Boolean,
 
 		/** Is button for submitting */
 		submit: Boolean,
@@ -73,7 +80,10 @@ export default
 			const classes = {
 				button: true,
 			}
+			classes.active = !this.inactive
 			classes.disabled = this.disabled
+			classes.inactive = this.inactive
+			classes.pill = this.pill
 			classes.progress = this.inProgress
 			classes.success = this.success
 			classes.shake = this.shaking
@@ -116,17 +126,53 @@ export default
 </script>
 
 <style scoped lang="less">
-.my-button-wrapper {
-	position: relative;
-	border: none;
-	outline: none;
-	cursor: pointer;
-	border-radius: 12px;
-	width: 100%;
-	min-height: 52px;
-	font-size: 18px;
-	user-select: none;
+@import "~styles/styles";
 
+.my-button-wrapper {
+	background: @color-pastel-blue;
+	border: none;
+	border-radius: 12px;
+	cursor: pointer;
+		font-size: 18px;
+	min-height: 52px;
+	transition: all 0.2s ease;
+	outline: none;
+	user-select: none;
+	width: 100%;
+
+	&.active {
+		filter: brightness(110%);
+	}
+	&.disabled {
+		cursor: not-allowed;
+	}
+	&.inactive {
+		filter: brightness(90%);
+	}
+	&.progress {
+		cursor: wait;
+		text-align: center;
+	}
+	&.pill {
+		border: 1px solid @myblack;
+		border-radius: 9px;
+		color: @myblack;
+		flex-grow: 0;
+		flex-shrink: 0;
+		font-family: monospace;
+		font-size: 13px;
+		margin: 5px;
+		padding: 3px;
+		padding-left: 7px;
+		padding-right: 7px;
+		min-height: 0px;
+		min-width: 69px;
+		width: auto;
+	}
+	&.success
+	{
+		line-height: 20px;
+	}
 	.badge {
 		@diameter: 22px;
 		@radius: calc(@diameter / 2);
@@ -145,28 +191,6 @@ export default
 		transition: all .3s;
 		width: @diameter;
 		z-index: 100; 
-	}
-
-	/* Hide over on the left */
-	.shrink {
-		position: absolute;
-		left: 30px;
-		top: 50%;
-		transform: translateY(-50%);
-	}
-
-	&.success
-	{
-		line-height: 20px;
-	}
-
-	&.progress {
-		text-align: center;
-		cursor: wait;
-	}
-
-	&.disabled {
-		cursor: not-allowed;
 	}
 }
 
@@ -191,5 +215,22 @@ export default
 		transform: translate3d(4px, 0, 0);
 	}
 }
+@media (hover: hover) {
+	.my-button-wrapper:hover {
+		box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+		border: 1px solid @color-pastel-blue;;
+		cursor: pointer;
+		filter: brightness(102%);
+		transform: scale(1.07);
+	}
+}
+.my-button-wrapper:active {
+	box-shadow: 3px -2px 3px 0px rgb(0 0 0 / 50%);
+	border: 1px solid @color-pastel-blue;;
+	cursor: pointer;
+	filter: brightness(102%);
+	transform: scale(1.07);
+}
+
 </style>
 
