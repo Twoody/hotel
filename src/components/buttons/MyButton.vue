@@ -245,6 +245,25 @@ export default
 		transform: translate3d(4px, 0, 0);
 	}
 }
+.my-button-wrapper {
+	&:not(.disabled):active  {
+		box-shadow: 3px -2px 3px 0px rgb(0 0 0 / 50%);
+		border: 1px solid @color-pastel-blue;;
+		cursor: pointer;
+		filter: brightness(102%);
+		transform: scale(1.07);
+	}
+	&:not(.disabled):focus  {
+		border: none;
+		filter: brightness(102%);
+		outline: 4px solid rgba(254,232,185,255);
+		transform: scale(1.02);
+	}
+	&.disabled:active  {
+		box-shadow: 1px -1px 1px 0px rgb(0 0 0 / 40%);
+		filter: brightness(73%);
+	}
+}
 @media (hover: hover) {
 	.my-button-wrapper {
 		&:not(.disabled):hover  {
@@ -258,19 +277,6 @@ export default
 	&.disabled:hover  {
 		box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.5);
 		filter: brightness(79%);
-	}
-}
-.my-button-wrapper {
-	&:not(.disabled):active  {
-		box-shadow: 3px -2px 3px 0px rgb(0 0 0 / 50%);
-		border: 1px solid @color-pastel-blue;;
-		cursor: pointer;
-		filter: brightness(102%);
-		transform: scale(1.07);
-	}
-	&.disabled:active  {
-		box-shadow: 1px -1px 1px 0px rgb(0 0 0 / 40%);
-		filter: brightness(73%);
 	}
 }
 

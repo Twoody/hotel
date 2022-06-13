@@ -1,5 +1,5 @@
 <template>
-	<div class="page-wrapper">
+	<div class="login-page-wrapper">
 		<div v-if="isLoggedIn">
 			<h3>Already Logged in</h3>
 			<p>
@@ -25,7 +25,7 @@
 				<MyButton
 					class="login-button"
 					@click="login"
-					:in-progress="success"
+					:in-progress="loggingIn"
 				>
 					{{ buttonText }}
 				</MyButton>
@@ -56,6 +56,7 @@ export default {
 		return {
 			email: "",
 			isLoading: true,
+			loggingIn: false,
 			password: "",
 			success: false,
 		}
@@ -105,6 +106,7 @@ export default {
 		 */
 		async login ()
 		{
+			this.loggingIn = true
 			try
 			{
 				const response = await firebase.auth().signInWithEmailAndPassword(
@@ -113,7 +115,8 @@ export default {
 				)
 				console.log("logged in!")
 				console.log(response)
-				return response
+				this.success = true
+				//return response
 			}
 			catch (error)
 			{
@@ -125,7 +128,7 @@ export default {
 				)
 				console.groupEnd()
 			}
-			this.success = !this.success
+			this.loggingIn = false
 		},
 
 	},
@@ -133,41 +136,78 @@ export default {
 </script>
 
 <style scoped lang="less">
-.page-wrapper {
+@import "~styles/styles";
+
+.login-page-wrapper {
 	display: relative;
+	flex-grow: 1;
+	max-width: 70%;
 	padding: 10px;
+
 	.login-form {
+		align-items: center;
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		height: auto;
 		margin-bottom: 20px;
 		position: relative;
-		width: 100%;
+		transition: all 0.3s ease;
 
 		.login-item {
+			border-radius: 5px;
+			border: 1px solid @color-purple;
+			font-size: 20px;
 			margin-bottom: 10px;
+			min-height: 32px;
+			min-width: 90%;
+			transition: all 0.3s ease;
+
+			&:active {
+				transform: translate3d(-1px, 0, 0);
+			}
+			&:focus {
+				border: none;
+				outline: 4px solid rgba(254,232,185,255);
+				transform: scale(1.02);
+				transition: all 0.3s ease;
+			}
 		}
 
 		.login-button {
 			margin-bottom: 10px;
 			margin-top: 10px;
+			min-width: 50%;
+			max-width: 50%;
 		}
 	}
 	.social-button {
-		width: 75px;
 		background: white;
-		padding: 10px;
+		border: 0;
 		border-radius: 100%;
 		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0,2);
 		outline: 0;
-		border: 0;
+		padding: 10px;
+		width: 75px;
+
+		&:active {
+			display: relative;
+			box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.8);
+		}
+		img {
+			width: 100%;
+		}
 	}
-	.social-button:active {
+}
+@media (hover: hover) {
+	.login-item {
+		&:hover {
+			transform: translate3d(-1px, 0, 0);
+		}
+	}
+	.social-button:hover {
 		display: relative;
-		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-	}
-	.social-button img {
-		width: 100%;
+		box-shadow: -2 -2px -4px 0 rgba(0, 0, 0, .5);
 	}
 }
 </style>
