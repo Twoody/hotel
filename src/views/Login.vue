@@ -164,7 +164,7 @@ export default {
 			transition: all 0.3s ease;
 
 			&:active {
-				transform: translate3d(-1px, 0, 0);
+				transform: translate3d(-1px, 0, 0) scale(1.02);
 			}
 			&:focus {
 				border: none;
@@ -202,7 +202,7 @@ export default {
 @media (hover: hover) {
 	.login-item {
 		&:hover {
-			transform: translate3d(-1px, 0, 0);
+			transform: translate3d(-1px, 0, 0) scale(1.02);
 		}
 	}
 	.social-button:hover {
