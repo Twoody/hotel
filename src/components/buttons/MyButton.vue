@@ -246,23 +246,32 @@ export default
 	}
 }
 @media (hover: hover) {
-	:not(.disabled) {
-		.my-button-wrapper:hover  {
+	.my-button-wrapper {
+		&:not(.disabled):hover  {
 			box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
 			border: 1px solid @color-pastel-blue;;
 			cursor: pointer;
 			filter: brightness(102%);
 			transform: scale(1.07);
-			}
 		}
+	}
+	&.disabled:hover  {
+		box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.5);
+		filter: brightness(79%);
+	}
 }
-:not(.disabled) {
-	.my-button-wrapper:active {
+.my-button-wrapper {
+	&:not(.disabled):active  {
 		box-shadow: 3px -2px 3px 0px rgb(0 0 0 / 50%);
 		border: 1px solid @color-pastel-blue;;
+		border: 3px solid red;
 		cursor: pointer;
 		filter: brightness(102%);
 		transform: scale(1.07);
+	}
+	&.disabled:active  {
+		box-shadow: 1px -1px 1px 0px rgb(0 0 0 / 40%);
+		filter: brightness(73%);
 	}
 }
 
