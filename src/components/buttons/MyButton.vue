@@ -2,7 +2,7 @@
 	<button
 		class="my-button-wrapper"
 		:class="classes"
-		:disabled="inProgress"
+		:disabled="inProgress || disabled"
 		:type="submit ? 'submit' : 'button'"
 		@animationend="onShakeEnd()"
 		@click.stop="onClick()"
@@ -14,19 +14,25 @@
 			{{ badgeContent }}
 		</div>
 
-		<div>
-			<Spinner v-if="inProgress" />
-			<font-awesome-icon
-				v-if="success"
-				class="check-icon"
-				:icon="['fa', 'check']"
-			/>
-		</div>
-
-		<div>
-			<slot/>
-		</div>
-
+		<transition
+			name="slide-fade"
+			mode="out-in"
+		>
+			<div
+				:key="transitionKey"
+				ref='slotWrapper'
+			>
+				<Spinner v-if="inProgress" />
+				<div v-else>
+					<slot/>
+					<font-awesome-icon
+						v-if="success"
+						class="check-icon"
+						:icon="['fa', 'check']"
+					/>
+				</div>
+			</div>
+		</transition>
 	</button>
 </template>
 
@@ -81,7 +87,7 @@ export default
 				button: true,
 			}
 			classes.active = !this.inactive
-			classes.disabled = this.disabled
+			classes.disabled = this.disabled || this.inProgress
 			classes.inactive = this.inactive
 			classes.pill = this.pill
 			classes.progress = this.inProgress
@@ -90,6 +96,13 @@ export default
 
 			return classes
 		},
+
+		/** Just flip the switch in parent to do transitions */
+		transitionKey() {
+			let content = ''
+			//let content = this.$refs.slotWrapper.innerHTML
+			return `${this.inProgress} ${this.success} ${content}`
+		}
 	},
 	methods:
 	{
@@ -100,7 +113,7 @@ export default
 		},
 
 		// The user wants to click the button. Propogate event if button is not disabled.
-		onClick ()
+		async onClick ()
 		{
 			if (this.disabled)
 			{
@@ -136,7 +149,7 @@ export default
 	border: none;
 	border-radius: 12px;
 	cursor: pointer;
-		font-size: 18px;
+	font-size: 18px;
 	min-height: 52px;
 	transition: all 0.2s ease;
 	outline: none;
@@ -148,6 +161,8 @@ export default
 	}
 	&.disabled {
 		cursor: not-allowed;
+		filter: brightness(80%);
+		opacity: 0.9;
 	}
 	&.inactive {
 		filter: brightness(90%);
@@ -197,6 +212,18 @@ export default
 	}
 }
 
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for <2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
 .shake {
 	animation: shake 1s;
 }
@@ -219,20 +246,24 @@ export default
 	}
 }
 @media (hover: hover) {
-	.my-button-wrapper:hover {
-		box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+	:not(.disabled) {
+		.my-button-wrapper:hover  {
+			box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+			border: 1px solid @color-pastel-blue;;
+			cursor: pointer;
+			filter: brightness(102%);
+			transform: scale(1.07);
+			}
+		}
+}
+:not(.disabled) {
+	.my-button-wrapper:active {
+		box-shadow: 3px -2px 3px 0px rgb(0 0 0 / 50%);
 		border: 1px solid @color-pastel-blue;;
 		cursor: pointer;
 		filter: brightness(102%);
 		transform: scale(1.07);
 	}
-}
-.my-button-wrapper:active {
-	box-shadow: 3px -2px 3px 0px rgb(0 0 0 / 50%);
-	border: 1px solid @color-pastel-blue;;
-	cursor: pointer;
-	filter: brightness(102%);
-	transform: scale(1.07);
 }
 
 </style>

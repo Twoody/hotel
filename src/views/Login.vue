@@ -25,8 +25,7 @@
 				<MyButton
 					class="login-button"
 					@click="login"
-					no-shrink
-					:success="success"
+					:in-progress="success"
 				>
 					{{ buttonText }}
 				</MyButton>
