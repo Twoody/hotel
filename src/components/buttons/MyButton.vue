@@ -111,6 +111,9 @@ export default
 			}
 			else
 			{
+				// Wait for animation
+				await new Promise((resolve) => setTimeout(resolve, 200))
+
 				// Send click event as normal
 				this.$emit("click")
 			}
