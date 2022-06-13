@@ -264,7 +264,6 @@ export default
 	&:not(.disabled):active  {
 		box-shadow: 3px -2px 3px 0px rgb(0 0 0 / 50%);
 		border: 1px solid @color-pastel-blue;;
-		border: 3px solid red;
 		cursor: pointer;
 		filter: brightness(102%);
 		transform: scale(1.07);
