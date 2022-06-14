@@ -116,7 +116,7 @@ export default {
 				console.log("logged in!")
 				console.log(response)
 				this.success = true
-				//return response
+				// return response
 			}
 			catch (error)
 			{
@@ -166,12 +166,6 @@ export default {
 			&:active {
 				transform: translate3d(-1px, 0, 0) scale(1.02);
 			}
-			&:focus {
-				border: none;
-				outline: 4px solid rgba(254,232,185,255);
-				transform: scale(1.02);
-				transition: all 0.3s ease;
-			}
 		}
 
 		.login-button {
@@ -204,6 +198,13 @@ export default {
 		&:hover {
 			transform: translate3d(-1px, 0, 0) scale(1.02);
 		}
+		&:focus {
+			border: none;
+			outline: 4px solid rgba(254,232,185,255);
+			transform: scale(1.02);
+			transition: all 0.3s ease;
+		}
+
 	}
 	.social-button:hover {
 		display: relative;

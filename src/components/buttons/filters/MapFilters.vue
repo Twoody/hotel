@@ -89,7 +89,7 @@ export default {
 			return ret
 		},
 
-		async handleClick (id) 
+		handleClick (id) 
 		{
 			const ID = id * 1
 			// Await the animation

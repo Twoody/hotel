@@ -20,7 +20,7 @@
 		>
 			<div
 				:key="transitionKey"
-				ref='slotWrapper'
+				ref="slotWrapper"
 			>
 				<Spinner v-if="inProgress" />
 				<div v-else>
@@ -98,11 +98,12 @@ export default
 		},
 
 		/** Just flip the switch in parent to do transitions */
-		transitionKey() {
-			let content = ''
-			//let content = this.$refs.slotWrapper.innerHTML
+		transitionKey () 
+		{
+			let content = ""
+			// let content = this.$refs.slotWrapper.innerHTML
 			return `${this.inProgress} ${this.success} ${content}`
-		}
+		},
 	},
 	methods:
 	{
@@ -253,12 +254,6 @@ export default
 		filter: brightness(102%);
 		transform: scale(1.07);
 	}
-	&:not(.disabled):focus  {
-		border: none;
-		filter: brightness(102%);
-		outline: 4px solid rgba(254,232,185,255);
-		transform: scale(1.02);
-	}
 	&.disabled:active  {
 		box-shadow: 1px -1px 1px 0px rgb(0 0 0 / 40%);
 		filter: brightness(73%);
@@ -272,6 +267,12 @@ export default
 			cursor: pointer;
 			filter: brightness(102%);
 			transform: scale(1.07);
+		}
+		&:not(.disabled):focus  {
+			border: none;
+			filter: brightness(102%);
+			outline: 4px solid rgba(254,232,185,255);
+			transform: scale(1.02);
 		}
 	}
 	&.disabled:hover  {
