@@ -132,15 +132,15 @@ html, body {
   opacity: 0
 }
 
-a:focus {
+a:focus-visible {
 	border-radius: 5px;
 	outline: 4px solid rgba(254,232,185,255) !important;
 }
-input:focus {
+input:focus-visible {
 	outline: 4px solid rgba(254,232,185,255) !important;
 	transform: scale(1.02);
 }
-button:focus {
+button:focus-visible {
 	outline: 4px solid rgba(254,232,185,255) !important;
 	transform: scale(1.02);
 }
