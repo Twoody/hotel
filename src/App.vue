@@ -131,4 +131,17 @@ html, body {
 .fade-leave-active {
   opacity: 0
 }
+
+a:focus {
+	border-radius: 5px;
+	outline: 4px solid rgba(254,232,185,255) !important;
+}
+input:focus {
+	outline: 4px solid rgba(254,232,185,255) !important;
+	transform: scale(1.02);
+}
+button:focus {
+	outline: 4px solid rgba(254,232,185,255) !important;
+	transform: scale(1.02);
+}
 </style>

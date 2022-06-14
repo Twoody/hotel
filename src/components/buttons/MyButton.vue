@@ -2,7 +2,7 @@
 	<button
 		class="my-button-wrapper"
 		:class="classes"
-		:disabled="inProgress || disabled"
+		:disabled="disabled"
 		:type="submit ? 'submit' : 'button'"
 		@animationend="onShakeEnd()"
 		@click.stop="onClick()"
@@ -15,7 +15,7 @@
 		</div>
 
 		<transition
-			name="slide-fade"
+			name="fade"
 			mode="out-in"
 		>
 			<div
@@ -72,7 +72,13 @@ export default
 	data ()
 	{
 		return {
-			// Is the button currently in the shake animation?
+			/** Whether button is currently doign a thing locally */
+			doingWork: false,
+
+			/** Tricking vue into redoing a computed ref */
+			isMounted: false,
+
+			/** Whether button is shake animating */
 			shaking: false,
 		}
 	},
@@ -100,8 +106,12 @@ export default
 		/** Just flip the switch in parent to do transitions */
 		transitionKey () 
 		{
-			let content = ""
-			// let content = this.$refs.slotWrapper.innerHTML
+			if (!this.isMounted)
+			{
+				return ""
+			}
+			let content = this.$refs && this.$refs.slotWrapper ?
+				this.$refs.slotWrapper.innerHTML : ""
 			return `${this.inProgress} ${this.success} ${content}`
 		},
 	},
@@ -116,20 +126,28 @@ export default
 		// The user wants to click the button. Propogate event if button is not disabled.
 		async onClick ()
 		{
+			if (this.doingWork) 
+			{
+				return
+			}
+			this.doingWork = true
+
 			if (this.disabled)
 			{
 				// Button is disabled: play animation and send event
 				this.beginShake()
 				event.preventDefault()
+				this.doingWork = false
 				this.$emit("click-prevented")
 			}
 			else
 			{
-				// Wait for animation
-				await new Promise((resolve) => setTimeout(resolve, 200))
-
 				// Send click event as normal
 				this.$emit("click")
+
+				// Wait for animation
+				await new Promise((resolve) => setTimeout(resolve, 800))
+				this.doingWork = false
 			}
 		},
 
@@ -138,6 +156,10 @@ export default
 		{
 			this.shaking = false
 		},
+	},
+	mounted ()
+	{
+		this.isMounted = true
 	},
 }
 </script>
@@ -213,15 +235,11 @@ export default
 	}
 }
 
-.slide-fade-enter-active {
-  transition: all .3s ease;
+.fade-enter-active, .fade-leave-active {
+  opacity: 0;
+  transition: all .1s ease;
 }
-.slide-fade-leave-active {
-  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active for <2.1.8 */ {
-  transform: translateX(10px);
+.fade-enter, .fade-leave-to {
   opacity: 0;
 }
 
@@ -246,19 +264,6 @@ export default
 		transform: translate3d(4px, 0, 0);
 	}
 }
-.my-button-wrapper {
-	&:not(.disabled):active  {
-		box-shadow: 3px -2px 3px 0px rgb(0 0 0 / 50%);
-		border: 1px solid @color-pastel-blue;;
-		cursor: pointer;
-		filter: brightness(102%);
-		transform: scale(1.07);
-	}
-	&.disabled:active  {
-		box-shadow: 1px -1px 1px 0px rgb(0 0 0 / 40%);
-		filter: brightness(73%);
-	}
-}
 @media (hover: hover) {
 	.my-button-wrapper {
 		&:not(.disabled):hover  {
@@ -268,12 +273,7 @@ export default
 			filter: brightness(102%);
 			transform: scale(1.07);
 		}
-		&:not(.disabled):focus  {
-			border: none;
-			filter: brightness(102%);
-			outline: 4px solid rgba(254,232,185,255);
-			transform: scale(1.02);
-		}
+
 	}
 	&.disabled:hover  {
 		box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.5);
@@ -281,5 +281,25 @@ export default
 	}
 }
 
+.my-button-wrapper {
+	&:not(.disabled):focus  {
+		border: none;
+		filter: brightness(102%);
+		transform: scale(1.02);
+	}
+	&:not(.disabled):active  {
+		box-shadow: 3px -2px 3px 0px rgb(0 0 0 / 50%);
+		border: 1px solid @color-pastel-blue;;
+		cursor: pointer;
+		filter: brightness(102%);
+		outline: 1px solid @color-pastel-blue;
+		transform: scale(1.07);
+	}
+	&.disabled:active  {
+		box-shadow: 1px -1px 1px 0px rgb(0 0 0 / 40%);
+		outline: 4px solid rgba(254,232,185,255);
+		filter: brightness(73%);
+	}
+}
 </style>
 

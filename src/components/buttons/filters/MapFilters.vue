@@ -91,6 +91,9 @@ export default {
 
 		handleClick (id) 
 		{
+			// Clear blue on next element in list
+			document.activeElement?.blur && document.activeElement.blur()
+
 			const ID = id * 1
 			// Await the animation
 			this.filtersAll[ID].active = !this.filtersAll[ID].active

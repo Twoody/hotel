@@ -180,7 +180,6 @@ export default {
 		border: 0;
 		border-radius: 100%;
 		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0,2);
-		outline: 0;
 		padding: 10px;
 		width: 75px;
 
@@ -198,13 +197,6 @@ export default {
 		&:hover {
 			transform: translate3d(-1px, 0, 0) scale(1.02);
 		}
-		&:focus {
-			border: none;
-			outline: 4px solid rgba(254,232,185,255);
-			transform: scale(1.02);
-			transition: all 0.3s ease;
-		}
-
 	}
 	.social-button:hover {
 		display: relative;
