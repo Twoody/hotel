@@ -124,7 +124,7 @@ export default
 		},
 
 		// The user wants to click the button. Propogate event if button is not disabled.
-		async onClick ()
+		onClick ()
 		{
 			if (this.doingWork) 
 			{
@@ -146,7 +146,6 @@ export default
 				this.$emit("click")
 
 				// Wait for animation
-				await new Promise((resolve) => setTimeout(resolve, 800))
 				this.doingWork = false
 			}
 		},
