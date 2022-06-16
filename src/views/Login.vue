@@ -31,7 +31,15 @@
 				</MyButton>
 			</div>
 
-			<SocialLogin />
+			<div class="register-section">
+				<h3>
+					Or register here
+				</h3>
+
+				<NewUserLogin />
+
+				<SocialLogin />
+			</div>
 		</div>
 	</div>
 </template>
@@ -39,6 +47,7 @@
 <script>
 import firebase from "firebase"
 import MyButton from "@/components/buttons/MyButton.vue"
+import NewUserLogin from "@/components/buttons/login/NewUserLogin.vue"
 import SocialLogin from "@/components/forms/SocialLogin.vue"
 import store from "@/store/store.js"
 
@@ -47,6 +56,7 @@ export default {
 	components:
 	{
 		MyButton,
+		NewUserLogin,
 		SocialLogin,
 	},
 
@@ -146,11 +156,13 @@ export default {
 
 	.login-form {
 		align-items: center;
+		border-bottom: 5px solid @color-purple;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		height: auto;
 		margin-bottom: 20px;
+		padding-bottom: 7px;
 		position: relative;
 		transition: all 0.3s ease;
 
@@ -175,20 +187,28 @@ export default {
 			max-width: 50%;
 		}
 	}
-	.social-button {
-		background: white;
-		border: 0;
-		border-radius: 100%;
-		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0,2);
-		padding: 10px;
-		width: 75px;
-
-		&:active {
-			display: relative;
-			box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.8);
+	.register-section {
+		h3 {
+			padding-bottom: 4px;
+			text-decoration: underline;
+			text-transform: uppercase;
+			text-underline-offset: 3px;
 		}
-		img {
-			width: 100%;
+		.social-button {
+			background: white;
+			border: 0;
+			border-radius: 100%;
+			box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0,2);
+			padding: 10px;
+			width: 75px;
+
+			&:active {
+				display: relative;
+				box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.8);
+			}
+			img {
+				width: 100%;
+			}
 		}
 	}
 }

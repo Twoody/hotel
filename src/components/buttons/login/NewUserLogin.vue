@@ -1,18 +1,18 @@
-Button to activate a facebook account authenticator
+Button to instantiate a new user
 <template>
-	<div class="facebook-login-wrapper">
+	<div class="new-user-login-wrapper">
 		<div class="social-button-dex">
-			Facebook
+			New User
 		</div>
 		<MyButton
 			class="social-button"
-			@click="facebookLogin"
+			@click="registerNewUser"
 		>
 			<font-awesome-icon
-				alt="Facebook Logo" 
+				alt="New User Registration" 
 				class="svg-wrapper"
-				:icon="['fab', 'facebook']"
-				:style="{ color: 'blue' }"
+				:icon="['fa', 'clipboard-list']"
+				:style="{ color: '#FEE8B9' }"
 			/>
 		</MyButton>
 	</div>
@@ -23,7 +23,7 @@ import firebase from "firebase"
 import MyButton from "@/components/buttons/MyButton.vue"
 
 export default {
-	name: "FacebookLogin",
+	name: "NewUserRegistration",
 	components:
 	{
 		MyButton,
@@ -31,12 +31,12 @@ export default {
 	methods:
 	{
 		/**
-		 * Use firebase to support logging in with a facebook account
+		 * Use firebase to support logging in with a new account
 		 *
 		 * @returns {void}
 		 * @since 0.1.3
 		 */
-		async facebookLogin ()
+		async registerNewUser ()
 		{
 			/* eslint-disable no-unused-vars */
 			const provider = new firebase.auth.FacebookAuthProvider()
@@ -77,8 +77,23 @@ export default {
 }
 </script>
 
-<style lang='less'>
-.svg-wrapper {
-	
+<style lang='less' scoped>
+.social-button {
+	background: white;
+	border-radius: 50px !important;
+	filter: brightness(97%) !important;
+	width: auto !important;
+	.svg-wrapper {
+		height: 65px;
+		padding: 5px;
+		width: 65px;
+	}
 }
+@media (hover: hover) {
+	.social-button:hover {
+		filter: brightness(104%) !important;
+	}
+}
+
 </style>
+

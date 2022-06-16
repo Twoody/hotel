@@ -5,6 +5,8 @@ import router from "./router"
 import store from "./store/store.js"
 import { faCheck } from "@fortawesome/free-solid-svg-icons"
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons"
+import { faClipboard } from "@fortawesome/free-solid-svg-icons"
+import { faClipboardList } from "@fortawesome/free-solid-svg-icons"
 import { faFacebook } from "@fortawesome/free-brands-svg-icons"
 import { faGoogle } from "@fortawesome/free-brands-svg-icons"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons/faSpinner"
@@ -16,6 +18,8 @@ import { library } from "@fortawesome/fontawesome-svg-core"
 // Font awesome
 library.add(faCheck)
 library.add(faChevronRight)
+library.add(faClipboard)
+library.add(faClipboardList)
 library.add(faFacebook)
 library.add(faGoogle)
 library.add(faSpinner)

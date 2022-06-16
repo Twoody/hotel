@@ -3,7 +3,7 @@
 		<div class="social-button-dex">
 			Google
 		</div>
-		<button
+		<MyButton
 			class="social-button"
 			@click="googleLogin"
 		>
@@ -13,15 +13,20 @@
 				:icon="['fab', 'google']"
 				:style="{ color: 'blue' }"
 			/>
-		</button>
+		</MyButton>
 	</div>
 </template>
 
 <script>
 import firebase from "firebase"
+import MyButton from "@/components/buttons/MyButton.vue"
 
 export default {
 	name: "GoogleLogin",
+	components:
+	{
+		MyButton,
+	},
 	methods:
 	{
 		/**
