@@ -26,6 +26,7 @@
 					class="login-button"
 					@click="login"
 					:in-progress="loggingIn"
+					:success="success"
 				>
 					{{ buttonText }}
 				</MyButton>
@@ -36,7 +37,10 @@
 					Or register here
 				</h3>
 
-				<NewUserLogin />
+				<NewUserLogin
+					:email="email"
+					:password="password"
+				/>
 
 				<SocialLogin />
 			</div>
@@ -78,10 +82,6 @@ export default {
 		 */
 		buttonText () 
 		{
-			if (this.success)
-			{
-				return ""
-			}
 			return "Log In"
 		},
 
@@ -140,7 +140,22 @@ export default {
 			}
 			this.loggingIn = false
 		},
-
+	},
+	watch :
+	{
+		/**
+		 * Watch user loging out to manage local state
+		 *
+		 * @param n
+		 * @param o
+		 */
+		isLoggedIn (n, o)
+		{
+			if (n === false && o === true)
+			{
+				this.success = false
+			}
+		},
 	},
 }
 </script>

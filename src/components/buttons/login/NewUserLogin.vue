@@ -28,29 +28,29 @@ export default {
 	{
 		MyButton,
 	},
+	props:
+	{
+		email: String,
+		password: String,
+	},
 	methods:
 	{
 		/**
 		 * Use firebase to support logging in with a new account
 		 *
+		 * @todo configure errors for user logging in
 		 * @returns {void}
 		 * @since 0.1.3
 		 */
 		async registerNewUser ()
 		{
 			/* eslint-disable no-unused-vars */
-			const provider = new firebase.auth.FacebookAuthProvider()
-			provider.addScope("user_birthday")
-
 			try
 			{
-				const response = await firebase.auth().signInWithPopup(provider)
-
-				// The signed-in user info.
-				const user = response.user
-				// This gives you a Facebook Access Token.
-				const credential = response.credential
-				const token = credential.accessToken
+				const response = await firebase.auth().createUserWithEmailAndPassword(
+					this.email,
+					this.password
+				)
 			}
 			catch (error)
 			{
@@ -64,7 +64,6 @@ export default {
 				const credential = error.credential
 				console.group()
 				console.error(this.$options.name)
-				console.error(provider)
 				console.error(errorMessage)
 				console.error(
 					error 
