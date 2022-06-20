@@ -1,13 +1,13 @@
 <template>
 	<div
-		class='validatable'
-		:class='{warn: error}'
+		class="validatable"
+		:class="{warn: error}"
 	>
-		<slot></slot>
-		<transition name='pull-up'>
+		<slot/>
+		<transition name="pull-up">
 			<div
-				v-if='error'
-				class='error-message'
+				v-if="error"
+				class="error-message"
 			>
 				^ {{ error }}
 			</div>
@@ -19,13 +19,13 @@
 
 export default
 {
-	name: 'Validatable',
+	name: "Validatable",
 	props:
 	{
 		error:
 		{
+			required: true,
 			type: String,
-			required: false,
 		},
 	},
 }

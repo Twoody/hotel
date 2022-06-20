@@ -9,7 +9,7 @@ Button to instantiate a new user
 		</div>
 		<MyButton
 			class="social-button"
-			:disabled='isDisabled'
+			:disabled="isDisabled"
 			@click="registerNewUser"
 		>
 			<font-awesome-icon
@@ -32,23 +32,24 @@ export default {
 	{
 		MyButton,
 	},
-	data() {
+	data () 
+	{
 		return {
 			isShowingErrors: false,
-			registrationError: '',
+			registrationError: "",
 		}
 	},
 	props:
 	{
 		email: 
 		{
-			default: '',
+			default: "",
 			required: true,
 			type: String,
 		},
 		password:
 		{
-			default: '',
+			default: "",
 			required: true,
 			type: String,
 		},
@@ -60,46 +61,48 @@ export default {
 	},
 	computed:
 	{
+		/** */
+		displayedError () 
+		{
+			if (this.isShowingErrors)
+			{
+				return this.errors
+			}
+			return ""
+		},
+
 		/**
 		 * @todo validate email address too
-		 * @return {string} Return error message if applicable; Else empty string.
+		 * @returns {string} Return error message if applicable; Else empty string.
 		 */
-		errors() {
+		errors () 
+		{
 			if (!this.passwordsMatch)
 			{
-				return 'Passwords do not match'
+				return "Passwords do not match"
 			}
 			if (this.password.length <= 8)
 			{
-				return 'Password less than 8 characters'
+				return "Password less than 8 characters"
 			}
 			if (!/[a-zA-Z]/.test(this.password))
 			{
-				return 'Password needs alphabetical character'
+				return "Password needs alphabetical character"
 			}
 			if (!/\d/.test(this.password))
 			{
-				return 'Password needs numeric character'
+				return "Password needs numeric character"
 			}
 			if (this.registrationError)
 			{
 				return this.registrationError
 			}
 
-			return ''
+			return ""
 		},
 
 		/** */
-		displayedError() {
-			if (this.isShowingErrors)
-			{
-				return this.errors
-			}
-			return ''
-		},
-
-		/** */
-		isDisabled()
+		isDisabled ()
 		{
 			if (!this.ready)
 			{
@@ -119,10 +122,10 @@ export default {
 	methods:
 	{
 		/** */
-		handleClick()
+		handleClick ()
 		{
 			this.isShowingErrors = true
-			this.$emit('click')
+			this.$emit("click")
 		},
 
 		/**
@@ -138,7 +141,7 @@ export default {
 			{
 				return 
 			}
-			this.registrationError = ''
+			this.registrationError = ""
 			/* eslint-disable no-unused-vars */
 			try
 			{
@@ -172,9 +175,9 @@ export default {
 
 	watch:
 	{
-		displayedError (n, o)
+		displayedError (n)
 		{
-			this.$emit('error', n)
+			this.$emit("error", n)
 		},
 	},
 }

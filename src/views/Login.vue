@@ -14,31 +14,31 @@
 					v-model="email"
 					class="login-item"
 					placeholder="Email"
-					ref='email'
+					ref="email"
 					type="text"
 				>
 				<input
 					v-model="password"
 					class="login-item"
 					placeholder="Password"
-					ref='password'
+					ref="password"
 					type="password"
 				>
 				<Validatable
 					class="input-wrapper"
-					:error='registrationError'
+					:error="registrationError"
 				>
 					<input
 						v-model="passwordConfirm"
 						class="login-item"
-						:class='{showing: isRegistering, hidden: !isRegistering}'
+						:class="{showing: isRegistering, hidden: !isRegistering}"
 						placeholder="Confirm Password"
-						ref='passwordConfirm'
+						ref="passwordConfirm"
 						type="password"
 					>
 				</Validatable>
 				<MyButton
-					v-if='!isRegistering'
+					v-if="!isRegistering"
 					class="login-button"
 					@click="login"
 					:in-progress="loggingIn"
@@ -50,15 +50,15 @@
 
 			<div
 				class="register-section"
-				:class='{registering: isRegistering}'
+				:class="{registering: isRegistering}"
 			>
 				<NewUserLogin
 					:email="email"
 					:password="password"
 					:passwordsMatch="passwordConfirm === password"
 					:ready="isRegistering"
-					@click='handleRegistClick'
-					@error='registrationError = arguments[0]'
+					@click="handleRegistClick"
+					@error="registrationError = arguments[0]"
 				/>
 				<SocialLogin />
 			</div>
@@ -93,8 +93,8 @@ export default {
 			isRegistering: false,
 			loggingIn: false,
 			password: "",
-			passwordConfirm: '',
-			registrationError: '',
+			passwordConfirm: "",
+			registrationError: "",
 			success: false,
 		}
 	},
@@ -130,23 +130,23 @@ export default {
 	methods: 
 	{
 		/** */
-		handleRegistClick()
+		handleRegistClick ()
 		{
-			console.log('cliclked')
+			console.log("cliclked")
 			this.isRegistering = true
 			if (!this.email)
 			{
-				this.$refs.email.focus();
+				this.$refs.email.focus()
 				return
 			}
 			else if (!this.password)
 			{
-				this.$refs.password.focus();
+				this.$refs.password.focus()
 				return
 			}
 			else if (!this.passwordConfirm)
 			{
-				this.$refs.passwordConfirm.focus();
+				this.$refs.passwordConfirm.focus()
 				return
 			}
 		},
