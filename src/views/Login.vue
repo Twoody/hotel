@@ -14,15 +14,31 @@
 					v-model="email"
 					class="login-item"
 					placeholder="Email"
+					ref='email'
 					type="text"
 				>
 				<input
 					v-model="password"
 					class="login-item"
 					placeholder="Password"
+					ref='password'
 					type="password"
 				>
+				<Validatable
+					class="input-wrapper"
+					:error='registrationError'
+				>
+					<input
+						v-model="passwordConfirm"
+						class="login-item"
+						:class='{showing: isRegistering, hidden: !isRegistering}'
+						placeholder="Confirm Password"
+						ref='passwordConfirm'
+						type="password"
+					>
+				</Validatable>
 				<MyButton
+					v-if='!isRegistering'
 					class="login-button"
 					@click="login"
 					:in-progress="loggingIn"
@@ -32,16 +48,18 @@
 				</MyButton>
 			</div>
 
-			<div class="register-section">
-				<h3>
-					Or register here
-				</h3>
-
+			<div
+				class="register-section"
+				:class='{registering: isRegistering}'
+			>
 				<NewUserLogin
 					:email="email"
 					:password="password"
+					:passwordsMatch="passwordConfirm === password"
+					:ready="isRegistering"
+					@click='handleRegistClick'
+					@error='registrationError = arguments[0]'
 				/>
-
 				<SocialLogin />
 			</div>
 		</div>
@@ -54,6 +72,7 @@ import MyButton from "@/components/buttons/MyButton.vue"
 import NewUserLogin from "@/components/buttons/login/NewUserLogin.vue"
 import SocialLogin from "@/components/forms/SocialLogin.vue"
 import store from "@/store/store.js"
+import Validatable from "@/components/common/Validatable"
 
 export default {
 	name: "Login",
@@ -62,6 +81,7 @@ export default {
 		MyButton,
 		NewUserLogin,
 		SocialLogin,
+		Validatable,
 	},
 
 	props: {},
@@ -70,8 +90,11 @@ export default {
 		return {
 			email: "",
 			isLoading: true,
+			isRegistering: false,
 			loggingIn: false,
 			password: "",
+			passwordConfirm: '',
+			registrationError: '',
 			success: false,
 		}
 	},
@@ -106,6 +129,28 @@ export default {
 	},
 	methods: 
 	{
+		/** */
+		handleRegistClick()
+		{
+			console.log('cliclked')
+			this.isRegistering = true
+			if (!this.email)
+			{
+				this.$refs.email.focus();
+				return
+			}
+			else if (!this.password)
+			{
+				this.$refs.password.focus();
+				return
+			}
+			else if (!this.passwordConfirm)
+			{
+				this.$refs.passwordConfirm.focus();
+				return
+			}
+		},
+
 		/**
 		 * Use firebase to support logging in with any email account
 		 *
@@ -141,7 +186,7 @@ export default {
 			this.loggingIn = false
 		},
 	},
-	watch :
+	watch:
 	{
 		/**
 		 * Watch user loging out to manage local state
@@ -181,6 +226,10 @@ export default {
 		position: relative;
 		transition: all 0.3s ease;
 
+		.input-wrapper {
+			width: 100%;;
+		}
+
 		.login-item {
 			border-radius: 5px;
 			border: 1px solid @color-purple;
@@ -192,6 +241,13 @@ export default {
 
 			&:active {
 				transform: translate3d(-1px, 0, 0) scale(1.02);
+			}
+			&.hidden {
+				border: none;
+				height: 0;
+				max-height: 0;
+				min-height: 0;
+				opacity: 0;
 			}
 		}
 

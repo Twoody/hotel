@@ -1,11 +1,15 @@
 Button to instantiate a new user
 <template>
-	<div class="new-user-login-wrapper">
+	<div
+		class="new-user-login-wrapper"
+		@click="handleClick"
+	>
 		<div class="social-button-dex">
-			New User
+			Register Email
 		</div>
 		<MyButton
 			class="social-button"
+			:disabled='isDisabled'
 			@click="registerNewUser"
 		>
 			<font-awesome-icon
@@ -28,13 +32,99 @@ export default {
 	{
 		MyButton,
 	},
+	data() {
+		return {
+			isShowingErrors: false,
+			registrationError: '',
+		}
+	},
 	props:
 	{
-		email: String,
-		password: String,
+		email: 
+		{
+			default: '',
+			required: true,
+			type: String,
+		},
+		password:
+		{
+			default: '',
+			required: true,
+			type: String,
+		},
+
+		passwordsMatch: Boolean,
+
+		/** Is the payload ready to be submitted */
+		ready: Boolean,
+	},
+	computed:
+	{
+		/**
+		 * @todo validate email address too
+		 * @return {string} Return error message if applicable; Else empty string.
+		 */
+		errors() {
+			if (!this.passwordsMatch)
+			{
+				return 'Passwords do not match'
+			}
+			if (this.password.length <= 8)
+			{
+				return 'Password less than 8 characters'
+			}
+			if (!/[a-zA-Z]/.test(this.password))
+			{
+				return 'Password needs alphabetical character'
+			}
+			if (!/\d/.test(this.password))
+			{
+				return 'Password needs numeric character'
+			}
+			if (this.registrationError)
+			{
+				return this.registrationError
+			}
+
+			return ''
+		},
+
+		/** */
+		displayedError() {
+			if (this.isShowingErrors)
+			{
+				return this.errors
+			}
+			return ''
+		},
+
+		/** */
+		isDisabled()
+		{
+			if (!this.ready)
+			{
+				return true
+			}
+			if (!this.email)
+			{
+				return true
+			}
+			if (this.errors)
+			{
+				return true
+			}
+			return false
+		},
 	},
 	methods:
 	{
+		/** */
+		handleClick()
+		{
+			this.isShowingErrors = true
+			this.$emit('click')
+		},
+
 		/**
 		 * Use firebase to support logging in with a new account
 		 *
@@ -44,6 +134,11 @@ export default {
 		 */
 		async registerNewUser ()
 		{
+			if (!this.ready)
+			{
+				return 
+			}
+			this.registrationError = ''
 			/* eslint-disable no-unused-vars */
 			try
 			{
@@ -69,8 +164,17 @@ export default {
 					error 
 				)
 				console.groupEnd()
+				this.registrationError = errorMessage
 			}
 			/* eslint-enable no-unused-vars */
+		},
+	},
+
+	watch:
+	{
+		displayedError (n, o)
+		{
+			this.$emit('error', n)
 		},
 	},
 }
