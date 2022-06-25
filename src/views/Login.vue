@@ -257,6 +257,9 @@ export default {
 					this.password
 				)
 				this.success = true
+				this.$router.push({
+					path: "/",
+				})
 			}
 			catch (error)
 			{
@@ -318,6 +321,9 @@ export default {
 					this.email,
 					this.password
 				)
+				this.$router.push({
+					path: "/",
+				})
 			}
 			catch (error)
 			{

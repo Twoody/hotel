@@ -51,6 +51,9 @@ export default {
 				// This gives you a Facebook Access Token.
 				const credential = response.credential
 				const token = credential.accessToken
+				this.$router.push({
+					path: "/",
+				})
 			}
 			catch (error)
 			{
@@ -62,14 +65,6 @@ export default {
 
 				// The AuthCredential type that was used.
 				const credential = error.credential
-				console.group()
-				console.error(this.$options.name)
-				console.error(provider)
-				console.error(errorMessage)
-				console.error(
-					error 
-				)
-				console.groupEnd()
 			}
 			/* eslint-enable no-unused-vars */
 		},

@@ -49,6 +49,10 @@ export default {
 				const token = response.credential.accessToken
 				// The signed-in user info.
 				const user = response.user
+
+				this.$router.push({
+					path: "/",
+				})
 			}
 			catch (error)
 			{
@@ -60,14 +64,6 @@ export default {
 
 				// The AuthCredential type that was used.
 				const credential = error.credential
-				console.group()
-				console.error(this.$options.name)
-				console.error(provider)
-				console.error(errorMessage)
-				console.error(
-					error 
-				)
-				console.groupEnd()
 			}
 			/* eslint-enable no-unused-vars */
 		},
