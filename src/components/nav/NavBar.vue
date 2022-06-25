@@ -151,6 +151,8 @@ export default {
 </script>
 
 <style lang="less">
+@import "~styles/styles";
+
 /* @todo setup a main file and set margins/padding there probably */
 .nav-wrapper {
 	@v-padding: 30px;
@@ -174,7 +176,7 @@ export default {
 		}
 	}
 	.user-items {
-		border: 1px solid black;
+		border: 1px solid @myblack;
 		border-radius: 50px;
 		display: flex;
 		flex-direction: column;
@@ -191,7 +193,7 @@ export default {
 		}
 
 		.user-action {
-			border-top: 1px solid black;
+			border-top: 1px solid @myblack;
 			margin-bottom: 5px;
 		}
 		.user-name {

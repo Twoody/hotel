@@ -88,7 +88,7 @@ export default {
 		border: 2px solid transparent;
 	}
 	&.has-nested {
-		border: 1px solid black;
+		border: 1px solid @myblack;
 	}
 	.content-section {
 		height: auto;
@@ -110,7 +110,7 @@ export default {
 		transition: all 0.2s linear;
 
 		&.has-nested {
-			border-bottom: 1px solid black;
+			border-bottom: 1px solid @myblack;
 			&.not-selected {
 				border: 2px solid transparent;
 			}

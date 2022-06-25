@@ -1,6 +1,6 @@
 Button to book a stay
 <template>
-	<div
+	<MyButton
 		class="search-execute"
 		@click="$emit('click')"
 	>
@@ -23,12 +23,18 @@ Button to book a stay
 				Book
 			</span>
 		</transition>
-	</div>
+	</MyButton>
 </template>
 
 <script>
+import MyButton from "@/components/buttons/MyButton.vue"
+
 export default {
 	name: "BookButton",
+	components: 
+	{
+		MyButton,
+	},
 	props:
 	{
 		/**
@@ -45,17 +51,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "~styles/styles";
+
 .search-execute {
-	background-color: black;
-	border-radius: 10px;
-	color: yellow;
-	display: flex;
+	background-color: @color-pastel-blue !important;
+	filter: sepia(0.5) !important;
 	height: 50px;
+	margin-bottom: 11px;
 	margin-top: 5px;
+	max-width: 50vw;
 	padding: 3px;
-	text-align: center;
-	vertical-align: middle;
-	width: 50vw;
 
 	.execute-text {
 		margin: auto;

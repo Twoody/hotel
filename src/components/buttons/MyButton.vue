@@ -170,6 +170,7 @@ export default
 	background: @color-pastel-blue;
 	border: none;
 	border-radius: 12px;
+	color: @myblack;
 	cursor: pointer;
 	font-size: 18px;
 	min-height: 52px;
