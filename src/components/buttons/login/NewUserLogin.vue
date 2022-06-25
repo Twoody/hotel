@@ -61,7 +61,7 @@ export default {
 	},
 	computed:
 	{
-		/** */
+		/** @returns {string} Return errors string IFF showing errors; Else empty string */
 		displayedError () 
 		{
 			if (this.isShowingErrors)
@@ -101,7 +101,7 @@ export default {
 			return ""
 		},
 
-		/** */
+		/** @returns {boolean} is the button disabled or not */
 		isDisabled ()
 		{
 			if (!this.ready)

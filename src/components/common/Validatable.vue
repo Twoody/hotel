@@ -36,11 +36,12 @@ export default
 
 	.validatable {
 		.error-message {
+			color: #F5AF11;
+			font-weight: 900;
 			position: relative;
-			top: -10px;
 			opacity: 1;
 			text-align: left;
-			color: red;
+			top: -4px;
 		}
 
 		.pull-up-enter-active {
@@ -48,8 +49,8 @@ export default
 		}
 
 		.pull-up-enter {
-			top: 10px;
 			opacity: 0;
+			top: 10px;
 		}
 	}
 </style>

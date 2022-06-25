@@ -7,12 +7,12 @@
 			</p>
 		</div>
 		<div v-else>
-			<div class='flex-container'>
+			<div class="flex-container">
 				<MyButton
-					class='title-toggle'
+					class="title-toggle"
 					:class="{selected: !isRegistering}"
-					:disabled='isRegistering === false'
-					:inactive='isRegistering === false'
+					:disabled="isRegistering === false"
+					:inactive="isRegistering === false"
 					@click="isRegistering = false"
 				>
 					<h3>
@@ -21,9 +21,9 @@
 				</MyButton>
 				<span>or</span>
 				<MyButton
-					class='title-toggle'
+					class="title-toggle"
 					:class="{selected: isRegistering}"
-					:disabled='isRegistering === true'
+					:disabled="isRegistering === true"
 					@click="isRegistering = true"
 				>
 					<h3>
@@ -31,35 +31,35 @@
 					</h3>
 				</MyButton>
 			</div>
-				<!--
-				<NewUserLogin
-					:email="email"
-					:password="password"
-					:passwordsMatch="passwordConfirm === password"
-					:ready="isRegistering"
-					@click="handleRegistClick"
-					@error="registrationError = arguments[0]"
-				/>
-				-->
 
 			<div class="login-form">
-				<input
-					v-model="email"
-					class="login-item"
-					placeholder="Email"
-					ref="email"
-					type="text"
-				>
-				<input
-					v-model="password"
-					class="login-item"
-					placeholder="Password"
-					ref="password"
-					type="password"
-				>
 				<Validatable
 					class="input-wrapper"
-					:error="registrationError"
+					:error="displayedErrors.email || ''"
+				>
+					<input
+						v-model="email"
+						class="login-item"
+						placeholder="Email"
+						ref="email"
+						type="text"
+					>
+				</Validatable>
+				<Validatable
+					class="input-wrapper"
+					:error="displayedErrors.password || ''"
+				>
+					<input
+						v-model="password"
+						class="login-item"
+						placeholder="Password"
+						ref="password"
+						type="password"
+					>
+				</Validatable>
+				<Validatable
+					class="input-wrapper"
+					:error="displayedErrors.passwordConfirm || ''"
 				>
 					<input
 						v-model="passwordConfirm"
@@ -70,36 +70,39 @@
 						type="password"
 					>
 				</Validatable>
-				<MyButton
-					class="login-button"
-					@click="loginOrRegister"
-					:in-progress="loggingIn"
-					:success="success"
+
+				<Validatable
+					class="login-button-wrapper"
+					:error="displayedErrors.response || ''"
 				>
-					<transition
-						name="xxxx"
-						mode="out-in"
+					<MyButton
+						class="login-button"
+						:in-progress="loggingIn"
+						:success="success"
+						@click="loginOrRegister"
 					>
-						<span
-							v-if='isRegistering'
-							key='isRegistering'
+						<transition
+							name="xxxx"
+							mode="out-in"
 						>
-							Register Email
-						</span>
-						<span
-							v-else
-							key='!isRegistering'
-						>
-							Log In
-						</span>
-					</transition>
-				</MyButton>
+							<span
+								v-if="isRegistering"
+								key="isRegistering"
+							>
+								Register Email
+							</span>
+							<span
+								v-else
+								key="!isRegistering"
+							>
+								Log In
+							</span>
+						</transition>
+					</MyButton>
+				</Validatable>
 			</div>
 
-			<div
-				class="register-section"
-				:class="{registering: isRegistering}"
-			>
+			<div class="register-section">
 				<h3>Social Logins</h3>
 				<SocialLogin />
 			</div>
@@ -110,7 +113,6 @@
 <script>
 import firebase from "firebase"
 import MyButton from "@/components/buttons/MyButton.vue"
-import NewUserLogin from "@/components/buttons/login/NewUserLogin.vue"
 import SocialLogin from "@/components/forms/SocialLogin.vue"
 import store from "@/store/store.js"
 import Validatable from "@/components/common/Validatable"
@@ -120,7 +122,6 @@ export default {
 	components:
 	{
 		MyButton,
-		NewUserLogin,
 		SocialLogin,
 		Validatable,
 	},
@@ -134,6 +135,7 @@ export default {
 			isRegistering: false,
 			isShowingErrors: false,
 			loggingIn: false,
+			loginError: "",
 			password: "",
 			passwordConfirm: "",
 			registrationError: "",
@@ -143,45 +145,48 @@ export default {
 
 	computed:
 	{
-		/** */
-		displayedError () 
+		/** @returns {object} Return errors object IFF showing errors; Else empty object */
+		displayedErrors () 
 		{
 			if (this.isShowingErrors)
 			{
 				return this.errors
 			}
-			return ""
+			return {}
 		},
-
 
 		/**
 		 * @todo validate email address too
-		 * @returns {string} Return error message if applicable; Else empty string.
+		 * @returns {object} Return error message if applicable; Else empty string.
 		 */
 		errors () 
 		{
-			if (!this.passwordsMatch)
+			let errors = {}
+
+			// Show confirm errors IFF user is registering
+			errors.passwordConfirm = this.passwordsMatch ? "" : "Passwords do not match"
+			errors.passwordConfirm = this.isRegistering ? errors.passwordConfirm : ""
+
+			// In order from lease important to most important
+			errors.password = /\d/.test(this.password) ?
+				"" : "Password needs numeric character"
+			errors.password = /[a-zA-Z]/.test(this.password) ?
+				errors.password : "Password needs alphabetical character"
+			errors.password = this.password.length >= 8 ?
+				errors.password : "Password less than 8 characters"
+
+			if (this.isRegistering)
 			{
-				return "Passwords do not match"
+				errors.response = this.registrationError || ""
 			}
-			if (this.password.length <= 8)
+			else
 			{
-				return "Password less than 8 characters"
-			}
-			if (!/[a-zA-Z]/.test(this.password))
-			{
-				return "Password needs alphabetical character"
-			}
-			if (!/\d/.test(this.password))
-			{
-				return "Password needs numeric character"
-			}
-			if (this.registrationError)
-			{
-				return this.registrationError
+				errors.response = this.loginError || ""
 			}
 
-			return ""
+			errors.email = this.email.length ? "" : "Please enter an email"
+
+			return errors
 		},
 
 		/**
@@ -202,49 +207,34 @@ export default {
 		{
 			return store.state.user.isLoggingIn
 		},
+
+		/** @returns {boolean} When registering, if passwords match or not */
+		passwordsMatch ()
+		{
+			return this.password === this.passwordConfirm
+		},
 	},
 	methods: 
 	{
-		/** */
-		handleRegistClick ()
+		/** @returns {boolean} Whether focus was applied or not */
+		assignFocus ()
 		{
-			console.log("cliclked")
-			this.isRegistering = true
 			if (!this.email)
 			{
 				this.$refs.email.focus()
-				return
+				return false
 			}
 			else if (!this.password)
 			{
 				this.$refs.password.focus()
-				return
+				return false
 			}
-			else if (!this.passwordConfirm)
+			else if (!this.passwordConfirm && this.isRegistering)
 			{
 				this.$refs.passwordConfirm.focus()
-				return
+				return false
 			}
-		},
-
-		/**
-		 * Use firebase to support logging in with any email account
-		 *
-		 * @todo https://firebase.google.com/docs/auth/web/email-link-auth?authuser=0#web-version-9_1
-		 *			Use link to provide signup with email
-		 * @returns {void}
-		 * @since 0.1.0
-		 */
-		async loginOrRegister ()
-		{
-			if (this.isRegistering)
-			{
-				this.registerNewUser()
-			}
-			else
-			{
-				this.login()
-			}
+			return true
 		},
 
 		/**
@@ -258,35 +248,55 @@ export default {
 		async login ()
 		{
 
+			this.loginError = ""
 			this.loggingIn = true
 			try
 			{
-				const response = await firebase.auth().signInWithEmailAndPassword(
+				await firebase.auth().signInWithEmailAndPassword(
 					this.email,
 					this.password
 				)
-				console.log("logged in!")
-				console.log(response)
 				this.success = true
-				// return response
 			}
 			catch (error)
 			{
-				// TODO: Show error state/message in template
-				console.group()
-				console.error(this.$options.name)
-				console.error(
-					error
-				)
-				console.groupEnd()
+				if (error.code === "auth/user-not-found")
+				{
+					this.loginError = "User not found"
+				}
+				else
+				{
+					this.loginError = error.code
+				}
 			}
 			this.loggingIn = false
 		},
 
-		/** @returns*/
-		passwordsMatch()
+		/**
+		 * Use firebase to support logging in with any email account
+		 *
+		 * @todo https://firebase.google.com/docs/auth/web/email-link-auth?authuser=0#web-version-9_1
+		 *			Use link to provide signup with email
+		 * @returns {void}
+		 * @since 0.1.0
+		 */
+		loginOrRegister ()
 		{
-			return this.password === this.passwordConfirm
+			// First show errors and assign focus if applicable
+			this.isShowingErrors = true
+			if (!this.assignFocus())
+			{
+				return false
+			}
+			
+			if (this.isRegistering)
+			{
+				return this.registerNewUser()
+			}
+			else
+			{
+				return this.login()
+			}
 		},
 
 		/**
@@ -298,11 +308,9 @@ export default {
 		 */
 		async registerNewUser ()
 		{
-			if (!this.ready)
-			{
-				return 
-			}
+			// First clear existing errors
 			this.registrationError = ""
+
 			/* eslint-disable no-unused-vars */
 			try
 			{
@@ -316,18 +324,8 @@ export default {
 				const errorCode = error.code
 				const errorMessage = error.message
 
-				// The email of the user's account used.
-				const email = error.email
-
 				// The AuthCredential type that was used.
 				const credential = error.credential
-				console.group()
-				console.error(this.$options.name)
-				console.error(errorMessage)
-				console.error(
-					error 
-				)
-				console.groupEnd()
 				this.registrationError = errorMessage
 			}
 			/* eslint-enable no-unused-vars */
@@ -339,8 +337,8 @@ export default {
 		/**
 		 * Watch user loging out to manage local state
 		 *
-		 * @param n
-		 * @param o
+		 * @param {boolean} n - New value
+		 * @param {boolean} o - Old value
 		 */
 		isLoggedIn (n, o)
 		{
@@ -348,6 +346,13 @@ export default {
 			{
 				this.success = false
 			}
+		},
+
+		/** */
+		isRegistering ()
+		{
+			this.isShowingErrors = false
+			this.passwordConfirm = ""
 		},
 	},
 }
@@ -361,6 +366,7 @@ export default {
 	flex-grow: 1;
 	max-width: 70%;
 	padding: 10px;
+		transition: all 0.5s ease;
 
 	.flex-container {
 		align-items: center;
@@ -381,7 +387,8 @@ export default {
 			border-radius: 5px;
 			color: #42b983;
 			filter: brightness(102%);
-			padding: 0;
+			padding: 7px;
+			width: auto;
 
 			h3 {
 				margin: 0;
@@ -399,7 +406,6 @@ export default {
 			}
 		}
 
-
 	}
 
 	.login-form {
@@ -415,35 +421,40 @@ export default {
 		transition: all 0.5s ease;
 
 		.input-wrapper {
-			width: 100%;;
-		}
-
-		.login-item {
-			border-radius: 5px;
-			border: 1px solid @color-purple;
-			font-size: 20px;
-			margin-bottom: 10px;
-			min-height: 32px;
 			min-width: 90%;
-			transition: all 0.5s ease;
+			width: auto;
 
-			&:active {
-				transform: translate3d(-1px, 0, 0) scale(1.02);
-			}
-			&.hidden {
-				border: none;
-				height: 0;
-				max-height: 0;
-				min-height: 0;
-				opacity: 0;
+			.login-item {
+				border-radius: 5px;
+				border: 1px solid @color-purple;
+				font-size: 20px;
+				margin-bottom: 10px;
+				min-height: 32px;
+				transition: all 0.5s ease;
+				width: 100%;
+
+				&:active {
+					transform: translate3d(-1px, 0, 0) scale(1.02);
+				}
+				&.hidden {
+					border: none;
+					height: 0;
+					max-height: 0;
+					min-height: 0;
+					opacity: 0;
+				}
 			}
 		}
 
-		.login-button {
+		.login-button-wrapper {
 			margin-bottom: 10px;
 			margin-top: 10px;
 			min-width: 50%;
 			max-width: 50%;
+
+			.login-button {
+				margin-bottom: 14px;
+			}
 		}
 	}
 	.register-section {

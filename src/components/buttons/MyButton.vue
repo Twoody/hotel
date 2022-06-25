@@ -103,7 +103,7 @@ export default
 			return classes
 		},
 
-		/** Just flip the switch in parent to do transitions */
+		/** @returns {string} Just flip the switch in parent to do transitions */
 		transitionKey () 
 		{
 			if (!this.isMounted)
