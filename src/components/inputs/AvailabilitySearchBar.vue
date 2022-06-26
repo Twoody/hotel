@@ -80,7 +80,9 @@ export default {
 @import "~styles/styles";
 
 .availability-search-bar-wrapper {
+	max-width: 666px;
 	width: 80%;
+
 	.date-container {
 		align-content: center;
 		display: flex;
