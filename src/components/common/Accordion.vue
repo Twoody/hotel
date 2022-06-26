@@ -76,6 +76,7 @@ export default {
 	align-content: center;
 	border: 1px solid #dea5ce;
 	border-radius: 7px;
+	color: @myblack;
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;

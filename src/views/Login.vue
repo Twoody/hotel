@@ -372,7 +372,8 @@ export default {
 	flex-grow: 1;
 	max-width: 70%;
 	padding: 10px;
-		transition: all 0.5s ease;
+	padding-top: 43px;
+	transition: all 0.5s ease;
 
 	.flex-container {
 		align-items: center;

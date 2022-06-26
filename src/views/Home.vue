@@ -51,10 +51,11 @@ export default {
 .home-wrapper {
 	display: flex;
 	flex-direction: column;
+	padding-top: 34px;
 	width: 100%;
 
 	h2 {
-		font-size: 25px;
+		font-size: clamp(25px, 3vw, 35px);
 		margin-bottom: 0px;
 		margin-top: 0px;
 	}
@@ -64,7 +65,6 @@ export default {
 	}
 	.accordion-sections {
 		background: @color-purple;
-		color: #3D373C;
 		flex-grow: 1;
 		padding-bottom: 50px;
 		padding-left: 30px;
@@ -77,6 +77,7 @@ export default {
 			align-content: center;
 			display: flex;
 			flex-direction: column;
+			padding-top: 20px;
 
 			.flex-item {
 				flex-grow: 1;

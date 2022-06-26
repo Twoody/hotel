@@ -6,10 +6,12 @@
 		>
 			<div
 				v-if="isLoading"
-				class="search-query loading"
+				class="date-container"
 				key="loading"
 			>
-				loading...
+				<div class="search-query loading">
+					Loading...
+				</div>
 			</div>
 			<div
 				v-else
@@ -18,11 +20,14 @@
 				<input
 					v-model="startDate"
 					class="search-query"
+					:max="maxDate"
+					:min="today"
 					type="date"
 				>
 				<input
 					v-model="endDate"
 					class="search-query"
+					:max="maxDate"
 					type="date"
 				>
 			</div>
@@ -51,27 +56,54 @@ export default {
 			type: Boolean,
 		},
 	},
+	computed:
+	{
+		maxDate () 
+		{
+			return "2023-11-11"
+		},
+
+		minDateEnd () 
+		{
+			return this.today
+		},
+
+		today ()
+		{
+			return "2022-06-25"
+		},
+	},
 }
 </script>
 
 <style lang="less" scoped>
+@import "~styles/styles";
+
 .availability-search-bar-wrapper {
+	width: 80%;
 	.date-container {
 		align-content: center;
 		display: flex;
 		gap: 10px;
 		justify-content: center;
 		margin-bottom: 10px;
+		width: 100%;
 
 		.search-query {
 			border-radius: 10px;
-			/*TODO: get a better color palette*/
-			border: 1px solid gold;
+			font-size: clamp(15px, 3vw, 25px);
 			height: 50px;
+			padding-right: 5px;
 			text-align: center;
-			width: 40%;
+			width: 100%;
+
+			&:not(.loading) {
+				border: 1px solid rgba(254,232,185,255);
+			}
 			&.loading {
-				width: 80%;
+				background: @color-purple;
+				color: rgba(254,232,185,255);
+				padding-top: 11px;
 			}
 		}
 	}
