@@ -12,11 +12,13 @@ TODO: PRobably plugin inputs... :eye_roll:
 					:isLoading="isLoading"
 				/>
 				<VueCal
-					class="vue-cal-container"
-					hide-view-selector
 					active-view="month"
-					:time="false"
+					class="vue-cal-container vuecal--rounded-theme vuecal--date-picker"
+					:disable-views="['day', 'week']"
+					hide-view-selector
 					:min-date="minDate"
+					:time="false"
+					xsmall
 				/>
 				<BookButton
 					:isLoading="isLoading"
@@ -84,6 +86,7 @@ export default {
 </script>
 
 <style lang="less">
+@import "~styles/styles";
 
 @size: min(55vw, 55vh);
 
@@ -115,14 +118,65 @@ export default {
 			.inputs-container {
 				padding-bottom: 15px;
 			}
+			// Todo: actually set a background color
 			.vue-cal-container {
+				backdrop-filter: sepia(0.4);
+				border: none;
+				border-radius: 5px;
+				box-shadow: none;
+				color: @myblack;
 				height: 53vw;
 				margin: 10px;
 				margin-bottom: 15px;
 				max-height: @size;
-				max-width: @size;
-				width: 53vw;
+				max-width: 96%;
+				width: 100%;
 
+				.vuecal__header {
+					.vuecal__title-bar{
+						background: none;
+						border-bottom: 1px solid gold;
+					}
+					.vuecal__title {
+						button {
+							color: @myblack;
+							font-size: 15px;
+							font-weight: 700;
+						}
+					}
+				}
+
+				.vuecal__cell::before {
+					border: none;
+				}
+				.vuecal__cell-content {
+					background: @color-pastel-blue;
+					border-radius: 15px;
+					margin-bottom: 11px;
+					padding: 11px;
+
+					.vuecal__cell-date {
+						font-size:15px;
+						font-weight: 700;
+					}
+
+				}
+				.vuecal__cell--disabled {
+					.vuecal__cell-content {
+						background: lightgray;
+					}
+				}
+				.vuecal__weekdays-headings {
+					border-bottom: 2px solid gold;
+					padding-bottom: 6px;
+
+					.weekday-label{
+						color: @myblack;
+						font-size: 25px;
+						font-weight: 700;
+						padding: 2px;
+					}
+				}
 			}
 		}
 	}

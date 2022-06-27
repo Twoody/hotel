@@ -77,7 +77,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => 
 {
-	if (!parseFloat(process.env.VUE_APP_CI))
+	if (parseFloat(process.env.VUE_APP_CI))
 	{
 		try
 		{
@@ -88,7 +88,7 @@ router.beforeEach((to, from, next) =>
 				}
 			)
 		}
-		catch(e)
+		catch (e)
 		{
 			console.error(e)
 		}
