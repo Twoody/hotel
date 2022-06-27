@@ -492,6 +492,7 @@ export default {
 		}
 	}
 }
+
 @media (hover: hover) {
 	.login-item {
 		&:hover {
@@ -503,12 +504,11 @@ export default {
 		box-shadow: -2 -2px -4px 0 rgba(0, 0, 0, .5);
 	}
 }
+
 .xxxx-enter-active, .xxxx-leave-active {
 	transition: all 0.25s ease;
 }
 .xxxx-enter, .xxxx-leave-to {
 	opacity: 0;
 }
-
 </style>
-

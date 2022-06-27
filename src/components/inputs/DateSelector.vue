@@ -3,6 +3,7 @@ Element for handling manual date (no calendar picker) input
 	<div class="date-selector-wrapper">
 		<MyDate
 			ref="newMonth"
+			class='date-input'
 			:date="date"
 			is-day
 			@focus="$emit('focus', arguments[0])"
@@ -11,6 +12,7 @@ Element for handling manual date (no calendar picker) input
 
 		<MyDate
 			ref="newDay"
+			class='date-input'
 			:date="date"
 			is-month
 			@focus="$emit('focus', arguments[0])"
@@ -19,6 +21,7 @@ Element for handling manual date (no calendar picker) input
 
 		<MyDate
 			ref="newYear"
+			class='date-input'
 			:date="date"
 			is-year
 			@focus="$emit('focus', arguments[0])"
@@ -29,10 +32,15 @@ Element for handling manual date (no calendar picker) input
 
 <script>
 import {DateTime} from "luxon"
+import MyDate from "@/components/inputs/MyDate.vue"
 
 export default
 {
 	name: "DateSelector",
+	components:
+	{
+		MyDate,
+	},
 	props:
 	{
 		date: {
@@ -114,35 +122,19 @@ export default
 </script>
 
 <style scoped lang="less">
-	@import "~shared/styles/variables";
-
-	.apply-theme(@palette)
-	{
-		color: .palette(@palette)[@foreground];
-	}
-
 	.date-selector-wrapper {
-		.font-regular();
 		text-align: left;
 		width: 100%;
 		display: flex;
 
-		div {
-			margin-left: 18px;
-			margin-bottom: 10px;
+		.date-input {
+			margin-left: 8px;
 			flex-grow: 1;
-
-			.themed-input {
-				margin-bottom: 10px;
-				width: 100%;
-			}
 		}
 
-		div:first-child {
-			margin-left: auto;
+		.date-input:first-child {
+			margin-left: 0;
 		}
 	}
-
-	@import '~styles/apply-themes';
 </style>
 

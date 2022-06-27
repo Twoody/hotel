@@ -17,30 +17,41 @@
 				v-else
 				class="date-container"
 			>
-				<input
-					v-model="startDate"
-					class="search-query"
-					:max="maxDate"
-					:min="today"
-					placeholder="mm/dd/yyyy"
-					type="date"
-				>
-				<input
-					v-model="endDate"
-					class="search-query"
-					:max="maxDate"
-					:min="minDateEnd"
-					placeholder="mm/dd/yyyy"
-					type="date"
-				>
+				<div class='flex-box'>
+					<span class='label'>
+						Start Date
+					</span>
+					<DateSelector
+						v-model="startDate"
+						:max="maxDate"
+						:min="today"
+					/>
+				</div>
+				<div class='flex-box'>
+					<span class='label'>
+						End Date
+					</span>
+					<DateSelector
+						v-model="endDate"
+						:max="maxDate"
+						:min="minDateEnd"
+					/>
+				</div>
 			</div>
 		</transition>
 	</div>
 </template>
 
 <script>
+import {DateTime} from "luxon"
+import DateSelector from "@/components/inputs/DateSelector"
+
 export default {
 	name: "AvailabilitySearchBar",
+	components:
+	{
+		DateSelector,
+	},
 	data: function()
 	{
 		return {
@@ -94,22 +105,15 @@ export default {
 		margin-bottom: 10px;
 		width: 100%;
 
-		.search-query {
-			border-radius: 10px;
-			font-size: clamp(15px, 3vw, 25px);
-			height: 50px;
-			padding-right: 5px;
-			text-align: center;
-			width: 100%;
-
-			&:not(.loading) {
-				border: 3px solid rgba(254,232,185,255);
-			}
-			&.loading {
-				background: @color-purple;
-				color: rgba(254,232,185,255);
-				padding-top: 11px;
-			}
+		.flex-box {
+			background: @color-purple;
+			border-radius: 7px;
+			padding: 7px;
+			align-content: center;
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
 		}
 	}
 
