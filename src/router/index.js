@@ -75,16 +75,23 @@ const router = new VueRouter({
 	routes,
 })
 
-router.beforeEach(async (to, from, next) => 
+router.beforeEach((to, from, next) => 
 {
 	if (!parseFloat(process.env.VUE_APP_CI))
 	{
-		firebase.analytics().logEvent(
-			"page_view",
-			{
-				type: "internal", 
-			}
-		)
+		try
+		{
+			firebase.analytics().logEvent(
+				"page_view",
+				{
+					type: "internal", 
+				}
+			)
+		}
+		catch(e)
+		{
+			console.error(e)
+		}
 	}
 	next()
 })

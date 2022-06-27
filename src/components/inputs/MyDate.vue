@@ -3,7 +3,7 @@
 		autocomplete="new-password"
 		class="search-query"
 		:placeholder="placeholder"
-		:maxlength='maxlength'
+		:maxlength="maxlength"
 		type="tel"
 		:value="fieldValue"
 		@input="$emit('newValue', $event.target.value)"
@@ -74,9 +74,9 @@ export default {
 			return ""
 		},
 
-		maxlength()
+		maxlength ()
 		{
-			if (this.placeholder === 'yyyy')
+			if (this.placeholder === "yyyy")
 			{
 				return 4
 			}

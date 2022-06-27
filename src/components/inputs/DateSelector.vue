@@ -3,7 +3,7 @@ Element for handling manual date (no calendar picker) input
 	<div class="date-selector-wrapper">
 		<MyDate
 			ref="newMonth"
-			class='date-input'
+			class="date-input"
 			:date="date"
 			is-day
 			@focus="$emit('focus', arguments[0])"
@@ -12,7 +12,7 @@ Element for handling manual date (no calendar picker) input
 
 		<MyDate
 			ref="newDay"
-			class='date-input'
+			class="date-input"
 			:date="date"
 			is-month
 			@focus="$emit('focus', arguments[0])"
@@ -21,7 +21,7 @@ Element for handling manual date (no calendar picker) input
 
 		<MyDate
 			ref="newYear"
-			class='date-input'
+			class="date-input"
 			:date="date"
 			is-year
 			@focus="$emit('focus', arguments[0])"

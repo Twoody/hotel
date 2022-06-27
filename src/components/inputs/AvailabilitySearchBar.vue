@@ -17,8 +17,8 @@
 				v-else
 				class="date-container"
 			>
-				<div class='flex-box'>
-					<span class='label'>
+				<div class="flex-box">
+					<span class="label">
 						Start Date
 					</span>
 					<DateSelector
@@ -27,8 +27,8 @@
 						:min="today"
 					/>
 				</div>
-				<div class='flex-box'>
-					<span class='label'>
+				<div class="flex-box">
+					<span class="label">
 						End Date
 					</span>
 					<DateSelector
@@ -114,6 +114,11 @@ export default {
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
+
+			.label {
+				font-weight: 700;
+				margin-bottom: 2px;
+			}
 		}
 	}
 
