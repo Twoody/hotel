@@ -1,25 +1,25 @@
 Element for handling manual date (no calendar picker) input
 <template>
-	<div class='date-selector-wrapper'>
+	<div class="date-selector-wrapper">
 		<MyDate
-			ref='newMonth'
-			:date='date'
+			ref="newMonth"
+			:date="date"
 			is-day
 			@focus="$emit('focus', arguments[0])"
 			@newValue="updateParent('newMonth', arguments[0])"
 		/>
 
 		<MyDate
-			ref='newDay'
-			:date='date'
+			ref="newDay"
+			:date="date"
 			is-month
 			@focus="$emit('focus', arguments[0])"
 			@newValue="updateParent('newDay', arguments[0])"
 		/>
 
 		<MyDate
-			ref='newYear'
-			:date='date'
+			ref="newYear"
+			:date="date"
 			is-year
 			@focus="$emit('focus', arguments[0])"
 			@newValue="updateParent('newYear', arguments[0])"
@@ -28,66 +28,69 @@ Element for handling manual date (no calendar picker) input
 </template>
 
 <script>
-import {DateTime} from 'luxon'
+import {DateTime} from "luxon"
 
 export default
 {
-	name: 'DateSelector',
+	name: "DateSelector",
 	props:
 	{
 		date: {
-			default: '',
+			default: "",
 			required: false,
 			type: String,
 		},
 		maxDate:
 		{
-			default: '',
+			default: "",
 			required: false,
 			type: String,
 		},
 
 		minDate:
 		{
-			default: '',
+			default: "",
 			required: false,
 			type: String,
 		},
 	},
-	data() {
+	data () 
+	{
 		return {
-			newDay: '',
-			newMonth: '',
-			newYear: '',
+			newDay: "",
+			newMonth: "",
+			newYear: "",
 		}
 	},
 
 	computed:
-	{
-	},
+	{},
 
 	methods:
 	{
 		/**
 		 * Passes the combined date back to the parent
+		 *
+		 * @param name
+		 * @param value
 		 */
 		updateParent: function(name, value)
 		{
 			this[name] = value
 
 			let date = {
-				'day': parseInt(this.day),
-				'month': parseInt(this.month),
-				'year': parseInt(this.year),
+				"day": parseInt(this.day),
+				"month": parseInt(this.month),
+				"year": parseInt(this.year),
 			}
 
 			if (value.length === 2)
 			{
 				switch (name)
 				{
-					case 'newMonth':
+					case "newMonth":
 						return this.$refs.newDay.focus()
-					case 'newDay':
+					case "newDay":
 						return this.$refs.newYear.focus()
 				}
 			}
@@ -97,12 +100,13 @@ export default
 			if (
 				newDate.isValid &&
 				date.year > 1000
-			){
-				this.$emit('input', newDate.toFormat('yyyy-MM-dd'))
+			)
+			{
+				this.$emit("input", newDate.toFormat("yyyy-MM-dd"))
 			}
 			else
 			{
-				this.$emit('input', null)
+				this.$emit("input", null)
 			}
 		},
 	},

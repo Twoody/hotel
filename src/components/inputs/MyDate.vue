@@ -1,13 +1,13 @@
 <template>
 	<input
-		autocomplete='new-password'
-		class='themed-input'
-		:placeholder='placeholder'
-		type='tel'
+		autocomplete="new-password"
+		class="themed-input"
+		:placeholder="placeholder"
+		type="tel"
 		:value="fieldValue"
 		@focus="$emit('focus', $event.target)"
 		@input="$emit('newValue', $event.target.value)"
-	/>
+	>
 </template>
 
 <script>
@@ -15,8 +15,7 @@ export default {
 	name: "MyDate",
 	data: function()
 	{
-		return {
-		}
+		return {}
 	},
 	props:
 	{
@@ -32,51 +31,50 @@ export default {
 	},
 	computed:
 	{
-		dateField()
+		dateField ()
 		{
-			switch(this.placeholder)
+			switch (this.placeholder)
 			{
-				case 'DD':
-					return 'day'
+				case "DD":
+					return "day"
 
-				case 'MM':
-					return 'month'
+				case "MM":
+					return "month"
 
-				case 'YYYY':
-					return 'year'
+				case "YYYY":
+					return "year"
 
 				default:
-					return ''
+					return ""
 			}
 		},
 
-		/** @returns {Number} Get the day/month/year from provided date */
-		fieldValue()
+		/** @returns {number} Get the day/month/year from provided date */
+		fieldValue ()
 		{
-			return DateTime.fromISO(this.date)[this.dateField] || ''
+			return DateTime.fromISO(this.date)[this.dateField] || ""
 		},
 
-		placeholder()
+		placeholder ()
 		{
 			if (this.isDay)
 			{
-				return 'DD'
+				return "DD"
 			}
 			if (this.isMonth)
 			{
-				return 'MM'
+				return "MM"
 			}
 			if (this.isYear)
 			{
-				return 'YYYY'
+				return "YYYY"
 			}
-			return ''
+			return ""
 		},
 
 	},
 	methods:
-	{
-	},
+	{},
 }
 
 </script>
