@@ -75,9 +75,18 @@ const router = new VueRouter({
 	routes,
 })
 
-router.beforeEach(async (to, from, next) => {
-  firebase.analytics().logEvent('page_view', { type: 'internal' });
-});
-
+router.beforeEach(async (to, from, next) => 
+{
+	if (!parseFloat(process.env.VUE_APP_CI))
+	{
+		firebase.analytics().logEvent(
+			"page_view",
+			{
+				type: "internal", 
+			}
+		)
+	}
+	next()
+})
 
 export default router
