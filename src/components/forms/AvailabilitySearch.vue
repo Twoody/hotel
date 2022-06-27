@@ -57,7 +57,7 @@ export default {
 	{
 		minDate () 
 		{
-			return new Date().addDays(1)
+			return new Date().addDays(0)
 		},
 	},
 	methods:
@@ -116,26 +116,28 @@ export default {
 			width: 100%;
 
 			.inputs-container {
-				padding-bottom: 15px;
 			}
 			// Todo: actually set a background color
 			.vue-cal-container {
-				backdrop-filter: sepia(0.4);
-				border: none;
+				background: @color-focus;
+				border: 1px solid @color-purple;
 				border-radius: 5px;
 				box-shadow: none;
 				color: @myblack;
-				height: 53vw;
-				margin: 10px;
+				//height: 53vw;
 				margin-bottom: 15px;
-				max-height: @size;
+				margin-left: 10px;
+				margin-right: 10px;
+				margin-top: 5px;
+				//max-height: @size;
 				max-width: 96%;
 				width: 100%;
 
 				.vuecal__header {
+					margin-bottom: 8px;
 					.vuecal__title-bar{
 						background: none;
-						border-bottom: 1px solid gold;
+						border-bottom: 1px solid @color-purple;
 					}
 					.vuecal__title {
 						button {
@@ -152,26 +154,31 @@ export default {
 				.vuecal__cell-content {
 					background: @color-pastel-blue;
 					border-radius: 15px;
-					margin-bottom: 11px;
-					padding: 11px;
+			color: @myblack;
+					margin-bottom: 4px;
+					padding: .5em;
+					transition: all 0.25s;
 
 					.vuecal__cell-date {
-						font-size:15px;
-						font-weight: 700;
+						font-size: 12px;
+						font-weight: 900;
 					}
 
 				}
 				.vuecal__cell--disabled {
+					text-decoration: none;
+
 					.vuecal__cell-content {
 						background: lightgray;
+						opacity: 0.75;
 					}
 				}
 				.vuecal__weekdays-headings {
-					border-bottom: 2px solid gold;
-					padding-bottom: 6px;
+					border-bottom: 2px solid @color-purple;
+					//padding-bottom: 6px;
 
 					.weekday-label{
-						color: @myblack;
+						color: red;
 						font-size: 25px;
 						font-weight: 700;
 						padding: 2px;
@@ -180,8 +187,18 @@ export default {
 			}
 		}
 	}
+	.vuecal__cell--selected {
+		opacity: 1;
+	}
+	.vuecal:not(.vuecal--day-view) .vuecal__cell--selected {
+		.vuecal__cell-content {
+			border: 1px solid purple;
+			background: @color-lavendar;
+			color: purple;
+			transform: scale(1.03);
+		}
+	}
 }
-.vuecal__cell--disabled {text-decoration: line-through !important;}
 .vuecal__cell--before-min {color: #b6d6c7;}
 .vuecal__cell--after-max {color: #008b8b;}
 </style>

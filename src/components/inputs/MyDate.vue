@@ -96,7 +96,7 @@ export default {
 	border-radius: 10px;
 	font-family: monospace;
 	font-size: clamp(15px, 3vw, 25px);
-	height: 50px;
+	padding: 8px;
 	text-align: center;
 	transition: all 0.2s;
 	width: 100%;

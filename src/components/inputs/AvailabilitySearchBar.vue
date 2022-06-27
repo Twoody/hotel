@@ -102,12 +102,12 @@ export default {
 		display: flex;
 		gap: 10px;
 		justify-content: center;
-		margin-bottom: 10px;
 		width: 100%;
 
 		.flex-box {
-			background: @color-purple;
-			border-radius: 7px;
+			background: @color-focus;
+			border: 1px solid @color-purple;
+			border-radius: 5px;
 			padding: 7px;
 			align-content: center;
 			align-items: center;

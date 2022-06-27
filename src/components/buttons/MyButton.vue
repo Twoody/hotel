@@ -297,7 +297,7 @@ export default
 	}
 	&.disabled:active  {
 		box-shadow: 1px -1px 1px 0px rgb(0 0 0 / 40%);
-		outline: 4px solid rgba(254,232,185,255);
+		outline: 4px solid @color-focus;
 		filter: brightness(73%);
 	}
 }

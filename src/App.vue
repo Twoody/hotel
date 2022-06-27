@@ -135,14 +135,14 @@ html, body {
 
 a:focus-visible {
 	border-radius: 5px;
-	outline: 4px solid rgba(254,232,185,255) !important;
+	outline: 4px solid @color-focus !important;
 }
 input:focus-visible {
-	outline: 4px solid rgba(254,232,185,255) !important;
+	outline: 4px solid @color-focus !important;
 	transform: scale(1.02);
 }
 button:focus-visible {
-	outline: 4px solid rgba(254,232,185,255) !important;
+	outline: 4px solid @color-focus !important;
 	transform: scale(1.02);
 }
 </style>
