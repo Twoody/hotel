@@ -22,12 +22,15 @@
 					class="search-query"
 					:max="maxDate"
 					:min="today"
+					placeholder="mm/dd/yyyy"
 					type="date"
 				>
 				<input
 					v-model="endDate"
 					class="search-query"
 					:max="maxDate"
+					:min="minDateEnd"
+					placeholder="mm/dd/yyyy"
 					type="date"
 				>
 			</div>
@@ -100,7 +103,7 @@ export default {
 			width: 100%;
 
 			&:not(.loading) {
-				border: 1px solid rgba(254,232,185,255);
+				border: 3px solid rgba(254,232,185,255);
 			}
 			&.loading {
 				background: @color-purple;
