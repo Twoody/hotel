@@ -57,6 +57,15 @@ export default {
 			return DateTime.fromISO(this.date)[this.dateField] || ""
 		},
 
+		maxlength ()
+		{
+			if (this.placeholder === "yyyy")
+			{
+				return 4
+			}
+			return 2
+		},
+
 		placeholder ()
 		{
 			if (this.isDay)
@@ -72,15 +81,6 @@ export default {
 				return "yyyy"
 			}
 			return ""
-		},
-
-		maxlength ()
-		{
-			if (this.placeholder === "yyyy")
-			{
-				return 4
-			}
-			return 2
 		},
 	},
 	methods:
@@ -128,4 +128,7 @@ export default {
 	}
 }
 
+.search-query:focus-visible {
+	outline: 4px solid @color-purple !important;
+}
 </style>
