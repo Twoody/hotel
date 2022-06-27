@@ -98,6 +98,7 @@ export default {
 	font-size: clamp(15px, 3vw, 25px);
 	height: 50px;
 	text-align: center;
+	transition: all 0.2s;
 	width: 100%;
 
 	&:not(.loading) {
@@ -107,6 +108,23 @@ export default {
 		background: @color-purple;
 		color: rgba(254,232,185,255);
 		padding-top: 11px;
+	}
+}
+
+@media (hover: hover) {
+	.search-query {
+		&:not(.disabled):hover  {
+			box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+			border: 3px solid @color-pastel-blue;;
+			cursor: pointer;
+			filter: brightness(102%);
+			transform: scale(1.07);
+		}
+
+	}
+	&.disabled:hover  {
+		box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.5);
+		filter: brightness(79%);
 	}
 }
 
