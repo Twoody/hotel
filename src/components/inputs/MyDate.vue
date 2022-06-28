@@ -124,11 +124,16 @@ export default {
 	{},
 	watch:
 	{
+		/**
+		 * @param n
+		 * @param o
+		 */
 		focused (n, o)
 		{
 			if (n)
 			{
 				this.$refs.myDate.focus()
+				this.$emit("focus", true)
 			}
 		},
 	},

@@ -7,6 +7,7 @@ Element for handling manual date (no calendar picker) input
 			:focused="focusDay"
 			is-day
 			@newValue="updateParent('day', arguments[0])"
+			@focus="focusDay = false"
 		/>
 
 		<MyDate
@@ -15,6 +16,7 @@ Element for handling manual date (no calendar picker) input
 			:focused="focusMonth"
 			is-month
 			@newValue="updateParent('month', arguments[0])"
+			@focus="focusMonth = false"
 		/>
 
 		<MyDate
@@ -23,6 +25,7 @@ Element for handling manual date (no calendar picker) input
 			:focused="focusYear"
 			is-year
 			@newValue="updateParent('year', arguments[0])"
+			@focus="focusYear = false"
 		/>
 	</div>
 </template>
@@ -83,7 +86,7 @@ export default
 		 * @param name
 		 * @param value
 		 */
-		async updateParent (name, value)
+		updateParent (name, value)
 		{
 			this[name] = value
 
@@ -116,8 +119,6 @@ export default
 			{
 				this.$emit("input", null)
 			}
-			this.focusDay = false
-			this.focusYear = false
 		},
 	},
 }
