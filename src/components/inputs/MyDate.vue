@@ -4,6 +4,7 @@
 		class="search-query"
 		:placeholder="placeholder"
 		:maxlength="maxlength"
+		ref="myDate"
 		type="tel"
 		:value="fieldValue"
 		@input="$emit('newValue', $event.target.value)"
@@ -27,6 +28,7 @@ export default {
 			type: String,
 		},
 
+		focused: Boolean,
 		isDay: Boolean,
 		isMonth: Boolean,
 		isYear: Boolean,
@@ -57,6 +59,41 @@ export default {
 			return DateTime.fromISO(this.date)[this.dateField] || ""
 		},
 
+		/** */
+		isValid ()
+		{
+			if (!this.fieldValue)
+			{
+				return false
+			}
+
+			if (this.isDay)
+			{
+				if (this.fieldValue === 0 || this.fieldValue > 31)
+				{
+					return false
+				}
+				return true
+			}
+			if (this.isMonth)
+			{
+				if (this.fieldValue === 0 || this.fieldValue > 12)
+				{
+					return false
+				}
+				return true
+			}
+			if (this.isYear)
+			{
+				if (this.fieldValue === 0 || this.fieldValue > 2023)
+				{
+					return false
+				}
+				return true
+			}
+			return false
+		},
+
 		maxlength ()
 		{
 			if (this.placeholder === "yyyy")
@@ -85,6 +122,16 @@ export default {
 	},
 	methods:
 	{},
+	watch:
+	{
+		focused (n, o)
+		{
+			if (n)
+			{
+				this.$refs.myDate.focus()
+			}
+		},
+	},
 }
 
 </script>

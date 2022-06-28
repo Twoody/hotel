@@ -2,30 +2,27 @@ Element for handling manual date (no calendar picker) input
 <template>
 	<div class="date-selector-wrapper">
 		<MyDate
-			ref="newMonth"
 			class="date-input"
 			:date="date"
+			:focused="focusDay"
 			is-day
-			@focus="$emit('focus', arguments[0])"
-			@newValue="updateParent('newMonth', arguments[0])"
+			@newValue="updateParent('day', arguments[0])"
 		/>
 
 		<MyDate
-			ref="newDay"
 			class="date-input"
 			:date="date"
+			:focused="focusMonth"
 			is-month
-			@focus="$emit('focus', arguments[0])"
-			@newValue="updateParent('newDay', arguments[0])"
+			@newValue="updateParent('month', arguments[0])"
 		/>
 
 		<MyDate
-			ref="newYear"
 			class="date-input"
 			:date="date"
+			:focused="focusYear"
 			is-year
-			@focus="$emit('focus', arguments[0])"
-			@newValue="updateParent('newYear', arguments[0])"
+			@newValue="updateParent('year', arguments[0])"
 		/>
 	</div>
 </template>
@@ -65,9 +62,13 @@ export default
 	data () 
 	{
 		return {
-			newDay: "",
-			newMonth: "",
-			newYear: "",
+			day: "",
+			month: "",
+			year: "",
+
+			focusDay: false,
+			focusMonth: false,
+			focusYear: false,
 		}
 	},
 
@@ -82,7 +83,7 @@ export default
 		 * @param name
 		 * @param value
 		 */
-		updateParent: function(name, value)
+		async updateParent (name, value)
 		{
 			this[name] = value
 
@@ -94,20 +95,19 @@ export default
 
 			if (value.length === 2)
 			{
-				switch (name)
+				if (name === "day")
 				{
-					case "newMonth":
-						return this.$refs.newDay.focus()
-					case "newDay":
-						return this.$refs.newYear.focus()
+					this.focusMonth = true
+				}
+				else if (name === "month")
+				{
+					this.focusYear = true
 				}
 			}
 
 			let newDate = DateTime.local(date.year, date.month, date.day)
 
-			if (
-				newDate.isValid &&
-				date.year > 1000
+			if ( newDate.isValid && date.year > 1000
 			)
 			{
 				this.$emit("input", newDate.toFormat("yyyy-MM-dd"))
@@ -116,6 +116,8 @@ export default
 			{
 				this.$emit("input", null)
 			}
+			this.focusDay = false
+			this.focusYear = false
 		},
 	},
 }

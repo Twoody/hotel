@@ -124,13 +124,11 @@ export default {
 				border-radius: 5px;
 				box-shadow: none;
 				color: @myblack;
-				//height: 53vw;
 				margin-bottom: 15px;
 				margin-left: 10px;
 				margin-right: 10px;
 				margin-top: 5px;
-				//max-height: @size;
-				max-width: 96%;
+				max-width: min(96%, 660px);
 				width: 100%;
 
 				.vuecal__header {
@@ -153,8 +151,9 @@ export default {
 				}
 				.vuecal__cell-content {
 					background: @color-pastel-blue;
-					border-radius: 15px;
-			color: @myblack;
+					border: 1px solid #fefefe;
+					border-radius: 9px;
+					color: @myblack;
 					margin-bottom: 4px;
 					padding: .5em;
 					transition: all 0.25s;
@@ -170,6 +169,7 @@ export default {
 
 					.vuecal__cell-content {
 						background: lightgray;
+						border: 1px solid @myblack;
 						opacity: 0.75;
 					}
 				}
