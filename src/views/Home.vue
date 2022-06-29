@@ -90,7 +90,7 @@ export default {
 
 			}
 			.accordion-wrapper {
-				margin: 11px;
+				margin: 7px;
 			}
 			.question-accordion-wrapper {
 				max-width: 100%;
