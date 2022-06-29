@@ -1,8 +1,8 @@
 <template>
-	<div class='my-date-wrapper'>
+	<div class="my-date-wrapper">
 		<input
-			v-model='value'
-			v-if='!isLoading'
+			v-model="value"
+			v-if="!isLoading"
 			autocomplete="new-password"
 			class="search-query"
 			:placeholder="placeholder"
@@ -13,35 +13,34 @@
 		>
 		<LoadingBar
 			v-else
-			class='search-query loading'
-			size='small'
+			class="search-query loading"
+			size="small"
 		/>
 	</div>
 </template>
 
 <script>
-import {DateTime} from "luxon"
 import LoadingBar from "@/components/common/loading/LoadingBar"
 
 export default {
 	name: "MyDate",
 	components:
 	{
-		LoadingBar
+		LoadingBar,
 	},
 	data: function()
 	{
 		return {
-			value: '',
+			value: "",
 		}
 	},
 	props:
 	{
 		focused: Boolean,
 		isDay: Boolean,
+		isLoading: Boolean,
 		isMonth: Boolean,
 		isYear: Boolean,
-		isLoading: Boolean,
 	},
 	computed:
 	{
@@ -127,11 +126,11 @@ export default {
 	methods:
 	{
 		/** */
-		updateParent()
+		updateParent ()
 		{
 			this.$emit(
-				'newValue',
-				this.isValid ? this.value : ''
+				"newValue",
+				this.isValid ? this.value : ""
 			)
 		},
 	},
@@ -139,9 +138,8 @@ export default {
 	{
 		/**
 		 * @param n
-		 * @param o
 		 */
-		focused (n, o)
+		focused (n)
 		{
 			if (n)
 			{
@@ -176,8 +174,8 @@ export default {
 			border: 3px solid @color-lavendar;
 		}
 		&.loading {
-			padding: 11px;
-			width: 28px;
+			padding: 15px;
+			width: min(55px, 7vw);
 		}
 	}
 }

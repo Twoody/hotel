@@ -5,7 +5,7 @@ Element for handling manual date (no calendar picker) input
 			class="date-input"
 			:date="date"
 			:focused="focusDay"
-			:isLoading='isLoading'
+			:isLoading="isLoading"
 			is-day
 			@newValue="updateParent('day', arguments[0])"
 			@focus="focusDay = false"
@@ -15,7 +15,7 @@ Element for handling manual date (no calendar picker) input
 			class="date-input"
 			:date="date"
 			:focused="focusMonth"
-			:isLoading='isLoading'
+			:isLoading="isLoading"
 			is-month
 			@newValue="updateParent('month', arguments[0])"
 			@focus="focusMonth = false"
@@ -25,7 +25,7 @@ Element for handling manual date (no calendar picker) input
 			class="date-input"
 			:date="date"
 			:focused="focusYear"
-			:isLoading='isLoading'
+			:isLoading="isLoading"
 			is-year
 			@newValue="updateParent('year', arguments[0])"
 			@focus="focusYear = false"
@@ -129,10 +129,13 @@ export default
 		display: flex;
 		align-content: center;
 		align-items: center;
-		flex-shrink: 1;
-		flex-grow: 0;
-		justify-content: space-between;
+		flex-shrink: 0;
+		flex-grow: 1;
+		justify-content: space-evenly;
 		width: 100%;
+
+		.date-input {
+		}
 	}
 </style>
 

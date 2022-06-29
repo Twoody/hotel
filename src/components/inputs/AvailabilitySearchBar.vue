@@ -11,7 +11,7 @@
 					</span>
 					<DateSelector
 						v-model="startDate"
-						:isLoading='isLoading'
+						:isLoading="isLoading"
 						:max="maxDate"
 						:min="today"
 					/>
@@ -22,6 +22,7 @@
 					</span>
 					<DateSelector
 						v-model="endDate"
+						:isLoading="isLoading"
 						:max="maxDate"
 						:min="minDateEnd"
 
@@ -79,7 +80,7 @@ export default {
 @import "~styles/styles";
 
 .availability-search-bar-wrapper {
-	max-width: min(777px, 98%);
+	width: 100%;
 
 	.date-container {
 		align-content: center;

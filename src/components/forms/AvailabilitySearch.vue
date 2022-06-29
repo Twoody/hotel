@@ -116,6 +116,7 @@ export default {
 			width: 100%;
 
 			.inputs-container {
+				max-width: min(98%, 660px);
 			}
 			// Todo: actually set a background color
 			.vue-cal-container {
@@ -128,7 +129,7 @@ export default {
 				margin-left: 10px;
 				margin-right: 10px;
 				margin-top: 5px;
-				max-width: min(96%, 660px);
+				max-width: min(98%, 660px);
 				width: 100%;
 
 				.vuecal__header {
