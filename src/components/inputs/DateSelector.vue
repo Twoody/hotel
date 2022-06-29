@@ -5,6 +5,7 @@ Element for handling manual date (no calendar picker) input
 			class="date-input"
 			:date="date"
 			:focused="focusDay"
+			:isLoading='isLoading'
 			is-day
 			@newValue="updateParent('day', arguments[0])"
 			@focus="focusDay = false"
@@ -14,6 +15,7 @@ Element for handling manual date (no calendar picker) input
 			class="date-input"
 			:date="date"
 			:focused="focusMonth"
+			:isLoading='isLoading'
 			is-month
 			@newValue="updateParent('month', arguments[0])"
 			@focus="focusMonth = false"
@@ -23,6 +25,7 @@ Element for handling manual date (no calendar picker) input
 			class="date-input"
 			:date="date"
 			:focused="focusYear"
+			:isLoading='isLoading'
 			is-year
 			@newValue="updateParent('year', arguments[0])"
 			@focus="focusYear = false"
@@ -43,11 +46,8 @@ export default
 	},
 	props:
 	{
-		date: {
-			default: "",
-			required: false,
-			type: String,
-		},
+		isLoading: Boolean,
+
 		maxDate:
 		{
 			default: "",
@@ -126,18 +126,13 @@ export default
 
 <style scoped lang="less">
 	.date-selector-wrapper {
-		text-align: left;
-		width: 100%;
 		display: flex;
-
-		.date-input {
-			margin-left: 8px;
-			flex-grow: 1;
-		}
-
-		.date-input:first-child {
-			margin-left: 0;
-		}
+		align-content: center;
+		align-items: center;
+		flex-shrink: 1;
+		flex-grow: 0;
+		justify-content: space-between;
+		width: 100%;
 	}
 </style>
 

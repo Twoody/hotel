@@ -1,37 +1,47 @@
 <template>
-	<input
-		autocomplete="new-password"
-		class="search-query"
-		:placeholder="placeholder"
-		:maxlength="maxlength"
-		ref="myDate"
-		type="tel"
-		:value="fieldValue"
-		@input="$emit('newValue', $event.target.value)"
-	>
+	<div class='my-date-wrapper'>
+		<input
+			v-model='value'
+			v-if='!isLoading'
+			autocomplete="new-password"
+			class="search-query"
+			:placeholder="placeholder"
+			:maxlength="maxlength"
+			ref="myDate"
+			type="tel"
+			@input="updateParent()"
+		>
+		<LoadingBar
+			v-else
+			class='search-query loading'
+			size='small'
+		/>
+	</div>
 </template>
 
 <script>
 import {DateTime} from "luxon"
+import LoadingBar from "@/components/common/loading/LoadingBar"
 
 export default {
 	name: "MyDate",
+	components:
+	{
+		LoadingBar
+	},
 	data: function()
 	{
-		return {}
+		return {
+			value: '',
+		}
 	},
 	props:
 	{
-		date:
-		{
-			required: true,
-			type: String,
-		},
-
 		focused: Boolean,
 		isDay: Boolean,
 		isMonth: Boolean,
 		isYear: Boolean,
+		isLoading: Boolean,
 	},
 	computed:
 	{
@@ -53,23 +63,17 @@ export default {
 			}
 		},
 
-		/** @returns {number} Get the day/month/year from provided date */
-		fieldValue ()
-		{
-			return DateTime.fromISO(this.date)[this.dateField] || ""
-		},
-
 		/** */
 		isValid ()
 		{
-			if (!this.fieldValue)
+			if (!this.value)
 			{
 				return false
 			}
 
 			if (this.isDay)
 			{
-				if (this.fieldValue === 0 || this.fieldValue > 31)
+				if (this.value === 0 || this.value > 31)
 				{
 					return false
 				}
@@ -77,7 +81,7 @@ export default {
 			}
 			if (this.isMonth)
 			{
-				if (this.fieldValue === 0 || this.fieldValue > 12)
+				if (this.value === 0 || this.value > 12)
 				{
 					return false
 				}
@@ -85,7 +89,7 @@ export default {
 			}
 			if (this.isYear)
 			{
-				if (this.fieldValue === 0 || this.fieldValue > 2023)
+				if (this.value === 0 || this.value > 2023)
 				{
 					return false
 				}
@@ -121,7 +125,16 @@ export default {
 		},
 	},
 	methods:
-	{},
+	{
+		/** */
+		updateParent()
+		{
+			this.$emit(
+				'newValue',
+				this.isValid ? this.value : ''
+			)
+		},
+	},
 	watch:
 	{
 		/**
@@ -144,28 +157,34 @@ export default {
 <style lang="less" scoped>
 @import "~styles/styles";
 
-.search-query {
-	border-radius: 10px;
-	font-family: monospace;
-	font-size: clamp(15px, 3vw, 25px);
-	padding: 8px;
-	text-align: center;
-	transition: all 0.2s;
-	width: 100%;
+.my-date-wrapper {
+	padding: 0;
+	margin: 0;
 
-	&:not(.loading) {
-		border: 3px solid @color-lavendar;
-	}
-	&.loading {
-		background: @color-purple;
-		color: rgba(254,232,185,255);
-		padding-top: 11px;
+	.search-query {
+		border-radius: 10px;
+		font-family: monospace;
+		font-size: clamp(15px, 3vw, 25px);
+		padding: 6px;
+		padding-left: 2px;
+		padding-right: 2px;
+		text-align: center;
+		transition: all 0.2s;
+		width: 82%;
+
+		&:not(.loading) {
+			border: 3px solid @color-lavendar;
+		}
+		&.loading {
+			padding: 11px;
+			width: 28px;
+		}
 	}
 }
 
 @media (hover: hover) {
 	.search-query {
-		&:not(.disabled):hover  {
+		&:not(.loading):hover  {
 			box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
 			border: 3px solid @color-pastel-blue;;
 			cursor: pointer;
@@ -174,13 +193,13 @@ export default {
 		}
 
 	}
-	&.disabled:hover  {
-		box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.5);
-		filter: brightness(79%);
+	&.loading:hover  {
 	}
 }
 
-.search-query:focus-visible {
-	outline: 4px solid @color-purple !important;
+.my-date-wrapper {
+	.search-query:focus-visible {
+		outline: 4px solid @color-purple !important;
+	}
 }
 </style>

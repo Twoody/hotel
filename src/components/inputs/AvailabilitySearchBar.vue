@@ -4,25 +4,14 @@
 			name="fade"
 			mode="out-in"
 		>
-			<div
-				v-if="isLoading"
-				class="date-container"
-				key="loading"
-			>
-				<div class="search-query loading">
-					Loading...
-				</div>
-			</div>
-			<div
-				v-else
-				class="date-container"
-			>
+			<div class="date-container">
 				<div class="flex-box">
 					<span class="label">
 						Start Date
 					</span>
 					<DateSelector
 						v-model="startDate"
+						:isLoading='isLoading'
 						:max="maxDate"
 						:min="today"
 					/>
@@ -35,6 +24,7 @@
 						v-model="endDate"
 						:max="maxDate"
 						:min="minDateEnd"
+
 					/>
 				</div>
 			</div>
@@ -63,12 +53,7 @@ export default {
 	props:
 	{
 		/** Whether we are in loading state or not */
-		isLoading:
-		{
-			default: false,
-			required: false,
-			type: Boolean,
-		},
+		isLoading: Boolean,
 	},
 	computed:
 	{
@@ -94,8 +79,7 @@ export default {
 @import "~styles/styles";
 
 .availability-search-bar-wrapper {
-	max-width: 666px;
-	width: 80%;
+	max-width: min(777px, 98%);
 
 	.date-container {
 		align-content: center;
@@ -114,6 +98,7 @@ export default {
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
+			width: 100%;
 
 			.label {
 				font-weight: 700;

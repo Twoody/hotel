@@ -67,8 +67,6 @@ export default {
 		background: @color-purple;
 		flex-grow: 1;
 		padding-bottom: 50px;
-		padding-left: 30px;
-		padding-right: 30px;
 		padding-top: 20px;
 		width: auto;
 
