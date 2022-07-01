@@ -84,7 +84,8 @@ router.beforeEach((to, from, next) =>
 			firebase.analytics().logEvent(
 				"page_view",
 				{
-					type: "internal", 
+					//type: "internal",
+					title: to.name
 				}
 			)
 		}
