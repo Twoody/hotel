@@ -75,7 +75,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => 
 {
-	if (parseFloat(import.meta.env.VUE_APP_CI))
+	if (parseFloat(import.meta.env.VITE_CI))
 	{
 		try
 		{

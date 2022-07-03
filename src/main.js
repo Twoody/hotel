@@ -25,26 +25,16 @@ library.add(faGoogle)
 library.add(faSpinner)
 library.add(faStar)
 
-//Vue.config.productionTip = false
-
-//firebase.auth().onAuthStateChanged(
-//	(user) =>
-//	{
-//		// Update user via store
-//		store.commit("setIsLoggingIn", true)
-//		store.dispatch("fetchUser", user)
-//
-//		if (user)
-//		{
-//			// User is signed in.
-//		}
-//		else
-//		{
-//			// No User
-//		}
-//		store.commit("setIsLoggingIn", false)
-//	}
-//)
+//const firebaseConfig = {
+//	apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+//	appId: import.meta.env.VITE_FIREBASE_APP_ID,
+//	authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+//	databaseURL: import.meta.env.VITE_DATABASE_URL,
+//	messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+//	projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+//	storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+//}
+//initializeApp(firebaseConfig)
 
 // Prep the app
 const app = createApp(App)

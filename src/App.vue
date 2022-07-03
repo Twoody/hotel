@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+
 import AppSection from "components/common/AppSection"
 import NavBar from "components/nav/NavBar"
 
@@ -59,6 +61,28 @@ export default {
 	{},
 	created: function()
 	{
+		const auth = getAuth()
+		onAuthStateChanged(
+			auth,
+			(user) =>
+			{
+				// Update user via store
+				this.$store.commit("setIsLoggingIn", true)
+				this.$store.dispatch("fetchUser", user)
+
+				if (user)
+				{
+					// User is signed in.
+				}
+				else
+				{
+					// No User
+				}
+				this.$store.commit("setIsLoggingIn", false)
+			}
+		)
+
+
 	},
 }
 </script>
