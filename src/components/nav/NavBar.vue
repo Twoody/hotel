@@ -68,7 +68,7 @@ The general navbar for our project
 </template>
 
 <script>
-import firebase from "firebase"
+import firebase from "firebase/app"
 import store from "@/store/store.js"
 
 export default {
@@ -143,7 +143,7 @@ export default {
 </script>
 
 <style lang="less">
-@import "~styles/styles";
+@import "../../../assets/styles/styles";
 
 /* @todo setup a main file and set margins/padding there probably */
 .nav-wrapper {

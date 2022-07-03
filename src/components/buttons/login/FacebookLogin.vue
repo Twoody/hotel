@@ -19,7 +19,7 @@ Button to activate a facebook account authenticator
 </template>
 
 <script>
-import firebase from "firebase"
+import { getAuth, signInWithPopup, FacebookAuthProvider } from "firebase/auth";
 import MyButton from "@/components/buttons/MyButton.vue"
 
 export default {
@@ -39,12 +39,13 @@ export default {
 		async facebookLogin ()
 		{
 			/* eslint-disable no-unused-vars */
-			const provider = new firebase.auth.FacebookAuthProvider()
+			const auth = getAuth()
+			const provider = new FacebookAuthProvider()
 			provider.addScope("user_birthday")
 
 			try
 			{
-				const response = await firebase.auth().signInWithPopup(provider)
+				const response = await signInWithPopup(auth, provider)
 
 				// The signed-in user info.
 				const user = response.user

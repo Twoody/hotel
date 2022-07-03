@@ -120,7 +120,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "~styles/styles";
+@import "../../../../assets/styles/styles";
 
 .map-filters-wrapper {
 }

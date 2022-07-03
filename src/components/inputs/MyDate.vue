@@ -153,11 +153,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "~styles/styles";
+@import "../../../assets/styles/styles";
 
 .my-date-wrapper {
-	padding: 0;
 	margin: 0;
+	padding: 0;
 
 	.search-query {
 		border-radius: 10px;

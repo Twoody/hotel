@@ -86,7 +86,7 @@ export default {
 </script>
 
 <style lang="less">
-@import "~styles/styles";
+@import "../../../assets/styles/styles";
 
 @size: min(55vw, 55vh);
 
@@ -203,6 +203,3 @@ export default {
 .vuecal__cell--before-min {color: #b6d6c7;}
 .vuecal__cell--after-max {color: #008b8b;}
 </style>
-
-<docs>
-</docs>

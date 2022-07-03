@@ -77,7 +77,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "~styles/styles";
+@import "../../../assets/styles/styles";
 
 .availability-search-bar-wrapper {
 	width: 100%;

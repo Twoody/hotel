@@ -1,7 +1,7 @@
-import Vue from "vue"
-import VueRouter from "vue-router"
+import { createWebHistory, createRouter } from "vue-router";
+import { getAnalytics, logEvent } from "firebase/analytics";
+
 import Amenities from "../views/Amenities.vue"
-import firebase from "firebase"
 import Foobar from "../views/Amenities.vue"
 import Home from "../views/Home.vue"
 import Login from "../views/Login.vue"
@@ -10,8 +10,6 @@ import ManualItem from "../views/ManualItem.vue"
 import Maps from "../views/Maps.vue"
 import MapItem from "../views/MapItem.vue"
 import Signup from "../views/Signup.vue"
-
-Vue.use(VueRouter)
 
 const routes = [
 	{
@@ -69,19 +67,21 @@ const routes = [
 	},
 ]
 
-const router = new VueRouter({
-	base: process.env.BASE_URL,
-	mode: "history",
+const router = createRouter({
+	base: import.meta.env.BASE_URL,
+	history: createWebHistory(),
 	routes,
 })
 
 router.beforeEach((to, from, next) => 
 {
-	if (parseFloat(process.env.VUE_APP_CI))
+	if (parseFloat(import.meta.env.VUE_APP_CI))
 	{
 		try
 		{
-			firebase.analytics().logEvent(
+			const analytics = getAnalytics()
+			logEvent(
+				analytics,
 				"page_view",
 				{
 					//type: "internal",

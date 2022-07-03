@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "~styles/styles";
+@import "../../../assets/styles/styles";
 
 .flex-table-wrapper {
 	align-items: center;

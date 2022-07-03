@@ -115,7 +115,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "~styles/styles";
+@import "../../assets/styles/styles";
 
 .maps-page-wrapper {
 	height: auto;

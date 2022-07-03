@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import firebase from "firebase"
+import { getAuth, signInWithPopup, FacebookAuthProvider } from "firebase/auth";
 import MyButton from "@/components/buttons/MyButton.vue"
 
 export default {
@@ -38,13 +38,14 @@ export default {
 		async googleLogin ()
 		{
 			/* eslint-disable no-unused-vars */
-			const provider = new firebase.auth.GoogleAuthProvider()
+			const auth = getAuth()
+			const provider = new GoogleAuthProvider()
 			provider.addScope("profile")
 			provider.addScope("email")
 
 			try
 			{
-				const response = await firebase.auth().signInWithPopup(provider)
+				const response = await signInWithPopup(auth, provider)
 				// This gives you a Google Access Token.
 				const token = response.credential.accessToken
 				// The signed-in user info.

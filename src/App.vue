@@ -14,7 +14,6 @@
 			:isCollapsed="true"
 			is-showing
 		>
-			<NavBar id="nav-wrapper" />
 		</AppSection>
 
 		<AppSection
@@ -26,7 +25,7 @@
 				name="fade"
 				mode="out-in"
 			>
-				<router-view id="content-wrapper" />
+				foo bar
 			</transition>
 		</AppSection>
 		<AppSection
@@ -40,14 +39,12 @@
 
 <script>
 import AppSection from "components/common/AppSection"
-import NavBar from "components/nav/NavBar"
 
 export default {
 	name: "App",
 	components:
 	{
 		AppSection,
-		NavBar,
 	},
 	data: function()
 	{
@@ -64,7 +61,7 @@ export default {
 </script>
 
 <style lang='less'>
-@import "~styles/styles";
+@import "../assets/styles/styles";
 @import (css) url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
 html, body {

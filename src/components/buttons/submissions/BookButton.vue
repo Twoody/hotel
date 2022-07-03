@@ -51,7 +51,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "~styles/styles";
+@import "../../../../assets/styles/styles";
 
 .search-execute {
 	background-color: @color-pastel-blue !important;
