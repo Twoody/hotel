@@ -11,6 +11,7 @@ TODO: PRobably plugin inputs... :eye_roll:
 					class="inputs-container"
 					:isLoading="isLoading"
 				/>
+				<!--
 				<VueCal
 					active-view="month"
 					class="vue-cal-container vuecal--rounded-theme vuecal--date-picker"
@@ -20,6 +21,7 @@ TODO: PRobably plugin inputs... :eye_roll:
 					:time="false"
 					xsmall
 				/>
+				-->
 				<BookButton
 					:isLoading="isLoading"
 					@click="handleAvailabilitySearch"

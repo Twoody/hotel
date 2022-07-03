@@ -25,7 +25,7 @@
 				name="fade"
 				mode="out-in"
 			>
-				foo bar
+				<router-view id="content-wrapper" />
 			</transition>
 		</AppSection>
 		<AppSection

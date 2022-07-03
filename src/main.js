@@ -49,6 +49,7 @@ library.add(faStar)
 // Prep the app
 const app = createApp(App)
 app.use(store)
+app.use(router)
 app.component("font-awesome-icon", FontAwesomeIcon)
 
 // Mount the app
