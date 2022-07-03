@@ -68,7 +68,7 @@ The general navbar for our project
 </template>
 
 <script>
-import firebase from "firebase/app"
+import { signOut } from "firebase/auth"
 import store from "@/store/store.js"
 
 export default {
@@ -128,7 +128,7 @@ export default {
 		{
 			try
 			{
-				await firebase.auth().signOut()
+				await signOut()
 			}
 			catch (error)
 			{

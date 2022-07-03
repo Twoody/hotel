@@ -14,6 +14,7 @@
 			:isCollapsed="true"
 			is-showing
 		>
+			<NavBar id="nav-wrapper" />
 		</AppSection>
 
 		<AppSection
@@ -39,12 +40,14 @@
 
 <script>
 import AppSection from "components/common/AppSection"
+import NavBar from "components/nav/NavBar"
 
 export default {
 	name: "App",
 	components:
 	{
 		AppSection,
+		NavBar,
 	},
 	data: function()
 	{
