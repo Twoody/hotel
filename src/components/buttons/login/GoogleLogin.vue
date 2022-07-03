@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { getAuth, signInWithPopup, FacebookAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import MyButton from "@/components/buttons/MyButton.vue"
 
 export default {
