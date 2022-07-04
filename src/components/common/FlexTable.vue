@@ -28,7 +28,7 @@ export default {
 	padding-right: 10px;
 
 	.category-section {
-		flex-basis: 98px;
+		flex-basis: 119px;
 		padding-right: 7px;
 		width: 100%;
 	}
