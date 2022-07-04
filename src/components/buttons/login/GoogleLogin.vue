@@ -60,9 +60,13 @@ export default {
 			{
 				const response = await signInWithPopup(auth, provider)
 				// This gives you a Google Access Token.
-				const token = response.credential.accessToken
+				const credential = GoogleAuthProvider.credentialFromResult(response)
+				const token = credential.accessToken
 				// The signed-in user info.
 				const user = response.user
+
+				// Update store
+				this.$store.dispatch("fetchUser", user)
 
 				this.$router.push({
 					path: "/",
@@ -78,6 +82,8 @@ export default {
 
 				// The AuthCredential type that was used.
 				const credential = error.credential
+
+				console.error(errorMessage)
 			}
 			/* eslint-enable no-unused-vars */
 			this.isLoggingIn = false
