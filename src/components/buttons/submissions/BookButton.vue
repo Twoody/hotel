@@ -59,7 +59,7 @@ export default {
 	height: 50px;
 	margin-bottom: 11px;
 	margin-top: 5px;
-	max-width: 50vw;
+	max-width: min(98%, 660px);
 	padding: 3px;
 
 	.execute-text {

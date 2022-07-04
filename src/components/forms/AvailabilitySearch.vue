@@ -146,6 +146,9 @@ export default {
 						}
 					}
 				}
+				.vuecal__cells {
+					padding-top: 2px;
+				}
 
 				.vuecal__cell::before {
 					border: none;
