@@ -3,17 +3,18 @@
 		<Filters
 			:filters="filtersInactive"
 			inactive
-			@click="handleClick($event)"
+			@update="handleClick($event)"
 		/>
 		<Filters
 			:filters="filtersActive"
 			inactive
-			@click="handleClick($event)"
+			@update="handleClick($event)"
 		/>
 	</div>
 </template>
 
 <script>
+import { toRaw } from "vue"
 import {FILTERS} from "constants/misc.js"
 import Filters from "components/buttons/filters/Filters"
 
@@ -93,11 +94,9 @@ export default {
 		{
 			// Clear blue on next element in list
 			document.activeElement?.blur && document.activeElement.blur()
-
 			const ID = id * 1
-			// Await the animation
-			this.filtersAll[ID].active = !this.filtersAll[ID].active
-			this.$emit("updated-active", this.filtersActive)
+			let value = ! this.filtersAll[ID].active
+			this.filtersAll[ID].active = value
 		},
 
 		/**
@@ -115,6 +114,17 @@ export default {
 	created () 
 	{
 		this.filtersAll = this.buildFilters()
+		// this.filtersAll = this.buildFilters()
+	},
+	watch:
+	{
+		filtersActive ()
+		{
+			if (this.filtersActive)
+			{
+				this.$emit("updated-active", this.filtersActive)
+			}
+		},
 	},
 }
 </script>

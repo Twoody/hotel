@@ -4,7 +4,6 @@
 		class="my-filter-wrapper"
 		:inactive="inactive"
 		pill
-		@click="$emit('click')"
 	>
 		<slot/>
 	</MyButton>

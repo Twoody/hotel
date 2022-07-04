@@ -75,8 +75,10 @@ export default {
 		gotoItem (id) 
 		{
 			this.$router.push({
-				name: `mapItem`, 
-				params: { id },
+				name: "mapItem", 
+				params: {
+					id, 
+				},
 			})
 		},
 	},
