@@ -62,7 +62,7 @@
 </template>
 
 <script>
-//import firebase from "firebase/app"
+// import firebase from "firebase/app"
 import SocialLogin from "@/components/forms/SocialLogin.vue"
 import store from "../store/store.js"
 
@@ -120,10 +120,10 @@ export default {
 		{
 			try
 			{
-				//const response = await firebase.auth().signInWithEmailAndPassword(
+				// const response = await firebase.auth().signInWithEmailAndPassword(
 				//	this.email,
 				//	this.password
-				//)
+				// )
 				console.log("logged in!")
 				console.log(response)
 				return response

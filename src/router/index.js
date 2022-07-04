@@ -1,5 +1,5 @@
-import { createWebHistory, createRouter } from "vue-router";
-import { getAnalytics, logEvent } from "firebase/analytics";
+import { createWebHistory, createRouter } from "vue-router"
+import { getAnalytics, logEvent } from "firebase/analytics"
 
 import Amenities from "../views/Amenities.vue"
 import Foobar from "../views/Amenities.vue"
@@ -84,8 +84,8 @@ router.beforeEach((to, from, next) =>
 				analytics,
 				"page_view",
 				{
-					//type: "internal",
-					title: to.name
+					// type: "internal",
+					title: to.name,
 				}
 			)
 		}

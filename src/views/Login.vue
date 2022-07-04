@@ -111,11 +111,9 @@
 </template>
 
 <script>
-import {
-	createUserWithEmailAndPassword,
+import {createUserWithEmailAndPassword,
 	getAuth,
-	signInWithEmailAndPassword 
-} from "firebase/auth";
+	signInWithEmailAndPassword} from "firebase/auth"
 import MyButton from "@/components/buttons/MyButton.vue"
 import SocialLogin from "@/components/forms/SocialLogin.vue"
 import store from "@/store/store.js"
