@@ -257,12 +257,16 @@ export default {
 			this.loggingIn = true
 			try
 			{
-				await signInWithEmailAndPassword(
+				const response = await signInWithEmailAndPassword(
 					this.auth,
 					this.email,
 					this.password
 				)
 				this.success = true
+
+				// Update store
+				this.$store.dispatch("fetchUser", response)
+
 				this.$router.push({
 					path: "/",
 				})
