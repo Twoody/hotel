@@ -27,6 +27,12 @@ export default {
 	{
 		MyButton,
 	},
+	data()
+	{
+		return {
+			isLoggingIn: false,
+		}
+	},
 	methods:
 	{
 		/**
@@ -37,6 +43,13 @@ export default {
 		 */
 		async googleLogin ()
 		{
+			if (this.isLoggingIn === true)
+			{
+				return
+			}
+
+			this.isLoggingIn = true
+
 			/* eslint-disable no-unused-vars */
 			const auth = getAuth()
 			const provider = new GoogleAuthProvider()
@@ -67,6 +80,7 @@ export default {
 				const credential = error.credential
 			}
 			/* eslint-enable no-unused-vars */
+			this.isLoggingIn = false
 		},
 	},
 }
