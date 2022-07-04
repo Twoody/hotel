@@ -28,6 +28,12 @@ export default {
 	{
 		MyButton,
 	},
+	data()
+	{
+		return {
+			isLoggingIn: false,
+		}
+	},
 	methods:
 	{
 		/**
@@ -38,20 +44,35 @@ export default {
 		 */
 		async facebookLogin ()
 		{
+			if (this.isLoggingIn === true)
+			{
+				return
+			}
+
+			this.isLoggingIn = true
 			/* eslint-disable no-unused-vars */
-			const auth = getAuth()
-			const provider = new FacebookAuthProvider()
-			provider.addScope("user_birthday")
 
 			try
 			{
-				const response = await signInWithPopup(auth, provider)
+				const auth = getAuth()
 
+				// Configure for facebook
+				const provider = new FacebookAuthProvider()
+				provider.addScope("user_birthday")
+				provider.setCustomParameters({
+					'display': 'popup',
+				})
+
+				const response = await signInWithPopup(auth, provider)
 				// The signed-in user info.
 				const user = response.user
 				// This gives you a Facebook Access Token.
-				const credential = response.credential
+				const credential = FacebookAuthProvider.credentialFromResult(response);
 				const token = credential.accessToken
+
+				// Update store
+				this.$store.dispatch("fetchUser", user)
+
 				this.$router.push({
 					path: "/",
 				})
@@ -65,9 +86,11 @@ export default {
 				const email = error.email
 
 				// The AuthCredential type that was used.
-				const credential = error.credential
+				const credential = FacebookAuthProvider.credentialFromError(error);
+				console.error(errorMessage)
 			}
 			/* eslint-enable no-unused-vars */
+			this.isLoggingIn = false
 		},
 	},
 }
