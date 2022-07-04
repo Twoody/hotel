@@ -22,12 +22,18 @@
 			class="main-section"
 			is-showing
 		>
-			<transition
-				name="fade"
-				mode="out-in"
-			>
-				<router-view id="content-wrapper" />
-			</transition>
+			<router-view
+				v-slot='{ Component }'
+			/>
+				<transition
+					name="fade"
+					mode="out-in"
+				>
+					<component
+						id="content-wrapper"
+						:is='Component'
+					/>
+				</transition>
 		</AppSection>
 		<AppSection
 			:isShowing="$store.state.layout.isShowingFooter"
