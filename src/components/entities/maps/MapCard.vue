@@ -75,7 +75,8 @@ export default {
 		gotoItem (id) 
 		{
 			this.$router.push({
-				path: `maps/${id}`, 
+				name: `mapItem`, 
+				params: { id },
 			})
 		},
 	},
@@ -122,7 +123,7 @@ export default {
 			display: flex;
 			flex-grow: 1;
 			flex-wrap: nowrap;
-			font-size: max(2.1vw, 15px);
+			font-size: clamp(15px, 1.3vw, 22px);
 			justify-content: space-between;
 
 			.map-card-title {
@@ -147,7 +148,7 @@ export default {
 		}
 		.map-card-subtitle {
 			font-style: italic;
-			font-size: max(1.3vw, 12px);
+			font-size: clamp(12px, 1.3vw, 17px);
 			font-weight: 400;
 			overflow: hidden;
 			padding-bottom: 5px;
@@ -180,7 +181,7 @@ export default {
 		align-self: center;
 		border: 1px solid @myblack;
 		border-radius: 7px;
-		font-size: max(2.0vw, 17px);
+		font-size: clamp(15px, 1.3vw, 20px);
 		margin-bottom: 7px;
 		margin-top: 7px;
 		padding: 5px;
