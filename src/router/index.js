@@ -1,9 +1,12 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
 import Amenities from "../views/Amenities.vue"
+import firebase from "firebase"
 import Foobar from "../views/Amenities.vue"
 import Home from "../views/Home.vue"
 import Login from "../views/Login.vue"
+import Manual from "../views/Manual.vue"
+import ManualItem from "../views/ManualItem.vue"
 import Maps from "../views/Maps.vue"
 import MapItem from "../views/MapItem.vue"
 import Signup from "../views/Signup.vue"
@@ -40,6 +43,16 @@ const routes = [
 		path: "/login",
 	},
 	{
+		component: Manual,
+		name: "manual",
+		path: "/manual",
+	},
+	{
+		component: ManualItem,
+		name: "manualItem",
+		path: "/manual/:id",
+	},
+	{
 		component: Maps,
 		name: "maps",
 		path: "/maps",
@@ -60,6 +73,28 @@ const router = new VueRouter({
 	base: process.env.BASE_URL,
 	mode: "history",
 	routes,
+})
+
+router.beforeEach((to, from, next) => 
+{
+	if (parseFloat(process.env.VUE_APP_CI))
+	{
+		try
+		{
+			firebase.analytics().logEvent(
+				"page_view",
+				{
+					//type: "internal",
+					title: to.name
+				}
+			)
+		}
+		catch (e)
+		{
+			console.error(e)
+		}
+	}
+	next()
 })
 
 export default router

@@ -54,6 +54,8 @@ export default {
 </script>
 
 <style scoped lang="less">
+@import "~styles/styles";
+
 .page-wrapper {
 	display: relative;
 	height: 100%;
@@ -62,7 +64,7 @@ export default {
 	
 	.section-content {
 		display: flex;
-		border-bottom: 2px solid black;
+		border-bottom: 2px solid @myblack;
 		flex-direction: column;
 		height: auto;
 		width: 100%;

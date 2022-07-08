@@ -18,6 +18,7 @@
     "@fortawesome/vue-fontawesome": "^2.0.6",
     "core-js": "^3.6.5",
     "firebase": "^8.2.4",
+    "luxon": "^2.4.0",
     "vue": "^2.6.11",
     "vue-cal": "^3.10.1",
     "vue-router": "^3.4.9",

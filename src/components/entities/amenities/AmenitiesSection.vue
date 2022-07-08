@@ -141,8 +141,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "~styles/styles";
+
 .amenities-section {
-	border: 1px solid black;
+	border: 1px solid @myblack;
 	border-radius: 7px;
 	max-width: 500px;
 	width: 96%;

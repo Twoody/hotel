@@ -1,47 +1,129 @@
 <template>
-	<div class="page-wrapper">
+	<div class="login-page-wrapper">
 		<div v-if="isLoggedIn">
 			<h3>Already Logged in</h3>
 			<p>
 				Logging in a second time is weird. Please contine or logout.
 			</p>
 		</div>
-		<div v-if="!isLoggedIn">
-			<h3>Sign In</h3>
-
-			<div class="login-form">
-				<input
-					v-model="email"
-					class="login-item"
-					placeholder="Email"
-					type="text"
+		<div v-else>
+			<div class="flex-container">
+				<MyButton
+					class="title-toggle"
+					:class="{selected: !isRegistering}"
+					:disabled="isRegistering === false"
+					:inactive="isRegistering === false"
+					@click="isRegistering = false"
 				>
-				<input
-					v-model="password"
-					class="login-item"
-					placeholder="Password"
-					type="password"
+					<h3>
+						Sign In
+					</h3>
+				</MyButton>
+				<span>or</span>
+				<MyButton
+					class="title-toggle"
+					:class="{selected: isRegistering}"
+					:disabled="isRegistering === true"
+					@click="isRegistering = true"
 				>
-				<button class="login-button" @click="login">
-					Log In
-				</button>
+					<h3>
+						Sign Up
+					</h3>
+				</MyButton>
 			</div>
 
-			<SocialLogin />
+			<div class="login-form">
+				<Validatable
+					class="input-wrapper"
+					:error="displayedErrors.email || ''"
+				>
+					<input
+						v-model="email"
+						class="login-item"
+						placeholder="Email"
+						ref="email"
+						type="text"
+					>
+				</Validatable>
+				<Validatable
+					class="input-wrapper"
+					:error="displayedErrors.password || ''"
+				>
+					<input
+						v-model="password"
+						class="login-item"
+						placeholder="Password"
+						ref="password"
+						type="password"
+					>
+				</Validatable>
+				<Validatable
+					class="input-wrapper"
+					:error="displayedErrors.passwordConfirm || ''"
+				>
+					<input
+						v-model="passwordConfirm"
+						class="login-item"
+						:class="{showing: isRegistering, hidden: !isRegistering}"
+						placeholder="Confirm Password"
+						ref="passwordConfirm"
+						type="password"
+					>
+				</Validatable>
+
+				<Validatable
+					class="login-button-wrapper"
+					:error="displayedErrors.response || ''"
+				>
+					<MyButton
+						class="login-button"
+						:in-progress="loggingIn"
+						:success="success"
+						@click="loginOrRegister"
+					>
+						<transition
+							name="xxxx"
+							mode="out-in"
+						>
+							<span
+								v-if="isRegistering"
+								key="isRegistering"
+							>
+								Register Email
+							</span>
+							<span
+								v-else
+								key="!isRegistering"
+							>
+								Log In
+							</span>
+						</transition>
+					</MyButton>
+				</Validatable>
+			</div>
+
+			<div class="register-section">
+				<h3>Social Logins</h3>
+				<SocialLogin />
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
 import firebase from "firebase"
+import MyButton from "@/components/buttons/MyButton.vue"
 import SocialLogin from "@/components/forms/SocialLogin.vue"
 import store from "@/store/store.js"
+import Validatable from "@/components/common/Validatable"
 
 export default {
 	name: "Login",
 	components:
 	{
+		MyButton,
 		SocialLogin,
+		Validatable,
 	},
 
 	props: {},
@@ -50,12 +132,63 @@ export default {
 		return {
 			email: "",
 			isLoading: true,
+			isRegistering: false,
+			isShowingErrors: false,
+			loggingIn: false,
+			loginError: "",
 			password: "",
+			passwordConfirm: "",
+			registrationError: "",
+			success: false,
 		}
 	},
 
 	computed:
 	{
+		/** @returns {object} Return errors object IFF showing errors; Else empty object */
+		displayedErrors () 
+		{
+			if (this.isShowingErrors)
+			{
+				return this.errors
+			}
+			return {}
+		},
+
+		/**
+		 * @todo validate email address too
+		 * @returns {object} Return error message if applicable; Else empty string.
+		 */
+		errors () 
+		{
+			let errors = {}
+
+			// Show confirm errors IFF user is registering
+			errors.passwordConfirm = this.passwordsMatch ? "" : "Passwords do not match"
+			errors.passwordConfirm = this.isRegistering ? errors.passwordConfirm : ""
+
+			// In order from lease important to most important
+			errors.password = /\d/.test(this.password) ?
+				"" : "Password needs numeric character"
+			errors.password = /[a-zA-Z]/.test(this.password) ?
+				errors.password : "Password needs alphabetical character"
+			errors.password = this.password.length >= 8 ?
+				errors.password : "Password less than 8 characters"
+
+			if (this.isRegistering)
+			{
+				errors.response = this.registrationError || ""
+			}
+			else
+			{
+				errors.response = this.loginError || ""
+			}
+
+			errors.email = this.email.length ? "" : "Please enter an email"
+
+			return errors
+		},
+
 		/**
 		 * @returns {boolean} - Whether a user is logged in or not
 		 * @since 0.1.0
@@ -74,9 +207,36 @@ export default {
 		{
 			return store.state.user.isLoggingIn
 		},
+
+		/** @returns {boolean} When registering, if passwords match or not */
+		passwordsMatch ()
+		{
+			return this.password === this.passwordConfirm
+		},
 	},
 	methods: 
 	{
+		/** @returns {boolean} Whether focus was applied or not */
+		assignFocus ()
+		{
+			if (!this.email)
+			{
+				this.$refs.email.focus()
+				return false
+			}
+			else if (!this.password)
+			{
+				this.$refs.password.focus()
+				return false
+			}
+			else if (!this.passwordConfirm && this.isRegistering)
+			{
+				this.$refs.passwordConfirm.focus()
+				return false
+			}
+			return true
+		},
+
 		/**
 		 * Use firebase to support logging in with any email account
 		 *
@@ -87,69 +247,268 @@ export default {
 		 */
 		async login ()
 		{
+
+			this.loginError = ""
+			this.loggingIn = true
 			try
 			{
-				const response = await firebase.auth().signInWithEmailAndPassword(
+				await firebase.auth().signInWithEmailAndPassword(
 					this.email,
 					this.password
 				)
-				console.log("logged in!")
-				console.log(response)
-				return response
+				this.success = true
+				this.$router.push({
+					path: "/",
+				})
 			}
 			catch (error)
 			{
-				// TODO: Show error state/message in template
-				console.group()
-				console.error(this.$options.name)
-				console.error(
-					error
-				)
-				console.groupEnd()
+				if (error.code === "auth/user-not-found")
+				{
+					this.loginError = "User not found"
+				}
+				else
+				{
+					this.loginError = error.code
+				}
+			}
+			this.loggingIn = false
+		},
+
+		/**
+		 * Use firebase to support logging in with any email account
+		 *
+		 * @todo https://firebase.google.com/docs/auth/web/email-link-auth?authuser=0#web-version-9_1
+		 *			Use link to provide signup with email
+		 * @returns {void}
+		 * @since 0.1.0
+		 */
+		loginOrRegister ()
+		{
+			// First show errors and assign focus if applicable
+			this.isShowingErrors = true
+			if (!this.assignFocus())
+			{
+				return false
+			}
+			
+			if (this.isRegistering)
+			{
+				return this.registerNewUser()
+			}
+			else
+			{
+				return this.login()
 			}
 		},
 
+		/**
+		 * Use firebase to support logging in with a new account
+		 *
+		 * @todo configure errors for user logging in
+		 * @returns {void}
+		 * @since 0.1.3
+		 */
+		async registerNewUser ()
+		{
+			// First clear existing errors
+			this.registrationError = ""
+
+			/* eslint-disable no-unused-vars */
+			try
+			{
+				const response = await firebase.auth().createUserWithEmailAndPassword(
+					this.email,
+					this.password
+				)
+				this.$router.push({
+					path: "/",
+				})
+			}
+			catch (error)
+			{
+				const errorCode = error.code
+				const errorMessage = error.message
+
+				// The AuthCredential type that was used.
+				const credential = error.credential
+				this.registrationError = errorMessage
+			}
+			/* eslint-enable no-unused-vars */
+		},
+
+	},
+	watch:
+	{
+		/**
+		 * Watch user loging out to manage local state
+		 *
+		 * @param {boolean} n - New value
+		 * @param {boolean} o - Old value
+		 */
+		isLoggedIn (n, o)
+		{
+			if (n === false && o === true)
+			{
+				this.success = false
+			}
+		},
+
+		/** */
+		isRegistering ()
+		{
+			this.isShowingErrors = false
+			this.passwordConfirm = ""
+		},
 	},
 }
 </script>
 
 <style scoped lang="less">
-.page-wrapper {
+@import "~styles/styles";
+
+.login-page-wrapper {
 	display: relative;
+	flex-grow: 1;
+	max-width: 70%;
 	padding: 10px;
+	padding-top: 43px;
+	transition: all 0.5s ease;
+
+	.flex-container {
+		align-items: center;
+		display: flex;
+		flex-wrap: nowrap;
+		flex-direction: row;
+		justify-content: center;
+		margin-bottom: 11px;
+		transition: all 0.5s ease;
+
+		span {
+			padding-left: 14px;
+			padding-right: 14px;
+		}
+
+		.title-toggle {
+			background: unset;
+			border-radius: 5px;
+			color: #42b983;
+			filter: brightness(102%);
+			padding: 7px;
+			width: auto;
+
+			h3 {
+				margin: 0;
+				padding: 0;
+			}
+
+			&.selected {
+				border: 2px solid #42b983;
+				filter: brightness(110%);
+			}
+			&:not(.selected) {
+				border: unset;
+				filter: brightness(80%);
+				opacity: 0.7;
+			}
+		}
+
+	}
+
 	.login-form {
+		align-items: center;
+		border-bottom: 5px solid @color-purple;
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		height: auto;
 		margin-bottom: 20px;
+		padding-bottom: 7px;
 		position: relative;
-		width: 100%;
+		transition: all 0.5s ease;
 
-		.login-item {
-			margin-bottom: 10px;
+		.input-wrapper {
+			min-width: 90%;
+			width: auto;
+
+			.login-item {
+				border-radius: 5px;
+				border: 1px solid @color-purple;
+				font-size: 20px;
+				margin-bottom: 10px;
+				min-height: 32px;
+				transition: all 0.5s ease;
+				width: 100%;
+
+				&:active {
+					transform: translate3d(-1px, 0, 0) scale(1.02);
+				}
+				&.hidden {
+					border: none;
+					height: 0;
+					max-height: 0;
+					min-height: 0;
+					opacity: 0;
+				}
+			}
 		}
 
-		.login-button {
+		.login-button-wrapper {
 			margin-bottom: 10px;
 			margin-top: 10px;
+			min-width: 50%;
+			max-width: 50%;
+
+			.login-button {
+				margin-bottom: 14px;
+			}
 		}
 	}
-	.social-button {
-		width: 75px;
-		background: white;
-		padding: 10px;
-		border-radius: 100%;
-		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0,2);
-		outline: 0;
-		border: 0;
-	}
-	.social-button:active {
-		display: relative;
-		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-	}
-	.social-button img {
-		width: 100%;
+	.register-section {
+		h3 {
+			color: @color-purple;
+			border-bottom: 5px solid @color-purple;
+			filter: brightness(80%);
+			padding-bottom: 8px;
+			text-transform: uppercase;
+			text-underline-offset: 3px;
+			transform: translate3d(1px, 0, 0) scale(.9);
+		}
+		.social-button {
+			background: white;
+			border: 0;
+			border-radius: 100%;
+			box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0,2);
+			padding: 10px;
+			width: 75px;
+
+			&:active {
+				display: relative;
+				box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.8);
+			}
+			img {
+				width: 100%;
+			}
+		}
 	}
 }
-</style>
 
+@media (hover: hover) {
+	.login-item {
+		&:hover {
+			transform: translate3d(-1px, 0, 0) scale(1.02);
+		}
+	}
+	.social-button:hover {
+		display: relative;
+		box-shadow: -2 -2px -4px 0 rgba(0, 0, 0, .5);
+	}
+}
+
+.xxxx-enter-active, .xxxx-leave-active {
+	transition: all 0.25s ease;
+}
+.xxxx-enter, .xxxx-leave-to {
+	opacity: 0;
+}
+</style>

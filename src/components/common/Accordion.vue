@@ -69,16 +69,14 @@ export default {
 <style lang="less" scoped>
 @import "~styles/styles";
 
-// TODO: Why no color imports working?
-// TODO: Remove hover for mobile and clicks??
-
-.accordion-wrapper:hover {
+.accordion-wrapper:active, .accordion-wrapper:focus {
 	transform: scale(1.03);
 }
 .accordion-wrapper {
 	align-content: center;
 	border: 1px solid #dea5ce;
 	border-radius: 7px;
+	color: @myblack;
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
@@ -91,7 +89,7 @@ export default {
 		border: 2px solid transparent;
 	}
 	&.has-nested {
-		border: 1px solid black;
+		border: 1px solid @myblack;
 	}
 	.content-section {
 		height: auto;
@@ -113,7 +111,7 @@ export default {
 		transition: all 0.2s linear;
 
 		&.has-nested {
-			border-bottom: 1px solid black;
+			border-bottom: 1px solid @myblack;
 			&.not-selected {
 				border: 2px solid transparent;
 			}
@@ -145,6 +143,11 @@ export default {
 				text-transform: uppercase;
 			}
 		}
+	}
+}
+@media (hover: hover) {
+	.accordion-wrapper:hover {
+		transform: scale(1.03);
 	}
 }
 </style>

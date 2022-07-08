@@ -14,6 +14,15 @@ The general navbar for our project
 			>
 				About
 			</router-link>
+			<!-- TODO: Reasses manual page for actual manuals-->
+			<!--
+			<router-link
+				class="nav-item"
+				to="/manual"
+			>
+				Manual
+			</router-link>
+ -->
 			<router-link
 				class="nav-item"
 				to="/maps"
@@ -27,7 +36,7 @@ The general navbar for our project
 				Amenities
 			</router-link>
 			<router-link
-				v-if="!isLoggedIn && isDev"
+				v-if="!isLoggedIn"
 				class="nav-item"
 				to="/login"
 			>
@@ -72,14 +81,6 @@ export default {
 		firstName ()
 		{
 			return store.state.user.user.firstName || ""
-		},
-
-		/**
-		 * @returns {boolean} - Show certain only things while under development
-		 */
-		isDev ()
-		{
-			return parseFloat(process.env.VUE_APP_CI)
 		},
 
 		/**
@@ -142,6 +143,8 @@ export default {
 </script>
 
 <style lang="less">
+@import "~styles/styles";
+
 /* @todo setup a main file and set margins/padding there probably */
 .nav-wrapper {
 	@v-padding: 30px;
@@ -165,7 +168,7 @@ export default {
 		}
 	}
 	.user-items {
-		border: 1px solid black;
+		border: 1px solid @myblack;
 		border-radius: 50px;
 		display: flex;
 		flex-direction: column;
@@ -182,7 +185,7 @@ export default {
 		}
 
 		.user-action {
-			border-top: 1px solid black;
+			border-top: 1px solid @myblack;
 			margin-bottom: 5px;
 		}
 		.user-name {

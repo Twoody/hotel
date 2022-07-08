@@ -4,35 +4,45 @@
 			name="fade"
 			mode="out-in"
 		>
-			<div
-				v-if="isLoading"
-				class="search-query loading"
-				key="loading"
-			>
-				loading...
-			</div>
-			<div
-				v-else
-				class="date-container"
-			>
-				<input
-					v-model="startDate"
-					class="search-query"
-					type="date"
-				>
-				<input
-					v-model="endDate"
-					class="search-query"
-					type="date"
-				>
+			<div class="date-container">
+				<div class="flex-box">
+					<span class="label">
+						Start Date
+					</span>
+					<DateSelector
+						v-model="startDate"
+						:isLoading="isLoading"
+						:max="maxDate"
+						:min="today"
+					/>
+				</div>
+				<div class="flex-box">
+					<span class="label">
+						End Date
+					</span>
+					<DateSelector
+						v-model="endDate"
+						:isLoading="isLoading"
+						:max="maxDate"
+						:min="minDateEnd"
+
+					/>
+				</div>
 			</div>
 		</transition>
 	</div>
 </template>
 
 <script>
+import {DateTime} from "luxon"
+import DateSelector from "@/components/inputs/DateSelector"
+
 export default {
 	name: "AvailabilitySearchBar",
+	components:
+	{
+		DateSelector,
+	},
 	data: function()
 	{
 		return {
@@ -44,34 +54,56 @@ export default {
 	props:
 	{
 		/** Whether we are in loading state or not */
-		isLoading:
+		isLoading: Boolean,
+	},
+	computed:
+	{
+		maxDate () 
 		{
-			default: false,
-			required: false,
-			type: Boolean,
+			return "2023-11-11"
+		},
+
+		minDateEnd () 
+		{
+			return this.today
+		},
+
+		today ()
+		{
+			return "2022-06-25"
 		},
 	},
 }
 </script>
 
 <style lang="less" scoped>
+@import "~styles/styles";
+
 .availability-search-bar-wrapper {
+	width: 100%;
+
 	.date-container {
 		align-content: center;
 		display: flex;
 		gap: 10px;
 		justify-content: center;
-		margin-bottom: 10px;
+		width: 100%;
 
-		.search-query {
-			border-radius: 10px;
-			/*TODO: get a better color palette*/
-			border: 1px solid gold;
-			height: 50px;
-			text-align: center;
-			width: 40%;
-			&.loading {
-				width: 80%;
+		.flex-box {
+			background: @color-focus;
+			border: 1px solid @color-purple;
+			border-radius: 5px;
+			padding: 7px;
+			align-content: center;
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			width: 100%;
+
+			.label {
+				font-weight: 700;
+				margin-bottom: 2px;
 			}
 		}
 	}

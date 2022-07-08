@@ -1,3 +1,4 @@
+A detailed description of something to do in the area
 <template>
 	<div class="map-item-page-wrapper">
 		<h1>Map Item: {{ title }}</h1>
