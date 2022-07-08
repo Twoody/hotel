@@ -95,23 +95,3 @@ export default {
 	}
 }
 </style>
-
-<docs>
-Flex box inspired item to use as a `decorator` and wrapper around content;
-Support fully disspearing items, ignored clicks, and extra styles.
-All transitions done via:
-- `max-height`, 
-- `height:auto`,
-- `transition: all 0.7s ease`
-css properties.
-
-## Examples
-
-Container that is showing
-
-```jsx
-<AppSection is-showing>
-	<div style="height: 50; background-color: red;"/>
-</AppSection>
-```
-</docs>

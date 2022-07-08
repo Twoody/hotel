@@ -55,7 +55,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "~styles/styles";
+@import "../../assets/styles/styles";
 
 .manual-page-wrapper {
 	height: auto;

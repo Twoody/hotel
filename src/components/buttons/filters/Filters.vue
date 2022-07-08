@@ -1,11 +1,23 @@
+<script setup>
+import { defineEmits } from "vue"
+const emit = defineEmits([
+	"update",
+])
+const update = (id) => 
+{
+	emit("update", id)
+}
+</script>
+
 <template>
 	<div class="filters-wrapper">
 		<MyFilter
-			v-for="(filter, index) in filters"
-			:key="index"
+			v-for="(filter) in filters"
+			:key="filter.id"
 			:inactive="! filter.active"
 			type="button"
-			@click="$emit('click', filter.id)"
+			@mouseup="update(filter.id)"
+			@touchend="update(filter.id)"
 		>
 			{{ formatTitle(filter) }}
 		</MyFilter>
@@ -44,7 +56,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "~styles/styles";
+@import "../../../../assets/styles/styles";
 .filters-wrapper {
 	-ms-overflow-style: none;  /* IE and Edge scrollbar */
 	align-content: center;

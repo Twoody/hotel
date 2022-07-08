@@ -164,7 +164,7 @@ export default
 </script>
 
 <style scoped lang="less">
-@import "~styles/styles";
+@import "../../../assets/styles/styles";
 
 .my-button-wrapper {
 	background: @color-pastel-blue;

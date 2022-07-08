@@ -111,7 +111,9 @@
 </template>
 
 <script>
-import firebase from "firebase"
+import {createUserWithEmailAndPassword,
+	getAuth,
+	signInWithEmailAndPassword} from "firebase/auth"
 import MyButton from "@/components/buttons/MyButton.vue"
 import SocialLogin from "@/components/forms/SocialLogin.vue"
 import store from "@/store/store.js"
@@ -130,6 +132,7 @@ export default {
 	data: function()
 	{
 		return {
+			auth: getAuth(),
 			email: "",
 			isLoading: true,
 			isRegistering: false,
@@ -252,11 +255,16 @@ export default {
 			this.loggingIn = true
 			try
 			{
-				await firebase.auth().signInWithEmailAndPassword(
+				const response = await signInWithEmailAndPassword(
+					this.auth,
 					this.email,
 					this.password
 				)
 				this.success = true
+
+				// Update store
+				this.$store.dispatch("fetchUser", response)
+
 				this.$router.push({
 					path: "/",
 				})
@@ -276,7 +284,7 @@ export default {
 		},
 
 		/**
-		 * Use firebase to support logging in with any email account
+		 * Login or create a new user
 		 *
 		 * @todo https://firebase.google.com/docs/auth/web/email-link-auth?authuser=0#web-version-9_1
 		 *			Use link to provide signup with email
@@ -317,7 +325,8 @@ export default {
 			/* eslint-disable no-unused-vars */
 			try
 			{
-				const response = await firebase.auth().createUserWithEmailAndPassword(
+				const response = await createUserWithEmailAndPassword(
+					this.auth,
 					this.email,
 					this.password
 				)
@@ -365,7 +374,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "~styles/styles";
+@import "../../assets/styles/styles";
 
 .login-page-wrapper {
 	display: relative;

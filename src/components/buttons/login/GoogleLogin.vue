@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import firebase from "firebase"
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
 import MyButton from "@/components/buttons/MyButton.vue"
 
 export default {
@@ -26,6 +26,12 @@ export default {
 	components:
 	{
 		MyButton,
+	},
+	data ()
+	{
+		return {
+			isLoggingIn: false,
+		}
 	},
 	methods:
 	{
@@ -37,18 +43,30 @@ export default {
 		 */
 		async googleLogin ()
 		{
+			if (this.isLoggingIn === true)
+			{
+				return
+			}
+
+			this.isLoggingIn = true
+
 			/* eslint-disable no-unused-vars */
-			const provider = new firebase.auth.GoogleAuthProvider()
+			const auth = getAuth()
+			const provider = new GoogleAuthProvider()
 			provider.addScope("profile")
 			provider.addScope("email")
 
 			try
 			{
-				const response = await firebase.auth().signInWithPopup(provider)
+				const response = await signInWithPopup(auth, provider)
 				// This gives you a Google Access Token.
-				const token = response.credential.accessToken
+				const credential = GoogleAuthProvider.credentialFromResult(response)
+				const token = credential.accessToken
 				// The signed-in user info.
 				const user = response.user
+
+				// Update store
+				this.$store.dispatch("fetchUser", user)
 
 				this.$router.push({
 					path: "/",
@@ -64,8 +82,11 @@ export default {
 
 				// The AuthCredential type that was used.
 				const credential = error.credential
+
+				console.error(errorMessage)
 			}
 			/* eslint-enable no-unused-vars */
+			this.isLoggingIn = false
 		},
 	},
 }

@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "~styles/styles";
+@import "../../../assets/styles/styles";
 
 .flex-table-wrapper {
 	align-items: center;
@@ -28,7 +28,7 @@ export default {
 	padding-right: 10px;
 
 	.category-section {
-		flex-basis: 98px;
+		flex-basis: 119px;
 		padding-right: 7px;
 		width: 100%;
 	}

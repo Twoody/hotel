@@ -67,7 +67,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "~styles/styles";
+@import "../../../assets/styles/styles";
 
 .accordion-wrapper:active, .accordion-wrapper:focus {
 	transform: scale(1.03);
