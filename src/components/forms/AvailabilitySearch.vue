@@ -12,11 +12,13 @@ TODO: PRobably plugin inputs... :eye_roll:
 					:isLoading="isLoading"
 				/>
 				<VueCal
-					class="vue-cal-container"
-					hide-view-selector
 					active-view="month"
-					:time="false"
+					class="vue-cal-container vuecal--rounded-theme vuecal--date-picker"
+					:disable-views="['day', 'week']"
+					hide-view-selector
 					:min-date="minDate"
+					:time="false"
+					xsmall
 				/>
 				<BookButton
 					:isLoading="isLoading"
@@ -55,7 +57,7 @@ export default {
 	{
 		minDate () 
 		{
-			return new Date().addDays(1)
+			return new Date().addDays(0)
 		},
 	},
 	methods:
@@ -84,6 +86,7 @@ export default {
 </script>
 
 <style lang="less">
+@import "~styles/styles";
 
 @size: min(55vw, 55vh);
 
@@ -113,21 +116,90 @@ export default {
 			width: 100%;
 
 			.inputs-container {
-				padding-bottom: 15px;
+				max-width: min(98%, 660px);
 			}
+			// Todo: actually set a background color
 			.vue-cal-container {
-				height: 53vw;
-				margin: 10px;
+				background: @color-focus;
+				border: 1px solid @color-purple;
+				border-radius: 5px;
+				box-shadow: none;
+				color: @myblack;
 				margin-bottom: 15px;
-				max-height: @size;
-				max-width: @size;
-				width: 53vw;
+				margin-left: 10px;
+				margin-right: 10px;
+				margin-top: 5px;
+				max-width: min(98%, 660px);
+				width: 100%;
 
+				.vuecal__header {
+					margin-bottom: 8px;
+					.vuecal__title-bar{
+						background: none;
+						border-bottom: 1px solid @color-purple;
+					}
+					.vuecal__title {
+						button {
+							color: @myblack;
+							font-size: 15px;
+							font-weight: 700;
+						}
+					}
+				}
+
+				.vuecal__cell::before {
+					border: none;
+				}
+				.vuecal__cell-content {
+					background: @color-pastel-blue;
+					border: 1px solid #fefefe;
+					border-radius: 9px;
+					color: @myblack;
+					margin-bottom: 4px;
+					padding: .5em;
+					transition: all 0.25s;
+
+					.vuecal__cell-date {
+						font-size: 12px;
+						font-weight: 900;
+					}
+
+				}
+				.vuecal__cell--disabled {
+					text-decoration: none;
+
+					.vuecal__cell-content {
+						background: lightgray;
+						border: 1px solid @myblack;
+						opacity: 0.75;
+					}
+				}
+				.vuecal__weekdays-headings {
+					border-bottom: 2px solid @color-purple;
+					//padding-bottom: 6px;
+
+					.weekday-label{
+						color: red;
+						font-size: 25px;
+						font-weight: 700;
+						padding: 2px;
+					}
+				}
 			}
 		}
 	}
+	.vuecal__cell--selected {
+		opacity: 1;
+	}
+	.vuecal:not(.vuecal--day-view) .vuecal__cell--selected {
+		.vuecal__cell-content {
+			border: 1px solid purple;
+			background: @color-lavendar;
+			color: purple;
+			transform: scale(1.03);
+		}
+	}
 }
-.vuecal__cell--disabled {text-decoration: line-through !important;}
 .vuecal__cell--before-min {color: #b6d6c7;}
 .vuecal__cell--after-max {color: #008b8b;}
 </style>

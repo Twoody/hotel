@@ -44,7 +44,7 @@ export default {
 		margin-top: 7px;
 
 		h2 {
-			font-size: max(2.3vw, 1em);
+			font-size: clamp(15px, 1em, 25px);
 			margin-bottom: 0px;
 			margin-top: 0px;
 		}

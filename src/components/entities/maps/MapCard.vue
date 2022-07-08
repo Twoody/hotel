@@ -171,7 +171,7 @@ export default {
 		img {
 			display: block;
 			max-height: 200px;
-			max-width: 170px;
+			max-width: 160px;
 			width: auto;
 			height: auto;
 		}

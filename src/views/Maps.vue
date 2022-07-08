@@ -1,7 +1,9 @@
 A filterable list of things to do
 <template>
 	<div class="maps-page-wrapper">
-		<h1>Maps</h1>
+		<h1 class="main-title">
+			Maps
+		</h1>
 		<MapFilters
 			@updated-active="updateFilters($event)"
 		/>

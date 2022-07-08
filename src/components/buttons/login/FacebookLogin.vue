@@ -4,7 +4,7 @@ Button to activate a facebook account authenticator
 		<div class="social-button-dex">
 			Facebook
 		</div>
-		<button
+		<MyButton
 			class="social-button"
 			@click="facebookLogin"
 		>
@@ -14,15 +14,20 @@ Button to activate a facebook account authenticator
 				:icon="['fab', 'facebook']"
 				:style="{ color: 'blue' }"
 			/>
-		</button>
+		</MyButton>
 	</div>
 </template>
 
 <script>
 import firebase from "firebase"
+import MyButton from "@/components/buttons/MyButton.vue"
 
 export default {
 	name: "FacebookLogin",
+	components:
+	{
+		MyButton,
+	},
 	methods:
 	{
 		/**
@@ -46,6 +51,9 @@ export default {
 				// This gives you a Facebook Access Token.
 				const credential = response.credential
 				const token = credential.accessToken
+				this.$router.push({
+					path: "/",
+				})
 			}
 			catch (error)
 			{
@@ -57,14 +65,6 @@ export default {
 
 				// The AuthCredential type that was used.
 				const credential = error.credential
-				console.group()
-				console.error(this.$options.name)
-				console.error(provider)
-				console.error(errorMessage)
-				console.error(
-					error 
-				)
-				console.groupEnd()
 			}
 			/* eslint-enable no-unused-vars */
 		},

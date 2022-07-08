@@ -68,6 +68,7 @@ export default {
 @import (css) url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
 html, body {
+	color: @myblack;
 	height: 100%;
 	margin: 0;
 	padding: 0;
@@ -130,5 +131,18 @@ html, body {
 .fade-enter,
 .fade-leave-active {
   opacity: 0
+}
+
+a:focus-visible {
+	border-radius: 5px;
+	outline: 4px solid @color-focus !important;
+}
+input:focus-visible {
+	outline: 4px solid @color-focus !important;
+	transform: scale(1.02);
+}
+button:focus-visible {
+	outline: 4px solid @color-focus !important;
+	transform: scale(1.02);
 }
 </style>

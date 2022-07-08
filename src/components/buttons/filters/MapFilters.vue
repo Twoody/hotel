@@ -89,11 +89,13 @@ export default {
 			return ret
 		},
 
-		async handleClick (id) 
+		handleClick (id) 
 		{
+			// Clear blue on next element in list
+			document.activeElement?.blur && document.activeElement.blur()
+
 			const ID = id * 1
 			// Await the animation
-			await new Promise((resolve) => setTimeout(resolve, 200))
 			this.filtersAll[ID].active = !this.filtersAll[ID].active
 			this.$emit("updated-active", this.filtersActive)
 		},

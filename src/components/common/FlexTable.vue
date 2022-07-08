@@ -16,9 +16,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "~styles/styles";
+
 .flex-table-wrapper {
 	align-items: center;
-	border: 1px solid black;
+	border: 1px solid @myblack;
 	border-radius: 4px;
 	display: flex;
 	flex-direction: row;
@@ -31,7 +33,7 @@ export default {
 		width: 100%;
 	}
 	.content-section {
-		border-left: 1px solid black;
+		border-left: 1px solid @myblack;
 		flex-basis: 85%;
 		text-align: center;
 	}

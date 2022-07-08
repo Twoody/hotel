@@ -1,6 +1,7 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
 import Amenities from "../views/Amenities.vue"
+import firebase from "firebase"
 import Foobar from "../views/Amenities.vue"
 import Home from "../views/Home.vue"
 import Login from "../views/Login.vue"
@@ -72,6 +73,28 @@ const router = new VueRouter({
 	base: process.env.BASE_URL,
 	mode: "history",
 	routes,
+})
+
+router.beforeEach((to, from, next) => 
+{
+	if (parseFloat(process.env.VUE_APP_CI))
+	{
+		try
+		{
+			firebase.analytics().logEvent(
+				"page_view",
+				{
+					//type: "internal",
+					title: to.name
+				}
+			)
+		}
+		catch (e)
+		{
+			console.error(e)
+		}
+	}
+	next()
 })
 
 export default router

@@ -46,15 +46,16 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 @import "~styles/styles";
 .home-wrapper {
 	display: flex;
 	flex-direction: column;
+	padding-top: 34px;
 	width: 100%;
 
 	h2 {
-		font-size: 25px;
+		font-size: clamp(25px, 3vw, 35px);
 		margin-bottom: 0px;
 		margin-top: 0px;
 	}
@@ -63,24 +64,36 @@ export default {
 		background: @color-lavendar;
 	}
 	.accordion-sections {
+		align-items: center;
+		align-content: center;
 		background: @color-purple;
-		color: #3D373C;
+		display: flex;
+		flex-direction: column;
 		flex-grow: 1;
+		justify-content: center;
 		padding-bottom: 50px;
-		padding-left: 30px;
-		padding-right: 30px;
 		padding-top: 20px;
-		width: auto;
+		width: 100%;
 
 		.flex-box {
 			align-items: center;
 			align-content: center;
 			display: flex;
 			flex-direction: column;
+			justify-content: center;
+			max-width: min(98%, 660px);
+			padding-top: 20px;
 
 			.flex-item {
 				flex-grow: 1;
 				width: 100%;
+
+			}
+			.accordion-wrapper {
+				margin: 7px;
+			}
+			.question-accordion-wrapper {
+				max-width: 100%;
 			}
 		}
 	}
