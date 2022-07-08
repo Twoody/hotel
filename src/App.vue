@@ -23,7 +23,7 @@
 			is-showing
 		>
 			<router-view
-				v-slot='{ Component }'
+				v-slot="{ Component }"
 			>
 				<transition
 					name="fade"
@@ -31,7 +31,7 @@
 				>
 					<component
 						id="content-wrapper"
-						:is='Component'
+						:is="Component"
 					/>
 				</transition>
 			</router-view>
