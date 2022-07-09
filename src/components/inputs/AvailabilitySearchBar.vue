@@ -10,10 +10,11 @@
 						Start Date
 					</span>
 					<DateSelector
-						v-model="startDate"
 						:isLoading="isLoading"
 						:max="maxDate"
 						:min="today"
+						:value="start"
+						@newDate="updateStartDate($event)"
 					/>
 				</div>
 				<div class="flex-box">
@@ -21,11 +22,11 @@
 						End Date
 					</span>
 					<DateSelector
-						v-model="endDate"
 						:isLoading="isLoading"
 						:max="maxDate"
 						:min="minDateEnd"
-
+						:value="end"
+						@newDate="updateEndDate($event)"
 					/>
 				</div>
 			</div>
@@ -55,7 +56,7 @@ export default {
 	{
 		end:
 		{
-			default: '',
+			default: "",
 			required: false,
 			type: String,
 		},
@@ -65,7 +66,7 @@ export default {
 
 		start:
 		{
-			default: '',
+			default: "",
 			required: false,
 			type: String,
 		},
@@ -87,18 +88,15 @@ export default {
 			return "2022-06-25"
 		},
 	},
-	watch:
+	methods:
 	{
-		end(n, o)
+		updateEndDate (v)
 		{
-			console.log(`caught: ${n}`)
-			this.endDate = n
+			this.$emit("updateEndDate", v)
 		},
-
-		start(n, o)
+		updateStartDate (v)
 		{
-			console.log(`caught: ${n}`)
-			this.startDate = n
+			this.$emit("updateStartDate", v)
 		},
 	},
 }

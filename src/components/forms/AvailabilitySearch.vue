@@ -9,9 +9,11 @@ TODO: PRobably plugin inputs... :eye_roll:
 			>
 				<AvailabilitySearchBar
 					class="inputs-container"
-					:end='vueCalEvents[0].end'
+					:end="vueCalEvents[0].end"
 					:isLoading="isLoading"
-					:start='vueCalEvents[0].start'
+					:start="vueCalEvents[0].start"
+					@updateEndDate="vueCalEvents[0].end = $event"
+					@updateStartDate="vueCalEvents[0].start = $event"
 				/>
 				<VueCal
 					active-view="month"
@@ -57,8 +59,8 @@ export default {
 			searchQuery: "",
 			vueCalEvents: [
 				{
-					end: '2022-07-21',
-					start: '2022-07-11',
+					end: "2022-07-21",
+					start: "2022-07-11",
 				},
 			],
 		}
@@ -104,7 +106,7 @@ export default {
 			return true
 		},
 
-		processDateSelection(selected)
+		processDateSelection (selected)
 		{
 			let d = DateTime.fromJSDate(new Date(selected))
 			this.vueCalEvents[0].start = d.toISODate()

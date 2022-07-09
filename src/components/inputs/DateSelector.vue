@@ -3,31 +3,31 @@ Element for handling manual date (no calendar picker) input
 	<div class="date-selector-wrapper">
 		<MyDate
 			class="date-input"
-			:date="date"
+			:value="day"
 			:focused="focusDay"
 			:isLoading="isLoading"
 			is-day
-			@newValue="updateParent('day', arguments[0])"
+			@newValue="updateParent('day', $event)"
 			@focus="focusDay = false"
 		/>
 
 		<MyDate
 			class="date-input"
-			:date="date"
+			:value="month"
 			:focused="focusMonth"
 			:isLoading="isLoading"
 			is-month
-			@newValue="updateParent('month', arguments[0])"
+			@newValue="updateParent('month', $event)"
 			@focus="focusMonth = false"
 		/>
 
 		<MyDate
 			class="date-input"
-			:date="date"
+			:value="year"
 			:focused="focusYear"
 			:isLoading="isLoading"
 			is-year
-			@newValue="updateParent('year', arguments[0])"
+			@newValue="updateParent('year', $event)"
 			@focus="focusYear = false"
 		/>
 	</div>
@@ -83,7 +83,31 @@ export default
 	},
 
 	computed:
-	{},
+	{
+		isSelectedValid ()
+		{
+			let d = DateTime.fromISO(
+				`${this.year}-${this.month}-${this.day}`
+			)
+			if (! d.invalid)
+			{
+				return true
+			}
+			return false
+		},
+
+		selectedDate ()
+		{
+			let d = DateTime.fromISO(
+				`${this.year}-${this.month}-${this.day}`
+			)
+			if (! d.invalid)
+			{
+				return d.toFormat("yyyy-MM-dd")
+			}
+			return ""
+		},
+	},
 
 	methods:
 	{
@@ -97,12 +121,6 @@ export default
 		{
 			this[name] = value
 
-			let date = {
-				"day": parseInt(this.day),
-				"month": parseInt(this.month),
-				"year": parseInt(this.year),
-			}
-
 			if (value.length === 2)
 			{
 				if (name === "day")
@@ -115,36 +133,32 @@ export default
 				}
 			}
 
-			let newDate = DateTime.local(date.year, date.month, date.day)
-			console.log(newDate)
-
-			if ( newDate.isValid && date.year > 1000
-			)
+			if (this.isSelectedValid)
 			{
-				this.$emit("input", newDate.toFormat("yyyy-MM-dd"))
+				this.$emit("newDate", this.selectedDate)
 			}
 			else
 			{
-				this.$emit("input", null)
+				this.$emit("newDate", "")
 			}
 		},
 	},
 	watch:
 	{
-		value(n, o)
+		value (n, o)
 		{
 			let newDate = DateTime.local(n)
 			if (this.isDay)
 			{
-				this.value = newDate.toFormat('dd')
+				this.value = newDate.toFormat("dd")
 			}
 			else if (this.isMonth)
 			{
-				this.value = newDate.toFormat('MM')
+				this.value = newDate.toFormat("MM")
 			}
 			else if (this.isYear)
 			{
-				this.value = newDate.toFormat('yyyy')
+				this.value = newDate.toFormat("yyyy")
 			}
 		},
 	},
