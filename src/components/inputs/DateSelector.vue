@@ -61,6 +61,13 @@ export default
 			required: false,
 			type: String,
 		},
+
+		value:
+		{
+			default: "",
+			required: false,
+			type: String,
+		},
 	},
 	data () 
 	{
@@ -109,6 +116,7 @@ export default
 			}
 
 			let newDate = DateTime.local(date.year, date.month, date.day)
+			console.log(newDate)
 
 			if ( newDate.isValid && date.year > 1000
 			)
@@ -118,6 +126,25 @@ export default
 			else
 			{
 				this.$emit("input", null)
+			}
+		},
+	},
+	watch:
+	{
+		value(n, o)
+		{
+			let newDate = DateTime.local(n)
+			if (this.isDay)
+			{
+				this.value = newDate.toFormat('dd')
+			}
+			else if (this.isMonth)
+			{
+				this.value = newDate.toFormat('MM')
+			}
+			else if (this.isYear)
+			{
+				this.value = newDate.toFormat('yyyy')
 			}
 		},
 	},

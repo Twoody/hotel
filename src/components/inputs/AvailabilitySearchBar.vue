@@ -53,8 +53,22 @@ export default {
 	},
 	props:
 	{
+		end:
+		{
+			default: '',
+			required: false,
+			type: String,
+		},
+
 		/** Whether we are in loading state or not */
 		isLoading: Boolean,
+
+		start:
+		{
+			default: '',
+			required: false,
+			type: String,
+		},
 	},
 	computed:
 	{
@@ -71,6 +85,20 @@ export default {
 		today ()
 		{
 			return "2022-06-25"
+		},
+	},
+	watch:
+	{
+		end(n, o)
+		{
+			console.log(`caught: ${n}`)
+			this.endDate = n
+		},
+
+		start(n, o)
+		{
+			console.log(`caught: ${n}`)
+			this.startDate = n
 		},
 	},
 }
