@@ -47,9 +47,6 @@ export default {
 	data: function()
 	{
 		return {
-			// TODO: Sync to parent/update parent...
-			endDate: "",
-			startDate: "",
 		}
 	},
 	props:
