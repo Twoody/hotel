@@ -10,10 +10,11 @@
 						Start Date
 					</span>
 					<DateSelector
-						v-model="startDate"
 						:isLoading="isLoading"
 						:max="maxDate"
 						:min="today"
+						:value="start"
+						@newDate="updateStartDate($event)"
 					/>
 				</div>
 				<div class="flex-box">
@@ -21,11 +22,11 @@
 						End Date
 					</span>
 					<DateSelector
-						v-model="endDate"
 						:isLoading="isLoading"
 						:max="maxDate"
 						:min="minDateEnd"
-
+						:value="end"
+						@newDate="updateEndDate($event)"
 					/>
 				</div>
 			</div>
@@ -46,15 +47,26 @@ export default {
 	data: function()
 	{
 		return {
-			// TODO: Sync to parent/update parent...
-			endDate: "",
-			startDate: "",
 		}
 	},
 	props:
 	{
+		end:
+		{
+			default: "",
+			required: false,
+			type: String,
+		},
+
 		/** Whether we are in loading state or not */
 		isLoading: Boolean,
+
+		start:
+		{
+			default: "",
+			required: false,
+			type: String,
+		},
 	},
 	computed:
 	{
@@ -71,6 +83,18 @@ export default {
 		today ()
 		{
 			return "2022-06-25"
+		},
+	},
+	methods:
+	{
+		updateEndDate (v)
+		{
+			this.$emit("updateEndDate", v)
+		},
+
+		updateStartDate (v)
+		{
+			this.$emit("updateStartDate", v)
 		},
 	},
 }

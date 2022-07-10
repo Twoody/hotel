@@ -9,16 +9,22 @@ TODO: PRobably plugin inputs... :eye_roll:
 			>
 				<AvailabilitySearchBar
 					class="inputs-container"
+					:end="vueCalEvents[0].end"
 					:isLoading="isLoading"
+					:start="vueCalEvents[0].start"
+					@updateEndDate="vueCalEvents[0].end = $event"
+					@updateStartDate="vueCalEvents[0].start = $event"
 				/>
 				<VueCal
 					active-view="month"
 					class="vue-cal-container vuecal--rounded-theme vuecal--date-picker"
 					:disable-views="['day', 'week']"
+					:events="vueCalEvents"
 					hide-view-selector
 					:min-date="minDate"
 					:time="false"
 					xsmall
+					@cell-click="processDateSelection($event)"
 				/>
 				<BookButton
 					:isLoading="isLoading"
@@ -30,6 +36,8 @@ TODO: PRobably plugin inputs... :eye_roll:
 </template>
 
 <script>
+import {DateTime} from "luxon"
+
 import AvailabilitySearchBar from "@/components/inputs/AvailabilitySearchBar"
 import BookButton from "@/components/buttons/submissions/BookButton.vue"
 import VueCal from "vue-cal"
@@ -49,6 +57,12 @@ export default {
 			hasError: false,
 			isLoading: false,
 			searchQuery: "",
+			vueCalEvents: [
+				{
+					end: "2022-07-21",
+					start: "2022-07-11",
+				},
+			],
 		}
 	},
 	props:
@@ -57,7 +71,7 @@ export default {
 	{
 		minDate () 
 		{
-			return new Date().addDays(0)
+			return DateTime.fromJSDate(new Date().addDays(0)).toISODate()
 		},
 	},
 	methods:
@@ -80,6 +94,53 @@ export default {
 				this.hasError = true
 			}
 			this.isLoading = false
+		},
+
+		isDateValid (__d)
+		{
+			let d = DateTime.fromObject(__d)
+			if (d < this.minDate)
+			{
+				return false
+			}
+			return true
+		},
+
+		processDateSelection (selected)
+		{
+			let d = DateTime.fromJSDate(new Date(selected))
+			let start = DateTime.fromISO(this.vueCalEvents[0].start)
+			let end = DateTime.fromISO(this.vueCalEvents[0].end)
+			let min = DateTime.fromISO(this.minDate)
+			let max = DateTime.fromISO(this.maxDate)
+
+			if (d < min || d > max)
+			{
+				console.error('Illegal date selection')
+				return false
+			}
+
+			if (!this.vueCalEvents[0].start)
+			{
+				this.vueCalEvents[0].start = d.toISODate()
+			}
+
+			if (d.toFormat('yyyyMMdd') === start.toFormat('yyyyMMdd'))
+			{
+				console.log('trigger')
+				this.vueCalEvents[0].start = ''
+				this.vueCalEvents[0].end = ''
+			}
+			else if (d < start)
+			{
+				this.vueCalEvents[0].start = d.toISODate()
+			}
+			else
+			{
+				this.vueCalEvents[0].end = d.toISODate()
+			}
+
+			return true
 		},
 	},
 }
@@ -166,6 +227,9 @@ export default {
 						font-size: 12px;
 						font-weight: 900;
 					}
+					.vuecal__cell-events-count {
+						display: none;
+					}
 
 				}
 				.vuecal__cell--disabled {
@@ -179,7 +243,7 @@ export default {
 				}
 				.vuecal__weekdays-headings {
 					border-bottom: 2px solid @color-purple;
-					//padding-bottom: 6px;
+					padding-bottom: 3px;
 
 					.weekday-label{
 						color: red;
@@ -191,16 +255,14 @@ export default {
 			}
 		}
 	}
-	.vuecal__cell--selected {
-		opacity: 1;
-	}
-	.vuecal:not(.vuecal--day-view) .vuecal__cell--selected {
+	.vuecal:not(.vuecal--day-view) .vuecal__cell--has-events {
 		.vuecal__cell-content {
 			border: 1px solid purple;
 			background: @color-lavendar;
 			color: purple;
 			transform: scale(1.03);
 		}
+
 	}
 }
 .vuecal__cell--before-min {color: #b6d6c7;}
