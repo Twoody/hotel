@@ -57,6 +57,14 @@ module.exports = {
 						"svg": "always",
 					}
 				],
+				"vue/multi-word-component-names": ["error", {
+					"ignores": [
+						'Accordion',
+						'Filters',
+						'Spinner',
+						'Validatable',
+					]
+				}],
 				"vue/no-multi-spaces": [
 					"error",
 					// All options currently default
