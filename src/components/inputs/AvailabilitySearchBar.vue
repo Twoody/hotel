@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import {DateTime} from "luxon"
 import DateSelector from "@/components/inputs/DateSelector"
 
 export default {
