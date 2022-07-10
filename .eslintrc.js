@@ -59,8 +59,15 @@ module.exports = {
 				],
 				"vue/multi-word-component-names": ["error", {
 					"ignores": [
+						'About',
 						'Accordion',
+						'Amenities',
 						'Filters',
+						'Foobar',
+						'Home',
+						'Login',
+						'Maps',
+						'Signup',
 						'Spinner',
 						'Validatable',
 					]

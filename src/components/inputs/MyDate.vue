@@ -154,7 +154,7 @@ export default {
 			}
 		},
 
-		value (n, o)
+		value (n)
 		{
 			this.localValue = n
 		},

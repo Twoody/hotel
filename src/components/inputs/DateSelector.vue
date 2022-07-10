@@ -3,30 +3,30 @@ Element for handling manual date (no calendar picker) input
 	<div class="date-selector-wrapper">
 		<MyDate
 			class="date-input"
-			:value="day"
 			:focused="focusDay"
 			:isLoading="isLoading"
 			is-day
+			:value="day"
 			@newValue="updateParent('day', $event)"
 			@focus="focusDay = false"
 		/>
 
 		<MyDate
 			class="date-input"
-			:value="month"
 			:focused="focusMonth"
 			:isLoading="isLoading"
 			is-month
+			:value="month"
 			@newValue="updateParent('month', $event)"
 			@focus="focusMonth = false"
 		/>
 
 		<MyDate
 			class="date-input"
-			:value="year"
 			:focused="focusYear"
 			:isLoading="isLoading"
 			is-year
+			:value="year"
 			@newValue="updateParent('year', $event)"
 			@focus="focusYear = false"
 		/>
@@ -73,12 +73,11 @@ export default
 	{
 		return {
 			day: "",
-			month: "",
-			year: "",
-
 			focusDay: false,
 			focusMonth: false,
 			focusYear: false,
+			month: "",
+			year: "",
 		}
 	},
 
@@ -145,7 +144,7 @@ export default
 	},
 	watch:
 	{
-		value (n, o)
+		value (n)
 		{
 			let newDate = DateTime.fromISO(n)
 			if (!n)

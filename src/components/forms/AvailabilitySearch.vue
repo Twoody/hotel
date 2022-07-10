@@ -59,6 +59,7 @@ export default {
 			searchQuery: "",
 			vueCalEvents: [
 				{
+					end: "2022-07-21",
 					start: "2022-07-11",
 				},
 			],
@@ -109,7 +110,6 @@ export default {
 		{
 			let d = DateTime.fromJSDate(new Date(selected))
 			let start = DateTime.fromISO(this.vueCalEvents[0].start)
-			let end = DateTime.fromISO(this.vueCalEvents[0].end)
 			let min = DateTime.fromISO(this.minDate)
 			let max = DateTime.fromISO(this.maxDate)
 
