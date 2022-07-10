@@ -43,7 +43,7 @@ export default {
 		isYear: Boolean,
 		value:
 		{
-			default: '',
+			default: "",
 			required: false,
 			type: String,
 		},
@@ -154,7 +154,7 @@ export default {
 			}
 		},
 
-		value(n, o)
+		value (n, o)
 		{
 			this.localValue = n
 		},

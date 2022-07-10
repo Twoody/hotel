@@ -150,9 +150,9 @@ export default
 			let newDate = DateTime.fromISO(n)
 			if (!n)
 			{
-				this.day = ''
-				this.month = ''
-				this.year = ''
+				this.day = ""
+				this.month = ""
+				this.year = ""
 			}
 			if (! newDate.invalid)
 			{

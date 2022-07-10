@@ -46,8 +46,7 @@ export default {
 	},
 	data: function()
 	{
-		return {
-		}
+		return {}
 	},
 	props:
 	{

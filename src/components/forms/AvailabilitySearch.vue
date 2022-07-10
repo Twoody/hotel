@@ -116,7 +116,7 @@ export default {
 
 			if (d < min || d > max)
 			{
-				console.error('Illegal date selection')
+				console.error("Illegal date selection")
 				return false
 			}
 
@@ -125,11 +125,11 @@ export default {
 				this.vueCalEvents[0].start = d.toISODate()
 			}
 
-			if (d.toFormat('yyyyMMdd') === start.toFormat('yyyyMMdd'))
+			if (d.toFormat("yyyyMMdd") === start.toFormat("yyyyMMdd"))
 			{
-				console.log('trigger')
-				this.vueCalEvents[0].start = ''
-				this.vueCalEvents[0].end = ''
+				console.log("trigger")
+				this.vueCalEvents[0].start = ""
+				this.vueCalEvents[0].end = ""
 			}
 			else if (d < start)
 			{

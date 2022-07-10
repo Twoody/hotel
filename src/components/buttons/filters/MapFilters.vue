@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { toRaw } from "vue"
+import { getAnalytics, logEvent } from "firebase/analytics"
 import {FILTERS} from "constants/misc.js"
 import Filters from "components/buttons/filters/Filters"
 
@@ -97,6 +97,26 @@ export default {
 			const ID = id * 1
 			let value = ! this.filtersAll[ID].active
 			this.filtersAll[ID].active = value
+
+			// Send event to GA
+			try
+			{
+				const analytics = getAnalytics()
+				const title = value ? "map_filter_set" : "map_filter_unset"
+				console.log(this.filtersAll[id] || "NOT_FOUND")
+				logEvent(
+					analytics,
+					title,
+					{
+						value: this.filtersAll[id].title || "NOT_FOUND",
+					}
+				)
+			}
+			catch (e)
+			{
+				console.error(e)
+			}
+
 		},
 
 		/**
