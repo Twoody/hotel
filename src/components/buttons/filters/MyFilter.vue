@@ -4,7 +4,6 @@
 		class="my-filter-wrapper"
 		:inactive="inactive"
 		pill
-		@click="$emit('click')"
 	>
 		<slot/>
 	</MyButton>
@@ -27,8 +26,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "~styles/styles";
-.my-filter-wrapper {
-}
 
 </style>

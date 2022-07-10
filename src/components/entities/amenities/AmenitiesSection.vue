@@ -141,7 +141,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "~styles/styles";
+@import "../../../../assets/styles/styles";
 
 .amenities-section {
 	border: 1px solid @myblack;

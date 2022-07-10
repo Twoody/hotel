@@ -22,12 +22,19 @@
 			class="main-section"
 			is-showing
 		>
-			<transition
-				name="fade"
-				mode="out-in"
+			<router-view
+				v-slot="{ Component }"
 			>
-				<router-view id="content-wrapper" />
-			</transition>
+				<transition
+					name="fade"
+					mode="out-in"
+				>
+					<component
+						id="content-wrapper"
+						:is="Component"
+					/>
+				</transition>
+			</router-view>
 		</AppSection>
 		<AppSection
 			:isShowing="$store.state.layout.isShowingFooter"
@@ -39,6 +46,8 @@
 </template>
 
 <script>
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+
 import AppSection from "components/common/AppSection"
 import NavBar from "components/nav/NavBar"
 
@@ -59,12 +68,33 @@ export default {
 	{},
 	created: function()
 	{
+		const auth = getAuth()
+		onAuthStateChanged(
+			auth,
+			(user) =>
+			{
+				// Update user via store
+				this.$store.commit("setIsLoggingIn", true)
+				this.$store.dispatch("fetchUser", user)
+
+				if (user)
+				{
+					// User is signed in.
+				}
+				else
+				{
+					// No User
+				}
+				this.$store.commit("setIsLoggingIn", false)
+			}
+		)
+
 	},
 }
 </script>
 
 <style lang='less'>
-@import "~styles/styles";
+@import "../assets/styles/styles";
 @import (css) url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
 html, body {

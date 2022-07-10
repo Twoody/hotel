@@ -31,7 +31,7 @@ export default {
 </script>
 
 <style lang="less">
-@import "~styles/styles";
+@import "../../../../assets/styles/styles";
 @size: max(65vw, 300px);
 
 .question-accordion-wrapper {

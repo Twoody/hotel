@@ -166,9 +166,6 @@ module.exports = {
 			},
 		},
 	],
-	"parserOptions": {
-		"parser": 'babel-eslint'
-  },
 	"rules": {
 		"array-bracket-newline": [
 			"error",

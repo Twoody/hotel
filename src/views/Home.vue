@@ -47,7 +47,7 @@ export default {
 </script>
 
 <style lang="less">
-@import "~styles/styles";
+@import "../../assets/styles/styles";
 .home-wrapper {
 	display: flex;
 	flex-direction: column;

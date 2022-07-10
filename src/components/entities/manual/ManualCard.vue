@@ -78,7 +78,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "~styles/styles";
+@import "../../../../assets/styles/styles";
 
 @wmax: 288px;
 @wtotal: clamp(140px, 25vw, @wmax);
