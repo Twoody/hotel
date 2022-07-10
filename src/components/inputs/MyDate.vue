@@ -1,7 +1,7 @@
 <template>
 	<div class="my-date-wrapper">
 		<input
-			v-model="value"
+			v-model="localValue"
 			v-if="!isLoading"
 			autocomplete="new-password"
 			class="search-query"
@@ -31,7 +31,7 @@ export default {
 	data: function()
 	{
 		return {
-			value: "",
+			localValue: "",
 		}
 	},
 	props:
@@ -41,6 +41,12 @@ export default {
 		isLoading: Boolean,
 		isMonth: Boolean,
 		isYear: Boolean,
+		value:
+		{
+			default: '',
+			required: false,
+			type: String,
+		},
 	},
 	computed:
 	{
@@ -65,14 +71,14 @@ export default {
 		/** */
 		isValid ()
 		{
-			if (!this.value)
+			if (!this.localValue)
 			{
 				return false
 			}
 
 			if (this.isDay)
 			{
-				if (this.value === 0 || this.value > 31)
+				if (this.localValue === 0 || this.localValue > 31)
 				{
 					return false
 				}
@@ -80,7 +86,7 @@ export default {
 			}
 			if (this.isMonth)
 			{
-				if (this.value === 0 || this.value > 12)
+				if (this.localValue === 0 || this.localValue > 12)
 				{
 					return false
 				}
@@ -88,7 +94,7 @@ export default {
 			}
 			if (this.isYear)
 			{
-				if (this.value === 0 || this.value > 2023)
+				if (this.localValue === 0 || this.localValue > 2023)
 				{
 					return false
 				}
@@ -130,7 +136,7 @@ export default {
 		{
 			this.$emit(
 				"newValue",
-				this.isValid ? this.value : ""
+				this.isValid ? this.localValue : ""
 			)
 		},
 	},
@@ -146,6 +152,11 @@ export default {
 				this.$refs.myDate.focus()
 				this.$emit("focus", true)
 			}
+		},
+
+		value(n, o)
+		{
+			this.localValue = n
 		},
 	},
 }

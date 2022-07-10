@@ -147,18 +147,12 @@ export default
 	{
 		value (n, o)
 		{
-			let newDate = DateTime.local(n)
-			if (this.isDay)
+			let newDate = DateTime.fromISO(n)
+			if (! newDate.invalid)
 			{
-				this.value = newDate.toFormat("dd")
-			}
-			else if (this.isMonth)
-			{
-				this.value = newDate.toFormat("MM")
-			}
-			else if (this.isYear)
-			{
-				this.value = newDate.toFormat("yyyy")
+				this.day = newDate.toFormat("dd")
+				this.month = newDate.toFormat("MM")
+				this.year = newDate.toFormat("yyyy")
 			}
 		},
 	},
