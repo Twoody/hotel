@@ -109,7 +109,38 @@ export default {
 		processDateSelection (selected)
 		{
 			let d = DateTime.fromJSDate(new Date(selected))
-			this.vueCalEvents[0].start = d.toISODate()
+			let start = DateTime.fromISO(this.vueCalEvents[0].start)
+			let end = DateTime.fromISO(this.vueCalEvents[0].end)
+			let min = DateTime.fromISO(this.minDate)
+			let max = DateTime.fromISO(this.maxDate)
+
+			if (d < min || d > max)
+			{
+				console.error('Illegal date selection')
+				return false
+			}
+
+			if (!this.vueCalEvents[0].start)
+			{
+				this.vueCalEvents[0].start = d.toISODate()
+			}
+
+			if (d.toFormat('yyyyMMdd') === start.toFormat('yyyyMMdd'))
+			{
+				console.log('trigger')
+				this.vueCalEvents[0].start = ''
+				this.vueCalEvents[0].end = ''
+			}
+			else if (d < start)
+			{
+				this.vueCalEvents[0].start = d.toISODate()
+			}
+			else
+			{
+				this.vueCalEvents[0].end = d.toISODate()
+			}
+
+			return true
 		},
 	},
 }

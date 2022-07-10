@@ -148,6 +148,12 @@ export default
 		value (n, o)
 		{
 			let newDate = DateTime.fromISO(n)
+			if (!n)
+			{
+				this.day = ''
+				this.month = ''
+				this.year = ''
+			}
 			if (! newDate.invalid)
 			{
 				this.day = newDate.toFormat("dd")

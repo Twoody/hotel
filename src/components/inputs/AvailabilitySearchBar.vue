@@ -91,6 +91,7 @@ export default {
 		{
 			this.$emit("updateEndDate", v)
 		},
+
 		updateStartDate (v)
 		{
 			this.$emit("updateStartDate", v)
