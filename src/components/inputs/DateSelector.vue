@@ -87,7 +87,7 @@ export default
 
 	computed:
 	{
-		displayedError()
+		displayedError ()
 		{
 			// Only show errors when there is content
 			if (this.day.length === 2 && this.month.length === 2 &&
@@ -95,23 +95,23 @@ export default
 			{
 				if (this.isSelectedInvalid)
 				{
-					switch(this.isSelectedInvalid)
+					switch (this.isSelectedInvalid)
 					{
 						case 1:
-							return 'Date is invalid'
+							return "Date is invalid"
 
 						case 2:
-							return 'Too far in the future'
+							return "Too far in the future"
 
 						case 3:
-							return 'Past date'
+							return "Past date"
 
 						default:
-							throw Error('Unknown invalid type')
+							throw Error("Unknown invalid type")
 					}
 				}
 			}
-			return ''
+			return ""
 		},
 
 		isSelectedInvalid ()
@@ -197,9 +197,9 @@ export default
 			let newDate = DateTime.fromISO(n)
 			if (!n)
 			{
-				this.day = ''
-				this.month = ''
-				this.year = ''
+				this.day = ""
+				this.month = ""
+				this.year = ""
 			}
 			if (! newDate.invalid)
 			{

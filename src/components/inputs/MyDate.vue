@@ -44,7 +44,7 @@ export default {
 		isYear: Boolean,
 		value:
 		{
-			default: '',
+			default: "",
 			required: false,
 			type: String,
 		},
@@ -134,17 +134,17 @@ export default {
 	{
 		isNumber (evt)
 		{
-			evt = (evt) ? evt : window.event;
-			var charCode = (evt.which) ? evt.which : evt.keyCode;
+			evt = (evt) ? evt : window.event
+			var charCode = (evt.which) ? evt.which : evt.keyCode
 
 			if ((charCode > 31 && (charCode < 48 || charCode > 57)) &&
 				charCode !== 46)
 			{
-				evt.preventDefault();;
+				evt.preventDefault()
 			}
 			else
 			{
-				return true;
+				return true
 			}
 		},
 
@@ -171,7 +171,7 @@ export default {
 			}
 		},
 
-		value(n, o)
+		value (n, o)
 		{
 			this.localValue = n
 		},
