@@ -11,8 +11,8 @@
 					</span>
 					<DateSelector
 						:isLoading="isLoading"
-						:max="maxDate"
-						:min="today"
+						:maxDate="maxDate"
+						:minDate="today"
 						:value="start"
 						@newDate="updateStartDate($event)"
 					/>
@@ -23,8 +23,8 @@
 					</span>
 					<DateSelector
 						:isLoading="isLoading"
-						:max="maxDate"
-						:min="minDateEnd"
+						:maxDate="maxDate"
+						:minDate="minDateEnd"
 						:value="end"
 						@newDate="updateEndDate($event)"
 					/>
