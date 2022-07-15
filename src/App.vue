@@ -68,26 +68,34 @@ export default {
 	{},
 	created: function()
 	{
-		const auth = getAuth()
-		onAuthStateChanged(
-			auth,
-			(user) =>
-			{
-				// Update user via store
-				this.$store.commit("setIsLoggingIn", true)
-				this.$store.dispatch("fetchUser", user)
+		try
+		{
+			const auth = getAuth()
+			onAuthStateChanged(
+				auth,
+				(user) =>
+				{
+					// Update user via store
+					this.$store.commit("setIsLoggingIn", true)
+					this.$store.dispatch("fetchUser", user)
 
-				if (user)
-				{
-					// User is signed in.
+					if (user)
+					{
+						// User is signed in.
+					}
+					else
+					{
+						// No User
+					}
+					this.$store.commit("setIsLoggingIn", false)
 				}
-				else
-				{
-					// No User
-				}
-				this.$store.commit("setIsLoggingIn", false)
-			}
-		)
+			)
+		}
+		catch (e)
+		{
+			console.error('Could not connect to firebase')
+			console.error(e)
+		}
 
 	},
 }

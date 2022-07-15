@@ -1,10 +1,18 @@
 A detailed description of something to do in the area
 <template>
 	<div class="map-item-page-wrapper">
-		<h1>Map Item: {{ title }}</h1>
-		<p>
-			Work in Progress... Check back later
-		</p>
+		<div v-if='hasContent'>
+			<h1>Map Item: {{ title }}</h1>
+			<p>
+				Work in Progress... Check back later
+			</p>
+		</div>
+		<div v-else>
+			<h1>Map Item Not Found</h1>
+			<p>
+				Oops, looks like the url is off
+			</p>
+		</div>
 	</div>
 </template>
 
@@ -28,6 +36,13 @@ export default {
 		{
 			return this.activites[this.$route.params.id]
 		},
+
+		/** @returns {boolean} Whether the activity was found and content is available */
+		hasContent ()
+		{
+			return this.activity.title
+		},
+
 		title () 
 		{
 			return this.activity.title
