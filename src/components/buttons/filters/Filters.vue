@@ -1,5 +1,4 @@
 <script setup>
-import { defineEmits } from "vue"
 const emit = defineEmits([
 	"update",
 ])
@@ -17,7 +16,6 @@ const update = (id) =>
 			:inactive="! filter.active"
 			type="button"
 			@mouseup="update(filter.id)"
-			@touchend="update(filter.id)"
 		>
 			{{ formatTitle(filter) }}
 		</MyFilter>

@@ -55,7 +55,6 @@ export default {
 
 .search-execute {
 	background-color: @color-pastel-blue !important;
-	filter: sepia(0.5) !important;
 	height: 50px;
 	margin-bottom: 11px;
 	margin-top: 5px;

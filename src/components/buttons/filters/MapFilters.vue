@@ -134,7 +134,6 @@ export default {
 	created () 
 	{
 		this.filtersAll = this.buildFilters()
-		// this.filtersAll = this.buildFilters()
 	},
 	watch:
 	{
