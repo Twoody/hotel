@@ -1,4 +1,3 @@
-import { db } from "../db"
 import { createStore } from "vuex"
 
 // Sub Modules

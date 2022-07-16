@@ -46,7 +46,12 @@
 </template>
 
 <script>
-import { getAuth, onAuthStateChanged } from "firebase/auth"
+import {
+	getAuth,
+	onAuthStateChanged
+} from "firebase/auth"
+import { initializeApp } from "firebase/app"
+import { getFirestore } from "firebase/firestore"
 
 import AppSection from "components/common/AppSection"
 import NavBar from "components/nav/NavBar"
@@ -70,6 +75,19 @@ export default {
 	{
 		try
 		{
+			const firebaseConfig = {
+				apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+				appId: import.meta.env.VITE_FIREBASE_APP_ID,
+				authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+				databaseURL: import.meta.env.VITE_DATABASE_URL,
+				messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+				projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+				storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+			}
+
+			// Get a Firestore instance
+			const app = initializeApp(firebaseConfig)
+
 			const auth = getAuth()
 			onAuthStateChanged(
 				auth,
@@ -102,8 +120,9 @@ export default {
 </script>
 
 <style lang='less'>
+// TODO: Import locally if offline...
 @import "../assets/styles/styles";
-@import (css) url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+//@import (css) url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
 html, body {
 	color: @myblack;
