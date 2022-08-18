@@ -5,7 +5,9 @@
 			:isShowing="$store.state.layout.isShowingBanner"
 			@click="$store.commit('setIsShowingBanner', false)"
 		>
-			<div id="top-banner" />
+			<div id="top-banner">
+				{{ $store.state.layout.bannerMessage }}
+			</div>
 		</AppSection>
 
 		<!-- Handle appSection click for navbar on chevron and ations instead.. -->
@@ -46,12 +48,9 @@
 </template>
 
 <script>
-import {
-	getAuth,
-	onAuthStateChanged
-} from "firebase/auth"
+import {getAuth,
+	onAuthStateChanged} from "firebase/auth"
 import { initializeApp } from "firebase/app"
-import { getFirestore } from "firebase/firestore"
 
 import AppSection from "components/common/AppSection"
 import NavBar from "components/nav/NavBar"
@@ -69,10 +68,25 @@ export default {
 			isNavCollapsed: true,
 		}
 	},
-	computed:
-	{},
+	computed: {},
+	watch:
+	{
+		/**
+		 * Reset offline banner state from closed when route changes
+		 */
+		"$route" ()
+		{
+			this.$store.commit("setIsShowingBanner", true)
+		},
+	},
 	created: function()
 	{
+		// List for online status changing
+		this.$store.commit("setIsOnline", navigator.onLine)
+		window.addEventListener("load", this.handleEventLoad)
+		window.addEventListener("online", this.handleEventOnline)
+		window.addEventListener("offline", this.handleEventOffline)
+
 		try
 		{
 			const firebaseConfig = {
@@ -86,7 +100,7 @@ export default {
 			}
 
 			// Get a Firestore instance
-			const app = initializeApp(firebaseConfig)
+			initializeApp(firebaseConfig)
 
 			const auth = getAuth()
 			onAuthStateChanged(
@@ -111,18 +125,68 @@ export default {
 		}
 		catch (e)
 		{
-			console.error('Could not connect to firebase')
+			console.error("Could not connect to firebase")
 			console.error(e)
 		}
+
+	},
+	beforeDestroy: function()
+	{
+		window.removeEventListener("load", this.handleEventLoad)
+		window.removeEventListener("online", this.handleEventOnline)
+		window.removeEventListener("offline", this.handleEventOffline)
+	},
+	methods:
+	{
+		/**
+		 * Handle when the app is loaded
+		 */
+		handleEventLoad ()
+		{
+			if (navigator.onLine)
+			{
+				this.handleEventOnline()
+			}
+			else
+			{
+				this.handleEventOffline()
+			}
+		},
+
+		/**
+		 * Handle the app going offline
+		 */
+		handleEventOffline ()
+		{
+			// Tell user internet is disconnected
+			this.$store.commit(
+				"setBannerMessage",
+				"Warning: No Internet"
+			)
+
+			// Configure environment accordingly
+			this.$store.commit("setIsOnline", false) 
+			this.$store.commit("setIsShowingBanner", true)
+		},
+
+		/**
+		 * Handle when the app goes online
+		 */
+		handleEventOnline ()
+		{
+			this.$store.commit("setIsOnline", true) 
+			this.$store.commit("setIsShowingBanner", false)
+
+			// Last, reset the message text
+			this.$store.commit( "setBannerMessage", "")
+		},
 
 	},
 }
 </script>
 
 <style lang='less'>
-// TODO: Import locally if offline...
 @import "../assets/styles/styles";
-//@import (css) url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
 html, body {
 	color: @myblack;
@@ -172,9 +236,16 @@ html, body {
 }
 
 #top-banner {
-	background-color: @color-primary-triadic-3;
-	height: 50px;
-	padding: 0;
+	align-items: center;
+	background-color: @color-purple;
+	color: @myblack;
+	cursor: pointer;
+	display: flex;
+	filter: brightness(1.2);
+	font-weight: 900;
+	justify-content: flex-start;
+	padding: 5px;
+	padding-left: 11px;
 	margin: 0;
 	width: 100%;
 }

@@ -103,7 +103,6 @@ export default {
 			{
 				const analytics = getAnalytics()
 				const title = value ? "map_filter_set" : "map_filter_unset"
-				console.log(this.filtersAll[id] || "NOT_FOUND")
 				logEvent(
 					analytics,
 					title,

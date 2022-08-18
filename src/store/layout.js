@@ -22,6 +22,11 @@ export default
 
 	mutations:
 	{
+		setBannerMessage (state, msg)
+		{
+			state.bannerMessage = msg
+		},
+
 		setIsNavCollapsed (state, value)
 		{
 			state.isNavCollapsed = value
