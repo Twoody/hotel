@@ -24,7 +24,7 @@
 					<b>If anything is broken, please let us know ASAP</b>
 				</li>
 				<li>
-					<b>If anything is not found whild "checking" for it, please let us know ASAP</b>
+					<b>If anything is not found while "checking" for it, please let us know ASAP</b>
 				</li>
 			</ol>
 		</div>
