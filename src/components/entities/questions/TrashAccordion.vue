@@ -20,6 +20,9 @@
 					<li>
 						<span style="color:brown;">Composte is the brown bin.</span>
 					</li>
+					<li>
+						<span style="color:grey;">Glass is the grey bin.</span>
+					</li>
 				</ul>
 			</p>
 			<p>

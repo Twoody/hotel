@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router"
 import { getAnalytics, logEvent } from "firebase/analytics"
 
+import AirbnbCleaning from "../views/AirbnbCleaning.vue"
 import Amenities from "../views/Amenities.vue"
 import Foobar from "../views/Amenities.vue"
 import Home from "../views/Home.vue"
@@ -18,6 +19,11 @@ const routes = [
 		component: () => import(/* webpackChunkName: "about" */ "../views/About.vue"),
 		name: "about",
 		path: "/about",
+	},
+	{
+		component: AirbnbCleaning,
+		name: "airbnbCleaning",
+		path: "/airbnb-cleaning",
 	},
 	{
 		component: Foobar,
