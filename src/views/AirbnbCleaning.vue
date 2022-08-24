@@ -2,7 +2,7 @@
 	<div class="airbnb-cleaning-wrapper">
 		<h1>Airbnb Cleaning</h1>
 
-		<div class="tips-list">
+		<div class="tips-list room-list">
 			<h2>Tips</h2>
 			<ol>
 				<li>
@@ -371,31 +371,31 @@ export default {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
+	flex-grow: 1;
 	padding-bottom: 50px;
 	margin-left: 20px;
 	margin-right: 20px;
-	max-width: min(98%, 660px);
 	width: 100%;
 
 	h1 {
 		width: 100%;
 	}
 	hr {
-		color: black;
-		height: 1px;
-		width: 100%;
+		border-bottom: 2px solid purple;
+		width: 150px;
 	}
 
 	.room-list {
-		max-width: 100%;
+		max-width: min(98%, 660px);
 		width: 100%;
 		.nested-list {
 			max-width: 100%;
 			width: 100%;
 		}
 	}
-
 	.tips-list {
+		padding-bottom: 15px;
+
 		h2 {
 			border-bottom: 1px solid @myblack;
 			margin: 0;
