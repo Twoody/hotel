@@ -29,12 +29,10 @@
 			</ol>
 		</div>
 
-		<div 
-			  class='flex-box'>
 			<CleaningFilters
+				class='foobar'
 				@updated-active="updateFilters($event)"
 			/>
-		</div>
 
 		<QuestionAccordion class="room-list">
 			<template #title>
@@ -410,6 +408,9 @@ export default {
 		width: 150px;
 	}
 
+	.foobar {
+		max-width: @maxwidth;
+	}
 	.room-list {
 		max-width: min(98%, 660px);
 		width: 100%;

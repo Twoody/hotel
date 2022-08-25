@@ -2,6 +2,7 @@
 @s: 620px;
 @m: 770px;
 @l: 960px;
+@maxwidth: min(98%, 660px);
 
 @media only screen and (min-width: @s) {
   /* For tablets: */
@@ -68,7 +69,7 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	max-width: min(98%, 660px);
+	max-width: @maxwidth;
 
 	.flex-item {
 		flex-grow: 1;
