@@ -29,6 +29,13 @@
 			</ol>
 		</div>
 
+		<div 
+			  class='flex-box'>
+			<CleaningFilters
+				@updated-active="updateFilters($event)"
+			/>
+		</div>
+
 		<QuestionAccordion class="room-list">
 			<template #title>
 				Bathroom
@@ -36,13 +43,13 @@
 			<template #content>
 				<ol>
 					<li>
-						Top off hand soap and shampoo bottles
+						Top off hand soap, shower bottles, laundry detergent
 					</li>
 					<li>
 						Resupply "linen closet"
 					</li>
 					<li>
-						Vacuum Drawers
+						Vacuum drawers
 					</li>
 					<li>
 						Vacuum rugs and under rugs to best of ability
@@ -352,13 +359,31 @@
 </template>
 
 <script>
+import CleaningFilters from "components/buttons/filters/CleaningFilters"
 import QuestionAccordion from "components/entities/questions/QuestionAccordion"
 
 export default {
 	name: "AirbnbCleaning",
 	components:
 	{
+		CleaningFilters,
 		QuestionAccordion,
+	},
+	data() {
+		return {
+			activeFilters: [],
+		}
+	},
+	methods: 
+	{
+		/**
+		 * @param {object} newFilters - new filters to replace the old
+		 * @returns {void}
+		 */
+		updateFilters (newFilters) 
+		{
+			this.activeFilters = newFilters
+		},
 	},
 }
 </script>
