@@ -15,7 +15,7 @@
 
 <script>
 import { getAnalytics, logEvent } from "firebase/analytics"
-import {FILTERS} from "constants/misc.js"
+import {MAP_FILTERS} from "constants/misc.js"
 import Filters from "components/buttons/filters/Filters"
 
 export default {
@@ -29,7 +29,7 @@ export default {
 	{
 		return {
 			/** Store a local copy to manage state */
-			filters: FILTERS,
+			filters: MAP_FILTERS,
 			filtersAll: {},
 		}
 	},
