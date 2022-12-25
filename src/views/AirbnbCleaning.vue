@@ -9,7 +9,10 @@
 					Load the washing machines first (use both washers and dryers)
 				</li>
 				<li>
-					Start from the top to the bottom: Window sills, picture frames, ledges, fridge...
+					Load the dishwasher (if needed) upstairs, second
+				</li>
+				<li>
+					Start from top-to-bottom: Window sills, picture frames, ledges, fridge...
 				</li>
 				<li>
 					Dust first, Vacuum last
@@ -29,10 +32,46 @@
 			</ol>
 		</div>
 
-			<CleaningFilters
-				class='foobar'
-				@updated-active="updateFilters($event)"
-			/>
+		<QuestionAccordion class="room-list">
+			<template #title>
+				Special Notes
+			</template>
+			<template #content>
+				<QuestionAccordion class="nested-list">
+					<template #title>
+						Living Room
+					</template>
+					<template #content>
+						<ol>
+							<li>
+								Replace grey/fuzzy comforter with white/gery comforter by laundry machine
+							</li>
+							<li>
+								Move fuzzy pillows out of the airbnb and into our laundry room
+							</li>
+							<li>
+								Move holiday pillow out of the airbnb and into our laundry room
+							</li>
+							<li>
+								Move white-fur throw out of the airbnb and into our laundry room
+							</li>
+						</ol>
+					</template>
+				</QuestionAccordion>
+				<QuestionAccordion class="nested-list">
+					<template #title>
+						Bathroom
+					</template>
+					<template #content>
+						<ol>
+							<li>
+								Ensure ONLY two towels/washclothes of each size
+							</li>
+						</ol>
+					</template>
+				</QuestionAccordion>
+			</template>
+		</QuestionAccordion>
 
 		<QuestionAccordion class="room-list">
 			<template #title>
@@ -44,7 +83,15 @@
 						Top off hand soap, shower bottles, laundry detergent
 					</li>
 					<li>
-						Resupply "linen closet"
+						Resupply "linen closet":
+						<ul>
+							<li>
+								Restock: 2 - 3 toilet paper rolls if needed
+							</li>
+							<li>
+								Restock: Soaps, shampoo, conditioner if needed
+							</li>
+						</ul>
 					</li>
 					<li>
 						Vacuum drawers
@@ -75,6 +122,12 @@
 								Clean shower head
 							</li>
 							<li>
+								Clean sink
+							</li>
+							<li>
+								Clean glass from splash marks
+							</li>
+							<li>
 								Move shower soaps and clean caddy
 							</li>
 							<li>
@@ -85,6 +138,12 @@
 							</li>
 							<li>
 								Clean toilet bowl - Cleaner and brush should be downstairs
+							</li>
+							<li>
+								Shower walls
+							</li>
+							<li>
+								Check drain for hair/draining
 							</li>
 						</ol>
 					</template>
@@ -135,6 +194,9 @@
 			</template>
 			<template #content>
 				<ol>
+					<li v-if='hasFlowers'>
+						Change the water to the flowers; Trim flowers if necessary
+					</li>
 					<li>
 						Dust frames + shelves
 					</li>
@@ -169,7 +231,7 @@
 			</template>
 			<template #content>
 				<ol>
-					<li>
+					<li v-if='hasDog'>
 						Fill dog treats (from upstairs)
 					</li>
 					<li>
@@ -219,31 +281,16 @@
 						Bring dishes upstairs if left dirty (clean in upstairs dishwasher)
 					</li>
 					<li>
-						Top off salt, pepper, oil, vinegar (all found in upstairs kitchen)
+						Restock: Top off salt, pepper, oil, vinegar (all found in upstairs kitchen)
+					</li>
+					<li>
+						Restock: Paper towel roll on the kitchen shelf by window
+					</li>
+					<li>
+						Restock: Blue kitchen sponge with brand new one (sponges in laundry room box with shampoo)
 					</li>
 					<li>
 						Remove MOST food (this is tricky)
-					</li>
-					<li>
-						Clean window sill
-					</li>
-					<li>
-						Clean top of fridge
-					</li>
-					<li>
-						Check blender lid + pad/mat
-					</li>
-					<li>
-						Clean stove + splash pad
-					</li>
-					<li>
-						Clean fridge
-					</li>
-					<li>
-						Clean counters and shelves
-					</li>
-					<li>
-						Clean + organize drawers
 					</li>
 					<li>
 						Vacuum under island
@@ -255,6 +302,9 @@
 						Check dog food bowl, clean if dirty
 					</li>
 					<li>
+						Place dog bowls under counter
+					</li>
+					<li>
 						Ensure two sets of all dishes
 					</li>
 					<li>
@@ -264,6 +314,37 @@
 						Move trash can and check trash can for spills/messes
 					</li>
 				</ol>
+				<QuestionAccordion class="nested-list">
+					<template #title>
+						Clean
+					</template>
+					<template #content>
+						<ol>
+							<li>
+								Clean window sill
+							</li>
+							<li>
+								Clean top of fridge
+							</li>
+							<li>
+								Check blender lid + pad/mat
+							</li>
+							<li>
+								Clean stove + splash pad
+							</li>
+							<li>
+								Clean fridge
+							</li>
+							<li>
+								Clean counters and shelves
+							</li>
+							<li>
+								Clean + organize drawers
+							</li>
+						</ol>
+					</template>
+				</QuestionAccordion>
+
 			</template>
 		</QuestionAccordion>
 
@@ -273,6 +354,9 @@
 			</template>
 			<template #content>
 				<ol>
+					<li>
+						Check blankets for hair and odor; Wash if found;
+					</li>
 					<li>
 						Fold up blankets and place in basket
 					</li>
@@ -357,31 +441,22 @@
 </template>
 
 <script>
-import CleaningFilters from "components/buttons/filters/CleaningFilters"
 import QuestionAccordion from "components/entities/questions/QuestionAccordion"
 
 export default {
 	name: "AirbnbCleaning",
 	components:
 	{
-		CleaningFilters,
 		QuestionAccordion,
 	},
 	data() {
 		return {
-			activeFilters: [],
+			hasDog: true,
+			hasFlowers: true,
 		}
 	},
 	methods: 
 	{
-		/**
-		 * @param {object} newFilters - new filters to replace the old
-		 * @returns {void}
-		 */
-		updateFilters (newFilters) 
-		{
-			this.activeFilters = newFilters
-		},
 	},
 }
 </script>
