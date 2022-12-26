@@ -64,6 +64,16 @@
 			<template #content>
 				<ol>
 					<li>
+						Check the shower curtain for discoloration
+						(we have a spare to just switch out)
+					</li>
+					<li>
+						Check drain for hair/draining
+					</li>
+					<li>
+						Take out trash
+					</li>
+					<li>
 						Restock: Top off hand soap and shower bottles
 					</li>
 					<li>
@@ -121,10 +131,6 @@
 								Move shower soaps and clean caddy
 							</li>
 							<li>
-								Check the shower curtain for discoloration
-								(we have a spare to just switch out)
-							</li>
-							<li>
 								Clean toilet (tighten screws if needed)
 							</li>
 							<li>
@@ -132,9 +138,6 @@
 							</li>
 							<li>
 								Shower walls
-							</li>
-							<li>
-								Check drain for hair/draining
 							</li>
 						</ol>
 					</template>
