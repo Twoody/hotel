@@ -202,9 +202,6 @@
 						Change the water to the flowers; Trim flowers if necessary
 					</li>
 					<li>
-						Dust frames + shelves
-					</li>
-					<li>
 						Check game cabinet for organization and tidiness
 					</li>
 					<li>
@@ -214,18 +211,31 @@
 						Check chairs + table legs
 					</li>
 					<li>
-						Check/wipe recycling blue bins (they should have signs on them, too)
-					</li>
-					<li>
-						Clean window sill
-					</li>
-					<li>
-						Clean table + glass 
-					</li>
-					<li>
 						Vacuum
 					</li>
 				</ol>
+				<QuestionAccordion class="nested-list">
+					<template #title>
+						Clean
+					</template>
+					<template #content>
+						<ol>
+							<li>
+								Check/wipe recycling blue bins (they should have signs on them, too)
+							</li>
+							<li>
+								Dust frames + shelves
+							</li>
+							<li>
+								Clean window sill
+							</li>
+							<li>
+								Clean table + glass 
+							</li>
+						</ol>
+					</template>
+				</QuestionAccordion>
+
 			</template>
 		</QuestionAccordion>
 
