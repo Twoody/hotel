@@ -255,19 +255,29 @@
 						Check french doors blinds by sliding open-and-shut.
 					</li>
 					<li v-if="hasDog">
-						Restock: Poop bags - More in upstairs mudroom by window
-					</li>
-					<li v-if="hasDog">
-						Restock: Dog treats (from upstairs)
+						Restock:
+						<ul>
+							<li>
+								Poop bags - More in upstairs mudroom by window
+							</li>
+							<li>
+								Dog treats (from upstairs)
+							</li>
+						</ul>
 					</li>
 					<li>
-						Vacuum dirt/mud catcher
-					</li>
-					<li>
-						Vacuum under rugs
-					</li>
-					<li>
-						Vacuum French Doors liner
+						Vacuum:
+						<ul>
+							<li>
+								Dirt/mud catcher
+							</li>
+							<li>
+								Under rugs
+							</li>
+							<li>
+								French Doors liner
+							</li>
+						</ul>
 					</li>
 				</ol>
 				<QuestionAccordion class="nested-list">
@@ -335,7 +345,13 @@
 						Vacuum:
 						<ul>
 							<li>
-								Inside arbage container if applicable
+								Drawers
+							</li>
+							<li>
+								Coffee grinder
+							</li>
+							<li>
+								Inside garbage container if applicable
 							</li>
 							<li>
 								Under island
@@ -359,10 +375,16 @@
 								Check blender lid + pad/mat
 							</li>
 							<li>
-								Clean stove + splash pad
+								Clean coffee machine (pot and inside for used coffee grinds)
 							</li>
 							<li>
-								Clean fridge
+								Clean sink
+							</li>
+							<li>
+								Clean stove + splash pad (aka grease guard)
+							</li>
+							<li>
+								Clean fridge and freezer
 							</li>
 							<li>
 								Clean counters and shelves
@@ -398,7 +420,13 @@
 						Put dog toys on dog bed
 					</li>
 					<li>
-						Fold down couch
+						Check for fan remote and that it works
+					</li>
+					<li>
+						Assist with robot vacuum if unplugged/off base
+					</li>
+					<li>
+						Empty robot vacuum dust bin
 					</li>
 					<li>
 						Check fireplace control
@@ -409,25 +437,36 @@
 						&nbsp;&nbsp;&nbsp;&nbsp;Batteries upstairs in closet next to robot vacuum
 					</li>
 					<li>
+						Check ottoman bed
+					</li>
+					<li>
 						Clean table stand
 					</li>
 					<li>
-						Vacuum furniture
+						Clean ottoman
 					</li>
 					<li>
-						Vacuum rug
+						Clean firplace mantle
 					</li>
 					<li>
-						Vacuum under rug to best of ability
-					</li>
-					<li>
-						Vacuum fan base
-					</li>
-					<li>
-						Check for fan remote and that it works
-					</li>
-					<li>
-						Assist with robot vacuum if unplugged/off base
+						Vacuum:
+						<ul>
+							<li>
+								Furniture
+							</li>
+							<li>
+								Rug
+							</li>
+							<li>
+								Under rug to best of ability
+							</li>
+							<li>
+								Fan base
+							</li>
+							<li>
+								Couch (Fold down)
+							</li>
+						</ul>
 					</li>
 				</ol>
 			</template>
@@ -445,6 +484,12 @@
 					<li>
 						Check for trash
 					</li>
+					<li>
+						Gate is latched from the street
+					</li>
+					<li>
+						Gate is unlatched from the inside
+					</li>
 				</ol>
 			</template>
 		</QuestionAccordion>
@@ -458,7 +503,7 @@
 			<template #content>
 				<ol>
 					<li>
-						In general, wipe everything down and vacumm
+						In general, wipe everything down and vacuum
 						<br>
 						And let us know if things are broken or do not look right.
 					</li>
