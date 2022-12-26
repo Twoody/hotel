@@ -32,44 +32,28 @@
 			</ol>
 		</div>
 
-		<QuestionAccordion class="room-list">
+		<QuestionAccordion
+			v-if='hasDog'
+			class="room-list"
+		>
 			<template #title>
-				Special Notes
+				Special Notes: Living Room
 			</template>
 			<template #content>
-				<QuestionAccordion class="nested-list">
-					<template #title>
-						Living Room
-					</template>
-					<template #content>
-						<ol>
-							<li>
-								Replace grey/fuzzy comforter with white/gery comforter by laundry machine
-							</li>
-							<li>
-								Move fuzzy pillows out of the airbnb and into our laundry room
-							</li>
-							<li>
-								Move holiday pillow out of the airbnb and into our laundry room
-							</li>
-							<li>
-								Move white-fur throw out of the airbnb and into our laundry room
-							</li>
-						</ol>
-					</template>
-				</QuestionAccordion>
-				<QuestionAccordion class="nested-list">
-					<template #title>
-						Bathroom
-					</template>
-					<template #content>
-						<ol>
-							<li>
-								Ensure ONLY two towels/washclothes of each size
-							</li>
-						</ol>
-					</template>
-				</QuestionAccordion>
+				<ol>
+					<li>
+						Replace grey/fuzzy comforter with white/gery comforter by laundry machine
+					</li>
+					<li>
+						Move fuzzy pillows out of the airbnb and into our laundry room
+					</li>
+					<li>
+						Move holiday pillow out of the airbnb and into our laundry room
+					</li>
+					<li>
+						Move white-fur throw out of the airbnb and into our laundry room
+					</li>
+				</ol>
 			</template>
 		</QuestionAccordion>
 
@@ -80,16 +64,22 @@
 			<template #content>
 				<ol>
 					<li>
-						Top off hand soap, shower bottles, laundry detergent
+						Restock: Top off hand soap and shower bottles
 					</li>
 					<li>
-						Resupply "linen closet":
+						Restock: "linen closet"
 						<ul>
+							<li>
+								Ensure ONLY two towels/washclothes of each size
+							</li>
 							<li>
 								Restock: 2 - 3 toilet paper rolls if needed
 							</li>
 							<li>
 								Restock: Soaps, shampoo, conditioner if needed
+							</li>
+							<li>
+								Restock: Laundry detergent
 							</li>
 						</ul>
 					</li>
@@ -293,6 +283,9 @@
 						Bring dishes upstairs if left dirty (clean in upstairs dishwasher)
 					</li>
 					<li>
+						Remove MOST food (this is tricky)
+					</li>
+					<li>
 						Restock: Top off salt, pepper, oil, vinegar (all found in upstairs kitchen)
 					</li>
 					<li>
@@ -302,28 +295,19 @@
 						Restock: Blue kitchen sponge with brand new one (sponges in laundry room box with shampoo)
 					</li>
 					<li>
-						Remove MOST food (this is tricky)
-					</li>
-					<li>
-						Vacuum under island
-					</li>
-					<li>
-						Fill water bowl (unless told otherwise)
-					</li>
-					<li>
-						Check dog food bowl, clean if dirty
-					</li>
-					<li>
-						Place dog bowls under counter
-					</li>
-					<li>
-						Ensure two sets of all dishes
+						Restock: Ensure two sets of all dishes
 					</li>
 					<li>
 						Take out trash (save for last though)
 					</li>
 					<li>
 						Move trash can and check trash can for spills/messes
+					</li>
+					<li>
+						Vacuum out garbage container if applicable
+					</li>
+					<li>
+						Vacuum under island
 					</li>
 				</ol>
 				<QuestionAccordion class="nested-list">
@@ -353,10 +337,15 @@
 							<li>
 								Clean + organize drawers
 							</li>
+							<li v-if='hasDog'>
+								Check dog food bowl, clean if dirty
+							</li>
 						</ol>
 					</template>
 				</QuestionAccordion>
-
+				<li v-if='hasDog'>
+					Place dog bowls under counter
+				</li>
 			</template>
 		</QuestionAccordion>
 
@@ -367,12 +356,12 @@
 			<template #content>
 				<ol>
 					<li>
-						Check blankets for hair and odor; Wash if found;
+						Check blankets for hair and odor; Wash if found
 					</li>
 					<li>
 						Fold up blankets and place in basket
 					</li>
-					<li>
+					<li v-if='hasDog'>
 						Put dog toys on dog bed
 					</li>
 					<li>
