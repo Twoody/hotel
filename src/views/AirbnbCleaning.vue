@@ -33,7 +33,7 @@
 		</div>
 
 		<QuestionAccordion
-			v-if='hasDog'
+			v-if="hasDog"
 			class="room-list"
 		>
 			<template #title>
@@ -121,7 +121,8 @@
 								Move shower soaps and clean caddy
 							</li>
 							<li>
-								Check the shower curtain for discoloration (we have a spare to just switch out)
+								Check the shower curtain for discoloration
+								(we have a spare to just switch out)
 							</li>
 							<li>
 								Clean toilet (tighten screws if needed)
@@ -194,7 +195,7 @@
 			</template>
 			<template #content>
 				<ol>
-					<li v-if='hasFlowers'>
+					<li v-if="hasFlowers">
 						Change the water to the flowers; Trim flowers if necessary
 					</li>
 					<li>
@@ -240,10 +241,10 @@
 					<li>
 						Check french doors blinds by sliding open-and-shut.
 					</li>
-					<li v-if='hasDog'>
+					<li v-if="hasDog">
 						Restock: Poop bags - More in upstairs mudroom by window
 					</li>
-					<li v-if='hasDog'>
+					<li v-if="hasDog">
 						Restock: Dog treats (from upstairs)
 					</li>
 					<li>
@@ -302,7 +303,8 @@
 						Restock: Paper towel roll on the kitchen shelf by window
 					</li>
 					<li>
-						Restock: Blue kitchen sponge with brand new one (sponges in laundry room box with shampoo)
+						Restock: Blue kitchen sponge with brand new one
+						(sponges in laundry room box with shampoo)
 					</li>
 					<li>
 						Restock: Ensure two sets of all dishes
@@ -347,13 +349,13 @@
 							<li>
 								Clean + organize drawers
 							</li>
-							<li v-if='hasDog'>
+							<li v-if="hasDog">
 								Check dog food bowl, clean if dirty
 							</li>
 						</ol>
 					</template>
 				</QuestionAccordion>
-				<li v-if='hasDog'>
+				<li v-if="hasDog">
 					Place dog bowls under counter
 				</li>
 			</template>
@@ -371,7 +373,7 @@
 					<li>
 						Fold up blankets and place in basket
 					</li>
-					<li v-if='hasDog'>
+					<li v-if="hasDog">
 						Put dog toys on dog bed
 					</li>
 					<li>
@@ -460,15 +462,15 @@ export default {
 	{
 		QuestionAccordion,
 	},
-	data() {
+	data () 
+	{
 		return {
 			hasDog: true,
 			hasFlowers: true,
 		}
 	},
 	methods: 
-	{
-	},
+	{},
 }
 </script>
 
