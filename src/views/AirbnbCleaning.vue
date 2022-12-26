@@ -65,7 +65,7 @@
 				<ol>
 					<li>
 						Check the shower curtain for discoloration
-						(we have a spare to just switch out)
+						(Spare to just switch out in our laundry room)
 					</li>
 					<li>
 						Check drain for hair/draining
@@ -300,17 +300,20 @@
 						Remove MOST food (this is tricky)
 					</li>
 					<li>
-						Restock: Top off salt, pepper, oil, vinegar (all found in upstairs kitchen)
-					</li>
-					<li>
-						Restock: Paper towel roll on the kitchen shelf by window
-					</li>
-					<li>
-						Restock: Blue kitchen sponge with brand new one
-						(sponges in laundry room box with shampoo)
-					</li>
-					<li>
-						Restock: Ensure two sets of all dishes
+						Restock:
+						<ul>
+							<li>Top off salt, pepper, oil, vinegar (all found in upstairs kitchen)</li>
+							<li>
+								Paper towel roll on the kitchen shelf by window
+							</li>
+							<li>
+								Blue kitchen sponge with brand new one
+								(sponges in laundry room box with shampoo)
+							</li>
+							<li>
+								Ensure two sets of all dishes
+							</li>
+						</ul>
 					</li>
 					<li>
 						Take out trash (save for last though)
@@ -319,10 +322,15 @@
 						Move trash can and check trash can for spills/messes
 					</li>
 					<li>
-						Vacuum out garbage container if applicable
-					</li>
-					<li>
-						Vacuum under island
+						Vacuum:
+						<ul>
+							<li>
+								Inside arbage container if applicable
+							</li>
+							<li>
+								Under island
+							</li>
+						</ul>
 					</li>
 				</ol>
 				<QuestionAccordion class="nested-list">
@@ -358,9 +366,9 @@
 						</ol>
 					</template>
 				</QuestionAccordion>
-				<li v-if="hasDog">
+				<h3 v-if="hasDog">
 					Place dog bowls under counter
-				</li>
+				</h3>
 			</template>
 		</QuestionAccordion>
 
