@@ -416,9 +416,6 @@
 					<li>
 						Fold up blankets and place in basket
 					</li>
-					<li v-if="hasDog">
-						Put dog toys on dog bed
-					</li>
 					<li>
 						Check for fan remote and that it works
 					</li>
@@ -437,16 +434,7 @@
 						&nbsp;&nbsp;&nbsp;&nbsp;Batteries upstairs in closet next to robot vacuum
 					</li>
 					<li>
-						Check ottoman bed
-					</li>
-					<li>
-						Clean table stand
-					</li>
-					<li>
-						Clean ottoman
-					</li>
-					<li>
-						Clean firplace mantle
+						Check ottoman mattress and inside ottoman
 					</li>
 					<li>
 						Vacuum:
@@ -466,9 +454,46 @@
 							<li>
 								Couch (Fold down)
 							</li>
+							<li>
+								Chair pad
+							</li>
 						</ul>
 					</li>
+					<li v-if="hasDog">
+						Put dog bed by heater (<b>not blocking heater</b>)
+					</li>
+					<li v-if="hasDog">
+						Put dog toys on dog bed
+					</li>
+					<li v-if="hasDog">
+						Put dog pillow on dog bed
+					</li>
 				</ol>
+				<QuestionAccordion class="nested-list">
+					<template #title>
+						Clean
+					</template>
+					<template #content>
+						<ol>
+							<li>
+								Clean table stand
+							</li>
+							<li>
+								Clean chair
+							</li>
+							<li>
+								Clean couch
+							</li>
+							<li>
+								Clean ottoman
+							</li>
+							<li>
+								Clean firplace mantle
+							</li>
+						</ol>
+					</template>
+				</QuestionAccordion>
+
 			</template>
 		</QuestionAccordion>
 
