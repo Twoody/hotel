@@ -231,32 +231,20 @@
 			</template>
 			<template #content>
 				<ol>
-					<li v-if='hasDog'>
-						Fill dog treats (from upstairs)
-					</li>
 					<li>
-						Check for umbrella and poop bags - More poop bags can be brought from upstairs
+						Check for umbrella hanging on hooks
 					</li>
 					<li>
 						Check for hangers - Take some from the closet if not any
 					</li>
 					<li>
-						Check french doors blinds
+						Check french doors blinds by sliding open-and-shut.
 					</li>
-					<li>
-						Wipe top of coat rack
+					<li v-if='hasDog'>
+						Restock: Poop bags - More in upstairs mudroom by window
 					</li>
-					<li>
-						Clean window sill
-					</li>
-					<li>
-						Wipe off mirror
-					</li>
-					<li>
-						Wipe off bench
-					</li>
-					<li>
-						Clean mirror and french door glass
+					<li v-if='hasDog'>
+						Restock: Dog treats (from upstairs)
 					</li>
 					<li>
 						Vacuum dirt/mud catcher
@@ -268,6 +256,30 @@
 						Vacuum French Doors liner
 					</li>
 				</ol>
+				<QuestionAccordion class="nested-list">
+					<template #title>
+						Clean
+					</template>
+					<template #content>
+						<ol>
+							<li>
+								Clean window sill
+							</li>
+							<li>
+								Wipe top of coat rack
+							</li>
+							<li>
+								Clean mirror
+							</li>
+							<li>
+								Clean off bench
+							</li>
+							<li>
+								Clean mirror and french door glass
+							</li>
+						</ol>
+					</template>
+				</QuestionAccordion>
 			</template>
 		</QuestionAccordion>
 
