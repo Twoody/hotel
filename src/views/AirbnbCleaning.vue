@@ -148,7 +148,10 @@
 			<template #content>
 				<ol>
 					<li>
-						Look under beds, bedside drawers, in dresser, and in closet
+						Strip bed, check for stains
+					</li>
+					<li>
+						Look under bed, bedside drawers, in dresser, and in closet for personal items
 					</li>
 					<li>
 						Check for Pack-and-Play container in closet
@@ -157,24 +160,31 @@
 						Check for hangers	
 					</li>
 					<li>
-						Strip bed, check for stains
-					</li>
-					<li>
-						Wipe down desk
-					</li>
-					<li>
-						Wipe down dresser and drawers
-					</li>
-					<li>
-						Wipe down bedframe
+						Make bed
 					</li>
 					<li>
 						Vacuum out drawers and dresser
 					</li>
-					<li>
-						Make bed
-					</li>
 				</ol>
+				<QuestionAccordion class="nested-list">
+					<template #title>
+						Clean
+					</template>
+					<template #content>
+						<ol>
+							<li>
+								Wipe down desk
+							</li>
+							<li>
+								Wipe down dresser and drawers
+							</li>
+							<li>
+								Wipe down bedframe
+							</li>
+						</ol>
+					</template>
+				</QuestionAccordion>
+
 			</template>
 		</QuestionAccordion>
 
