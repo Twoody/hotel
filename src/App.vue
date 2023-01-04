@@ -76,7 +76,7 @@ export default {
 		 */
 		"$route" ()
 		{
-			this.$store.commit("setIsShowingBanner", true)
+			this.$store.commit("setIsShowingBanner", !navigator.onLine)
 		},
 	},
 	created: function()

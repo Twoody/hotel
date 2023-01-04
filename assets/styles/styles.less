@@ -2,6 +2,7 @@
 @s: 620px;
 @m: 770px;
 @l: 960px;
+@maxwidth: min(98%, 660px);
 
 @media only screen and (min-width: @s) {
   /* For tablets: */
@@ -61,6 +62,21 @@
   .text-m-center {text-align:center !important;}
   .text-m-right {text-align:right !important;}
 }
+
+.flex-box {
+	align-items: center;
+	align-content: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	max-width: @maxwidth;
+
+	.flex-item {
+		flex-grow: 1;
+		width: 100%;
+	}
+}
+
 
 @myblack: #01016E;
 @color-lavendar: #f7e9f3;

@@ -14,10 +14,10 @@ const MAPS = {
 	SAUVY_ISLAND: 11,
 	STUB_STEWART: 11,
 	TRYON: 11,
-	WILAMETE_RIVERd: 9,
+	WILAMETE_RIVER: 9,
 	WILDNERNESS: 4,
 }
-const FILTERS = {
+const MAP_FILTERS = {
 	1: "Dog Friendly",
 	2: "Food",
 	3: "Groceries",
@@ -33,6 +33,6 @@ const FILTERS = {
 }
 
 export {
-	FILTERS as FILTERS,
+	MAP_FILTERS as MAP_FILTERS,
 	MAPS as MAPS
 }

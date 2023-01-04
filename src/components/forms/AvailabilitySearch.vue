@@ -59,8 +59,8 @@ export default {
 			searchQuery: "",
 			vueCalEvents: [
 				{
-					end: "2022-07-21",
-					start: "2022-07-11",
+					end: "",
+					start: "",
 				},
 			],
 		}
