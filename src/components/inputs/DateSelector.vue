@@ -4,21 +4,21 @@ Element for handling manual date (no calendar picker) input
 		<div class="date-selector-wrapper">
 			<MyDate
 				class="date-input"
-				:value="day"
-				:focused="focusDay"
-				:isLoading="isLoading"
-				is-day
-				@newValue="updateParent('day', $event)"
-				@focus="focusDay = false"
-			/>
-			<MyDate
-				class="date-input"
 				:value="month"
 				:focused="focusMonth"
 				:isLoading="isLoading"
 				is-month
 				@newValue="updateParent('month', $event)"
 				@focus="focusMonth = false"
+			/>
+			<MyDate
+				class="date-input"
+				:value="day"
+				:focused="focusDay"
+				:isLoading="isLoading"
+				is-day
+				@newValue="updateParent('day', $event)"
+				@focus="focusDay = false"
 			/>
 			<MyDate
 				class="date-input"
