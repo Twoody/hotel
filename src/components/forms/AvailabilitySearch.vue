@@ -9,17 +9,17 @@ TODO: PRobably plugin inputs... :eye_roll:
 			>
 				<AvailabilitySearchBar
 					class="inputs-container"
-					:end="vueCalEvents[0].end"
+					:end="selectedDates[0].end"
 					:isLoading="isLoading"
-					:start="vueCalEvents[0].start"
-					@updateEndDate="vueCalEvents[0].end = $event"
-					@updateStartDate="vueCalEvents[0].start = $event"
+					:start="selectedDates[0].start"
+					@updateEndDate="selectedDates[0].end = $event"
+					@updateStartDate="selectedDates[0].start = $event"
 				/>
 				<VueCal
 					active-view="month"
 					class="vue-cal-container vuecal--rounded-theme vuecal--date-picker"
 					:disable-views="['day', 'week']"
-					:events="vueCalEvents"
+					:events="selectedDates"
 					hide-view-selector
 					:min-date="minDate"
 					:time="false"
@@ -27,7 +27,9 @@ TODO: PRobably plugin inputs... :eye_roll:
 					@cell-click="processDateSelection($event)"
 				/>
 				<BookButton
+					:disabled="!isBookingEnabled"
 					:isLoading="isLoading"
+					:totalPrice="totalPrice"
 					@click="handleAvailabilitySearch"
 				/>
 			</form>
@@ -37,6 +39,7 @@ TODO: PRobably plugin inputs... :eye_roll:
 
 <script>
 import {DateTime} from "luxon"
+import {Duration} from "luxon"
 
 import AvailabilitySearchBar from "@/components/inputs/AvailabilitySearchBar"
 import BookButton from "@/components/buttons/submissions/BookButton.vue"
@@ -54,10 +57,13 @@ export default {
 	data: function()
 	{
 		return {
+			cleaningFee: 100,
+			dailyRate: 85,
 			hasError: false,
 			isLoading: false,
+			maxDate: "2025-01-01",
 			searchQuery: "",
-			vueCalEvents: [
+			selectedDates: [
 				{
 					end: "",
 					start: "",
@@ -69,9 +75,51 @@ export default {
 	{},
 	computed: 
 	{
+		/** @returns {boolean} - Can the booking button be clicked */
+		isBookingEnabled () 
+		{
+			if (!this.selectedDates[0].start) 
+			{
+				return false
+			}
+			if (!this.selectedDates[0].end) 
+			{
+				return false
+			}
+			return true
+		},
+
+		/** @returns {string} ISO representation of "today" s.t. an earlier date is invalid */
 		minDate () 
 		{
 			return DateTime.fromJSDate(new Date().addDays(0)).toISODate()
+		},
+
+		totalDays ()
+		{
+			const startDateTime = DateTime.fromISO(this.selectedDates[0].start)
+			const startDuration = Duration.fromObject(startDateTime.c)
+
+			const endDateTime = DateTime.fromISO(this.selectedDates[0].end)
+			const endDuration = Duration.fromObject(endDateTime.c)
+
+			// Keep in track of days
+			const totalDuration = endDuration.minus(startDuration).shiftTo("days")
+
+			// Add one since count starts at zero
+			const totalDays = totalDuration.days + 1
+			return totalDays
+		},
+
+		totalPrice ()
+		{
+			if (!this.isBookingEnabled) 
+			{
+				return ""
+			}
+			const total = (this.totalDays * this.dailyRate) + this.cleaningFee
+			console.log(`price: ${total}`)
+			return total
 		},
 	},
 	methods:
@@ -106,10 +154,14 @@ export default {
 			return true
 		},
 
+		/**
+		 * @param selected
+		 * @returns {boolean} Whether the date selected was accurately processed
+		 */
 		processDateSelection (selected)
 		{
 			let d = DateTime.fromJSDate(new Date(selected))
-			let start = DateTime.fromISO(this.vueCalEvents[0].start)
+			let start = DateTime.fromISO(this.selectedDates[0].start)
 			let min = DateTime.fromISO(this.minDate)
 			let max = DateTime.fromISO(this.maxDate)
 
@@ -119,24 +171,23 @@ export default {
 				return false
 			}
 
-			if (!this.vueCalEvents[0].start)
+			if (!this.selectedDates[0].start)
 			{
-				this.vueCalEvents[0].start = d.toISODate()
+				this.selectedDates[0].start = d.toISODate()
 			}
 
 			if (d.toFormat("yyyyMMdd") === start.toFormat("yyyyMMdd"))
 			{
-				console.log("trigger")
-				this.vueCalEvents[0].start = ""
-				this.vueCalEvents[0].end = ""
+				this.selectedDates[0].start = ""
+				this.selectedDates[0].end = ""
 			}
 			else if (d < start)
 			{
-				this.vueCalEvents[0].start = d.toISODate()
+				this.selectedDates[0].start = d.toISODate()
 			}
 			else
 			{
-				this.vueCalEvents[0].end = d.toISODate()
+				this.selectedDates[0].end = d.toISODate()
 			}
 
 			return true
