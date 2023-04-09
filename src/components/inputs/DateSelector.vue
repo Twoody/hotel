@@ -164,11 +164,11 @@ export default
 
 			if (value.length === 2)
 			{
-				if (name === "day")
+				if (name === "month")
 				{
 					this.focusMonth = true
 				}
-				else if (name === "month")
+				else if (name === "day")
 				{
 					this.focusYear = true
 				}
