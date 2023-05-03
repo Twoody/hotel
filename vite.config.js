@@ -48,7 +48,6 @@ export default defineConfig({
 		target: "modules",
 		outDir: "dist", //Specify the output path
 		assetsDir: "assets", // Specify the storage path of the generated static resources
-		minify: "terser" // obfuscator, the file size is smaller after terser is built
 	},
 	// Local running configuration, and reverse proxy configuration
 	server: {
