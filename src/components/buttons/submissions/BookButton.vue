@@ -28,14 +28,9 @@ Button to book a stay
 </template>
 
 <script>
-import MyButton from "@/components/buttons/MyButton.vue"
 
 export default {
 	name: "BookButton",
-	components: 
-	{
-		MyButton,
-	},
 	props:
 	{
 		/** Whether the button is disabled or not */

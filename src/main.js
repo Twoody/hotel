@@ -1,6 +1,9 @@
 import { createApp } from "vue"
 import App from "./App.vue"
 
+import MyButton from "teahub"
+import "teahub/dist/style.css"
+
 import router from "./router"
 import store from "./store/store.js"
 import { faCheck } from "@fortawesome/free-solid-svg-icons"
@@ -26,6 +29,7 @@ library.add(faStar)
 
 // Prep the app
 const app = createApp(App)
+app.use(MyButton)
 app.use(store)
 app.use(router)
 app.component("font-awesome-icon", FontAwesomeIcon)
