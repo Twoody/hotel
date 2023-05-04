@@ -19,14 +19,9 @@
 </template>
 
 <script>
-import Accordion from "components/common/Accordion"
 
 export default {
 	name: "QuestionAccordion",
-	components:
-	{
-		Accordion,
-	},
 }
 </script>
 

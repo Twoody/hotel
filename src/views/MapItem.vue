@@ -49,14 +49,9 @@ A detailed description of something to do in the area
 
 <script>
 import {LOCAL_ACTIVITIES} from "constants/localActivities.js"
-import MyButton from "@/components/buttons/MyButton"
 
 export default {
 	name: "MapItem",
-	components:
-	{
-		MyButton,
-	},
 	props: {},
 	data: function()
 	{

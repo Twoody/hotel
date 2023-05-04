@@ -64,14 +64,12 @@
 </template>
 
 <script>
-import Accordion from "components/common/Accordion"
 import FlexTable from "components/common/FlexTable"
 
 export default {
 	name: "AmenitiesSection",
 	components:
 	{
-		Accordion,
 		FlexTable,
 	},
 	props:

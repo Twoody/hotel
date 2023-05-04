@@ -1,6 +1,6 @@
 <template>
 	<QuestionAccordion
-		class="accordion-section"
+		class="parking-accordion-section"
 		has-nested
 	>
 		<template #title>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import QuestionAccordion from "components/entities/questions/QuestionAccordion"
+import QuestionAccordion from "components/accordions/questions/QuestionAccordion.vue"
 
 export default {
 	name: "ParkingQuestionAccordion",

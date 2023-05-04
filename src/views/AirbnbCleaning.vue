@@ -545,7 +545,7 @@
 </template>
 
 <script>
-import QuestionAccordion from "components/entities/questions/QuestionAccordion"
+import QuestionAccordion from "components/accordions/questions/QuestionAccordion"
 
 export default {
 	name: "AirbnbCleaning",

@@ -19,14 +19,9 @@
 
 <script>
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
-import MyButton from "@/components/buttons/MyButton.vue"
 
 export default {
 	name: "GoogleLogin",
-	components:
-	{
-		MyButton,
-	},
 	data ()
 	{
 		return {

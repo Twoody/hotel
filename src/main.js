@@ -1,7 +1,9 @@
 import { createApp } from "vue"
 import App from "./App.vue"
 
+import Accordion from "teahub"
 import MyButton from "teahub"
+import MyFilter from "teahub"
 import "teahub/dist/style.css"
 
 import router from "./router"
@@ -29,7 +31,9 @@ library.add(faStar)
 
 // Prep the app
 const app = createApp(App)
+app.use(Accordion)
 app.use(MyButton)
+app.use(MyFilter)
 app.use(store)
 app.use(router)
 app.component("font-awesome-icon", FontAwesomeIcon)

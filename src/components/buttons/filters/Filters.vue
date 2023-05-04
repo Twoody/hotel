@@ -23,14 +23,9 @@ const update = (id) =>
 </template>
 
 <script>
-import MyFilter from "components/buttons/filters/MyFilter"
 
 export default {
 	name: "Filters",
-	components:
-	{
-		MyFilter,
-	},
 	props:
 	{
 		/** An array of filters to be applied to some selection */
