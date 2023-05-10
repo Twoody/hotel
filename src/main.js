@@ -6,19 +6,20 @@ import store from "./store/store.js"
 
 // UI Library imports: Teahub
 import Accordion from "teahub"
-import AmenitiesSection from "components/accordions/AmenitiesSection.vue"
-import AvailabilitySearch from "components/forms/AvailabilitySearch.vue"
-import AvailabilitySearchBar from "components/inputs/AvailabilitySearchBar.vue"
-import Copyright from "components/common/Copyright.vue" // TODO: Use this
-import DialogModal from "components/modals/DialogModal.vue" // TODO: Use this
-import Filters from "components/buttons/filters/Filters.vue"
-import MapCard from "components/cards/MapCard.vue"
+import AmenitiesSection from "teahub"
+import AppSection from "teahub"
+import AvailabilitySearch from "teahub"
+import AvailabilitySearchBar from "teahub"
+import Copyright from "teahub" // TODO: Use this
+import DialogModal from "teahub" // TODO: Use this
+import Filters from "teahub"
+import MapCard from "teahub"
 import MyButton from "teahub"
-import MyFilter from "components/buttons/filters/MyFilter.vue"
-import QuestionAccordion from "components/accordions/QuestionAccordion.vue"
-import SideMenu from "components/menus/SideMenu.vue" // TODO: Use this??
-import Spinner from "components/common/loading/Spinner.vue"
-import Validatable from "components/common/Validatable.vue"
+import MyFilter from "teahub"
+import QuestionAccordion from "teahub"
+import SideMenu from "teahub" // TODO: Use this??
+import Spinner from "teahub"
+import Validatable from "teahub"
 import "teahub/dist/style.css"
 
 // Font Awesome imports
@@ -49,15 +50,14 @@ app.use(store)
 app.use(router)
 app.use(Accordion)
 app.use(AmenitiesSection)
+app.use(AppSection)
 app.use(AvailabilitySearch)
 app.use(AvailabilitySearchBar)
 app.use(Copyright)
 app.use(DialogModal)
 app.use(Filters)
-app.use(LoadingBar)
 app.use(MapCard)
 app.use(MyButton)
-app.use(MyDate)
 app.use(MyFilter)
 app.use(QuestionAccordion)
 app.use(SideMenu)
