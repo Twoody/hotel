@@ -24,7 +24,6 @@
 
 <script>
 import AccessibilityAccordion from "@/components/accordions/questions/AccessibilityAccordion"
-import AvailabilitySearch from "@/components/forms/AvailabilitySearch.vue"
 import CheckInAndOutAccordion from "@/components/accordions/questions/CheckInAndOutAccordion"
 import GuestSafetyAccordion from "@/components/accordions/questions/GuestSafetyAccordion"
 import ParkingAccordion from "@/components/accordions/questions/ParkingAccordion"
@@ -36,7 +35,6 @@ export default {
 	components:
 	{
 		AccessibilityAccordion,
-		AvailabilitySearch,
 		CheckInAndOutAccordion,
 		GuestSafetyAccordion,
 		ParkingAccordion,

@@ -1,5 +1,5 @@
 <template>
-	<div class="cleaning-filters-wrapper">
+	<div class="map-filters-wrapper">
 		<Filters
 			:filters="filtersInactive"
 			inactive
@@ -18,7 +18,7 @@ import { getAnalytics, logEvent } from "firebase/analytics"
 import {MAP_FILTERS} from "constants/misc.js"
 
 export default {
-	name: "CleaningFilters",
+	name: "MapFilters",
 	components: {},
 
 	data: function()
@@ -98,7 +98,7 @@ export default {
 			try
 			{
 				const analytics = getAnalytics()
-				const title = value ? "cleaning_filter_set" : "cleaning_filter_unset"
+				const title = value ? "map_filter_set" : "map_filter_unset"
 				logEvent(
 					analytics,
 					title,
@@ -146,7 +146,7 @@ export default {
 <style scoped lang="less">
 @import "../../../../assets/styles/styles";
 
-.cleaning-filters-wrapper {
+.map-filters-wrapper {
 }
 </style>
 

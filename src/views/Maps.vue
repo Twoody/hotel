@@ -21,15 +21,12 @@ A filterable list of things to do
 <script>
 import {MAPS} from "constants/misc.js"
 import {LOCAL_ACTIVITIES} from "constants/localActivities.js"
-
-import MapCard from "components/entities/maps/MapCard"
 import MapFilters from "components/buttons/filters/MapFilters"
 
 export default {
 	name: "Maps",
 	components:
 	{
-		MapCard,
 		MapFilters,
 	},
 

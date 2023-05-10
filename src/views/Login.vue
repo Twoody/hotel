@@ -116,14 +116,12 @@ import {createUserWithEmailAndPassword,
 	signInWithEmailAndPassword} from "firebase/auth"
 import SocialLogin from "@/components/forms/SocialLogin.vue"
 import store from "@/store/store.js"
-import Validatable from "@/components/common/Validatable"
 
 export default {
 	name: "Login",
 	components:
 	{
 		SocialLogin,
-		Validatable,
 	},
 
 	props: {},
