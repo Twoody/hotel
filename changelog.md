@@ -1,5 +1,16 @@
+2.0.0
+	* Teahub integreation
+	** Almost all components moved into a public repo
+
+1.1.0
+	* General bugs and better pages
+
+1.0.0
+	* Moved over to vite
+	* Moved over to vue3
+
 0.1.3
-   * Install vue-cal and demo on home page
+  * Install vue-cal and demo on home page
 	* Groundwork for logging in and users
 	* Amenities section and base components
 	* Setup more dev environment factors:
