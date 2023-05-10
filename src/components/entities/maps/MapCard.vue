@@ -41,9 +41,7 @@ export default {
 	name: "MapCard",
 	data: function() 
 	{
-		return {
-			url: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
-		}
+		return {}
 	},
 	props:
 	{
@@ -66,6 +64,15 @@ export default {
 		formattedTitle ()
 		{
 			return this.activity.title || "-"
+		},
+
+		url ()
+		{
+			if (this.$store.state.isOnline)
+			{
+				return "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91"
+			}
+			return "assets/imgs/cat-with-hammer.png"
 		},
 	},
 	methods: {

@@ -1,41 +1,42 @@
 Element for handling manual date (no calendar picker) input
 <template>
-	<div class="date-selector-wrapper">
-		<MyDate
-			class="date-input"
-			:date="date"
-			:focused="focusDay"
-			:isLoading="isLoading"
-			is-day
-			@newValue="updateParent('day', arguments[0])"
-			@focus="focusDay = false"
-		/>
-
-		<MyDate
-			class="date-input"
-			:date="date"
-			:focused="focusMonth"
-			:isLoading="isLoading"
-			is-month
-			@newValue="updateParent('month', arguments[0])"
-			@focus="focusMonth = false"
-		/>
-
-		<MyDate
-			class="date-input"
-			:date="date"
-			:focused="focusYear"
-			:isLoading="isLoading"
-			is-year
-			@newValue="updateParent('year', arguments[0])"
-			@focus="focusYear = false"
-		/>
-	</div>
+	<Validatable :error="displayedError">
+		<div class="date-selector-wrapper">
+			<MyDate
+				class="date-input"
+				:value="month"
+				:focused="focusMonth"
+				:isLoading="isLoading"
+				is-month
+				@newValue="updateParent('month', $event)"
+				@focus="focusMonth = false"
+			/>
+			<MyDate
+				class="date-input"
+				:value="day"
+				:focused="focusDay"
+				:isLoading="isLoading"
+				is-day
+				@newValue="updateParent('day', $event)"
+				@focus="focusDay = false"
+			/>
+			<MyDate
+				class="date-input"
+				:value="year"
+				:focused="focusYear"
+				:isLoading="isLoading"
+				is-year
+				@newValue="updateParent('year', $event)"
+				@focus="focusYear = false"
+			/>
+		</div>
+	</Validatable>
 </template>
 
 <script>
 import {DateTime} from "luxon"
 import MyDate from "@/components/inputs/MyDate.vue"
+import Validatable from "@/components/common/Validatable"
 
 export default
 {
@@ -43,6 +44,7 @@ export default
 	components:
 	{
 		MyDate,
+		Validatable,
 	},
 	props:
 	{
@@ -61,22 +63,92 @@ export default
 			required: false,
 			type: String,
 		},
+
+		value:
+		{
+			default: "",
+			required: false,
+			type: String,
+		},
 	},
 	data () 
 	{
 		return {
 			day: "",
-			month: "",
-			year: "",
-
 			focusDay: false,
 			focusMonth: false,
 			focusYear: false,
+			month: "",
+			year: "",
 		}
 	},
 
 	computed:
-	{},
+	{
+		displayedError ()
+		{
+			// Only show errors when there is content
+			if (this.day.length === 2 && this.month.length === 2 &&
+				this.year.length === 4)
+			{
+				if (this.isSelectedInvalid)
+				{
+					switch (this.isSelectedInvalid)
+					{
+						case 1:
+							return "Date is invalid"
+
+						case 2:
+							return "Too far in the future"
+
+						case 3:
+							return "Past date"
+
+						default:
+							throw Error("Unknown invalid type")
+					}
+				}
+			}
+			return ""
+		},
+
+		isSelectedInvalid ()
+		{
+			let d = DateTime.fromISO(
+				`${this.year}-${this.month}-${this.day}`
+			)
+			if (d.invalid)
+			{
+				return 1
+			}
+
+			let max = DateTime.fromISO(this.maxDate)
+			if (d >= max)
+			{
+				return 2
+			}
+
+			let min = DateTime.fromISO(this.minDate)
+			if (d <= min)
+			{
+				return 3
+			}
+
+			return 0
+		},
+
+		selectedDate ()
+		{
+			let d = DateTime.fromISO(
+				`${this.year}-${this.month}-${this.day}`
+			)
+			if (! d.invalid)
+			{
+				return d.toFormat("yyyy-MM-dd")
+			}
+			return ""
+		},
+	},
 
 	methods:
 	{
@@ -90,34 +162,44 @@ export default
 		{
 			this[name] = value
 
-			let date = {
-				"day": parseInt(this.day),
-				"month": parseInt(this.month),
-				"year": parseInt(this.year),
-			}
-
 			if (value.length === 2)
 			{
-				if (name === "day")
+				if (name === "month")
 				{
 					this.focusMonth = true
 				}
-				else if (name === "month")
+				else if (name === "day")
 				{
 					this.focusYear = true
 				}
 			}
 
-			let newDate = DateTime.local(date.year, date.month, date.day)
-
-			if ( newDate.isValid && date.year > 1000
-			)
+			if (!this.isSelectedInvalid)
 			{
-				this.$emit("input", newDate.toFormat("yyyy-MM-dd"))
+				this.$emit("newDate", this.selectedDate)
 			}
 			else
 			{
-				this.$emit("input", null)
+				this.$emit("newDate", "")
+			}
+		},
+	},
+	watch:
+	{
+		value (n)
+		{
+			let newDate = DateTime.fromISO(n)
+			if (!n)
+			{
+				this.day = ""
+				this.month = ""
+				this.year = ""
+			}
+			if (! newDate.invalid)
+			{
+				this.day = newDate.toFormat("dd")
+				this.month = newDate.toFormat("MM")
+				this.year = newDate.toFormat("yyyy")
 			}
 		},
 	},

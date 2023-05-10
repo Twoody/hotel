@@ -5,7 +5,9 @@
 			:isShowing="$store.state.layout.isShowingBanner"
 			@click="$store.commit('setIsShowingBanner', false)"
 		>
-			<div id="top-banner" />
+			<div id="top-banner">
+				{{ $store.state.layout.bannerMessage }}
+			</div>
 		</AppSection>
 
 		<!-- Handle appSection click for navbar on chevron and ations instead.. -->
@@ -46,7 +48,9 @@
 </template>
 
 <script>
-import { getAuth, onAuthStateChanged } from "firebase/auth"
+import {getAuth,
+	onAuthStateChanged} from "firebase/auth"
+import { initializeApp } from "firebase/app"
 
 import AppSection from "components/common/AppSection"
 import NavBar from "components/nav/NavBar"
@@ -64,30 +68,118 @@ export default {
 			isNavCollapsed: true,
 		}
 	},
-	computed:
-	{},
+	computed: {},
+	watch:
+	{
+		/**
+		 * Reset offline banner state from closed when route changes
+		 */
+		"$route" ()
+		{
+			this.$store.commit("setIsShowingBanner", !navigator.onLine)
+		},
+	},
 	created: function()
 	{
-		const auth = getAuth()
-		onAuthStateChanged(
-			auth,
-			(user) =>
-			{
-				// Update user via store
-				this.$store.commit("setIsLoggingIn", true)
-				this.$store.dispatch("fetchUser", user)
+		// List for online status changing
+		this.$store.commit("setIsOnline", navigator.onLine)
+		window.addEventListener("load", this.handleEventLoad)
+		window.addEventListener("online", this.handleEventOnline)
+		window.addEventListener("offline", this.handleEventOffline)
 
-				if (user)
-				{
-					// User is signed in.
-				}
-				else
-				{
-					// No User
-				}
-				this.$store.commit("setIsLoggingIn", false)
+		try
+		{
+			const firebaseConfig = {
+				apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+				appId: import.meta.env.VITE_FIREBASE_APP_ID,
+				authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+				databaseURL: import.meta.env.VITE_DATABASE_URL,
+				messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+				projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+				storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
 			}
-		)
+
+			// Get a Firestore instance
+			initializeApp(firebaseConfig)
+
+			const auth = getAuth()
+			onAuthStateChanged(
+				auth,
+				(user) =>
+				{
+					// Update user via store
+					this.$store.commit("setIsLoggingIn", true)
+					this.$store.dispatch("fetchUser", user)
+
+					if (user)
+					{
+						// User is signed in.
+					}
+					else
+					{
+						// No User
+					}
+					this.$store.commit("setIsLoggingIn", false)
+				}
+			)
+		}
+		catch (e)
+		{
+			console.error("Could not connect to firebase")
+			console.error(e)
+		}
+
+	},
+	beforeDestroy: function()
+	{
+		window.removeEventListener("load", this.handleEventLoad)
+		window.removeEventListener("online", this.handleEventOnline)
+		window.removeEventListener("offline", this.handleEventOffline)
+	},
+	methods:
+	{
+		/**
+		 * Handle when the app is loaded
+		 */
+		handleEventLoad ()
+		{
+			if (navigator.onLine)
+			{
+				this.handleEventOnline()
+			}
+			else
+			{
+				this.handleEventOffline()
+			}
+		},
+
+		/**
+		 * Handle the app going offline
+		 */
+		handleEventOffline ()
+		{
+			// Tell user internet is disconnected
+			this.$store.commit(
+				"setBannerMessage",
+				"Warning: No Internet"
+			)
+
+			// Configure environment accordingly
+			this.$store.commit("setIsOnline", false) 
+			this.$store.commit("setIsShowingBanner", true)
+		},
+
+		/**
+		 * Handle when the app goes online
+		 */
+		handleEventOnline ()
+		{
+			this.$store.commit("setIsOnline", true) 
+			this.$store.commit("setIsShowingBanner", false)
+
+			// Last, reset the message text
+			this.$store.commit( "setBannerMessage", "")
+		},
 
 	},
 }
@@ -95,7 +187,6 @@ export default {
 
 <style lang='less'>
 @import "../assets/styles/styles";
-@import (css) url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
 html, body {
 	color: @myblack;
@@ -145,9 +236,16 @@ html, body {
 }
 
 #top-banner {
-	background-color: @color-primary-triadic-3;
-	height: 50px;
-	padding: 0;
+	align-items: center;
+	background-color: @color-purple;
+	color: @myblack;
+	cursor: pointer;
+	display: flex;
+	filter: brightness(1.2);
+	font-weight: 900;
+	justify-content: flex-start;
+	padding: 5px;
+	padding-left: 11px;
 	margin: 0;
 	width: 100%;
 }

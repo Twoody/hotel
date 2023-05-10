@@ -51,7 +51,10 @@
 					type="text"
 				>
 
-				<button class="register-button" @click="register">
+				<button
+					class="register-button"
+					@click="register"
+				>
 					Register	
 				</button>
 			</div>
@@ -116,7 +119,7 @@ export default {
 		 * @returns {void}
 		 * @since 0.1.3
 		 */
-		async register ()
+		register ()
 		{
 			try
 			{
@@ -124,9 +127,7 @@ export default {
 				//	this.email,
 				//	this.password
 				// )
-				console.log("logged in!")
-				console.log(response)
-				return response
+				// return response
 			}
 			catch (error)
 			{

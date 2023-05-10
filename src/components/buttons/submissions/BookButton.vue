@@ -2,6 +2,7 @@ Button to book a stay
 <template>
 	<MyButton
 		class="search-execute"
+		:disabled="disabled"
 		@click="$emit('click')"
 	>
 		<transition
@@ -20,7 +21,7 @@ Button to book a stay
 				class="execute-text execute-clickable"
 				key="booking"
 			>
-				Book
+				{{ bookingText }}
 			</span>
 		</transition>
 	</MyButton>
@@ -37,14 +38,27 @@ export default {
 	},
 	props:
 	{
-		/**
-		 Whether we are in loading state or not
-		 */
-		isLoading:
-		{
-			default: false,
+		/** Whether the button is disabled or not */
+		disabled: Boolean,
+
+		/** Whether we are in loading state or not */
+		isLoading: Boolean,
+
+		/** The total price of the booked stay */
+		totalPrice: {
+			default: "",
 			required: false,
-			type: Boolean,
+			type: String,
+		},
+	},
+	computed: {
+		bookingText ()
+		{
+			if (!this.totalPrice) 
+			{
+				return "Book"
+			}
+			return `Book - $${this.totalPrice}`
 		},
 	},
 }
@@ -55,7 +69,6 @@ export default {
 
 .search-execute {
 	background-color: @color-pastel-blue !important;
-	filter: sepia(0.5) !important;
 	height: 50px;
 	margin-bottom: 11px;
 	margin-top: 5px;

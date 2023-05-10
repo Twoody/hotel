@@ -2,6 +2,7 @@
 @s: 620px;
 @m: 770px;
 @l: 960px;
+@maxwidth: min(98%, 660px);
 
 @media only screen and (min-width: @s) {
   /* For tablets: */
@@ -62,9 +63,26 @@
   .text-m-right {text-align:right !important;}
 }
 
+.flex-box {
+	align-items: center;
+	align-content: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	max-width: @maxwidth;
+
+	.flex-item {
+		flex-grow: 1;
+		width: 100%;
+	}
+}
+
+
 @myblack: #01016E;
 @color-lavendar: #f7e9f3;
 @color-purple: #dea5ce;
+//background: rgba(222, 165, 206, 0.4);
+
 @color-pastel-blue: #e9f7f1;
 @color-pastel-cream: #f7f2e9;
 @color-pastel-green: #ecf7e9;

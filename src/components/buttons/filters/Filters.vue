@@ -1,5 +1,4 @@
 <script setup>
-import { defineEmits } from "vue"
 const emit = defineEmits([
 	"update",
 ])
@@ -17,7 +16,6 @@ const update = (id) =>
 			:inactive="! filter.active"
 			type="button"
 			@mouseup="update(filter.id)"
-			@touchend="update(filter.id)"
 		>
 			{{ formatTitle(filter) }}
 		</MyFilter>
@@ -61,8 +59,8 @@ export default {
 	-ms-overflow-style: none;  /* IE and Edge scrollbar */
 	align-content: center;
 	align-items: center;
-	justify-content: flex-start;
 	display: flex;
+	justify-content: flex-start;
 	flex-direction: row;
 	flex-grow: 1;
 	flex-shrink: 0;

@@ -9,19 +9,27 @@ TODO: PRobably plugin inputs... :eye_roll:
 			>
 				<AvailabilitySearchBar
 					class="inputs-container"
+					:end="selectedDates[0].end"
 					:isLoading="isLoading"
+					:start="selectedDates[0].start"
+					@updateEndDate="selectedDates[0].end = $event"
+					@updateStartDate="selectedDates[0].start = $event"
 				/>
 				<VueCal
 					active-view="month"
 					class="vue-cal-container vuecal--rounded-theme vuecal--date-picker"
 					:disable-views="['day', 'week']"
+					:events="selectedDates"
 					hide-view-selector
 					:min-date="minDate"
 					:time="false"
 					xsmall
+					@cell-click="processDateSelection($event)"
 				/>
 				<BookButton
+					:disabled="!isBookingEnabled"
 					:isLoading="isLoading"
+					:totalPrice="totalPrice"
 					@click="handleAvailabilitySearch"
 				/>
 			</form>
@@ -30,6 +38,9 @@ TODO: PRobably plugin inputs... :eye_roll:
 </template>
 
 <script>
+import {DateTime} from "luxon"
+import {Duration} from "luxon"
+
 import AvailabilitySearchBar from "@/components/inputs/AvailabilitySearchBar"
 import BookButton from "@/components/buttons/submissions/BookButton.vue"
 import VueCal from "vue-cal"
@@ -46,18 +57,69 @@ export default {
 	data: function()
 	{
 		return {
+			cleaningFee: 100,
+			dailyRate: 85,
 			hasError: false,
 			isLoading: false,
+			maxDate: "2025-01-01",
 			searchQuery: "",
+			selectedDates: [
+				{
+					end: "",
+					start: "",
+				},
+			],
 		}
 	},
 	props:
 	{},
 	computed: 
 	{
+		/** @returns {boolean} - Can the booking button be clicked */
+		isBookingEnabled () 
+		{
+			if (!this.selectedDates[0].start) 
+			{
+				return false
+			}
+			if (!this.selectedDates[0].end) 
+			{
+				return false
+			}
+			return true
+		},
+
+		/** @returns {string} ISO representation of "today" s.t. an earlier date is invalid */
 		minDate () 
 		{
-			return new Date().addDays(0)
+			return DateTime.fromJSDate(new Date().addDays(0)).toISODate()
+		},
+
+		totalDays ()
+		{
+			const startDateTime = DateTime.fromISO(this.selectedDates[0].start)
+			const startDuration = Duration.fromObject(startDateTime.c)
+
+			const endDateTime = DateTime.fromISO(this.selectedDates[0].end)
+			const endDuration = Duration.fromObject(endDateTime.c)
+
+			// Keep in track of days
+			const totalDuration = endDuration.minus(startDuration).shiftTo("days")
+
+			// Add one since count starts at zero
+			const totalDays = totalDuration.days + 1
+			return totalDays
+		},
+
+		totalPrice ()
+		{
+			if (!this.isBookingEnabled) 
+			{
+				return ""
+			}
+			const total = (this.totalDays * this.dailyRate) + this.cleaningFee
+			console.log(`price: ${total}`)
+			return total
 		},
 	},
 	methods:
@@ -80,6 +142,55 @@ export default {
 				this.hasError = true
 			}
 			this.isLoading = false
+		},
+
+		isDateValid (__d)
+		{
+			let d = DateTime.fromObject(__d)
+			if (d < this.minDate)
+			{
+				return false
+			}
+			return true
+		},
+
+		/**
+		 * @param selected
+		 * @returns {boolean} Whether the date selected was accurately processed
+		 */
+		processDateSelection (selected)
+		{
+			let d = DateTime.fromJSDate(new Date(selected))
+			let start = DateTime.fromISO(this.selectedDates[0].start)
+			let min = DateTime.fromISO(this.minDate)
+			let max = DateTime.fromISO(this.maxDate)
+
+			if (d < min || d > max)
+			{
+				console.error("Illegal date selection")
+				return false
+			}
+
+			if (!this.selectedDates[0].start)
+			{
+				this.selectedDates[0].start = d.toISODate()
+			}
+
+			if (d.toFormat("yyyyMMdd") === start.toFormat("yyyyMMdd"))
+			{
+				this.selectedDates[0].start = ""
+				this.selectedDates[0].end = ""
+			}
+			else if (d < start)
+			{
+				this.selectedDates[0].start = d.toISODate()
+			}
+			else
+			{
+				this.selectedDates[0].end = d.toISODate()
+			}
+
+			return true
 		},
 	},
 }
@@ -166,6 +277,9 @@ export default {
 						font-size: 12px;
 						font-weight: 900;
 					}
+					.vuecal__cell-events-count {
+						display: none;
+					}
 
 				}
 				.vuecal__cell--disabled {
@@ -179,7 +293,7 @@ export default {
 				}
 				.vuecal__weekdays-headings {
 					border-bottom: 2px solid @color-purple;
-					//padding-bottom: 6px;
+					padding-bottom: 3px;
 
 					.weekday-label{
 						color: red;
@@ -191,16 +305,14 @@ export default {
 			}
 		}
 	}
-	.vuecal__cell--selected {
-		opacity: 1;
-	}
-	.vuecal:not(.vuecal--day-view) .vuecal__cell--selected {
+	.vuecal:not(.vuecal--day-view) .vuecal__cell--has-events {
 		.vuecal__cell-content {
 			border: 1px solid purple;
 			background: @color-lavendar;
 			color: purple;
 			transform: scale(1.03);
 		}
+
 	}
 }
 .vuecal__cell--before-min {color: #b6d6c7;}

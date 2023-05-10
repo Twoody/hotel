@@ -1,5 +1,5 @@
 <template>
-	<div class="map-filters-wrapper">
+	<div class="cleaning-filters-wrapper">
 		<Filters
 			:filters="filtersInactive"
 			inactive
@@ -19,7 +19,7 @@ import {MAP_FILTERS} from "constants/misc.js"
 import Filters from "components/buttons/filters/Filters"
 
 export default {
-	name: "MapFilters",
+	name: "CleaningFilters",
 	components:
 	{
 		Filters,
@@ -102,7 +102,7 @@ export default {
 			try
 			{
 				const analytics = getAnalytics()
-				const title = value ? "map_filter_set" : "map_filter_unset"
+				const title = value ? "cleaning_filter_set" : "cleaning_filter_unset"
 				logEvent(
 					analytics,
 					title,
@@ -150,7 +150,7 @@ export default {
 <style scoped lang="less">
 @import "../../../../assets/styles/styles";
 
-.map-filters-wrapper {
+.cleaning-filters-wrapper {
 }
 </style>
 

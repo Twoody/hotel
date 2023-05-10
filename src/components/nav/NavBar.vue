@@ -129,7 +129,7 @@ export default {
 			try
 			{
 				const auth = getAuth()
-				// await signOut(auth)
+				await signOut(auth)
 			}
 			catch (error)
 			{

@@ -93,7 +93,7 @@ export default {
 	}
 	.content-section {
 		height: auto;
-		max-height: 1000px;
+		max-height: 2000px;
 		overflow-y: hidden;
 		overflow-x: auto;
 		transition: all 0.6s cubic-bezier(0.95, 0.05, 0.05, 0.95);

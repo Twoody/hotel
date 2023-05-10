@@ -1,12 +1,11 @@
 import { createWebHistory, createRouter } from "vue-router"
 import { getAnalytics, logEvent } from "firebase/analytics"
 
+import AirbnbCleaning from "../views/AirbnbCleaning.vue"
 import Amenities from "../views/Amenities.vue"
 import Foobar from "../views/Amenities.vue"
 import Home from "../views/Home.vue"
 import Login from "../views/Login.vue"
-import Manual from "../views/Manual.vue"
-import ManualItem from "../views/ManualItem.vue"
 import Maps from "../views/Maps.vue"
 import MapItem from "../views/MapItem.vue"
 import NotFound from "../views/NotFound.vue"
@@ -20,6 +19,11 @@ const routes = [
 		component: () => import(/* webpackChunkName: "about" */ "../views/About.vue"),
 		name: "about",
 		path: "/about",
+	},
+	{
+		component: AirbnbCleaning,
+		name: "airbnbCleaning",
+		path: "/airbnb-cleaning",
 	},
 	{
 		component: Foobar,
@@ -45,16 +49,6 @@ const routes = [
 		component: Login,
 		name: "login",
 		path: "/login",
-	},
-	{
-		component: Manual,
-		name: "manual",
-		path: "/manual",
-	},
-	{
-		component: ManualItem,
-		name: "manualItem",
-		path: "/manual/:id",
 	},
 	{
 		component: Maps,
