@@ -14,13 +14,9 @@
 </template>
 
 <script>
-import QuestionAccordion from "components/accordions/questions/QuestionAccordion.vue"
 
 export default {
 	name: "GuestSafetyQuestionAccordion",
-	components:
-	{
-		QuestionAccordion,
-	},
+	components: {},
 }
 </script>

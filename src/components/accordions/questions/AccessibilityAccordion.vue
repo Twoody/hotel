@@ -23,13 +23,9 @@
 </template>
 
 <script>
-import QuestionAccordion from "components/accordions/questions/QuestionAccordion.vue"
 
 export default {
 	name: "AccessibilityQuestionAccordion",
-	components:
-	{
-		QuestionAccordion,
-	},
+	components: {},
 }
 </script>

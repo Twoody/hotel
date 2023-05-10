@@ -40,14 +40,10 @@
 </template>
 
 <script>
-import QuestionAccordion from "components/accordions/questions/QuestionAccordion.vue"
 
 export default {
 	name: "TashQuestionAccordion",
-	components:
-	{
-		QuestionAccordion,
-	},
+	components: {},
 }
 </script>
 

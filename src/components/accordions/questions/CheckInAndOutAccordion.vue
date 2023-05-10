@@ -16,13 +16,9 @@
 </template>
 
 <script>
-import QuestionAccordion from "components/accordions/questions/QuestionAccordion.vue"
 
 export default {
 	name: "CheckInAndOutQuestionAccordion",
-	components:
-	{
-		QuestionAccordion,
-	},
+	components: {},
 }
 </script>

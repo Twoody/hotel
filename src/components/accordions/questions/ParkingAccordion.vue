@@ -26,13 +26,9 @@
 </template>
 
 <script>
-import QuestionAccordion from "components/accordions/questions/QuestionAccordion.vue"
 
 export default {
 	name: "ParkingQuestionAccordion",
-	components:
-	{
-		QuestionAccordion,
-	},
+	components: {},
 }
 </script>
