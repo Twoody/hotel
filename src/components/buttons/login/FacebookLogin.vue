@@ -20,14 +20,9 @@ Button to activate a facebook account authenticator
 
 <script>
 import { getAuth, signInWithPopup, FacebookAuthProvider } from "firebase/auth"
-import MyButton from "@/components/buttons/MyButton.vue"
 
 export default {
 	name: "FacebookLogin",
-	components:
-	{
-		MyButton,
-	},
 	data ()
 	{
 		return {

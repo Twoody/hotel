@@ -24,14 +24,9 @@ Button to instantiate a new user
 
 <script>
 import firebase from "firebase/app"
-import MyButton from "@/components/buttons/MyButton.vue"
 
 export default {
 	name: "NewUserRegistration",
-	components:
-	{
-		MyButton,
-	},
 	data () 
 	{
 		return {

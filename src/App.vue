@@ -52,14 +52,12 @@ import {getAuth,
 	onAuthStateChanged} from "firebase/auth"
 import { initializeApp } from "firebase/app"
 
-import AppSection from "components/common/AppSection"
 import NavBar from "components/nav/NavBar"
 
 export default {
 	name: "App",
 	components:
 	{
-		AppSection,
 		NavBar,
 	},
 	data: function()

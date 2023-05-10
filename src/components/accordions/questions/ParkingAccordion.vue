@@ -1,6 +1,6 @@
 <template>
 	<QuestionAccordion
-		class="accordion-section"
+		class="parking-accordion-section"
 		has-nested
 	>
 		<template #title>
@@ -26,13 +26,9 @@
 </template>
 
 <script>
-import QuestionAccordion from "components/entities/questions/QuestionAccordion"
 
 export default {
 	name: "ParkingQuestionAccordion",
-	components:
-	{
-		QuestionAccordion,
-	},
+	components: {},
 }
 </script>

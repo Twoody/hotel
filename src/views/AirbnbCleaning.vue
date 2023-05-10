@@ -545,14 +545,10 @@
 </template>
 
 <script>
-import QuestionAccordion from "components/entities/questions/QuestionAccordion"
 
 export default {
 	name: "AirbnbCleaning",
-	components:
-	{
-		QuestionAccordion,
-	},
+	components: {},
 	data () 
 	{
 		return {

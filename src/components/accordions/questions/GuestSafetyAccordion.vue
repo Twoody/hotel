@@ -14,13 +14,9 @@
 </template>
 
 <script>
-import QuestionAccordion from "components/entities/questions/QuestionAccordion"
 
 export default {
 	name: "GuestSafetyQuestionAccordion",
-	components:
-	{
-		QuestionAccordion,
-	},
+	components: {},
 }
 </script>

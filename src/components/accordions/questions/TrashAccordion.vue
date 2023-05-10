@@ -1,6 +1,6 @@
 <template>
 	<QuestionAccordion
-		class="accordion-section"
+		class="trash-accordion-section"
 		has-nested
 	>
 		<template #title>
@@ -40,14 +40,10 @@
 </template>
 
 <script>
-import QuestionAccordion from "components/entities/questions/QuestionAccordion"
 
 export default {
 	name: "TashQuestionAccordion",
-	components:
-	{
-		QuestionAccordion,
-	},
+	components: {},
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
 	<QuestionAccordion
-		class="accordion-section"
+		class="wifi-accordion-section"
 		has-nested
 	>
 		<template #title>
@@ -17,13 +17,9 @@
 </template>
 
 <script>
-import QuestionAccordion from "components/entities/questions/QuestionAccordion"
 
 export default {
 	name: "WifiQuestionAccordion",
-	components:
-	{
-		QuestionAccordion,
-	},
+	components: {},
 }
 </script>

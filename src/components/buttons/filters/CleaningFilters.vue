@@ -16,14 +16,10 @@
 <script>
 import { getAnalytics, logEvent } from "firebase/analytics"
 import {MAP_FILTERS} from "constants/misc.js"
-import Filters from "components/buttons/filters/Filters"
 
 export default {
 	name: "CleaningFilters",
-	components:
-	{
-		Filters,
-	},
+	components: {},
 
 	data: function()
 	{
