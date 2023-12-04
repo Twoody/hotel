@@ -69,6 +69,7 @@ module.exports = {
 						'Maps',
 						'Signup',
 						'Spinner',
+						'Thermometer',
 						'Validatable',
 					]
 				}],
@@ -111,7 +112,7 @@ module.exports = {
 					"never"
 				],
 				"indent": [
-					"error", 
+					"error",
 					"tab",
 					{
 						"ArrayExpression": 1,
@@ -126,8 +127,8 @@ module.exports = {
 					"allman"
 				],
 				"vue/sort-keys": [
-					"error", 
-					"asc", 
+					"error",
+					"asc",
 				 	{
 						"caseSensitive": true,
 						"ignoreChildrenOf": ["model"],
@@ -150,7 +151,7 @@ module.exports = {
 					"allman"
 				],
 				"indent": [
-					"error", 
+					"error",
 					"tab",
 					{
 						"ArrayExpression": 1,
@@ -193,7 +194,7 @@ module.exports = {
 			"always"
 		],
 		"arrow-parens": [
-			"error", 
+			"error",
 			"always"
 		],
 		"arrow-spacing": "error",
@@ -215,7 +216,7 @@ module.exports = {
 		"keyword-spacing": [
 			"error",
 			{
-				"before": true, 
+				"before": true,
 			}
 		],
 		"max-len": [
@@ -235,11 +236,11 @@ module.exports = {
 			{
 				"max": 1,
 				"maxBOF": 1,
-				"maxEOF": 1, 
+				"maxEOF": 1,
 			}
 		],
 		"no-multi-spaces": [
-			"error", 
+			"error",
 			{
 				ignoreEOLComments: false,
 			}
@@ -248,7 +249,7 @@ module.exports = {
 		"no-undef-init": "error",
 		"no-undefined": "error",
 		"object-curly-newline": [
-			"error", 
+			"error",
 			{
 				"ExportDeclaration": "always",
 				"ImportDeclaration": "never",
@@ -271,7 +272,7 @@ module.exports = {
 			"never",
 		],
 		"sort-vars": [
-			"error", 
+			"error",
 			{
 				"ignoreCase": true
 			}
