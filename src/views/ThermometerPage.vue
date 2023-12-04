@@ -3,17 +3,38 @@
 		<h1>Thermometer</h1>
 		<div class="thermometer-section">
 			<h2>Debt Thermometer</h2>
+			<Thermometer
+				class=""
+				:currentAmount="debtPaid"
+				:maxAmount="debt.originalOwed"
+			/>
 		</div>
 	</div>
 </template>
 
 <script>
+import Thermometer from "@/components/entities/Thermometer"
 export default {
-	name: "Thermometer",
+	name: "ThermometerPage",
 	components:
-	{},
-	created: function()
 	{
+		Thermometer,
+	},
+	data ()
+	{
+		return {
+			debt: {
+				currentBalance:  603745.39,
+				originalOwed:718902.00,
+			},
+		}
+	},
+	computed:
+	{
+		debtPaid ()
+		{
+			return this.debt.originalOwed - this.debt.currentBalance
+		},
 	},
 }
 </script>
@@ -31,47 +52,14 @@ export default {
 	width: 100%;
 
 	h1 {
-		flex-grow:1;
 		width: 100%;
 	}
 	.thermometer-section {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
 		max-width: 500px;
 		width: 100%;
-
-		p {
-			text-align: left;
-			width: 100%;
-		}
-		.statistics-section {
-			align-items: center;
-			align-content: center;
-			justify-content: space-between;
-			display: flex;
-			flex-grow: 1;
-			width: 100%;
-
-			.statistic {
-				align-items: center;
-				align-content: center;
-				border: 1px solid;
-				border-radius: 7px;
-				display: flex;
-				flex-direction: column;
-				flex-grow: 1;
-				justify-content: center;
-				margin: 5px;
-				width: 100%;
-
-				.description {
-					height: 50px;
-					width: 100%;
-				}
-				.value {
-					border-top: 1px solid;
-				}
-			}
-		}
-
 	}
 }
 </style>
