@@ -40,8 +40,8 @@ library.add(faClipboard)
 library.add(faClipboardList)
 library.add(faFacebook)
 library.add(faGoogle)
-//import { faSpinner } from "@fortawesome/free-solid-svg-icons/faSpinner"
-//library.add(faSpinner)
+// import { faSpinner } from "@fortawesome/free-solid-svg-icons/faSpinner"
+// library.add(faSpinner)
 library.add(faStar)
 
 // Prep the app
@@ -63,7 +63,6 @@ app.use(QuestionAccordion)
 app.use(SideMenu)
 app.use(Spinner)
 app.use(Validatable)
-
 
 app.component("font-awesome-icon", FontAwesomeIcon)
 
