@@ -9,7 +9,7 @@ import Maps from "../views/Maps.vue"
 import MapItem from "../views/MapItem.vue"
 import NotFound from "../views/NotFound.vue"
 import Signup from "../views/Signup.vue"
-import Thermometer from "../views/Thermometer.vue"
+import ThermometerPage from "../views/ThermometerPage.vue"
 
 const routes = [
 	{
@@ -61,8 +61,8 @@ const routes = [
 		path: "/signup",
 	},
 	{
-		component: Thermometer,
-		name: "thermometer",
+		component: ThermometerPage,
+		name: "thermometer-page",
 		path: "/thermometer",
 	},
 ]
