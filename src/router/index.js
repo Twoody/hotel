@@ -3,13 +3,13 @@ import { getAnalytics, logEvent } from "firebase/analytics"
 
 import AirbnbCleaning from "../views/AirbnbCleaning.vue"
 import Amenities from "../views/Amenities.vue"
-import Foobar from "../views/Amenities.vue"
 import Home from "../views/Home.vue"
 import Login from "../views/Login.vue"
 import Maps from "../views/Maps.vue"
 import MapItem from "../views/MapItem.vue"
 import NotFound from "../views/NotFound.vue"
 import Signup from "../views/Signup.vue"
+import Thermometer from "../views/Thermometer.vue"
 
 const routes = [
 	{
@@ -26,19 +26,9 @@ const routes = [
 		path: "/airbnb-cleaning",
 	},
 	{
-		component: Foobar,
-		name: "foobar",
-		path: "/foobar",
-	},
-	{
 		component: Amenities,
 		name: "amenities",
 		path: "/amenities",
-	},
-	{
-		component: NotFound,
-		path: "/:catchAll(.*)",
-		name: "404",
 	},
 	{
 		component: Home,
@@ -61,9 +51,19 @@ const routes = [
 		path: "/maps/:id",
 	},
 	{
+		component: NotFound,
+		path: "/:catchAll(.*)",
+		name: "404",
+	},
+	{
 		component: Signup,
 		name: "singup",
 		path: "/signup",
+	},
+	{
+		component: Thermometer,
+		name: "thermometer",
+		path: "/thermometer",
 	},
 ]
 
@@ -73,7 +73,7 @@ const router = createRouter({
 	routes,
 })
 
-router.beforeEach((to, from, next) => 
+router.beforeEach((to, from, next) =>
 {
 	if (parseFloat(import.meta.env.VITE_CI))
 	{
