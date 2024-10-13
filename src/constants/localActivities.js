@@ -1,6 +1,7 @@
 const LOCAL = {
 	BURNSIDE: {
 		id: "BURNSIDE",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		maps_id: 1,
 		tags: [
@@ -12,6 +13,7 @@ const LOCAL = {
 	},
 	MADDOX: {
 		id: "MADDOX",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -25,6 +27,7 @@ const LOCAL = {
 	},
 	MARKETS: {
 		id: "MARKETS",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -43,6 +46,7 @@ const LOCAL = {
 	},
 	WILDNERNESS: {
 		id: "WILDNERNESS",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -56,6 +60,7 @@ const LOCAL = {
 	},
 	MSY: {
 		id: "MSY",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -69,6 +74,7 @@ const LOCAL = {
 	},
 	OREGON_CITY: {
 		id: "OREGON_CITY",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -84,6 +90,7 @@ const LOCAL = {
 	},
 	ORANGE_THEORY: {
 		id: "ORANGE_THEORY",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -97,6 +104,7 @@ const LOCAL = {
 	},
 	SUSHI_HURRAY: {
 		id: "SUSHI_HURRAY",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -110,6 +118,7 @@ const LOCAL = {
 	},
 	LAKE_OSWEGO: {
 		id: "LAKE_OSWEGO",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -131,6 +140,7 @@ const LOCAL = {
 	},
 	WILAMETE_RIVER: {
 		id: "WILAMETE_RIVER",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -147,6 +157,7 @@ const LOCAL = {
 	},
 	CANBY: {
 		id: "CANBY",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -163,6 +174,7 @@ const LOCAL = {
 	},
 	TRYON: {
 		id: "TRYON",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -177,6 +189,7 @@ const LOCAL = {
 	},
 	13: {
 		id: 13,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -191,6 +204,7 @@ const LOCAL = {
 	},
 	14: {
 		id: 14,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -208,6 +222,7 @@ const LOCAL = {
 	},
 	15: {
 		id: 15,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -220,6 +235,7 @@ const LOCAL = {
 	},
 	16: {
 		id: 16,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -232,6 +248,7 @@ const LOCAL = {
 	},
 	17: {
 		id: 17,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -246,6 +263,7 @@ const LOCAL = {
 	},
 	18: {
 		id: 18,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -259,6 +277,7 @@ const LOCAL = {
 	},
 	19: {
 		id: 19,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -272,6 +291,7 @@ const LOCAL = {
 	},
 	20: {
 		id: 20,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
@@ -285,6 +305,7 @@ const LOCAL = {
 	},
 	21: {
 		id: 21,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
 		end_at: "",
 		start_at: "",
