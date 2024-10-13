@@ -24,6 +24,8 @@ export default {
 	data: function()
 	{
 		return {
+			/** Get analytics once */
+			analytics: null,
 			/** Store a local copy to manage state */
 			filters: MAP_FILTERS,
 			filtersAll: {},
@@ -97,15 +99,17 @@ export default {
 			// Send event to GA
 			try
 			{
-				const analytics = getAnalytics()
-				const title = value ? "map_filter_set" : "map_filter_unset"
-				logEvent(
-					analytics,
-					title,
-					{
-						value: this.filtersAll[id].title || "NOT_FOUND",
-					}
-				)
+				if (this.analytics)
+				{
+					const title = value ? "map_filter_set" : "map_filter_unset"
+					logEvent(
+						this.analytics,
+						title,
+						{
+							value: this.filtersAll[id].title || "NOT_FOUND",
+						}
+					)
+				}
 			}
 			catch (e)
 			{
@@ -129,12 +133,24 @@ export default {
 	created () 
 	{
 		this.filtersAll = this.buildFilters()
+		// Initialize Firebase analytics only if in production
+		if (process.env.NODE_ENV === "production") 
+		{
+			try 
+			{
+				this.analytics = getAnalytics()
+			}
+			catch (error) 
+			{
+				console.error("Firebase analytics initialization error", error)
+			}
+		}
 	},
 	watch:
 	{
 		filtersActive ()
 		{
-			if (this.filtersActive)
+			if (this.filtersActive && this.filtersActive.length)
 			{
 				this.$emit("updated-active", this.filtersActive)
 			}
