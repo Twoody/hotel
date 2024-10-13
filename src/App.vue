@@ -39,6 +39,13 @@
 			</router-view>
 		</AppSection>
 		<AppSection
+			centered
+			class="legal-section"
+			is-showing
+		>
+			<Copyright/>
+		</AppSection>
+		<AppSection
 			:isShowing="$store.state.layout.isShowingFooter"
 			@click="$store.commit('setIsShowingFooter', false)"
 		>
