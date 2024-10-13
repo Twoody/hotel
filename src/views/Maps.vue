@@ -12,6 +12,8 @@ A filterable list of things to do
 				v-for="(activity, index) in shownActivies"
 				:key="index"
 				:activity="activity"
+				:imageURL="activity.thumbnail || 'assets/imgs/cat-with-hammer.png'"
+				:isOnline="isOnline"
 				:shown="activity.shown"
 			/>
 		</div>
@@ -36,6 +38,7 @@ export default {
 			MAPS: MAPS,
 			activeFilters: [],
 			activities: LOCAL_ACTIVITIES,
+			isOnline: this.$store.state.isOnline,
 		}
 	},
 
