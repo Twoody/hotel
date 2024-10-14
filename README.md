@@ -26,10 +26,20 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Documentation
-- Built with [vue styleguidist](https://vue-styleguidist.github.io/docs/Documenting.html#)
-```
-npm run styleguide
-```
-```
-npm run styleguide:build
-```
+Most main documentation can be found in [the front end library `teahub`](https://github.com/twoody/teahub).
+
+`teahub` is maintained by the same author as this project. The purpose of having the components live in this
+isolated library is because many of the components were used between different applications.
+And when one application bug needed fixed, it had to be commited twice. 
+
+## Hosting
+Hosting is done on `firebase`.
+**There is a github workflow enabled on the `main` branch to deploy to production when merged and pushed to `remote`.**
+- See `.github/workflows/`
+
+- Helpful commands involve:
+-- `npm ci && npm run build && firebase deploy --only hosting`
+
+### Troubleshooting
+If issues arise when trying to `firebase projects:list` or `firebase login`, try to reauth:
+- `firebase login --reauth`
