@@ -1,0 +1,20 @@
+1. Wait for update to `teahub` s.t. all icons can be dropped in duplicate support
+	I.e. fortawesome icons are imported locally in `src/main.js` as well `@teahub/src/main.js`
+			Consider creating an `installer` function in `teahub`:
+```
+// teahub/index.js
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import ExampleComponent from './ExampleComponent.vue';
+
+library.add(faCoffee);
+
+export default {
+  install(Vue) {
+    Vue.component('FontAwesomeIcon', FontAwesomeIcon);
+    Vue.component('ExampleComponent', ExampleComponent);
+    // Register other components as needed
+  },
+};
+```

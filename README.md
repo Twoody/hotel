@@ -32,6 +32,8 @@ Most main documentation can be found in [the front end library `teahub`](https:/
 isolated library is because many of the components were used between different applications.
 And when one application bug needed fixed, it had to be commited twice. 
 
+- Note: `teahub`'s `fortawesome` installations require a local usage within `hotel` too.
+
 ## Hosting
 Hosting is done on `firebase`.
 **There is a github workflow enabled on the `main` branch to deploy to production when merged and pushed to `remote`.**
