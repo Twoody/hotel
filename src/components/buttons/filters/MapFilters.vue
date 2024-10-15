@@ -163,7 +163,7 @@ export default {
 
 .map-filters-wrapper {
 	.filters-wrapper {
-		::v-deep .my-button-wrapper {
+		:deep(.my-button-wrapper) {
 			&.active {
 				background: @color-purple;
 			}

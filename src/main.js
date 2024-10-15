@@ -1,72 +1,72 @@
 // Vue main imports
-import { createApp } from "vue"
-import App from "./App.vue"
-import router from "./router"
-import store from "./store/store.js"
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store/store.js";
 
 // UI Library imports: Teahub
-import Accordion from "teahub"
-import AmenitiesSection from "teahub"
-import AppSection from "teahub"
-import AvailabilitySearch from "teahub"
-import AvailabilitySearchBar from "teahub"
-import Copyright from "teahub" // TODO: Use this
-import DialogModal from "teahub" // TODO: Use this
-import Filters from "teahub"
-import MapCard from "teahub"
-import MyButton from "teahub"
-import MyFilter from "teahub"
-import QuestionAccordion from "teahub"
-import SideMenu from "teahub" // TODO: Use this??
-import Spinner from "teahub"
-import Validatable from "teahub"
-import "teahub/dist/style.css"
+import {
+  Accordion,
+  AmenitiesSection,
+  AppSection,
+  AvailabilitySearch,
+  AvailabilitySearchBar,
+  Filters,
+  MapCard,
+  MyButton,
+  MyFilter,
+  QuestionAccordion,
+  Spinner,
+  Validatable,
+} from "teahub";
+import "teahub/dist/style.css";
 
 // Font Awesome imports
-import { faCheck } from "@fortawesome/free-solid-svg-icons"
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons"
-import { faClipboard } from "@fortawesome/free-solid-svg-icons"
-import { faClipboardList } from "@fortawesome/free-solid-svg-icons"
-import { faCopyright } from "@fortawesome/free-solid-svg-icons"
-import { faFacebook } from "@fortawesome/free-brands-svg-icons"
-import { faGoogle } from "@fortawesome/free-brands-svg-icons"
-import { faStar } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { library } from "@fortawesome/fontawesome-svg-core"
+import {
+  faCheck,
+  faChevronRight,
+  faClipboard,
+  faClipboardList,
+  faCopyright,
+  faStar,
+} from "@fortawesome/free-solid-svg-icons";
+import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
 
-// Font awesome
-library.add(faCheck)
-library.add(faChevronRight)
-library.add(faClipboard)
-library.add(faClipboardList)
-library.add(faCopyright)
-library.add(faFacebook)
-library.add(faGoogle)
-// import { faSpinner } from "@fortawesome/free-solid-svg-icons/faSpinner"
-// library.add(faSpinner)
-library.add(faStar)
+// Font Awesome library setup
+library.add(
+  faCheck,
+  faChevronRight,
+  faClipboard,
+  faClipboardList,
+  faCopyright,
+  faFacebook,
+  faGoogle,
+  faStar
+);
 
 // Prep the app
-const app = createApp(App)
-app.use(store)
-app.use(router)
-app.use(Accordion)
-app.use(AmenitiesSection)
-app.use(AppSection)
-app.use(AvailabilitySearch)
-app.use(AvailabilitySearchBar)
-app.use(Copyright)
-app.use(DialogModal)
-app.use(Filters)
-app.use(MapCard)
-app.use(MyButton)
-app.use(MyFilter)
-app.use(QuestionAccordion)
-app.use(SideMenu)
-app.use(Spinner)
-app.use(Validatable)
+const app = createApp(App);
+app.use(store);
+app.use(router);
 
-app.component("font-awesome-icon", FontAwesomeIcon)
+// Register components globally
+app.component("Accordion", Accordion);
+app.component("AmenitiesSection", AmenitiesSection);
+app.component("AppSection", AppSection);
+app.component("AvailabilitySearch", AvailabilitySearch);
+app.component("AvailabilitySearchBar", AvailabilitySearchBar);
+app.component("Filters", Filters);
+app.component("MapCard", MapCard);
+app.component("MyButton", MyButton);
+app.component("MyFilter", MyFilter);
+app.component("QuestionAccordion", QuestionAccordion);
+app.component("Spinner", Spinner);
+app.component("Validatable", Validatable);
+
+// Register FontAwesome component
+app.component("font-awesome-icon", FontAwesomeIcon);
 
 // Mount the app
-app.mount("#app")
+app.mount("#app");
