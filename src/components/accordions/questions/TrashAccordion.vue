@@ -7,7 +7,7 @@
 			Trash	+ Recycling + Pets
 		</template>
 		<template #content>
-			<p>
+			<div class="trash-info">
 				Trash, recycling, and composte is picked up
 				<strong>every Tuesday morning</strong>.
 				<ul>
@@ -24,7 +24,7 @@
 						<span style="color:grey;">Glass is the grey bin.</span>
 					</li>
 				</ul>
-			</p>
+			</div>
 			<p>
 				You can either <strong>contact Tanner</strong> or
 				<strong>carry the trash up yourself</strong>
