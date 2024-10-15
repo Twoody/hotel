@@ -33,14 +33,15 @@ export default {
 		/**
 		 * Use firebase to support logging in with a google account
 		 *
-		 * @returns {void}
+		 * @todo Configure with some .env vars
+		 * @returns {boolean} Was work done
 		 * @since 0.1.0
 		 */
 		async googleLogin ()
 		{
 			if (this.isLoggingIn === true)
 			{
-				return
+				return false
 			}
 
 			this.isLoggingIn = true
@@ -56,16 +57,24 @@ export default {
 				const response = await signInWithPopup(auth, provider)
 				// This gives you a Google Access Token.
 				const credential = GoogleAuthProvider.credentialFromResult(response)
-				const token = credential.accessToken
-				// The signed-in user info.
-				const user = response.user
+				if (credential)
+				{
+					/** Saving this line in case access token is needed at some point */
+					// const token = credential.accessToken
 
-				// Update store
-				this.$store.dispatch("fetchUser", user)
+					// The signed-in user info.
+					const user = response?.user
 
-				this.$router.push({
-					path: "/",
-				})
+					if (user)
+					{
+						// Update store
+						this.$store.dispatch("fetchUser", user)
+
+						this.$router.push({
+							path: "/",
+						})
+					}
+				}
 			}
 			catch (error)
 			{
@@ -82,6 +91,7 @@ export default {
 			}
 			/* eslint-enable no-unused-vars */
 			this.isLoggingIn = false
+			return true
 		},
 	},
 }
