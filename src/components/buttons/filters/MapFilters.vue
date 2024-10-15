@@ -7,7 +7,6 @@
 		/>
 		<Filters
 			:filters="filtersActive"
-			inactive
 			@update="handleClick($event)"
 		/>
 	</div>
@@ -163,6 +162,12 @@ export default {
 @import "../../../../assets/styles/styles";
 
 .map-filters-wrapper {
+	.filters-wrapper {
+		::v-deep .my-button-wrapper {
+			&.active {
+				background: @color-purple;
+			}
+		}
+	}
 }
 </style>
-
