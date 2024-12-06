@@ -5,7 +5,7 @@ import router from "./router"
 import store from "./store/store.js"
 
 // UI Library imports: Teahub
-import teahub from 'teahub';
+import teahub from "teahub"
 import "teahub/dist/style.css"
 
 // Font Awesome imports

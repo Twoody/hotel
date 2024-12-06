@@ -55,9 +55,15 @@
 </template>
 
 <script>
-import {getAuth,
-	onAuthStateChanged} from "firebase/auth"
+import 
+{
+	getAuth,
+	onAuthStateChanged
+} from "firebase/auth"
 import { initializeApp } from "firebase/app"
+import { getFirestore } from "firebase/firestore"
+import { addUserToFirestore } from '@/utils';
+
 
 import NavBar from "components/nav/NavBar"
 
@@ -84,15 +90,11 @@ export default {
 			this.$store.commit("setIsShowingBanner", !navigator.onLine)
 		},
 	},
-	created: function()
+	// Inside your created function
+	created: function() 
 	{
-		// List for online status changing
-		this.$store.commit("setIsOnline", navigator.onLine)
-		window.addEventListener("load", this.handleEventLoad)
-		window.addEventListener("online", this.handleEventOnline)
-		window.addEventListener("offline", this.handleEventOffline)
-
-		try
+		// Initialize Firebase
+		try 
 		{
 			const firebaseConfig = {
 				apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -104,25 +106,43 @@ export default {
 				storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
 			}
 
-			// Get a Firestore instance
-			initializeApp(firebaseConfig)
+			// Initialize Firebase
+			const app = initializeApp(firebaseConfig)
+
+			// Get Firestore instance
+			const db = getFirestore(app)
 
 			const auth = getAuth()
 			onAuthStateChanged(
 				auth,
-				(user) =>
+				async (user) => // Make the callback async
 				{
 					// Update user via store
 					this.$store.commit("setIsLoggingIn", true)
 					this.$store.dispatch("fetchUser", user)
 
-					if (user)
+					if (user && user.uid)
 					{
 						// User is signed in.
+						console.info("User is signed in:", user)
+
+						// Now that the user is authenticated, read from Firestore
+						try 
+						{
+							const firestoreUser = await addUserToFirestore(app, user)
+							console.log(firestoreUser.data())
+						}
+						catch (e) 
+						{
+							console.error("App.vue: Could not connect to Firestore database")
+							console.error(e)
+						}
 					}
 					else
 					{
-						// No User
+						// No user is signed in
+						console.info("App.vue: User is not signed in")
+						// Optionally, redirect to login page or show a message
 					}
 					this.$store.commit("setIsLoggingIn", false)
 				}
@@ -130,10 +150,9 @@ export default {
 		}
 		catch (e)
 		{
-			console.error("Could not connect to firebase")
+			console.error("Local: Could not connect to Firebase")
 			console.error(e)
 		}
-
 	},
 	beforeDestroy: function()
 	{
@@ -256,14 +275,14 @@ html, body {
 }
 .fade-enter-active,
 .fade-leave-active {
-  transition-duration: 0.2s;
-  transition-property: opacity;
-  transition-timing-function: ease;
+	transition-duration: 0.2s;
+	transition-property: opacity;
+	transition-timing-function: ease;
 }
 
 .fade-enter,
 .fade-leave-active {
-  opacity: 0
+	opacity: 0
 }
 
 a:focus-visible {
