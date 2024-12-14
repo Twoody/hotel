@@ -1,6 +1,13 @@
 The general navbar for our project
 <template>
 	<div class="nav-wrapper">
+		<div
+			class="user-item user-logout"
+			@click="logout"
+		>
+			Logout
+		</div>
+
 		<div class="nav-items">
 			<router-link
 				class="nav-item"
@@ -47,16 +54,13 @@ The general navbar for our project
 			v-if="isLoggedIn"
 			class="user-items options-user"
 		>
-			<div class="user-item user-name">
+			<div
+				class="user-item user-name"
+				@click="gotoSettings"
+			>
 				{{ userInitials }}
 			</div>
 
-			<div
-				class="user-item user-action"
-				@click="logout"
-			>
-				Logout
-			</div>
 		</div>
 		<div
 			v-else
@@ -80,7 +84,8 @@ export default {
 		 */
 		firstName ()
 		{
-			return store.state.user.user.firstName || ""
+			// console.info(store.state.user.user)
+			return store.state.user.user.first_name || ""
 		},
 
 		/**
@@ -104,7 +109,7 @@ export default {
 		 */
 		lastName ()
 		{
-			return store.state.user.user.lastName || ""
+			return store.state.user.user.last_name || ""
 		},
 
 		/**
@@ -119,6 +124,13 @@ export default {
 	},
 	methods:
 	{
+		gotoSettings ()
+		{
+			this.$router.push({
+				path: "/settings",
+			})
+		},
+
 		/**
 		 * Logout the current user and remove the user session
 		 *
@@ -184,15 +196,17 @@ export default {
 			margin-left: 6px;
 			margin-right: 6px;
 		}
-
-		.user-action {
-			border-top: 1px solid @myblack;
-			margin-bottom: 5px;
-		}
 		.user-name {
+			font-size: 25px;
 			margin-top: 5px;
 		}
 	}
+	.user-logout {
+		font-size: 13px;
+		margin-top: 4px;
+		padding-left: 5px;
+	}
+
 }
 a {
 	font-weight: bold;
