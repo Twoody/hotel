@@ -2,7 +2,7 @@ The general navbar for our project
 <template>
 	<div class="nav-wrapper">
 		<div
-			class="user-item user-logout"
+			class="user-logout"
 			@click="logout"
 		>
 			Logout
@@ -53,14 +53,16 @@ The general navbar for our project
 		<div
 			v-if="isLoggedIn"
 			class="user-items options-user"
+			@click="gotoSettings"
 		>
 			<div
 				class="user-item user-name"
-				@click="gotoSettings"
 			>
 				{{ userInitials }}
 			</div>
-
+			<div class="user-item user-action">
+				Settings
+			</div>
 		</div>
 		<div
 			v-else
@@ -196,8 +198,15 @@ export default {
 			margin-left: 6px;
 			margin-right: 6px;
 		}
+		.user-action {
+			border-top: 1px solid @myblack;
+			font-size: 12px;
+			margin-bottom: 5px;
+			margin-left: 11px;
+			margin-right: 11px;
+		}
 		.user-name {
-			font-size: 25px;
+			font-size: 20px;
 			margin-top: 5px;
 		}
 	}

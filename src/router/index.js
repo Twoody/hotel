@@ -8,6 +8,7 @@ import Login from "../views/Login.vue"
 import Maps from "../views/Maps.vue"
 import MapItem from "../views/MapItem.vue"
 import NotFound from "../views/NotFound.vue"
+import Settings from "../views/Settings.vue"
 import Signup from "../views/Signup.vue"
 import ThermometerPage from "../views/ThermometerPage.vue"
 
@@ -59,6 +60,11 @@ const routes = [
 		component: Signup,
 		name: "singup",
 		path: "/signup",
+	},
+	{
+		component: Settings,
+		name: "settings",
+		path: "/settings",
 	},
 	{
 		component: ThermometerPage,
