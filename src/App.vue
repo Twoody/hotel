@@ -56,14 +56,11 @@
 
 <script>
 import 
-{
-	getAuth,
-	onAuthStateChanged
-} from "firebase/auth"
+{getAuth,
+	onAuthStateChanged} from "firebase/auth"
 import { initializeApp } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
-import { addUserToFirestore } from '@/utils';
-
+import { addUserToFirestore } from "@/utils"
 
 import NavBar from "components/nav/NavBar"
 
@@ -117,20 +114,24 @@ export default {
 				auth,
 				async (user) => // Make the callback async
 				{
-					// Update user via store
+					// Check the mutex
+					if (this.$store.state.user.isLoggingIn)
+					{
+						// console.info('dont call more than once')
+						return
+					}
+					// Set a mutex 
 					this.$store.commit("setIsLoggingIn", true)
-					this.$store.dispatch("fetchUser", user)
 
 					if (user && user.uid)
 					{
-						// User is signed in.
-						console.info("User is signed in:", user)
+						// console.info("User is signed in:", user)
 
 						// Now that the user is authenticated, read from Firestore
 						try 
 						{
 							const firestoreUser = await addUserToFirestore(app, user)
-							console.log(firestoreUser.data())
+							this.$store.dispatch("fetchUser", firestoreUser)
 						}
 						catch (e) 
 						{
@@ -140,10 +141,11 @@ export default {
 					}
 					else
 					{
-						// No user is signed in
-						console.info("App.vue: User is not signed in")
+						console.info("App.vue: No user is signed in")
 						// Optionally, redirect to login page or show a message
 					}
+					
+					// Release the mutex
 					this.$store.commit("setIsLoggingIn", false)
 				}
 			)
