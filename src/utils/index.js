@@ -1,1 +1,1 @@
-export * from './firestore.js';
+export * from "./firestore.js"
