@@ -1,6 +1,9 @@
 <template>
 	<div class="login-page-wrapper">
-		<div v-if="isLoggedIn">
+		<div v-if="!isAuthReady">
+			<h3>Checking firebase auth status...</h3>
+		</div>
+		<div v-else-if="isLoggedIn">
 			<h3>Already Logged in</h3>
 			<p>
 				Logging in a second time is weird. Please contine or logout.
@@ -77,7 +80,7 @@
 				>
 					<MyButton
 						class="login-button"
-						:in-progress="loggingIn"
+						:in-progress="isLoggingIn"
 						:success="success"
 						@click="loginOrRegister"
 					>
@@ -131,9 +134,9 @@ export default {
 			auth: getAuth(),
 			email: "",
 			isLoading: true,
+			isMounted: false,
 			isRegistering: false,
 			isShowingErrors: false,
-			loggingIn: false,
 			loginError: "",
 			password: "",
 			passwordConfirm: "",
@@ -186,6 +189,15 @@ export default {
 			errors.email = this.email.length ? "" : "Please enter an email"
 
 			return errors
+		},
+
+		/**
+		 * @returns {boolean} - Whether a user is logged in or not
+		 * @since 2.2.1
+		 */
+		isAuthReady ()
+		{
+			return store.state.user.isAuthReady
 		},
 
 		/**
@@ -246,9 +258,18 @@ export default {
 		 */
 		async login ()
 		{
+			// Check the mutex
+			if (this.isLoggingIn)
+			{
+				// console.info('dont call more than once')
+				return
+			}
 
+			// Set a mutex 
+			this.$store.commit("setIsLoggingIn", true)
+
+			// Clear any previous error message
 			this.loginError = ""
-			this.loggingIn = true
 			try
 			{
 				const response = await signInWithEmailAndPassword(
@@ -276,7 +297,9 @@ export default {
 					this.loginError = error.code
 				}
 			}
-			this.loggingIn = false
+					
+			// Release the mutex
+			this.$store.commit("setIsLoggingIn", false)
 		},
 
 		/**
@@ -346,7 +369,7 @@ export default {
 	watch:
 	{
 		/**
-		 * Watch user loging out to manage local state
+		 * Watch user logging out to manage local state
 		 *
 		 * @param {boolean} n - New value
 		 * @param {boolean} o - Old value

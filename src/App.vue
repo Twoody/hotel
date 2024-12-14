@@ -59,7 +59,6 @@ import
 {getAuth,
 	onAuthStateChanged} from "firebase/auth"
 import { initializeApp } from "firebase/app"
-import { getFirestore } from "firebase/firestore"
 import { addUserToFirestore } from "@/utils"
 
 import NavBar from "components/nav/NavBar"
@@ -106,21 +105,22 @@ export default {
 			// Initialize Firebase
 			const app = initializeApp(firebaseConfig)
 
-			// Get Firestore instance
-			const db = getFirestore(app)
-
 			const auth = getAuth()
 			onAuthStateChanged(
 				auth,
 				async (user) => // Make the callback async
 				{
-					// Check the mutex
+					// Check the mutex so multiple logins do not occur
 					if (this.$store.state.user.isLoggingIn)
 					{
 						// console.info('dont call more than once')
 						return
 					}
-					// Set a mutex 
+
+					// Set a mutex that tracks when Firebase authentication state has finished loading
+					this.$store.commit("setIsAuthReady", false)
+
+					// Set a mutex so only one login occurs
 					this.$store.commit("setIsLoggingIn", true)
 
 					if (user && user.uid)
@@ -147,6 +147,10 @@ export default {
 					
 					// Release the mutex
 					this.$store.commit("setIsLoggingIn", false)
+
+					// Set a mutex that tracks when Firebase authentication state has finished loading
+					this.$store.commit("setIsAuthReady", true)
+
 				}
 			)
 		}

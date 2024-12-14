@@ -25,7 +25,9 @@ export async function addUserToFirestore (app, user)
 		}
 	}
 
+	// Get Firestore instance
 	const db = getFirestore(app)
+
 	let querySnapshot = await getDoc(doc(db, "users", user.uid))
 	if (!querySnapshot.exists())
 	{
@@ -51,10 +53,12 @@ export async function addUserToFirestore (app, user)
 		// If Google account that has not been recorded
 		userPayload.display_name = user.displayName || ""
 		userPayload.email = user.email || ""
-		userPayload.first_name = (user.displayName && user.displayName.length) ? user.displayName.split(" ")[0] : ""
+		userPayload.first_name = (user.displayName && user.displayName.length) ?
+			user.displayName.split(" ")[0] : ""
 		userPayload.is_email_verified = user.emailVerified || false
 		// Last name is everything that is not the first name, IFF first name exists
-		userPayload.last_name = (user.displayName && user.displayName.length) ? user.displayName.split(" ").slice(1).join(" ") : ""
+		userPayload.last_name = (user.displayName && user.displayName.length) ?
+			user.displayName.split(" ").slice(1).join(" ") : ""
 		userPayload.phone = user.phoneNumber || ""
 		userPayload.photoURL = user.photoURL || ""
 
