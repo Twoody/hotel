@@ -44,7 +44,7 @@ The general navbar for our project
 		<div
 			v-if="isLoggedIn"
 			class="user-items options-user"
-			@click="gotoSettings"
+			@click="gotoUserSettings"
 		>
 			<div
 				class="user-item user-name"
@@ -77,7 +77,7 @@ export default {
 		 */
 		firstName ()
 		{
-			// console.info(store.state.user.user)
+			console.info("user: ", store.state.user.user)
 			return store.state.user.user.first_name || ""
 		},
 
@@ -117,7 +117,7 @@ export default {
 	},
 	methods:
 	{
-		gotoSettings ()
+		gotoUserSettings ()
 		{
 			this.$router.push({
 				path: "/settings",

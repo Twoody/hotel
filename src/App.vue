@@ -113,7 +113,6 @@ export default {
 					// Check the mutex so multiple logins do not occur
 					if (this.$store.state.user.isLoggingIn)
 					{
-						// console.info('dont call more than once')
 						return
 					}
 

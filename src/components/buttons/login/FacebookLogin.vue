@@ -20,33 +20,61 @@ Button to activate a facebook account authenticator
 
 <script>
 import { getAuth, signInWithPopup, FacebookAuthProvider } from "firebase/auth"
+import store from "@/store/store.js"
 
 export default {
 	name: "FacebookLogin",
 	data ()
 	{
-		return {
-			isLoggingIn: false,
-		}
+	},
+	computed:
+	{
+		/**
+		 * @returns {boolean} - Whether a user is logged in or not
+		 * @since 2.2.1
+		 */
+		isAuthReady ()
+		{
+			return store.state.user.isAuthReady
+		},
+
+		/**
+		 * @returns {boolean} - Whether a user is logged in or not
+		 * @since 2.2.1
+		 */
+		isLoggedIn ()
+		{
+			return store.state.user.isLoggedIn
+		},
+
+		/**
+		 * @returns {boolean} - Whether a user is logging in or not
+		 * @since 2.2.1
+		 */
+		isLoggingIn ()
+		{
+			return store.state.user.isLoggingIn
+		},
 	},
 	methods:
 	{
 		/**
 		 * Use firebase to support logging in with a facebook account
 		 *
-		 * @returns {void}
+		 * @returns {boolean} Was work done
 		 * @since 0.1.3
 		 */
 		async facebookLogin ()
 		{
-			if (this.isLoggingIn === true)
+			if (this.isLoggingIn && this.isAuthReady && !this.isLoggedIn)
 			{
-				return
+				return false
 			}
 
-			this.isLoggingIn = true
-			/* eslint-disable no-unused-vars */
+			// Set a mutex 
+			this.$store.commit("setIsLoggingIn", true)
 
+			/* eslint-disable no-unused-vars */
 			try
 			{
 				const auth = getAuth()
@@ -59,18 +87,22 @@ export default {
 				})
 
 				const response = await signInWithPopup(auth, provider)
-				// The signed-in user info.
-				const user = response.user
 				// This gives you a Facebook Access Token.
 				const credential = FacebookAuthProvider.credentialFromResult(response)
 				const token = credential.accessToken
+				if (credential)
+				{
+					// The signed-in user info.
+					const user = response?.user
 
-				// Update store
-				this.$store.dispatch("fetchUser", user)
-
-				this.$router.push({
-					path: "/",
-				})
+					if (user)
+					{
+						// Actual user setup is handled in App.vue @ `onAuthStateChanged`
+						this.$router.push({
+							path: "/",
+						})
+					}
+				}
 			}
 			catch (error)
 			{
@@ -85,7 +117,9 @@ export default {
 				console.error(errorMessage)
 			}
 			/* eslint-enable no-unused-vars */
-			this.isLoggingIn = false
+
+			// Release the mutex
+			this.$store.commit("setIsLoggingIn", false)
 		},
 	},
 }

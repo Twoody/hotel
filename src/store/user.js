@@ -77,6 +77,7 @@ export default
 			const isLoggedIn = user !== null
 			if (isLoggedIn)
 			{
+				console.log(user.data)
 				state.commit("setUserData", user.data())
 			}
 

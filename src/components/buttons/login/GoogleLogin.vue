@@ -19,15 +19,44 @@
 
 <script>
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
+import store from "@/store/store.js"
 
 export default {
 	name: "GoogleLogin",
 	data ()
 	{
-		return {
-			isLoggingIn: false,
-		}
+		return {}
 	},
+	computed:
+	{
+		/**
+		 * @returns {boolean} - Whether a user is logged in or not
+		 * @since 2.2.1
+		 */
+		isAuthReady ()
+		{
+			return store.state.user.isAuthReady
+		},
+
+		/**
+		 * @returns {boolean} - Whether a user is logged in or not
+		 * @since 2.2.1
+		 */
+		isLoggedIn ()
+		{
+			return store.state.user.isLoggedIn
+		},
+
+		/**
+		 * @returns {boolean} - Whether a user is logging in or not
+		 * @since 2.2.1
+		 */
+		isLoggingIn ()
+		{
+			return store.state.user.isLoggingIn
+		},
+	},
+
 	methods:
 	{
 		/**
@@ -39,12 +68,13 @@ export default {
 		 */
 		async googleLogin ()
 		{
-			if (this.isLoggingIn === true)
+			if (this.isLoggingIn && this.isAuthReady && !this.isLoggedIn)
 			{
 				return false
 			}
 
-			this.isLoggingIn = true
+			// Set a mutex 
+			this.$store.commit("setIsLoggingIn", true)
 
 			/* eslint-disable no-unused-vars */
 			const auth = getAuth()
@@ -67,9 +97,6 @@ export default {
 
 					if (user)
 					{
-						// Update store
-						this.$store.dispatch("fetchUser", user)
-
 						this.$router.push({
 							path: "/",
 						})
@@ -86,11 +113,9 @@ export default {
 
 				// The AuthCredential type that was used.
 				const credential = error.credential
-
 				console.error(errorMessage)
 			}
 			/* eslint-enable no-unused-vars */
-			this.isLoggingIn = false
 			return true
 		},
 	},

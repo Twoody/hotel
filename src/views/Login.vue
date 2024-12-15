@@ -259,9 +259,8 @@ export default {
 		async login ()
 		{
 			// Check the mutex
-			if (this.isLoggingIn)
+			if (this.isLoggingIn === true && this.isAuthReady === true)
 			{
-				// console.info('dont call more than once')
 				return
 			}
 

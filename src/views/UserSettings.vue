@@ -14,17 +14,15 @@ and for users to see data regarding their account.
 <script>
 
 export default {
-	name: "Settings",
+	name: "UserSettings",
 	props: {},
 	data: function()
 	{
-		return {
-		}
+		return {}
 	},
 
 	computed:
-	{
-	},
+	{},
 	methods: 
 	{},
 }
