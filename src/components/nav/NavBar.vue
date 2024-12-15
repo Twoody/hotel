@@ -21,15 +21,6 @@ The general navbar for our project
 			>
 				About
 			</router-link>
-			<!-- TODO: Reasses manual page for actual manuals-->
-			<!--
-			<router-link
-				class="nav-item"
-				to="/manual"
-			>
-				Manual
-			</router-link>
- -->
 			<router-link
 				class="nav-item"
 				to="/maps"
@@ -185,6 +176,7 @@ export default {
 	.user-items {
 		border: 1px solid @myblack;
 		border-radius: 50px;
+		cursor: pointer;
 		display: flex;
 		flex-direction: column;
 		flex-grow: 0;
@@ -211,6 +203,7 @@ export default {
 		}
 	}
 	.user-logout {
+		cursor: pointer;
 		font-size: 13px;
 		margin-top: 4px;
 		padding-left: 5px;
