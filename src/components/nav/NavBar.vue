@@ -14,15 +14,6 @@ The general navbar for our project
 			>
 				About
 			</router-link>
-			<!-- TODO: Reasses manual page for actual manuals-->
-			<!--
-			<router-link
-				class="nav-item"
-				to="/manual"
-			>
-				Manual
-			</router-link>
- -->
 			<router-link
 				class="nav-item"
 				to="/maps"
@@ -36,7 +27,7 @@ The general navbar for our project
 				Amenities
 			</router-link>
 			<router-link
-				v-if="!isLoggedIn"
+				v-if="isAuthReady && !isLoggedIn"
 				class="nav-item"
 				to="/login"
 			>
@@ -44,18 +35,12 @@ The general navbar for our project
 			</router-link>
 		</div>
 		<div
-			v-if="isLoggedIn"
-			class="user-items options-user"
+			v-if="isAuthReady && isLoggedIn"
+			class="user-items"
+			@click="gotoUserSettings"
 		>
-			<div class="user-item user-name">
-				{{ userInitials }}
-			</div>
-
-			<div
-				class="user-item user-action"
-				@click="logout"
-			>
-				Logout
+			<div class="user-icon">
+				<font-awesome-icon icon="user-cog" class="fa-xl"/>
 			</div>
 		</div>
 		<div
@@ -68,7 +53,6 @@ The general navbar for our project
 </template>
 
 <script>
-import { getAuth, signOut } from "firebase/auth"
 import store from "@/store/store.js"
 
 export default {
@@ -80,7 +64,16 @@ export default {
 		 */
 		firstName ()
 		{
-			return store.state.user.user.firstName || ""
+			console.info("user: ", store.state.user.user)
+			return store.state.user.user.first_name || ""
+		},
+
+		/**
+		 * @returns {boolean} - Whether a user is logged in or not
+		 */
+		isAuthReady ()
+		{
+			return store.state.user.isAuthReady
 		},
 
 		/**
@@ -104,7 +97,7 @@ export default {
 		 */
 		lastName ()
 		{
-			return store.state.user.user.lastName || ""
+			return store.state.user.user.last_name || ""
 		},
 
 		/**
@@ -119,25 +112,11 @@ export default {
 	},
 	methods:
 	{
-		/**
-		 * Logout the current user and remove the user session
-		 *
-		 * @returns {void}
-		 */
-		async logout ()
+		gotoUserSettings ()
 		{
-			try
-			{
-				const auth = getAuth()
-				await signOut(auth)
-			}
-			catch (error)
-			{
-				console.error(
-					error
-				)
-			}
-			store.dispatch("logoutUser")
+			this.$router.push({
+				path: "/settings",
+			})
 		},
 	},
 }
@@ -155,6 +134,7 @@ export default {
 	flex-direction: row;
 	flex-wrap: nowrap;
 	justify-content: flex-start;
+	max-width: 500px;
 	padding: 10px;
 	padding-bottom: @v-padding;
 	padding-top: @v-padding;
@@ -169,30 +149,19 @@ export default {
 		}
 	}
 	.user-items {
-		border: 1px solid @myblack;
-		border-radius: 50px;
-		display: flex;
-		flex-direction: column;
-		flex-grow: 0;
-		flex-shrink: 1;
-
-		&.options-guest {
-			border: none;
-		}
-		.user-item {
-			margin: 3px;
-			margin-left: 6px;
-			margin-right: 6px;
-		}
-
-		.user-action {
-			border-top: 1px solid @myblack;
-			margin-bottom: 5px;
-		}
+		cursor: pointer;
 		.user-name {
+			font-size: 20px;
 			margin-top: 5px;
 		}
 	}
+	.user-logout {
+		cursor: pointer;
+		font-size: 13px;
+		margin-top: 4px;
+		padding-left: 5px;
+	}
+
 }
 a {
 	font-weight: bold;

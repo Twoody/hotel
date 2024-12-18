@@ -4,6 +4,7 @@
 function initialState ()
 {
 	return {
+		isAuthReady: null,
 		isLoggedIn: false,
 		isLoggingIn: false,
 	}
@@ -18,6 +19,17 @@ export default
 
 	mutations:
 	{
+		/**
+		 * Set a mutex that tracks when Firebase authentication state has finished loading
+		 *
+		 * @param {object} state - Current vuex state
+		 * @param {boolean} value - True if auth is read; False if currently checking auth; Null if never initiated
+		 */
+		setIsAuthReady (state, value)
+		{
+			state.isAuthReady = value
+		},
+
 		/**
 		 * Set whether user is logged in or not
 		 *
@@ -62,12 +74,16 @@ export default
 		 */
 		fetchUser (state, user)
 		{
-			const isLoggedIn = user !== null
-			const userData = {}
-			userData.displayName = user && user.displayName ? user.displayName : ""
-			userData.email = user && user.email ? user.email : ""
-			state.commit("setUserData", userData)
-			state.commit("setIsLoggedIn", isLoggedIn)
+			if (user.invalid)
+			{
+				state.commit("setIsLoggedIn", false)
+			}
+			else
+			{
+				// User is valid
+				state.commit("setUserData", user.data())
+				state.commit("setIsLoggedIn", true)
+			}
 		},
 
 		/**
