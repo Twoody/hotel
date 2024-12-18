@@ -16,6 +16,7 @@ import { faClipboardList } from "@fortawesome/free-solid-svg-icons"
 import { faCopyright } from "@fortawesome/free-solid-svg-icons"
 import { faFacebook } from "@fortawesome/free-brands-svg-icons"
 import { faGoogle } from "@fortawesome/free-brands-svg-icons"
+import { faSpinner } from "@fortawesome/free-solid-svg-icons/faSpinner"
 import { faStar } from "@fortawesome/free-solid-svg-icons"
 import { faUserCog } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
@@ -29,8 +30,7 @@ library.add(faClipboardList)
 library.add(faCopyright)
 library.add(faFacebook)
 library.add(faGoogle)
-// import { faSpinner } from "@fortawesome/free-solid-svg-icons/faSpinner"
-// library.add(faSpinner)
+ library.add(faSpinner)
 library.add(faStar)
 library.add(faUserCog)
 
