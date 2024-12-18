@@ -74,14 +74,17 @@ export default
 		 */
 		fetchUser (state, user)
 		{
-			const isLoggedIn = user !== null
-			if (isLoggedIn)
+			console.log("store user: ", user)
+			if (user.invalid)
 			{
-				console.log(user.data)
-				state.commit("setUserData", user.data())
+				state.commit("setIsLoggedIn", false)
 			}
-
-			state.commit("setIsLoggedIn", isLoggedIn)
+			else
+			{
+				// User is valid
+				state.commit("setUserData", user.data())
+				state.commit("setIsLoggedIn", true)
+			}
 		},
 
 		/**

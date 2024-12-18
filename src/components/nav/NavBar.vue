@@ -1,13 +1,6 @@
 The general navbar for our project
 <template>
 	<div class="nav-wrapper">
-		<div
-			class="user-logout"
-			@click="logout"
-		>
-			Logout
-		</div>
-
 		<div class="nav-items">
 			<router-link
 				class="nav-item"
@@ -34,7 +27,7 @@ The general navbar for our project
 				Amenities
 			</router-link>
 			<router-link
-				v-if="!isLoggedIn"
+				v-if="isAuthReady && !isLoggedIn"
 				class="nav-item"
 				to="/login"
 			>
@@ -42,17 +35,12 @@ The general navbar for our project
 			</router-link>
 		</div>
 		<div
-			v-if="isLoggedIn"
-			class="user-items options-user"
+			v-if="isAuthReady && isLoggedIn"
+			class="user-items"
 			@click="gotoUserSettings"
 		>
-			<div
-				class="user-item user-name"
-			>
-				{{ userInitials }}
-			</div>
-			<div class="user-item user-action">
-				Settings
+			<div class="user-icon">
+				<font-awesome-icon icon="user-cog" class="fa-xl"/>
 			</div>
 		</div>
 		<div
@@ -65,7 +53,6 @@ The general navbar for our project
 </template>
 
 <script>
-import { getAuth, signOut } from "firebase/auth"
 import store from "@/store/store.js"
 
 export default {
@@ -79,6 +66,14 @@ export default {
 		{
 			console.info("user: ", store.state.user.user)
 			return store.state.user.user.first_name || ""
+		},
+
+		/**
+		 * @returns {boolean} - Whether a user is logged in or not
+		 */
+		isAuthReady ()
+		{
+			return store.state.user.isAuthReady
 		},
 
 		/**
@@ -123,27 +118,6 @@ export default {
 				path: "/settings",
 			})
 		},
-
-		/**
-		 * Logout the current user and remove the user session
-		 *
-		 * @returns {void}
-		 */
-		async logout ()
-		{
-			try
-			{
-				const auth = getAuth()
-				await signOut(auth)
-			}
-			catch (error)
-			{
-				console.error(
-					error
-				)
-			}
-			store.dispatch("logoutUser")
-		},
 	},
 }
 </script>
@@ -160,6 +134,7 @@ export default {
 	flex-direction: row;
 	flex-wrap: nowrap;
 	justify-content: flex-start;
+	max-width: 500px;
 	padding: 10px;
 	padding-bottom: @v-padding;
 	padding-top: @v-padding;
@@ -174,29 +149,7 @@ export default {
 		}
 	}
 	.user-items {
-		border: 1px solid @myblack;
-		border-radius: 50px;
 		cursor: pointer;
-		display: flex;
-		flex-direction: column;
-		flex-grow: 0;
-		flex-shrink: 1;
-
-		&.options-guest {
-			border: none;
-		}
-		.user-item {
-			margin: 3px;
-			margin-left: 6px;
-			margin-right: 6px;
-		}
-		.user-action {
-			border-top: 1px solid @myblack;
-			font-size: 12px;
-			margin-bottom: 5px;
-			margin-left: 11px;
-			margin-right: 11px;
-		}
 		.user-name {
 			font-size: 20px;
 			margin-top: 5px;

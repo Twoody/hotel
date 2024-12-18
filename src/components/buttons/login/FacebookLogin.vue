@@ -19,7 +19,9 @@ Button to activate a facebook account authenticator
 </template>
 
 <script>
-import { getAuth, signInWithPopup, FacebookAuthProvider } from "firebase/auth"
+import { signInWithPopup, FacebookAuthProvider } from "firebase/auth"
+import { firebaseAuth } from "@/firebase" // Adjust path as necessary
+import { addUserToFirestore } from "@/utils"
 import store from "@/store/store.js"
 
 export default {
@@ -77,8 +79,6 @@ export default {
 			/* eslint-disable no-unused-vars */
 			try
 			{
-				const auth = getAuth()
-
 				// Configure for facebook
 				const provider = new FacebookAuthProvider()
 				provider.addScope("user_birthday")
@@ -86,7 +86,7 @@ export default {
 					"display": "popup",
 				})
 
-				const response = await signInWithPopup(auth, provider)
+				const response = await signInWithPopup(firebaseAuth, provider)
 				// This gives you a Facebook Access Token.
 				const credential = FacebookAuthProvider.credentialFromResult(response)
 				const token = credential.accessToken
@@ -97,7 +97,13 @@ export default {
 
 					if (user)
 					{
-						// Actual user setup is handled in App.vue @ `onAuthStateChanged`
+						// Attempt to add user to firestore if necessary
+						const firestoreUser = await addUserToFirestore(user)
+
+						// Update store with user IFF "logged in user" is/was valid
+						// NOTE: Further user setup is handled in App.vue @ `onAuthStateChanged`
+						this.$store.dispatch("fetchUser", firestoreUser)
+
 						this.$router.push({
 							path: "/",
 						})
@@ -115,6 +121,7 @@ export default {
 				// The AuthCredential type that was used.
 				const credential = FacebookAuthProvider.credentialFromError(error)
 				console.error(errorMessage)
+				console.error(credential)
 			}
 			/* eslint-enable no-unused-vars */
 

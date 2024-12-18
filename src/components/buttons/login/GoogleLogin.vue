@@ -18,7 +18,9 @@
 </template>
 
 <script>
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
+import { firebaseAuth } from "@/firebase" // Adjust path as necessary
+import { addUserToFirestore } from "@/utils"
 import store from "@/store/store.js"
 
 export default {
@@ -77,14 +79,13 @@ export default {
 			this.$store.commit("setIsLoggingIn", true)
 
 			/* eslint-disable no-unused-vars */
-			const auth = getAuth()
 			const provider = new GoogleAuthProvider()
 			provider.addScope("profile")
 			provider.addScope("email")
 
 			try
 			{
-				const response = await signInWithPopup(auth, provider)
+				const response = await signInWithPopup(firebaseAuth, provider)
 				// This gives you a Google Access Token.
 				const credential = GoogleAuthProvider.credentialFromResult(response)
 				if (credential)
@@ -97,6 +98,13 @@ export default {
 
 					if (user)
 					{
+						// Attempt to add user to firestore if necessary
+						const firestoreUser = await addUserToFirestore(user)
+
+						// Update store with user IFF "logged in user" is/was valid
+						// NOTE: Further user setup is handled in App.vue @ `onAuthStateChanged`
+						this.$store.dispatch("fetchUser", firestoreUser)
+
 						this.$router.push({
 							path: "/",
 						})
@@ -114,6 +122,7 @@ export default {
 				// The AuthCredential type that was used.
 				const credential = error.credential
 				console.error(errorMessage)
+				console.error(credential)
 			}
 			/* eslint-enable no-unused-vars */
 			return true

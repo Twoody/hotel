@@ -16,7 +16,9 @@
 			:isCollapsed="true"
 			is-showing
 		>
-			<NavBar id="nav-wrapper" />
+			<div class="flex-box nav-flex">
+				<NavBar id="nav-wrapper" />
+			</div>
 		</AppSection>
 
 		<AppSection
@@ -55,10 +57,8 @@
 </template>
 
 <script>
-import 
-{getAuth,
-	onAuthStateChanged} from "firebase/auth"
-import { initializeApp } from "firebase/app"
+import { onAuthStateChanged } from "firebase/auth"
+import { firebaseAuth } from "@/firebase" // Adjust path as necessary
 import { addUserToFirestore } from "@/utils"
 
 import NavBar from "components/nav/NavBar"
@@ -92,22 +92,8 @@ export default {
 		// Initialize Firebase
 		try 
 		{
-			const firebaseConfig = {
-				apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-				appId: import.meta.env.VITE_FIREBASE_APP_ID,
-				authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-				databaseURL: import.meta.env.VITE_DATABASE_URL,
-				messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-				projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-				storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-			}
-
-			// Initialize Firebase
-			const app = initializeApp(firebaseConfig)
-
-			const auth = getAuth()
 			onAuthStateChanged(
-				auth,
+				firebaseAuth,
 				async (user) => // Make the callback async
 				{
 					// Check the mutex so multiple logins do not occur
@@ -122,14 +108,14 @@ export default {
 					// Set a mutex so only one login occurs
 					this.$store.commit("setIsLoggingIn", true)
 
-					if (user && user.uid)
+					if (user?.uid)
 					{
 						// console.info("User is signed in:", user)
 
 						// Now that the user is authenticated, read from Firestore
 						try 
 						{
-							const firestoreUser = await addUserToFirestore(app, user)
+							const firestoreUser = await addUserToFirestore(user)
 							this.$store.dispatch("fetchUser", firestoreUser)
 						}
 						catch (e) 
@@ -257,11 +243,19 @@ html, body {
 	max-height: 4000px !important;
 }
 .nav-section {
+	background-color: @color-primary-triadic-2;
 	min-height: 70px;
+	min-width: 100%;
+
+	.nav-flex {
+		align-content: center;
+		align-items: center;
+		justify-content: space-evenly;
+		min-width: 100%;
+	}
 }
 
 #nav-wrapper {
-	background-color: @color-primary-triadic-2;
 }
 
 #top-banner {
