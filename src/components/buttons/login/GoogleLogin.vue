@@ -5,6 +5,7 @@
 		</div>
 		<MyButton
 			class="social-button"
+			:disabled="isLoggingIn || !isAuthReady || isLoggedIn"
 			@click="googleLogin"
 		>
 			<font-awesome-icon
@@ -72,13 +73,13 @@ export default {
 		{
 			if (this.isLoggingIn && this.isAuthReady && !this.isLoggedIn)
 			{
+				console.log("expected")
 				return false
 			}
 
 			// Set a mutex 
 			this.$store.commit("setIsLoggingIn", true)
 
-			/* eslint-disable no-unused-vars */
 			const provider = new GoogleAuthProvider()
 			provider.addScope("profile")
 			provider.addScope("email")
@@ -105,6 +106,9 @@ export default {
 						// NOTE: Further user setup is handled in App.vue @ `onAuthStateChanged`
 						this.$store.dispatch("fetchUser", firestoreUser)
 
+						// Release the mutex
+						this.$store.commit("setIsLoggingIn", false)
+
 						this.$router.push({
 							path: "/",
 						})
@@ -113,18 +117,16 @@ export default {
 			}
 			catch (error)
 			{
-				const errorCode = error.code
 				const errorMessage = error.message
-
-				// The email of the user's account used.
-				const email = error.email
 
 				// The AuthCredential type that was used.
 				const credential = error.credential
 				console.error(errorMessage)
 				console.error(credential)
 			}
-			/* eslint-enable no-unused-vars */
+
+			// Release the mutex
+			this.$store.commit("setIsLoggingIn", false)
 			return true
 		},
 	},

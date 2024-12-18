@@ -6,6 +6,7 @@ Button to activate a facebook account authenticator
 		</div>
 		<MyButton
 			class="social-button"
+			:disabled="isLoggingIn || !isAuthReady || isLoggedIn"
 			@click="facebookLogin"
 		>
 			<font-awesome-icon
@@ -76,7 +77,6 @@ export default {
 			// Set a mutex 
 			this.$store.commit("setIsLoggingIn", true)
 
-			/* eslint-disable no-unused-vars */
 			try
 			{
 				// Configure for facebook
@@ -89,7 +89,7 @@ export default {
 				const response = await signInWithPopup(firebaseAuth, provider)
 				// This gives you a Facebook Access Token.
 				const credential = FacebookAuthProvider.credentialFromResult(response)
-				const token = credential.accessToken
+				// const token = credential.accessToken
 				if (credential)
 				{
 					// The signed-in user info.
@@ -104,6 +104,9 @@ export default {
 						// NOTE: Further user setup is handled in App.vue @ `onAuthStateChanged`
 						this.$store.dispatch("fetchUser", firestoreUser)
 
+						// Release the mutex
+						this.$store.commit("setIsLoggingIn", false)
+
 						this.$router.push({
 							path: "/",
 						})
@@ -112,18 +115,13 @@ export default {
 			}
 			catch (error)
 			{
-				const errorCode = error.code
 				const errorMessage = error.message
-
-				// The email of the user's account used.
-				const email = error.email
 
 				// The AuthCredential type that was used.
 				const credential = FacebookAuthProvider.credentialFromError(error)
 				console.error(errorMessage)
 				console.error(credential)
 			}
-			/* eslint-enable no-unused-vars */
 
 			// Release the mutex
 			this.$store.commit("setIsLoggingIn", false)
