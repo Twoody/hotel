@@ -87,9 +87,7 @@ export default {
 				})
 
 				const response = await signInWithPopup(firebaseAuth, provider)
-				// This gives you a Facebook Access Token.
 				const credential = FacebookAuthProvider.credentialFromResult(response)
-				// const token = credential.accessToken
 				if (credential)
 				{
 					// The signed-in user info.
@@ -121,10 +119,12 @@ export default {
 				const credential = FacebookAuthProvider.credentialFromError(error)
 				console.error(errorMessage)
 				console.error(credential)
+				return false
 			}
 
 			// Release the mutex
 			this.$store.commit("setIsLoggingIn", false)
+			return true
 		},
 	},
 }

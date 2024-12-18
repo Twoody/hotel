@@ -73,27 +73,22 @@ export default {
 		{
 			if (this.isLoggingIn && this.isAuthReady && !this.isLoggedIn)
 			{
-				console.log("expected")
 				return false
 			}
 
 			// Set a mutex 
 			this.$store.commit("setIsLoggingIn", true)
 
-			const provider = new GoogleAuthProvider()
-			provider.addScope("profile")
-			provider.addScope("email")
-
 			try
 			{
+				const provider = new GoogleAuthProvider()
+				provider.addScope("profile")
+				provider.addScope("email")
+
 				const response = await signInWithPopup(firebaseAuth, provider)
-				// This gives you a Google Access Token.
 				const credential = GoogleAuthProvider.credentialFromResult(response)
 				if (credential)
 				{
-					/** Saving this line in case access token is needed at some point */
-					// const token = credential.accessToken
-
 					// The signed-in user info.
 					const user = response?.user
 
@@ -123,6 +118,7 @@ export default {
 				const credential = error.credential
 				console.error(errorMessage)
 				console.error(credential)
+				return false
 			}
 
 			// Release the mutex

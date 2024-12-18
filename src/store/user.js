@@ -74,7 +74,6 @@ export default
 		 */
 		fetchUser (state, user)
 		{
-			console.log("store user: ", user)
 			if (user.invalid)
 			{
 				state.commit("setIsLoggedIn", false)
