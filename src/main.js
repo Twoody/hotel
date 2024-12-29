@@ -30,7 +30,7 @@ library.add(faClipboardList)
 library.add(faCopyright)
 library.add(faFacebook)
 library.add(faGoogle)
- library.add(faSpinner)
+library.add(faSpinner)
 library.add(faStar)
 library.add(faUserCog)
 

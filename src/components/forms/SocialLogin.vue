@@ -4,21 +4,22 @@ User should be able to register/login from multiple places
 		<GoogleLogin class="login-option">
 			<!-- or login with Google -->
 		</GoogleLogin>
-		<FacebookLogin class="login-option">
-			<!-- or login with Facebook -->
-		</FacebookLogin>
+		<!--
+			
+		* @warning facebook authentiacation is currently blocked until a Buiness Number is sent in
+		<FacebookLogin class="login-option" />
+
+		-->
 	</div>
 </template>
 
 <script>
-import FacebookLogin from "@/components/buttons/login/FacebookLogin"
 import GoogleLogin from "@/components/buttons/login/GoogleLogin"
 
 export default {
 	name: "SocialLogin",
 	components: 
 	{
-		FacebookLogin,
 		GoogleLogin,
 	},
 }

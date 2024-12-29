@@ -81,7 +81,7 @@ export default
 			else
 			{
 				// User is valid
-				state.commit("setUserData", user.data())
+				state.commit("setUserData", user)
 				state.commit("setIsLoggedIn", true)
 			}
 		},

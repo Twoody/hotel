@@ -35,6 +35,14 @@ The general navbar for our project
 			</router-link>
 		</div>
 		<div
+			v-if="!isAuthReady"
+			class="user-items"
+		>
+			<div class="user-icon">
+				<LoadingBar size="small" tall/>
+			</div>
+		</div>
+		<div
 			v-if="isAuthReady && isLoggedIn"
 			class="user-items"
 			@click="gotoUserSettings"
@@ -150,9 +158,9 @@ export default {
 	}
 	.user-items {
 		cursor: pointer;
-		.user-name {
-			font-size: 20px;
-			margin-top: 5px;
+
+		.user-icon {
+			margin-right: 13px;
 		}
 	}
 	.user-logout {

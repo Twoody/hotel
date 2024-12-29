@@ -115,8 +115,9 @@ export default {
 						// Now that the user is authenticated, read from Firestore
 						try 
 						{
+							// Attempts to add user to firestore if necessary
 							const firestoreUser = await addUserToFirestore(user)
-							this.$store.dispatch("fetchUser", firestoreUser)
+							this.$store.dispatch("fetchUser", firestoreUser.data())
 						}
 						catch (e) 
 						{

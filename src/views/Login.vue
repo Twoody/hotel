@@ -114,9 +114,8 @@
 </template>
 
 <script>
-import {createUserWithEmailAndPassword,
-	getAuth,
-	signInWithEmailAndPassword} from "firebase/auth"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
+import { firebaseAuth } from "@/firebase"
 import SocialLogin from "@/components/forms/SocialLogin.vue"
 import store from "@/store/store.js"
 
@@ -131,7 +130,6 @@ export default {
 	data: function()
 	{
 		return {
-			auth: getAuth(),
 			email: "",
 			isLoading: true,
 			isMounted: false,
@@ -176,6 +174,8 @@ export default {
 				errors.password : "Password needs alphabetical character"
 			errors.password = this.password.length >= 8 ?
 				errors.password : "Password less than 8 characters"
+			errors.password = this.password && this.password.length !== 0 ?
+				errors.password : "Please enter a password"
 
 			if (this.isRegistering)
 			{
@@ -272,14 +272,14 @@ export default {
 			try
 			{
 				const response = await signInWithEmailAndPassword(
-					this.auth,
+					firebaseAuth,
 					this.email,
 					this.password
 				)
 				this.success = true
 
 				// Update store
-				this.$store.dispatch("fetchUser", response)
+				this.$store.dispatch("fetchUser", response.user)
 
 				this.$router.push({
 					path: "/",
@@ -344,7 +344,7 @@ export default {
 			try
 			{
 				const response = await createUserWithEmailAndPassword(
-					this.auth,
+					firebaseAuth,
 					this.email,
 					this.password
 				)
