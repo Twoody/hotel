@@ -6,7 +6,7 @@ import { db } from "@/firebase" // using the pre-initialized db
  *
  * @param {object} currentUser - The user object that is requesting the update
  * @param {object} newPayload - The fields that need to be updated for said user
- * @returns{object} successMessage - Whether successful or not, with appropriate message
+ * @returns {object} successMessage - Whether successful or not, with appropriate message
  * @since 2.2.3
  */
 export async function updateFirestoreUser (currentUser, newPayload) 
