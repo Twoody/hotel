@@ -18,7 +18,7 @@
 			<div class="user-settings-form-wrapper">
 				<!-- Example form to update user info -->
 				<form
-					@submit.prevent="onSubmit"
+					@submit.prevent="submitUpdatedUser()"
 					class="user-settings-form"
 				>
 					<label>
@@ -59,15 +59,30 @@
 					</label>
 					
 					<MyButton
-						type="submit"
+						class="submit-button"
 						:in-progress="isUpdating"
 						pill
+						submit
 					>
-						Save
+						Update Account
 					</MyButton>
 				</form>
 			</div>
 			<!-- End user-settings-form-->
+
+			<hr class="top-padding">
+
+			<div class="session-management-wrapper">
+				<MyButton
+					class="user-logout"
+					:in-progress="isLoggingOut"
+					pill
+					disabled
+					@click="resetUserPassword"
+				>
+					Reset Password
+				</MyButton>
+			</div>
 
 			<hr >
 
@@ -80,6 +95,26 @@
 				>
 					Logout
 				</MyButton>
+			</div>
+
+			<hr >
+
+			<div class="session-management-wrapper">
+				<MyButton
+					class="user-logout"
+					:in-progress="isLoggingOut"
+					pill
+					disabled
+					@click="deleteUserAccount"
+				>
+					Delete Account
+				</MyButton>
+			</div>
+
+			<hr >
+
+
+			<div class="session-management-wrapper">
 				<p>
 					Work in Progress... Check back later
 				</p>
@@ -160,9 +195,11 @@ export default {
 	methods: {
 		/**
 		 * Handle the form submission to update Firestore user
+		 * @returns {object} successMessage - Whether successful or not, with appropriate message
 		 */
-		async onSubmit ()
+		async submitUpdatedUser ()
 		{
+			console.log('called')
 			// If already saving, do nothing
 			if (this.isUpdating)
 			{
@@ -243,6 +280,10 @@ export default {
 @import "../../assets/styles/styles";
 
 .setting-page-wrapper {
+	.top-padding {
+		margin-top: 30px;
+	}
+
 	background-color: @color-purple !important;
 	border-radius: 7px;
 	height: auto;
@@ -258,11 +299,11 @@ export default {
 		font-size: 25px;
 	}
 	.user-settings-form-wrapper {
-		border-bottom: 8px;
 		margin-left: 11px;
 		margin-right: 11px;
 
 		.user-settings-form {
+			align-items: center;
 			display: flex;
 			flex-direction: column;
 			gap: 1rem;
@@ -279,6 +320,10 @@ export default {
 				border-radius: 5px;
 			}
 		}
+	}
+
+	.submit-button {
+		max-width: 50%;
 	}
 }
 </style>
