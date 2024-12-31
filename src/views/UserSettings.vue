@@ -18,14 +18,14 @@
 			<div class="user-settings-form-wrapper">
 				<!-- Example form to update user info -->
 				<form
-					@submit.prevent="submitUpdatedUser()"
+					@submit.prevent="submitUpdatedUser"
 					class="user-settings-form"
 				>
 					<label>
 						First Name:
 						<Validatable
 							class="user-setting-input"
-							:error="diplayedFormErrors.firstName || ''"
+							:error="displayedFormErrors.firstName || ''"
 						>
 							<input
 								type="text"
@@ -37,7 +37,7 @@
 						Last Name:
 						<Validatable
 							class="user-setting-input"
-							:error="diplayedFormErrors.lastName || ''"
+							:error="displayedFormErrors.lastName || ''"
 						>
 							<input
 								type="text"
@@ -49,7 +49,7 @@
 						Phone:
 						<Validatable
 							class="user-setting-input"
-							:error="diplayedFormErrors.phone || ''"
+							:error="displayedFormErrors.phone || ''"
 						>
 							<input
 								type="text"
@@ -149,7 +149,7 @@ export default {
 	computed: {
 
 		/** @returns {object} Return errors object IFF showing errors; Else empty object */
-		diplayedFormErrors () 
+		displayedFormErrors () 
 		{
 			if (this.isShowingErrors)
 			{
@@ -167,6 +167,8 @@ export default {
 			let errors = {}
 
 			errors.firstName = this.formData.first_name ? "" : "User must have a first name"
+			errors.lastName = this.formData.last_name  ? "" : "User must have a last name"
+			errors.phoneNumber = this.formData.phone_number  ? "" : "User must have a phone number"
 			return errors
 		},
 
@@ -189,7 +191,7 @@ export default {
 		 */
 		currentUser ()
 		{
-			return store.state.user
+			return store.state.user.user
 		},
 	},
 	methods: {
