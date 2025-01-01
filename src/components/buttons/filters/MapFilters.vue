@@ -13,7 +13,8 @@
 </template>
 
 <script>
-import { getAnalytics, logEvent } from "firebase/analytics"
+import { logEvent } from "firebase/analytics"
+import { firebaseAnalyics } from "@/firebase" // using the pre-initialized db
 import {MAP_FILTERS} from "constants/misc.js"
 
 export default {
@@ -23,8 +24,6 @@ export default {
 	data: function()
 	{
 		return {
-			/** Get analytics once */
-			analytics: null,
 			/** Store a local copy to manage state */
 			filters: MAP_FILTERS,
 			filtersAll: {},
@@ -98,17 +97,14 @@ export default {
 			// Send event to GA
 			try
 			{
-				if (this.analytics)
-				{
-					const title = value ? "map_filter_set" : "map_filter_unset"
-					logEvent(
-						this.analytics,
-						title,
-						{
-							value: this.filtersAll[id].title || "NOT_FOUND",
-						}
-					)
-				}
+				const title = value ? "map_filter_set" : "map_filter_unset"
+				logEvent(
+					firebaseAnalyics,
+					title,
+					{
+						value: this.filtersAll[id].title || "NOT_FOUND",
+					}
+				)
 			}
 			catch (e)
 			{
@@ -132,18 +128,6 @@ export default {
 	created () 
 	{
 		this.filtersAll = this.buildFilters()
-		// Initialize Firebase analytics only if in production
-		if (process.env.NODE_ENV === "production") 
-		{
-			try 
-			{
-				this.analytics = getAnalytics()
-			}
-			catch (error) 
-			{
-				console.error("Firebase analytics initialization error", error)
-			}
-		}
 	},
 	watch:
 	{
