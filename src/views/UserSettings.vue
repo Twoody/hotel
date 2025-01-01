@@ -236,7 +236,6 @@ export default {
 		 */
 		async submitUpdatedUser ()
 		{
-			console.log("called")
 			// If already saving, do nothing
 			if (this.isUpdating)
 			{
