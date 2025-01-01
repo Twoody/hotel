@@ -1,5 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router"
-import { getAnalytics, logEvent } from "firebase/analytics"
+import { logEvent } from "firebase/analytics"
+import { firebaseAnalyics } from "@/firebase" // using the pre-initialized db
 
 import AirbnbCleaning from "../views/AirbnbCleaning.vue"
 import Amenities from "../views/Amenities.vue"
@@ -85,9 +86,8 @@ router.beforeEach((to, from, next) =>
 	{
 		try
 		{
-			const analytics = getAnalytics()
 			logEvent(
-				analytics,
+				firebaseAnalyics,
 				"page_view",
 				{
 					// type: "internal",
