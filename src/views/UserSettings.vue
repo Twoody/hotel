@@ -145,7 +145,15 @@ export default {
 			isUpdating: false, // optional for button's "in-progress" state
 		}
 	},
-	computed: {
+	computed:
+	{
+		/**
+		 * You may have a user object stored in Vuex. Adjust accordingly.
+		 */
+		currentUser ()
+		{
+			return store.state.user.user
+		},
 
 		/** @returns {object} Return errors object IFF showing errors; Else empty object */
 		displayedFormErrors () 
@@ -185,15 +193,42 @@ export default {
 		{
 			return store.state.user.isLoggedIn
 		},
-		/**
-		 * You may have a user object stored in Vuex. Adjust accordingly.
-		 */
-		currentUser ()
-		{
-			return store.state.user.user
-		},
 	},
 	methods: {
+		/**
+		 * Logout the current user
+		 */
+		async logout ()
+		{
+			// Avoid re-entrance
+			if (this.isLoggingOut)
+			{
+				return
+			}
+
+			this.isLoggingOut = true
+			try
+			{
+				const auth = getAuth()
+				await signOut(auth)
+			}
+			catch (error)
+			{
+				console.error(error)
+			}
+
+			// Update store
+			store.dispatch("logoutUser")
+
+			// Release
+			this.isLoggingOut = false
+
+			// Redirect
+			this.$router.push({
+				path: "/",
+			})
+		},
+
 		/**
 		 * Handle the form submission to update Firestore user
 		 *
@@ -239,40 +274,6 @@ export default {
 			{
 				this.isUpdating = false
 			}
-		},
-
-		/**
-		 * Logout the current user
-		 */
-		async logout ()
-		{
-			// Avoid re-entrance
-			if (this.isLoggingOut)
-			{
-				return
-			}
-
-			this.isLoggingOut = true
-			try
-			{
-				const auth = getAuth()
-				await signOut(auth)
-			}
-			catch (error)
-			{
-				console.error(error)
-			}
-
-			// Update store
-			store.dispatch("logoutUser")
-
-			// Release
-			this.isLoggingOut = false
-
-			// Redirect
-			this.$router.push({
-				path: "/",
-			})
 		},
 	},
 }
