@@ -113,7 +113,6 @@
 
 			<hr >
 
-
 			<div class="session-management-wrapper">
 				<p>
 					Work in Progress... Check back later
@@ -167,8 +166,8 @@ export default {
 			let errors = {}
 
 			errors.firstName = this.formData.first_name ? "" : "User must have a first name"
-			errors.lastName = this.formData.last_name  ? "" : "User must have a last name"
-			errors.phoneNumber = this.formData.phone_number  ? "" : "User must have a phone number"
+			errors.lastName = this.formData.last_name ? "" : "User must have a last name"
+			errors.phoneNumber = this.formData.phone_number ? "" : "User must have a phone number"
 			return errors
 		},
 
@@ -197,11 +196,12 @@ export default {
 	methods: {
 		/**
 		 * Handle the form submission to update Firestore user
+		 *
 		 * @returns {object} successMessage - Whether successful or not, with appropriate message
 		 */
 		async submitUpdatedUser ()
 		{
-			console.log('called')
+			console.log("called")
 			// If already saving, do nothing
 			if (this.isUpdating)
 			{
