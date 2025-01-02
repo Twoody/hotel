@@ -44,7 +44,7 @@ export default {
 
 	computed:
 	{
-		allActivies ()
+		allActivities ()
 		{
 			let all = []
 			let keys = Object.keys(this.activities)
@@ -67,9 +67,9 @@ export default {
 		{
 			let ret = []
 
-			for (let index in this.allActivies)
+			for (let index in this.allActivities)
 			{
-				let activity = this.allActivies[index]
+				let activity = this.allActivities[index]
 				let filters = activity.tags
 
 				// Reset local value
