@@ -133,7 +133,7 @@ export default {
 	{
 		filtersActive ()
 		{
-			if (this.filtersActive && this.filtersActive.length)
+			if (this.filtersActive)
 			{
 				this.$emit("updated-active", this.filtersActive)
 			}
