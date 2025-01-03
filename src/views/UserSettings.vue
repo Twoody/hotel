@@ -1,8 +1,11 @@
 <template>
 	<div class="setting-page-wrapper">
 		<h1>Settings</h1>
+		<div v-if="! isAuthReady">
+			<Spinner size="x-large" />
+		</div>
 		<!-- If firebase auth is instantiated but user is not logged in -->
-		<div v-if="isAuthReady && !isLoggedIn">
+		<div v-else-if="isAuthReady && !isLoggedIn">
 			Currently not logged in; Please visit
 			<router-link
 				class="nav-item"
@@ -447,7 +450,17 @@ export default {
 @import "../../assets/styles/styles";
 
 .setting-page-wrapper {
+	h1 {
+		margin-bottom: 5px;
+	}
 	.settings-tabs-wrapper {
+		.filters-wrapper {
+			justify-content: center;
+		}
+
+		border-bottom: 2px solid black;
+		margin-bottom: 10px;
+
 		:deep(.my-button-wrapper) {
 			&.active {
 				background: @color-lavendar;
