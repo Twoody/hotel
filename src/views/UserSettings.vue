@@ -17,11 +17,14 @@
 			<div class="settings-tabs-wrapper">
 				<Filters
 					:filters="settingTabs"
-					@update="handleTabNavigation($event)"
+					@update="handleTabNavigation"
 				/>
 			</div>
 
-			<div class="user-settings-form-wrapper">
+			<div
+				v-if="activeTab && activeTab.id === 0"
+				class="user-settings-form-wrapper"
+			>
 				<!-- Example form to update user info -->
 				<form
 					@submit.prevent="submitUpdatedUser"
@@ -39,6 +42,7 @@
 							>
 						</Validatable>
 					</label>
+
 					<label>
 						Last Name:
 						<Validatable
@@ -51,6 +55,7 @@
 							>
 						</Validatable>
 					</label>
+
 					<label>
 						Phone:
 						<Validatable
@@ -73,59 +78,81 @@
 						Update Account
 					</MyButton>
 				</form>
+
+				<hr class="top-padding" >
+
+				<div class="session-management-wrapper">
+					<MyButton
+						class="user-logout"
+						:in-progress="isLoggingOut"
+						pill
+						disabled
+						@click="resetUserPassword"
+					>
+						Reset Password
+					</MyButton>
+				</div>
+
+				<hr >
+
+				<div class="session-management-wrapper">
+					<MyButton
+						class="user-logout"
+						:in-progress="isLoggingOut"
+						pill
+						@click="logout"
+					>
+						Logout
+					</MyButton>
+				</div>
+
+				<hr >
+
+				<div class="session-management-wrapper">
+					<MyButton
+						class="user-logout"
+						:in-progress="isLoggingOut"
+						pill
+						disabled
+						@click="deleteUserAccount"
+					>
+						Delete Account
+					</MyButton>
+				</div>
+
+				<hr >
+
+				<div class="session-management-wrapper">
+					<p>
+						Work in Progress... Check back later
+					</p>
+				</div>
 			</div>
-			<!-- End user-settings-form-->
 
-			<hr class="top-padding">
-
-			<div class="session-management-wrapper">
-				<MyButton
-					class="user-logout"
-					:in-progress="isLoggingOut"
-					pill
-					disabled
-					@click="resetUserPassword"
-				>
-					Reset Password
-				</MyButton>
-			</div>
-
-			<hr >
-
-			<div class="session-management-wrapper">
-				<MyButton
-					class="user-logout"
-					:in-progress="isLoggingOut"
-					pill
-					@click="logout"
-				>
-					Logout
-				</MyButton>
-			</div>
-
-			<hr >
-
-			<div class="session-management-wrapper">
-				<MyButton
-					class="user-logout"
-					:in-progress="isLoggingOut"
-					pill
-					disabled
-					@click="deleteUserAccount"
-				>
-					Delete Account
-				</MyButton>
-			</div>
-
-			<hr >
-
-			<div class="session-management-wrapper">
+			<div v-else-if="activeTab && activeTab.id === 1">
+				<h2>Profile Tab</h2>
 				<p>
-					Work in Progress... Check back later
+					Here you could add user profile form fields,
+					upload avatars, social links, etc.
+				</p>
+				<!-- Additional content as needed -->
+			</div>
+
+			<div v-else-if="activeTab && activeTab.id === 2">
+				<h2>Privacy + Security Tab</h2>
+				<p>
+					Here you could add 2FA toggles, data download requests,
+					or privacy preference toggles.
+				</p>
+				<!-- Additional content as needed -->
+			</div>
+
+			<div v-else>
+				<p>
+					Please pick a section from the tabs above.
 				</p>
 			</div>
 		</div>
-
 	</div>
 </template>
 
@@ -143,7 +170,7 @@ export default {
 	data ()
 	{
 		return {
-			activeTab: {},
+			activeTab: null,
 			availableTabs: {
 				0: {
 					active: false,
@@ -182,7 +209,7 @@ export default {
 		},
 
 		/** @returns {object} Return errors object IFF showing errors; Else empty object */
-		displayedFormErrors () 
+		displayedFormErrors ()
 		{
 			if (this.isShowingErrors)
 			{
@@ -195,13 +222,12 @@ export default {
 		 * @returns {object} Return error messages if applicable; Else empty strings.
 		 * @since 2.2.3
 		 */
-		errors () 
+		errors ()
 		{
 			let errors = {}
-
 			errors.firstName = this.formData.first_name ? "" : "User must have a first name"
 			errors.lastName = this.formData.last_name ? "" : "User must have a last name"
-			errors.phoneNumber = this.formData.phone_number ? "" : "User must have a phone number"
+			errors.phoneNumber = this.formData.phone ? "" : "User must have a phone number"
 			return errors
 		},
 
@@ -223,50 +249,98 @@ export default {
 		/**
 		 * @returns {Array} List of the tabs user can visit to view/edit account information
 		 */
-		settingTabs () 
+		settingTabs ()
 		{
 			const ret = []
-
 			for (let id in this.availableTabs)
 			{
+				// Filters component manages `active` classing automatically
 				const iteratedTab = this.availableTabs[id]
-				let formattedTab = {}
-
-				formattedTab.id = iteratedTab.id
-				formattedTab.title = iteratedTab.title
-
-				// TODO: See if tab is active or not
-				formattedTab.active = false
-
-				ret.push(formattedTab)
+				ret.push({
+					active: iteratedTab.active,
+					id: iteratedTab.id,
+					title: iteratedTab.title,
+				})
 			}
 			return ret
 		},
-
 	},
-	created () 
+	created ()
 	{
 		const queryTab = this.getFromQueryString("active-tab")
-	},
-	methods: {
-		/**
-		 * @param key
-		 */
-		getFromQueryString (key)
+
+		// If there is an 'active-tab' param in the URL, update activeTab accordingly
+		if (queryTab !== null)
 		{
-			console.log("key: ", key)
+			const tabId = parseInt(queryTab, 10)
+			if (this.availableTabs[tabId])
+			{
+				this.activeTab = this.availableTabs[tabId]
+				this.availableTabs[tabId].active = true
+			}
+			else
+			{
+				// fallback if invalid ID
+				this.activeTab = this.availableTabs[0]
+				this.availableTabs[0].active = true
+			}
+		}
+		else
+		{
+			// no query param
+			this.activeTab = this.availableTabs[0]
+			this.availableTabs[0].active = true
+		}
+	},
+	methods:
+	{
+		deleteUserAccount ()
+		{
+			console.log("Delete user account clicked (TODO).")
 		},
 
 		/**
-		 * @param id
+		 * Retrieve a value from query string by key.
+		 * - If key is present but no value: returns true
+		 * - If key is not present: returns null
+		 * - If key has a value: returns the string
+		 *
+		 * @param {string} key
 		 */
-		handleTabNavigation (id) 
+		getFromQueryString (key)
 		{
-			const ID = id * 1
-			let activeStatus = this.availableTabs[ID].active
-			this.availableTabs[ID].active = ! activeStatus
+			const urlParams = new URLSearchParams(window.location.search)
+			if (!urlParams.has(key))
+			{
+				return null
+			}
+			const val = urlParams.get(key)
+			return val || true
+		},
 
-			// Send event to GA
+		/**
+		 * Called when user clicks a tab in the Filters component
+		 *
+		 * @param {number} id
+		 */
+		handleTabNavigation (id)
+		{
+			// Reset the pressed button back to a default state
+			document.activeElement?.blur && document.activeElement.blur()
+
+			const ID = Number(id)
+			// Mark the clicked tab as active
+			Object.keys(this.availableTabs).forEach((tabId) =>
+			{
+				this.availableTabs[tabId].active = false
+			})
+			if (this.availableTabs[ID])
+			{
+				this.availableTabs[ID].active = true
+				this.activeTab = this.availableTabs[ID]
+			}
+
+			// Log tab nav to analytics
 			try
 			{
 				const eventTitle = "settings_tab_navigation"
@@ -274,7 +348,8 @@ export default {
 					firebaseAnalyics,
 					eventTitle,
 					{
-						value: this.availableTabs[id].title || "NOT_FOUND",
+						value: this.availableTabs[ID]?.title || "NOT_FOUND",
+				
 					}
 				)
 			}
@@ -282,8 +357,6 @@ export default {
 			{
 				console.error(e)
 			}
-
-			this.activeTab = this.availableTabs[ID]
 		},
 
 		/**
@@ -296,7 +369,6 @@ export default {
 			{
 				return
 			}
-
 			this.isLoggingOut = true
 			try
 			{
@@ -319,6 +391,11 @@ export default {
 			})
 		},
 
+		resetUserPassword ()
+		{
+			console.log("Reset password clicked (TODO).")
+		},
+
 		/**
 		 * Handle the form submission to update Firestore user
 		 *
@@ -336,14 +413,12 @@ export default {
 			try
 			{
 				const payloadToUpdate = {
-					// Only pass the fields you want to update in Firestore
 					first_name: this.formData.first_name,
 					last_name: this.formData.last_name,
 					phone: this.formData.phone,
 				}
 				
 				const result = await updateFirestoreUser(this.currentUser, payloadToUpdate)
-
 				if (result.success)
 				{
 					alert("User updated successfully!")
@@ -372,10 +447,17 @@ export default {
 @import "../../assets/styles/styles";
 
 .setting-page-wrapper {
+	.settings-tabs-wrapper {
+		:deep(.my-button-wrapper) {
+			&.active {
+				background: @color-lavendar;
+			}
+		}
+	}
+
 	.top-padding {
 		margin-top: 30px;
 	}
-
 	background-color: @color-purple !important;
 	border-radius: 7px;
 	height: auto;
@@ -386,7 +468,6 @@ export default {
 	h1 {
 		border-bottom: 1px solid @myblack;
 	}
-
 	p {
 		font-size: 25px;
 	}
@@ -405,7 +486,6 @@ export default {
 				flex-direction: column;
 				font-weight: bold;
 			}
-
 			input {
 				padding: 0.5rem;
 				border: 1px solid #ccc;
