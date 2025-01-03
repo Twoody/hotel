@@ -14,7 +14,8 @@
 </template>
 
 <script>
-import { getAnalytics, logEvent } from "firebase/analytics"
+import { logEvent } from "firebase/analytics"
+import { firebaseAnalyics } from "@/firebase" // using the pre-initialized db
 import {MAP_FILTERS} from "constants/misc.js"
 
 export default {
@@ -97,10 +98,9 @@ export default {
 			// Send event to GA
 			try
 			{
-				const analytics = getAnalytics()
 				const title = value ? "cleaning_filter_set" : "cleaning_filter_unset"
 				logEvent(
-					analytics,
+					firebaseAnalyics,
 					title,
 					{
 						value: this.filtersAll[id].title || "NOT_FOUND",
