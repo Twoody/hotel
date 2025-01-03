@@ -14,6 +14,12 @@
 
 		<!-- Show user settings if authentication has been checked and the user is logged in -->
 		<div v-else-if="isAuthReady && isLoggedIn">
+			<div class="settings-tabs-wrapper">
+				<Filters
+					:filters="settingTabs"
+					@update="handleTabNavigation($event)"
+				/>
+			</div>
 
 			<div class="user-settings-form-wrapper">
 				<!-- Example form to update user info -->
@@ -124,7 +130,9 @@
 </template>
 
 <script>
-import { getAuth, signOut } from "firebase/auth"
+import { signOut } from "firebase/auth"
+import { logEvent } from "firebase/analytics"
+import { firebaseAuth, firebaseAnalyics } from "@/firebase" // using the pre-initialized db
 import store from "@/store/store.js"
 
 // Import our newly finished updateFirestoreUser function
@@ -135,6 +143,24 @@ export default {
 	data ()
 	{
 		return {
+			activeTab: {},
+			availableTabs: {
+				0: {
+					active: false,
+					id: 0,
+					title: "Account",
+				},
+				1: {
+					active: false,
+					id: 1,
+					title: "Profile",
+				},
+				2: {
+					active: false,
+					id: 2,
+					title: "Privacy + Security",
+				},
+			},
 			formData: {
 				first_name: "",
 				last_name: "",
@@ -193,8 +219,73 @@ export default {
 		{
 			return store.state.user.isLoggedIn
 		},
+
+		/**
+		 * @returns {Array} List of the tabs user can visit to view/edit account information
+		 */
+		settingTabs () 
+		{
+			const ret = []
+
+			for (let id in this.availableTabs)
+			{
+				const iteratedTab = this.availableTabs[id]
+				let formattedTab = {}
+
+				formattedTab.id = iteratedTab.id
+				formattedTab.title = iteratedTab.title
+
+				// TODO: See if tab is active or not
+				formattedTab.active = false
+
+				ret.push(formattedTab)
+			}
+			return ret
+		},
+
+	},
+	created () 
+	{
+		const queryTab = this.getFromQueryString("active-tab")
 	},
 	methods: {
+		/**
+		 * @param key
+		 */
+		getFromQueryString (key)
+		{
+			console.log("key: ", key)
+		},
+
+		/**
+		 * @param id
+		 */
+		handleTabNavigation (id) 
+		{
+			const ID = id * 1
+			let activeStatus = this.availableTabs[ID].active
+			this.availableTabs[ID].active = ! activeStatus
+
+			// Send event to GA
+			try
+			{
+				const eventTitle = "settings_tab_navigation"
+				logEvent(
+					firebaseAnalyics,
+					eventTitle,
+					{
+						value: this.availableTabs[id].title || "NOT_FOUND",
+					}
+				)
+			}
+			catch (e)
+			{
+				console.error(e)
+			}
+
+			this.activeTab = this.availableTabs[ID]
+		},
+
 		/**
 		 * Logout the current user
 		 */
@@ -209,8 +300,7 @@ export default {
 			this.isLoggingOut = true
 			try
 			{
-				const auth = getAuth()
-				await signOut(auth)
+				await signOut(firebaseAuth)
 			}
 			catch (error)
 			{
