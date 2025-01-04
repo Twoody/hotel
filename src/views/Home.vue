@@ -4,7 +4,7 @@
 			<h2>
 				Book with Us
 			</h2>
-			<AvailabilitySearch />
+			<AvailabilitySearch hideDateBar/>
 		</div>
 		<div class="accordion-sections">
 			<h2>
