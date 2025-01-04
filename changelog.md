@@ -1,3 +1,9 @@
+2.2.4
+    # Final bug fixes: Booking/calendar element + Maps app bugs
+    - Update teahub dependency
+    - Add gotoItem method in Maps.vue
+    - Adjust test emission index in MapFilters.spec
+
 2.2.3 - 47645b0b82ea9839fd7cac2d49b2b6f4a122c3cf
     # Firebase config updates + improved analytics usage + user settings enhancements
 
