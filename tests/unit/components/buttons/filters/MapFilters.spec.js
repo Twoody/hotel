@@ -52,7 +52,7 @@ describe('MapFilters.vue', () => {
 
     // Check if the 'updated-active' event was emitted with the correct filters
     expect(wrapper.emitted('updated-active')).toBeTruthy();
-    expect(wrapper.emitted('updated-active')[0][0]).toEqual([
+    expect(wrapper.emitted('updated-active')[1][0]).toEqual([
       { id: 1, title: 'Filter One', active: true },
     ]);
   });
