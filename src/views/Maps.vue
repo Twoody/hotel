@@ -15,6 +15,7 @@ A filterable list of things to do
 				:imageURL="activity.thumbnail || 'assets/imgs/cat-with-hammer.png'"
 				:isOnline="isOnline"
 				:shown="activity.shown"
+				@click="gotoItem(activity.id)"
 			/>
 		</div>
 	</div>
@@ -65,6 +66,10 @@ export default {
 		 */
 		shownActivies () 
 		{
+			/**
+			 * Firestore url for cat w/ hammer:
+			 *  https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91
+			 */
 			let ret = []
 
 			for (let index in this.allActivities)
@@ -102,6 +107,21 @@ export default {
 	},
 	methods: 
 	{
+		/**
+		 * @param {integer} id - ID of the firestore related activity
+		 * @returns {void}
+		 * @since 2.3.0
+		 */
+		gotoItem (id)
+		{
+			this.$router.push({
+				name: "mapItem",
+				params: {
+					id,
+				},
+			})
+		},
+
 		/**
 		 * @param {object} newFilters - new filters to replace the old
 		 * @returns {void}
