@@ -4,7 +4,11 @@
 			<h2>
 				Book with Us
 			</h2>
-			<AvailabilitySearch hideDateBar/>
+			<AvailabilitySearch
+				hideDateBar
+				:isProcessing="isProcessing"
+				@booking-request='processBookingRequest'
+			/>
 		</div>
 		<div class="accordion-sections">
 			<h2>
@@ -40,6 +44,37 @@ export default {
 		ParkingAccordion,
 		TrashAccordion,
 		WifiAccordion,
+	},
+  data () {
+    return {
+      isProcessing: false, // Make sure this is here!
+    }
+  },
+
+	methods: 
+	{
+		/**
+		 * @returns {void} Get 
+		 *
+		 * @since 2.3.0
+		 */
+		getBookedDays ()
+		{
+			// TODO: Store dates in firestore
+			//			Get disabled dates from firestore
+			//			Utilize `disableDays` via Vue Cal (e.g. 2020-09-18)
+		},
+
+		/**
+		 * @since 2.3.0
+		 */
+	  async processBookingRequest () 
+		{
+			this.isProcessing = true
+			await new Promise((r) => setTimeout(r, 2000))
+			this.isProcessing = false 
+			console.log('done processing')
+		},
 	},
 }
 </script>
