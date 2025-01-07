@@ -7,7 +7,7 @@
 			<AvailabilitySearch
 				hideDateBar
 				:isProcessing="isProcessing"
-				@booking-request='processBookingRequest'
+				@booking-request="processBookingRequest"
 			/>
 		</div>
 		<div class="accordion-sections">
@@ -45,17 +45,17 @@ export default {
 		TrashAccordion,
 		WifiAccordion,
 	},
-  data () {
-    return {
-      isProcessing: false, // Make sure this is here!
-    }
-  },
+	data () 
+	{
+		return {
+			isProcessing: false, // Make sure this is here!
+		}
+	},
 
 	methods: 
 	{
 		/**
 		 * @returns {void} Get 
-		 *
 		 * @since 2.3.0
 		 */
 		getBookedDays ()
@@ -68,12 +68,12 @@ export default {
 		/**
 		 * @since 2.3.0
 		 */
-	  async processBookingRequest () 
+		async processBookingRequest () 
 		{
 			this.isProcessing = true
 			await new Promise((r) => setTimeout(r, 2000))
 			this.isProcessing = false 
-			console.log('done processing')
+			console.log("done processing")
 		},
 	},
 }
