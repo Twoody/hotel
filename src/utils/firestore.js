@@ -85,7 +85,7 @@ export async function addUserToFirestore (user)
 {
 	if (!user || !user.uid)
 	{
-		console.error("local firestore.js: Current function only supports `uid`; Aborting")
+		console.error("local firestore.js: Current function only supports `uid`; Aborting: 093")
 		return {
 			invalid: true,
 		}
@@ -126,6 +126,32 @@ export async function addUserToFirestore (user)
 	if (!querySnapshot.exists())
 	{
 		console.error("local firestore.js: ISSUE CREATING USER: ", user)
+		querySnapshot.invalid = true 
+	}
+	return querySnapshot
+}
+
+/**
+ * 
+ * @param {object} user
+ */
+export async function getUsersAccount (user) 
+{
+	if (!user || !user.uid)
+	{
+		console.error("local firestore.js: Current function only supports `uid`; Aborting: 255")
+		return {
+			invalid: true,
+		}
+	}
+
+	// Search for and return the firestore user object
+	let querySnapshot = await getDoc(doc(db, "users", user.uid))
+	querySnapshot.invalid = false
+
+	if (!querySnapshot.exists())
+	{
+		console.error("local firestore.js: WARNING USER NO LONGER FOUND: ", user)
 		querySnapshot.invalid = true 
 	}
 	return querySnapshot

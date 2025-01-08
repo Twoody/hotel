@@ -168,6 +168,7 @@ export default {
 					alert("User updated successfully!")
 
 					// Once user is updated, get updated user for store
+					this.$store.dispatch("updateUserStore")
 
 				}
 				else 
