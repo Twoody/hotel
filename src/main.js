@@ -14,8 +14,8 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons"
 import { faClipboard } from "@fortawesome/free-solid-svg-icons"
 import { faClipboardList } from "@fortawesome/free-solid-svg-icons"
 import { faCopyright } from "@fortawesome/free-solid-svg-icons"
-import { faFacebook } from "@fortawesome/free-brands-svg-icons"
 import { faGoogle } from "@fortawesome/free-brands-svg-icons"
+import { faLock } from "@fortawesome/free-solid-svg-icons"
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons/faSpinner"
 import { faStar } from "@fortawesome/free-solid-svg-icons"
@@ -29,8 +29,8 @@ library.add(faChevronRight)
 library.add(faClipboard)
 library.add(faClipboardList)
 library.add(faCopyright)
-library.add(faFacebook)
 library.add(faGoogle)
+library.add(faLock)
 library.add(faPencilAlt)
 library.add(faSpinner)
 library.add(faStar)
