@@ -1,57 +1,89 @@
 <template>
 	<div class="user-settings-form-wrapper">
 		<!-- Example form to update user info -->
-		<form
-			@submit.prevent="submitUpdatedUser"
-			class="user-settings-form"
-		>
-			<label>
+		<form @submit.prevent="submitUpdatedUser" class="user-settings-form">
+			<label
+				class='user-setting-input-wrapper'
+			>
 				First Name:
 				<Validatable
 					class="user-setting-input"
 					:error="displayedFormErrors.firstName || ''"
 				>
-					<input
-						type="text"
-						v-model="formData.first_name"
-					>
+					<div class="input-wrapper">
+						<input
+							type="text"
+							v-model="formData.first_name"
+							:disabled="!editStates.firstName"
+							:class="{ inactive: !editStates.firstName }"
+						>
+						<FontAwesomeIcon
+							icon="pencil-alt"
+							:class="{ active: editStates.firstName, inactive: !editStates.firstName }"
+							@click="toggleEdit('firstName')"
+						/>
+					</div>
 				</Validatable>
 			</label>
 
-			<label>
+			<label
+				class='user-setting-input-wrapper'
+			>
 				Last Name:
 				<Validatable
 					class="user-setting-input"
 					:error="displayedFormErrors.lastName || ''"
 				>
-					<input
-						type="text"
-						v-model="formData.last_name"
-					>
+					<div class="input-wrapper">
+						<input
+							type="text"
+							v-model="formData.last_name"
+							:disabled="!editStates.lastName"
+							:class="{ inactive: !editStates.lastName }"
+						>
+						<FontAwesomeIcon
+							icon="pencil-alt"
+							:class="{ active: editStates.lastName, inactive: !editStates.lastName }"
+							@click="toggleEdit('lastName')"
+						/>
+					</div>
 				</Validatable>
 			</label>
 
-			<label>
+			<label
+				class='user-setting-input-wrapper'
+			>
 				Phone:
 				<Validatable
 					class="user-setting-input"
 					:error="displayedFormErrors.phoneNumber || ''"
 				>
-					<input
-						type="text"
-						v-model="formData.phone"
-					>
+					<div class="input-wrapper">
+						<input
+							type="text"
+							v-model="formData.phone"
+							:disabled="!editStates.phone"
+							:class="{ inactive: !editStates.phone }"
+						>
+						<FontAwesomeIcon
+							icon="pencil-alt"
+							:class="{ active: editStates.phone, inactive: !editStates.phone }"
+							@click="toggleEdit('phone')"
+						/>
+					</div>
 				</Validatable>
 			</label>
 
-			<MyButton
-				class="submit-button"
-				:in-progress="isUpdating"
-				pill
-				submit
-			>
-				Update Account
-			</MyButton>
+			<div class='submit-button-wrapper'>
+				<MyButton
+					class="submit-button"
+					:in-progress="isUpdating"
+					pill
+					submit
+				>
+					Update Account
+				</MyButton>
+			</div>
 		</form>
 
 		<hr class="top-padding" >
@@ -111,45 +143,47 @@ import { signOut } from "firebase/auth"
 import { firebaseAuth } from "@/firebase"
 import { updateFirestoreUser } from "@/utils/firestore.js"
 import store from "@/store/store.js"
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 
 export default {
 	name: "AccountSettings",
-	components: {},
+	components: {
+		FontAwesomeIcon, 
+	},
 	data () 
 	{
 		return {
+			/**
+			 * Control active/inactive state of input elements
+			 */
+			editStates: {
+				firstName: false,
+				lastName: false,
+				phone: false,
+			},
+
 			formData: {
 				first_name: "",
 				last_name: "",
 				phone: "",
 			},
+
 			isLoggingOut: false,
 			isShowingErrors: false,
 			isUpdating: false,
 		}
 	},
 	computed: {
-		/**
-		 * You may have a user object stored in Vuex. Adjust accordingly.
-		 */
 		currentUser () 
 		{
-			// Adjust to match how your store is shaped
 			return store.state.user.user
 		},
 
-		/** @returns {object} Return errors object IFF showing errors; Else empty object */
 		displayedFormErrors () 
 		{
-			return this.isShowingErrors
-				? this.errors
-				: {}
+			return this.isShowingErrors ? this.errors : {}
 		},
 
-		/**
-		 * @returns {object} Return error messages if applicable; Else empty strings.
-		 * @since 2.2.3
-		 */
 		errors () 
 		{
 			let errors = {}
@@ -163,13 +197,8 @@ export default {
 		deleteUserAccount () 
 		{
 			console.log("Delete user account clicked (TODO).")
-			// Fill in your delete logic here
 		},
 
-		/**
-		 * @returns {void} Logout the current user
-		 * @since 2.3.0
-		 */
 		async logout () 
 		{
 			if (this.isLoggingOut) 
@@ -182,7 +211,7 @@ export default {
 				await signOut(firebaseAuth)
 				store.dispatch("logoutUser")
 				this.$router.push({
-					path: "/", 
+					path: "/",
 				})
 			}
 			catch (error) 
@@ -198,14 +227,8 @@ export default {
 		resetUserPassword () 
 		{
 			console.log("Reset password clicked (TODO).")
-			// Fill in your password reset logic here
 		},
 
-		/**
-		 * Handle the form submission to update Firestore user
-		 *
-		 * @returns {object} successMessage - Whether successful or not, with appropriate message
-		 */
 		async submitUpdatedUser () 
 		{
 			if (this.isUpdating) 
@@ -213,7 +236,6 @@ export default {
 				return
 			}
 			this.isUpdating = true
-
 			try 
 			{
 				const payloadToUpdate = {
@@ -241,6 +263,15 @@ export default {
 				this.isUpdating = false
 			}
 		},
+
+		/**
+		 * @param field
+		 * @since 2.3.0
+		 */
+		toggleEdit (field) 
+		{
+			this.editStates[field] = !this.editStates[field]
+		},
 	},
 }
 </script>
@@ -251,25 +282,57 @@ export default {
 	margin-right: 11px;
 
 	.user-settings-form {
-		align-items: center;
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+
+		.user-setting-input-wrapper {
+			align-items: center;
+		}
 
 		label {
 			display: flex;
 			flex-direction: column;
 			font-weight: bold;
-		}
-		input {
-			padding: 0.5rem;
-			border: 1px solid #ccc;
-			border-radius: 5px;
+
+			.input-wrapper {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+			}
+
+			input {
+				padding: 0.5rem;
+				border: 1px solid #ccc;
+				border-radius: 5px;
+			}
+
+			input.inactive {
+				background-color: #f0f0f0;
+				color: #999;
+			}
+
+			.fa-pencil-alt {
+				cursor: pointer;
+				padding: 0.2rem;
+				border-radius: 5px;
+			}
+
+			.fa-pencil-alt.active {
+				background-color: #f7e9f3;
+			}
+
+			.fa-pencil-alt.inactive {
+				background-color: #e9f7f1;
+			}
 		}
 	}
 
-	.submit-button {
-		max-width: 50%;
+	.submit-button-wrapper {
+		width: 100%;
+		.submit-button {
+			max-width: 50%;
+		}
 	}
 }
 
