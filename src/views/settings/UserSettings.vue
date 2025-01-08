@@ -229,28 +229,6 @@ export default {
 	.top-padding {
 		margin-top: 30px;
 	}
-	.user-settings-form-wrapper {
-		margin-left: 11px;
-		margin-right: 11px;
-
-		.user-settings-form {
-			align-items: center;
-			display: flex;
-			flex-direction: column;
-			gap: 1rem;
-
-			label {
-				display: flex;
-				flex-direction: column;
-				font-weight: bold;
-			}
-			input {
-				padding: 0.5rem;
-				border: 1px solid #ccc;
-				border-radius: 5px;
-			}
-		}
-	}
 
 	h1 {
 		border-bottom: 1px solid @myblack;
