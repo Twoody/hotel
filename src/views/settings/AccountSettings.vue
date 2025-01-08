@@ -2,9 +2,54 @@
 	<div class="user-settings-form-wrapper">
 		<!-- Example form to update user info -->
 		<form @submit.prevent="submitUpdatedUser" class="user-settings-form">
-			<label
-				class="user-setting-input-wrapper"
-			>
+			<!-- Email -->
+			<label class="user-setting-input-wrapper">
+				Email:
+				<Validatable
+					class="user-setting-input"
+					:error="displayedFormErrors.email || ''"
+				>
+					<div class="input-wrapper">
+						<input
+							type="text"
+							:value="currentUser?.email || ''"
+							:disabled="true"
+							:class="{ inactive: !editStates.email }"
+						>
+						<FontAwesomeIcon
+							icon="lock"
+							:class="{inactive: true}"
+						/>
+					</div>
+				</Validatable>
+			</label>
+
+			<!-- Phone -->
+			<label class="user-setting-input-wrapper">
+				Phone:
+				<Validatable
+					class="user-setting-input"
+					:error="displayedFormErrors.phoneNumber || ''"
+				>
+					<div class="input-wrapper">
+						<input
+							type="text"
+							:value="currentUser?.phone || ''"
+							:disabled="true"
+							:class="{inactive: true}"
+						>
+						<FontAwesomeIcon
+							icon="lock"
+							:class="{inactive: true}"
+						/>
+					</div>
+				</Validatable>
+			</label>
+
+			<hr>
+
+			<!-- First Name -->
+			<label class="user-setting-input-wrapper">
 				First Name:
 				<Validatable
 					class="user-setting-input"
@@ -26,9 +71,8 @@
 				</Validatable>
 			</label>
 
-			<label
-				class="user-setting-input-wrapper"
-			>
+			<!-- Last Name -->
+			<label class="user-setting-input-wrapper">
 				Last Name:
 				<Validatable
 					class="user-setting-input"
@@ -50,25 +94,139 @@
 				</Validatable>
 			</label>
 
-			<label
-				class="user-setting-input-wrapper"
-			>
-				Phone:
+			<!-- Display Name -->
+			<label class="user-setting-input-wrapper">
+				Display Name:
 				<Validatable
 					class="user-setting-input"
-					:error="displayedFormErrors.phoneNumber || ''"
+					:error="displayedFormErrors.displayName || ''"
 				>
 					<div class="input-wrapper">
 						<input
 							type="text"
-							v-model="formData.phone"
-							:disabled="!editStates.phone"
-							:class="{ inactive: !editStates.phone }"
+							v-model="formData.display_name"
+							:disabled="!editStates.displayName"
+							:class="{ inactive: !editStates.displayName }"
 						>
 						<FontAwesomeIcon
 							icon="pencil-alt"
-							:class="{ active: editStates.phone, inactive: !editStates.phone }"
-							@click="toggleEdit('phone')"
+							:class="{ active: editStates.displayName, inactive: !editStates.displayName }"
+							@click="toggleEdit('displayName')"
+						/>
+					</div>
+				</Validatable>
+			</label>
+
+			<!-- Street -->
+			<label class="user-setting-input-wrapper">
+				Street:
+				<Validatable
+					class="user-setting-input"
+					:error="displayedFormErrors.street || ''"
+				>
+					<div class="input-wrapper">
+						<input
+							type="text"
+							v-model="formData.street"
+							:disabled="!editStates.street"
+							:class="{ inactive: !editStates.street }"
+						>
+						<FontAwesomeIcon
+							icon="pencil-alt"
+							:class="{ active: editStates.street, inactive: !editStates.street }"
+							@click="toggleEdit('street')"
+						/>
+					</div>
+				</Validatable>
+			</label>
+
+			<!-- City -->
+			<label class="user-setting-input-wrapper">
+				City:
+				<Validatable
+					class="user-setting-input"
+					:error="displayedFormErrors.city || ''"
+				>
+					<div class="input-wrapper">
+						<input
+							type="text"
+							v-model="formData.city"
+							:disabled="!editStates.city"
+							:class="{ inactive: !editStates.city }"
+						>
+						<FontAwesomeIcon
+							icon="pencil-alt"
+							:class="{ active: editStates.city, inactive: !editStates.city }"
+							@click="toggleEdit('city')"
+						/>
+					</div>
+				</Validatable>
+			</label>
+
+			<!-- State -->
+			<label class="user-setting-input-wrapper">
+				State:
+				<Validatable
+					class="user-setting-input"
+					:error="displayedFormErrors.state || ''"
+				>
+					<div class="input-wrapper">
+						<input
+							type="text"
+							v-model="formData.state"
+							:disabled="!editStates.state"
+							:class="{ inactive: !editStates.state }"
+						>
+						<FontAwesomeIcon
+							icon="pencil-alt"
+							:class="{ active: editStates.state, inactive: !editStates.state }"
+							@click="toggleEdit('state')"
+						/>
+					</div>
+				</Validatable>
+			</label>
+
+			<!-- Zipcode -->
+			<label class="user-setting-input-wrapper">
+				Zipcode:
+				<Validatable
+					class="user-setting-input"
+					:error="displayedFormErrors.zipcode || ''"
+				>
+					<div class="input-wrapper">
+						<input
+							type="text"
+							v-model="formData.zipcode"
+							:disabled="!editStates.zipcode"
+							:class="{ inactive: !editStates.zipcode }"
+						>
+						<FontAwesomeIcon
+							icon="pencil-alt"
+							:class="{ active: editStates.zipcode, inactive: !editStates.zipcode }"
+							@click="toggleEdit('zipcode')"
+						/>
+					</div>
+				</Validatable>
+			</label>
+
+			<!-- Country -->
+			<label class="user-setting-input-wrapper">
+				Country:
+				<Validatable
+					class="user-setting-input"
+					:error="displayedFormErrors.country || ''"
+				>
+					<div class="input-wrapper">
+						<input
+							type="text"
+							v-model="formData.country"
+							:disabled="!editStates.country"
+							:class="{ inactive: !editStates.country }"
+						>
+						<FontAwesomeIcon
+							icon="pencil-alt"
+							:class="{ active: editStates.country, inactive: !editStates.country }"
+							@click="toggleEdit('country')"
 						/>
 					</div>
 				</Validatable>
@@ -102,7 +260,7 @@ import store from "@/store/store.js"
 export default {
 	name: "AccountSettings",
 	components: {
-		FontAwesomeIcon, 
+		FontAwesomeIcon,
 	},
 	data () 
 	{
@@ -111,15 +269,25 @@ export default {
 			 * Control active/inactive state of input elements
 			 */
 			editStates: {
+				city: false,
+				country: false,
+				displayName: false,
 				firstName: false,
 				lastName: false,
-				phone: false,
+				state: false,
+				street: false,
+				zipcode: false,
 			},
 
 			formData: {
+				city: "",
+				country: "",
+				display_name: "",
 				first_name: "",
 				last_name: "",
-				phone: "",
+				state: "",
+				street: "",
+				zipcode: "",
 			},
 
 			isShowingErrors: false,
@@ -140,14 +308,56 @@ export default {
 		errors () 
 		{
 			let errors = {}
-			errors.firstName = this.formData.first_name ? "" : "User must have a first name"
-			errors.lastName = this.formData.last_name ? "" : "User must have a last name"
-			errors.phoneNumber = this.formData.phone ? "" : "User must have a phone number"
+
+			// Reuse existing logic for some mandatory fields:
+			errors.firstName = this.formData.first_name
+				? ""
+				: "User must have a first name"
+			errors.lastName = this.formData.last_name
+				? ""
+				: "User must have a last name"
+			errors.phoneNumber = this.formData.phone
+				? ""
+				: "User must have a phone number"
+
+			// The rest can be optional or follow a similar pattern, e.g.:
+			errors.city = ""
+			errors.country = ""
+			errors.displayName = ""
+			errors.email = ""
+			errors.street = ""
+			errors.state = ""
+			errors.zipcode = ""
+
 			return errors
 		},
 	},
+	created () 
+	{
+		this.preloadFormData()
+	},
 	methods: {
-		/** @returns {void}  */
+		/**
+		 * @since 2.3.0
+		 */
+		preloadFormData () 
+		{
+			// Pull user data from the store if available
+			if (this.currentUser) 
+			{
+				// Safely populate form fields
+				this.formData.city = this.currentUser.city || ""
+				this.formData.country = this.currentUser.country || ""
+				this.formData.display_name = this.currentUser.display_name || ""
+				this.formData.first_name = this.currentUser.first_name || ""
+				this.formData.last_name = this.currentUser.last_name || ""
+				this.formData.street = this.currentUser.street || ""
+				this.formData.state = this.currentUser.state || ""
+				this.formData.zipcode = this.currentUser.zipcode || ""
+			}
+		},
+
+		/** @returns {void}	*/
 		async submitUpdatedUser () 
 		{
 			if (this.isUpdating) 
@@ -158,18 +368,26 @@ export default {
 			try 
 			{
 				const payloadToUpdate = {
+					city: this.formData.city,
+					country: this.formData.country,
+					display_name: this.formData.display_name,
 					first_name: this.formData.first_name,
 					last_name: this.formData.last_name,
-					phone: this.formData.phone,
+					state: this.formData.state,
+					street: this.formData.street,
+					zipcode: this.formData.zipcode,
 				}
-				const result = await updateFirestoreUser(this.currentUser, payloadToUpdate)
+
+				const result = await updateFirestoreUser(
+					this.currentUser,
+					payloadToUpdate
+				)
 				if (result.success) 
 				{
 					alert("User updated successfully!")
 
 					// Once user is updated, get updated user for store
 					this.$store.dispatch("updateUserStore")
-
 				}
 				else 
 				{
@@ -199,7 +417,8 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style scoped lang="less">
+@import "../../../assets/styles/styles";
 .user-settings-form-wrapper {
 	margin-left: 11px;
 	margin-right: 11px;
@@ -251,6 +470,10 @@ export default {
 				background-color: #e9f7f1;
 			}
 		}
+		hr {
+			border: 1px solid @myblack;
+			width: 100%;
+		}
 	}
 
 	.session-management-wrapper {
@@ -265,6 +488,5 @@ export default {
 	.top-padding {
 		margin-top: 30px;
 	}
-
 }
 </style>
