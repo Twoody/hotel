@@ -88,50 +88,6 @@
 
 		<hr class="top-padding" >
 
-		<!-- Reset Password -->
-		<div class="session-management-wrapper">
-			<MyButton
-				class="user-logout"
-				:in-progress="isLoggingOut"
-				pill
-				disabled
-				@click="resetUserPassword"
-			>
-				Reset Password
-			</MyButton>
-		</div>
-
-		<hr >
-
-		<!-- Logout -->
-		<div class="session-management-wrapper">
-			<MyButton
-				class="user-logout"
-				:in-progress="isLoggingOut"
-				pill
-				@click="logout"
-			>
-				Logout
-			</MyButton>
-		</div>
-
-		<hr >
-
-		<!-- Delete Account -->
-		<div class="session-management-wrapper">
-			<MyButton
-				class="user-logout"
-				:in-progress="isLoggingOut"
-				pill
-				disabled
-				@click="deleteUserAccount"
-			>
-				Delete Account
-			</MyButton>
-		</div>
-
-		<hr >
-
 		<div class="session-management-wrapper">
 			<p>Work in Progress... Check back later</p>
 		</div>
@@ -139,11 +95,9 @@
 </template>
 
 <script>
-import { signOut } from "firebase/auth"
-import { firebaseAuth } from "@/firebase"
 import { updateFirestoreUser } from "@/utils/firestore.js"
-import store from "@/store/store.js"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
+import store from "@/store/store.js"
 
 export default {
 	name: "AccountSettings",
@@ -168,7 +122,6 @@ export default {
 				phone: "",
 			},
 
-			isLoggingOut: false,
 			isShowingErrors: false,
 			isUpdating: false,
 		}
@@ -194,41 +147,7 @@ export default {
 		},
 	},
 	methods: {
-		deleteUserAccount () 
-		{
-			console.log("Delete user account clicked (TODO).")
-		},
-
-		async logout () 
-		{
-			if (this.isLoggingOut) 
-			{
-				return
-			}
-			this.isLoggingOut = true
-			try 
-			{
-				await signOut(firebaseAuth)
-				store.dispatch("logoutUser")
-				this.$router.push({
-					path: "/",
-				})
-			}
-			catch (error) 
-			{
-				console.error(error)
-			}
-			finally 
-			{
-				this.isLoggingOut = false
-			}
-		},
-
-		resetUserPassword () 
-		{
-			console.log("Reset password clicked (TODO).")
-		},
-
+		/** @returns {void}  */
 		async submitUpdatedUser () 
 		{
 			if (this.isUpdating) 
@@ -247,6 +166,9 @@ export default {
 				if (result.success) 
 				{
 					alert("User updated successfully!")
+
+					// Once user is updated, get updated user for store
+
 				}
 				else 
 				{
