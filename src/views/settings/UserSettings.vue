@@ -201,28 +201,63 @@ export default {
 @import "../../../assets/styles/styles";
 
 .setting-page-wrapper {
-	h1 {
-		margin-bottom: 5px;
-		border-bottom: 1px solid @myblack;
-	}
 	background-color: @color-purple !important;
 	border-radius: 7px;
-	margin-top: 7px;
+	height: auto;
+	margin: 7px;
 	max-width: min(98%, 660px);
-
-	p {
-		font-size: 25px;
-	}
+	padding: 9px;
+	width: 100%;
 
 	.settings-tabs-wrapper {
+		.filters-wrapper {
+			justify-content: center;
+		}
+
 		border-bottom: 2px solid black;
 		margin-bottom: 10px;
-		
+
 		:deep(.my-button-wrapper) {
 			&.active {
 				background: @color-lavendar;
 			}
 		}
+	}
+	.submit-button {
+		max-width: 50%;
+	}
+	.top-padding {
+		margin-top: 30px;
+	}
+	.user-settings-form-wrapper {
+		margin-left: 11px;
+		margin-right: 11px;
+
+		.user-settings-form {
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+
+			label {
+				display: flex;
+				flex-direction: column;
+				font-weight: bold;
+			}
+			input {
+				padding: 0.5rem;
+				border: 1px solid #ccc;
+				border-radius: 5px;
+			}
+		}
+	}
+
+	h1 {
+		border-bottom: 1px solid @myblack;
+		margin-bottom: 5px;
+	}
+	p {
+		font-size: 25px;
 	}
 }
 </style>
