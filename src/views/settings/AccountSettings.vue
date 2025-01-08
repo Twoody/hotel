@@ -3,7 +3,7 @@
 		<!-- Example form to update user info -->
 		<form @submit.prevent="submitUpdatedUser" class="user-settings-form">
 			<label
-				class='user-setting-input-wrapper'
+				class="user-setting-input-wrapper"
 			>
 				First Name:
 				<Validatable
@@ -27,7 +27,7 @@
 			</label>
 
 			<label
-				class='user-setting-input-wrapper'
+				class="user-setting-input-wrapper"
 			>
 				Last Name:
 				<Validatable
@@ -51,7 +51,7 @@
 			</label>
 
 			<label
-				class='user-setting-input-wrapper'
+				class="user-setting-input-wrapper"
 			>
 				Phone:
 				<Validatable
@@ -74,7 +74,7 @@
 				</Validatable>
 			</label>
 
-			<div class='submit-button-wrapper'>
+			<div class="submit-button-wrapper">
 				<MyButton
 					class="submit-button"
 					:in-progress="isUpdating"
@@ -276,7 +276,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 .user-settings-form-wrapper {
 	margin-left: 11px;
 	margin-right: 11px;
@@ -296,9 +296,11 @@ export default {
 			font-weight: bold;
 
 			.input-wrapper {
-				display: flex;
 				align-items: center;
+				display: flex;
 				gap: 0.5rem;
+				/* Padding is simply matching the width of the pencil icon */
+				padding-left: 19px;
 			}
 
 			input {
@@ -328,18 +330,18 @@ export default {
 		}
 	}
 
+	.session-management-wrapper {
+		margin-top: 1rem;
+	}
 	.submit-button-wrapper {
 		width: 100%;
 		.submit-button {
 			max-width: 50%;
 		}
 	}
-}
+	.top-padding {
+		margin-top: 30px;
+	}
 
-.session-management-wrapper {
-	margin-top: 1rem;
-}
-.top-padding {
-	margin-top: 30px;
 }
 </style>
