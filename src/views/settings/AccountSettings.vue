@@ -374,10 +374,10 @@ export default {
 				color: #999;
 			}
 		}
-		hr {
-			border: 1px solid @myblack;
-			width: 100%;
-		}
+	}
+	hr {
+		border: 1px solid @myblack;
+		width: 100%;
 	}
 
 	.session-management-wrapper {
