@@ -44,12 +44,6 @@
 			</label>
 
 			<hr>
-			<FontAwesomeIcon
-				icon="pencil-alt"
-				class="header-pencil"
-				@click="toggleEditMode"
-				:class="{ active: isEditing, inactive: !isEditing }"
-			/>
 
 			<!-- First Name -->
 			<label class="user-setting-input-wrapper">
@@ -62,8 +56,6 @@
 						<input
 							type="text"
 							v-model="formData.first_name"
-							:disabled="!isEditing"
-							:class="{ inactive: !isEditing }"
 						>
 					</div>
 				</Validatable>
@@ -80,8 +72,6 @@
 						<input
 							type="text"
 							v-model="formData.last_name"
-							:disabled="!isEditing"
-							:class="{ inactive: !isEditing }"
 						>
 					</div>
 				</Validatable>
@@ -98,8 +88,6 @@
 						<input
 							type="text"
 							v-model="formData.display_name"
-							:disabled="!isEditing"
-							:class="{ inactive: !isEditing }"
 						>
 					</div>
 				</Validatable>
@@ -116,8 +104,6 @@
 						<input
 							type="text"
 							v-model="formData.street"
-							:disabled="!isEditing"
-							:class="{ inactive: !isEditing }"
 						>
 					</div>
 				</Validatable>
@@ -134,8 +120,6 @@
 						<input
 							type="text"
 							v-model="formData.city"
-							:disabled="!isEditing"
-							:class="{ inactive: !isEditing }"
 						>
 					</div>
 				</Validatable>
@@ -152,8 +136,6 @@
 						<input
 							type="text"
 							v-model="formData.state"
-							:disabled="!isEditing"
-							:class="{ inactive: !isEditing }"
 						>
 					</div>
 				</Validatable>
@@ -170,8 +152,6 @@
 						<input
 							type="text"
 							v-model="formData.zipcode"
-							:disabled="!isEditing"
-							:class="{ inactive: !isEditing }"
 						>
 					</div>
 				</Validatable>
@@ -188,8 +168,6 @@
 						<input
 							type="text"
 							v-model="formData.country"
-							:disabled="!isEditing"
-							:class="{ inactive: !isEditing }"
 						>
 					</div>
 				</Validatable>
@@ -198,7 +176,7 @@
 			<div class="submit-button-wrapper">
 				<MyButton
 					class="submit-button"
-					:disabled="!isEditing || isUpdating"
+					:disabled="isUpdating"
 					:in-progress="isUpdating"
 					pill
 					submit
@@ -226,7 +204,7 @@ export default {
 	components: {
 		FontAwesomeIcon,
 	},
-	data () 
+	data ()
 	{
 		return {
 			formData: {
@@ -240,23 +218,20 @@ export default {
 				zipcode: "",
 			},
 
-			/** Instead of an edit state for every field, we use one boolean */
-			isEditing: false,
-
 			isShowingErrors: false,
 			isUpdating: false,
 		}
 	},
 	computed: {
-		currentUser () 
+		currentUser ()
 		{
 			return store.state.user.user
 		},
-		displayedFormErrors () 
+		displayedFormErrors ()
 		{
 			return this.isShowingErrors ? this.errors : {}
 		},
-		errors () 
+		errors ()
 		{
 			// Add whatever validation logic you need here
 			let errors = {}
@@ -281,15 +256,15 @@ export default {
 			return errors
 		},
 	},
-	created () 
+	created ()
 	{
 		this.preloadFormData()
 	},
 	methods: {
-		preloadFormData () 
+		preloadFormData ()
 		{
 			// Pull user data from the store if available
-			if (this.currentUser) 
+			if (this.currentUser)
 			{
 				this.formData.city = this.currentUser.city || ""
 				this.formData.country = this.currentUser.country || ""
@@ -302,15 +277,15 @@ export default {
 			}
 		},
 
-		/** @returns {void}	*/
-		async submitUpdatedUser () 
+		/** @returns {void} */
+		async submitUpdatedUser ()
 		{
-			if ( !this.isEditing | this.isUpdating) 
+			if (this.isUpdating)
 			{
 				return
 			}
 			this.isUpdating = true
-			try 
+			try
 			{
 				const payloadToUpdate = {
 					city: this.formData.city,
@@ -327,37 +302,26 @@ export default {
 					this.currentUser,
 					payloadToUpdate
 				)
-				if (result.success) 
+				if (result.success)
 				{
 					alert("User updated successfully!")
 					// Once user is updated, get updated user for store
 					this.$store.dispatch("updateUserStore")
-					// Turn off editing after a successful update (optional)
-					this.isEditing = false
 				}
-				else 
+				else
 				{
 					console.error("Error updating user:", result.message)
 					alert("Failed to update user.")
 				}
 			}
-			catch (error) 
+			catch (error)
 			{
 				console.error("Exception while updating user:", error)
 			}
-			finally 
+			finally
 			{
 				this.isUpdating = false
 			}
-		},
-
-		/**
-		 * @since 2.3.0
-		 */
-		toggleEditMode () 
-		{
-			// Toggle the isEditing mode
-			this.isEditing = !this.isEditing
 		},
 	},
 }
@@ -371,24 +335,6 @@ export default {
 	flex-direction: column;
 	margin-left: 11px;
 	margin-right: 11px;
-
-	.header-pencil {
-		align-self: flex-end;
-		cursor: pointer;
-		font-size: 1.25rem;
-		padding: 0.25rem;
-		border-radius: 5px;
-		max-width: min(98%, 30px);
-
-		&.active {
-			background-color: #f7e9f3;
-			color: green;
-		}
-		&.inactive {
-			background-color: #e9f7f1;
-			color: grey;
-		}
-	}
 
 	.user-settings-form {
 		display: flex;
@@ -404,11 +350,11 @@ export default {
 			flex-direction: column;
 			font-weight: bold;
 			.locked-input {
-					cursor: not-allowed; 
+				cursor: not-allowed;
 			}
-				.lock-icon {
-					cursor: not-allowed; 
-				}
+			.lock-icon {
+				cursor: not-allowed;
+			}
 			.input-wrapper {
 				align-items: center;
 				display: flex;
