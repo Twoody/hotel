@@ -211,6 +211,9 @@ export default {
 
 	.settings-tabs-wrapper {
 		.filters-wrapper {
+			padding-left:20px;
+			padding-right:20px;
+			margin: 0;
 			justify-content: center;
 		}
 
