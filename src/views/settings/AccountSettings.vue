@@ -1,24 +1,24 @@
 <template>
 	<div class="user-settings-form-wrapper">
-		<!-- Example form to update user info -->
+		<div class="form-header">
+			<h2>Account Settings</h2>
+		</div>
+
 		<form @submit.prevent="submitUpdatedUser" class="user-settings-form">
 			<!-- Email -->
 			<label class="user-setting-input-wrapper">
 				Email:
-				<Validatable
-					class="user-setting-input"
-					:error="displayedFormErrors.email || ''"
-				>
+				<Validatable class="user-setting-input">
 					<div class="input-wrapper">
 						<input
 							type="text"
 							:value="currentUser?.email || ''"
-							:disabled="true"
-							:class="{ inactive: !editStates.email }"
+							disabled
+							class="locked-input inactive"
 						>
 						<FontAwesomeIcon
 							icon="lock"
-							:class="{inactive: true}"
+							class="lock-icon inactive"
 						/>
 					</div>
 				</Validatable>
@@ -27,26 +27,29 @@
 			<!-- Phone -->
 			<label class="user-setting-input-wrapper">
 				Phone:
-				<Validatable
-					class="user-setting-input"
-					:error="displayedFormErrors.phoneNumber || ''"
-				>
+				<Validatable class="user-setting-input">
 					<div class="input-wrapper">
 						<input
 							type="text"
 							:value="currentUser?.phone || ''"
-							:disabled="true"
-							:class="{inactive: true}"
+							disabled
+							class="locked-input inactive"
 						>
 						<FontAwesomeIcon
 							icon="lock"
-							:class="{inactive: true}"
+							class="lock-icon inactive"
 						/>
 					</div>
 				</Validatable>
 			</label>
 
 			<hr>
+			<FontAwesomeIcon
+				icon="pencil-alt"
+				class="header-pencil"
+				@click="toggleEditMode"
+				:class="{ active: isEditing, inactive: !isEditing }"
+			/>
 
 			<!-- First Name -->
 			<label class="user-setting-input-wrapper">
@@ -59,14 +62,9 @@
 						<input
 							type="text"
 							v-model="formData.first_name"
-							:disabled="!editStates.firstName"
-							:class="{ inactive: !editStates.firstName }"
+							:disabled="!isEditing"
+							:class="{ inactive: !isEditing }"
 						>
-						<FontAwesomeIcon
-							icon="pencil-alt"
-							:class="{ active: editStates.firstName, inactive: !editStates.firstName }"
-							@click="toggleEdit('firstName')"
-						/>
 					</div>
 				</Validatable>
 			</label>
@@ -82,14 +80,9 @@
 						<input
 							type="text"
 							v-model="formData.last_name"
-							:disabled="!editStates.lastName"
-							:class="{ inactive: !editStates.lastName }"
+							:disabled="!isEditing"
+							:class="{ inactive: !isEditing }"
 						>
-						<FontAwesomeIcon
-							icon="pencil-alt"
-							:class="{ active: editStates.lastName, inactive: !editStates.lastName }"
-							@click="toggleEdit('lastName')"
-						/>
 					</div>
 				</Validatable>
 			</label>
@@ -105,14 +98,9 @@
 						<input
 							type="text"
 							v-model="formData.display_name"
-							:disabled="!editStates.displayName"
-							:class="{ inactive: !editStates.displayName }"
+							:disabled="!isEditing"
+							:class="{ inactive: !isEditing }"
 						>
-						<FontAwesomeIcon
-							icon="pencil-alt"
-							:class="{ active: editStates.displayName, inactive: !editStates.displayName }"
-							@click="toggleEdit('displayName')"
-						/>
 					</div>
 				</Validatable>
 			</label>
@@ -128,14 +116,9 @@
 						<input
 							type="text"
 							v-model="formData.street"
-							:disabled="!editStates.street"
-							:class="{ inactive: !editStates.street }"
+							:disabled="!isEditing"
+							:class="{ inactive: !isEditing }"
 						>
-						<FontAwesomeIcon
-							icon="pencil-alt"
-							:class="{ active: editStates.street, inactive: !editStates.street }"
-							@click="toggleEdit('street')"
-						/>
 					</div>
 				</Validatable>
 			</label>
@@ -151,14 +134,9 @@
 						<input
 							type="text"
 							v-model="formData.city"
-							:disabled="!editStates.city"
-							:class="{ inactive: !editStates.city }"
+							:disabled="!isEditing"
+							:class="{ inactive: !isEditing }"
 						>
-						<FontAwesomeIcon
-							icon="pencil-alt"
-							:class="{ active: editStates.city, inactive: !editStates.city }"
-							@click="toggleEdit('city')"
-						/>
 					</div>
 				</Validatable>
 			</label>
@@ -174,14 +152,9 @@
 						<input
 							type="text"
 							v-model="formData.state"
-							:disabled="!editStates.state"
-							:class="{ inactive: !editStates.state }"
+							:disabled="!isEditing"
+							:class="{ inactive: !isEditing }"
 						>
-						<FontAwesomeIcon
-							icon="pencil-alt"
-							:class="{ active: editStates.state, inactive: !editStates.state }"
-							@click="toggleEdit('state')"
-						/>
 					</div>
 				</Validatable>
 			</label>
@@ -197,14 +170,9 @@
 						<input
 							type="text"
 							v-model="formData.zipcode"
-							:disabled="!editStates.zipcode"
-							:class="{ inactive: !editStates.zipcode }"
+							:disabled="!isEditing"
+							:class="{ inactive: !isEditing }"
 						>
-						<FontAwesomeIcon
-							icon="pencil-alt"
-							:class="{ active: editStates.zipcode, inactive: !editStates.zipcode }"
-							@click="toggleEdit('zipcode')"
-						/>
 					</div>
 				</Validatable>
 			</label>
@@ -220,14 +188,9 @@
 						<input
 							type="text"
 							v-model="formData.country"
-							:disabled="!editStates.country"
-							:class="{ inactive: !editStates.country }"
+							:disabled="!isEditing"
+							:class="{ inactive: !isEditing }"
 						>
-						<FontAwesomeIcon
-							icon="pencil-alt"
-							:class="{ active: editStates.country, inactive: !editStates.country }"
-							@click="toggleEdit('country')"
-						/>
 					</div>
 				</Validatable>
 			</label>
@@ -235,6 +198,7 @@
 			<div class="submit-button-wrapper">
 				<MyButton
 					class="submit-button"
+					:disabled="!isEditing || isUpdating"
 					:in-progress="isUpdating"
 					pill
 					submit
@@ -265,20 +229,6 @@ export default {
 	data () 
 	{
 		return {
-			/**
-			 * Control active/inactive state of input elements
-			 */
-			editStates: {
-				city: false,
-				country: false,
-				displayName: false,
-				firstName: false,
-				lastName: false,
-				state: false,
-				street: false,
-				zipcode: false,
-			},
-
 			formData: {
 				city: "",
 				country: "",
@@ -290,6 +240,9 @@ export default {
 				zipcode: "",
 			},
 
+			/** Instead of an edit state for every field, we use one boolean */
+			isEditing: false,
+
 			isShowingErrors: false,
 			isUpdating: false,
 		}
@@ -299,28 +252,25 @@ export default {
 		{
 			return store.state.user.user
 		},
-
 		displayedFormErrors () 
 		{
 			return this.isShowingErrors ? this.errors : {}
 		},
-
 		errors () 
 		{
+			// Add whatever validation logic you need here
 			let errors = {}
-
-			// Reuse existing logic for some mandatory fields:
 			errors.firstName = this.formData.first_name
 				? ""
 				: "User must have a first name"
 			errors.lastName = this.formData.last_name
 				? ""
 				: "User must have a last name"
-			errors.phoneNumber = this.formData.phone
+			errors.phoneNumber = this.currentUser?.phone
 				? ""
 				: "User must have a phone number"
 
-			// The rest can be optional or follow a similar pattern, e.g.:
+			// The rest can be optional or also validated similarly
 			errors.city = ""
 			errors.country = ""
 			errors.displayName = ""
@@ -328,7 +278,6 @@ export default {
 			errors.street = ""
 			errors.state = ""
 			errors.zipcode = ""
-
 			return errors
 		},
 	},
@@ -337,15 +286,11 @@ export default {
 		this.preloadFormData()
 	},
 	methods: {
-		/**
-		 * @since 2.3.0
-		 */
 		preloadFormData () 
 		{
 			// Pull user data from the store if available
 			if (this.currentUser) 
 			{
-				// Safely populate form fields
 				this.formData.city = this.currentUser.city || ""
 				this.formData.country = this.currentUser.country || ""
 				this.formData.display_name = this.currentUser.display_name || ""
@@ -360,7 +305,7 @@ export default {
 		/** @returns {void}	*/
 		async submitUpdatedUser () 
 		{
-			if (this.isUpdating) 
+			if ( !this.isEditing | this.isUpdating) 
 			{
 				return
 			}
@@ -385,9 +330,10 @@ export default {
 				if (result.success) 
 				{
 					alert("User updated successfully!")
-
 					// Once user is updated, get updated user for store
 					this.$store.dispatch("updateUserStore")
+					// Turn off editing after a successful update (optional)
+					this.isEditing = false
 				}
 				else 
 				{
@@ -406,12 +352,12 @@ export default {
 		},
 
 		/**
-		 * @param field
 		 * @since 2.3.0
 		 */
-		toggleEdit (field) 
+		toggleEditMode () 
 		{
-			this.editStates[field] = !this.editStates[field]
+			// Toggle the isEditing mode
+			this.isEditing = !this.isEditing
 		},
 	},
 }
@@ -419,9 +365,30 @@ export default {
 
 <style scoped lang="less">
 @import "../../../assets/styles/styles";
+
 .user-settings-form-wrapper {
+	display: flex;
+	flex-direction: column;
 	margin-left: 11px;
 	margin-right: 11px;
+
+	.header-pencil {
+		align-self: flex-end;
+		cursor: pointer;
+		font-size: 1.25rem;
+		padding: 0.25rem;
+		border-radius: 5px;
+		max-width: min(98%, 30px);
+
+		&.active {
+			background-color: #f7e9f3;
+			color: green;
+		}
+		&.inactive {
+			background-color: #e9f7f1;
+			color: grey;
+		}
+	}
 
 	.user-settings-form {
 		display: flex;
@@ -436,12 +403,17 @@ export default {
 			display: flex;
 			flex-direction: column;
 			font-weight: bold;
-
+			.locked-input {
+					cursor: not-allowed; 
+			}
+				.lock-icon {
+					cursor: not-allowed; 
+				}
 			.input-wrapper {
 				align-items: center;
 				display: flex;
 				gap: 0.5rem;
-				/* Padding is simply matching the width of the pencil icon */
+				/* The left padding is simply for positioning; adjust as needed. */
 				padding-left: 19px;
 			}
 
@@ -454,20 +426,6 @@ export default {
 			input.inactive {
 				background-color: #f0f0f0;
 				color: #999;
-			}
-
-			.fa-pencil-alt {
-				cursor: pointer;
-				padding: 0.2rem;
-				border-radius: 5px;
-			}
-
-			.fa-pencil-alt.active {
-				background-color: #f7e9f3;
-			}
-
-			.fa-pencil-alt.inactive {
-				background-color: #e9f7f1;
 			}
 		}
 		hr {
