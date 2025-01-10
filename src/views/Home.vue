@@ -116,10 +116,7 @@ export default {
 			finally
 			{
 				// TODO: Push the user to a page to finish booking request
-				// Simulate some processing time
-				await new Promise((r) => setTimeout(r, 2000))
 				this.isProcessing = false
-				console.log("Done processing")
 			}
 		},
 	},
