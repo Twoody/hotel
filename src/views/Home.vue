@@ -7,6 +7,7 @@
 			<AvailabilitySearch
 				hideDateBar
 				:isProcessing="isProcessing"
+				:isLoading="!isAuthReady"
 				@booking-request="processBookingRequest"
 			/>
 		</div>
@@ -27,6 +28,10 @@
 </template>
 
 <script>
+import { collection, doc, setDoc, serverTimestamp } from "firebase/firestore"
+import store from "@/store/store.js"
+import { db } from "@/firebase" // <-- import your firebase db instance
+
 import AccessibilityAccordion from "@/components/accordions/questions/AccessibilityAccordion"
 import CheckInAndOutAccordion from "@/components/accordions/questions/CheckInAndOutAccordion"
 import GuestSafetyAccordion from "@/components/accordions/questions/GuestSafetyAccordion"
@@ -45,17 +50,17 @@ export default {
 		TrashAccordion,
 		WifiAccordion,
 	},
-	data () 
+	data ()
 	{
 		return {
 			isProcessing: false, // Make sure this is here!
 		}
 	},
 
-	methods: 
+	methods:
 	{
 		/**
-		 * @returns {void} Get 
+		 * @returns {void} Get
 		 * @since 2.3.0
 		 */
 		getBookedDays ()
@@ -66,15 +71,72 @@ export default {
 		},
 
 		/**
+		 * @param bookingData
 		 * @since 2.3.0
 		 */
-		async processBookingRequest () 
+		async processBookingRequest (bookingData = {})
 		{
+			// Do not allow multiple processes on the same selection
+			if (this.isProcessing)
+			{
+				return
+			}
+
+			// Handle state management
 			this.isProcessing = true
-			await new Promise((r) => setTimeout(r, 2000))
-			this.isProcessing = false 
-			console.log("done processing")
+
+			try
+			{
+				// Create a new document in the bookings collection
+				const timestamp = serverTimestamp()
+				const bookingsRef = await collection(db, "bookings")
+				const newBookingRef = doc(bookingsRef)
+				await setDoc(
+					newBookingRef,
+					{
+						bookedAt: null,
+						countChildren = null,
+						countGuests = null,
+						countPets = null,
+						createdAt: timestamp,
+						endDate: bookingData.endDate || null,
+						guestID: this.currentUser.uid,
+						hostID: 1,
+						startDate: bookingData.startDate || null,
+						updatedAt: timestamp,
+					}
+				)
+
+				console.log("Booking successfully created with ID: ", newBookingRef.id)
+			}
+			catch (err)
+			{
+				console.error("Error creating booking document: ", err)
+			}
+			finally
+			{
+				// TODO: Push the user to a page to finish booking request
+				// Simulate some processing time
+				await new Promise((r) => setTimeout(r, 2000))
+				this.isProcessing = false
+				console.log("Done processing")
+			}
 		},
+	},
+	computed: {
+		currentUser ()
+		{
+			return store.state.user.user
+		},
+
+		/**
+		 * @returns {boolean} - Whether auth state has finished checking
+		 */
+		isAuthReady ()
+		{
+			return store.state.user.isAuthReady
+		},
+
 	},
 }
 </script>
