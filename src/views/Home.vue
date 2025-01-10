@@ -95,9 +95,9 @@ export default {
 					newBookingRef,
 					{
 						bookedAt: null,
-						countChildren = null,
-						countGuests = null,
-						countPets = null,
+						countChildren: null,
+						countGuests: null,
+						countPets: null,
 						createdAt: timestamp,
 						endDate: bookingData.endDate || null,
 						guestID: this.currentUser.uid,
