@@ -42,53 +42,59 @@ import { db } from "@/firebase"
 import store from "@/store/store"
 
 // Example placeholders for each state
-import BookingNotLoggedIn from "@/components/bookings/BookingNotLoggedIn.vue"
-import BookingNotFound from "@/components/bookings/BookingNotFound.vue"
-import CompletedBooking from "@/components/bookings/CompletedBooking.vue"
-import FinalizeBooking from "@/components/bookings/FinalizeBooking.vue"
-import UnauthorizedBooking from "@/components/bookings/UnauthorizedBooking.vue"
+import BookingNotLoggedIn from "@/views/bookings/BookingNotLoggedIn.vue"
+import BookingNotFound from "@/views/bookings/BookingNotFound.vue"
+import CompletedBooking from "@/views/bookings/CompletedBooking.vue"
+import FinalizeBooking from "@/views/bookings/FinalizeBooking.vue"
+import UnauthorizedBooking from "@/views/bookings/UnauthorizedBooking.vue"
 
 export default {
 	name: "ManageBooking",
 
-	data() {
+	data ()
+	{
 		return {
-			isLoadingBooking: false,
-
 			/** Will hold the booking object */
 			booking: null,
-
-			/** True if no booking doc in Firestore */
-			bookingNotFound: false,
 
 			bookingBelongsToOtherUser: false,
 
 			/** Example condition if booking is “done” */
 			bookingCompleted: false,
+
+			/** True if no booking doc in Firestore */
+			bookingNotFound: false,
+
+			isLoadingBooking: false,
 		}
 	},
 
 	computed: {
-		currentUser() {
+		currentUser ()
+		{
 			return store.state.user.user
 		},
 
 		/** @returns {boolean} Track auth states from store */
-		isAuthReady() {
+		isAuthReady ()
+		{
 			return store.state.user.isAuthReady
 		},
 
-		/** @returns {boolean} Track logging in state from store */
-		isLoggingIn() {
-			return store.state.user.isLoggingIn
+		isLoggedIn ()
+		{
+			return store.state.user.isLoggedIn
 		},
 
-		isLoggedIn() {
-			return store.state.user.isLoggedIn
+		/** @returns {boolean} Track logging in state from store */
+		isLoggingIn ()
+		{
+			return store.state.user.isLoggingIn
 		},
 	},
 
-	async created() {
+	async created ()
+	{
 		await this.fetchBooking()
 	},
 
@@ -97,46 +103,59 @@ export default {
 		 * Fetch the booking doc from Firestore based on the route param `:id`.
 		 * On success/failure, update local state accordingly.
 		 */
-		async fetchBooking() {
+		async fetchBooking ()
+		{
 			this.isLoadingBooking = true
-			try {
+			try
+			{
 				const bookingId = this.$route.params.id || ""
 				const bookingDocRef = doc(db, "bookings", bookingId)
 				const bookingSnap = await getDoc(bookingDocRef)
 
-				if (!bookingSnap.exists()) {
+				if (!bookingSnap.exists())
+				{
 					this.bookingNotFound = true
 					return
 				}
 
 				const data = bookingSnap.data()
-				this.booking = { id: bookingSnap.id, ...data }
+				this.booking = {
+					id: bookingSnap.id,
+					...data,
+				}
 
 				// For example, check if booking belongs to current user:
-				if (this.booking.guestID !== this.currentUser?.uid) {
+				if (this.booking.guestID !== this.currentUser?.uid)
+				{
 					this.bookingBelongsToOtherUser = true
 				}
-				else {
+				else
+				{
 					// Example of how to track a “completed” booking:
 					// If your Firestore doc has a `paidAt` or `status` field, you can check it.
-					if (data?.paidAt) {
+					if (data?.paidAt)
+					{
 						this.bookingCompleted = true
 					}
 				}
-			} catch (error) {
+			}
+			catch (error)
+			{
 				console.error("Error fetching booking:", error)
-			} finally {
+			}
+			finally
+			{
 				this.isLoadingBooking = false
 			}
 		},
 	},
 
 	components: {
-		BookingNotLoggedIn,
 		BookingNotFound,
-		BookingUnauthorized,
-		BookingCompleted,
-		BookingFinalize,
+		BookingNotLoggedIn,
+		CompletedBooking,
+		FinalizeBooking,
+		UnauthorizedBooking,
 	},
 }
 </script>
