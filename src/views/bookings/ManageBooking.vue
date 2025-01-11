@@ -16,7 +16,7 @@
 		</div>
 
 		<!-- 6) If booking is found, but belongs to another user -->
-		<div v-else-if="bookingBelongsToOtherUser">
+		<div v-else-if="!bookingBelongsToUser">
 			<UnauthorizedBooking />
 		</div>
 
@@ -55,12 +55,9 @@ export default {
 	{
 		return {
 			/** Will hold the booking object */
-			booking: null,
-
-			bookingBelongsToOtherUser: false,
-
-			/** Example condition if booking is “done” */
-			bookingCompleted: false,
+			booking: {
+				invalid: true,
+			},
 
 			/** True if no booking doc in Firestore */
 			bookingNotFound: false,
@@ -70,6 +67,23 @@ export default {
 	},
 
 	computed: {
+
+		/** @returns {boolean} Condition if booking was created by the current user or not */
+		bookingBelongsToUser ()
+		{
+			if (this.booking.guestID === this.currentUser?.uid)
+			{
+				return true
+			}
+			return false
+		},
+
+		/** @returns {boolean} Condition if booking is “done” and paid for */
+		bookingCompleted ()
+		{
+			return this.booking?.paidAt ? true : false
+		},
+
 		currentUser ()
 		{
 			return store.state.user.user
@@ -122,21 +136,6 @@ export default {
 				this.booking = {
 					id: bookingSnap.id,
 					...data,
-				}
-
-				// For example, check if booking belongs to current user:
-				if (this.booking.guestID !== this.currentUser?.uid)
-				{
-					this.bookingBelongsToOtherUser = true
-				}
-				else
-				{
-					// Example of how to track a “completed” booking:
-					// If your Firestore doc has a `paidAt` or `status` field, you can check it.
-					if (data?.paidAt)
-					{
-						this.bookingCompleted = true
-					}
 				}
 			}
 			catch (error)
