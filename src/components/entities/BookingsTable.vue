@@ -1,38 +1,65 @@
 <template>
 	<div class="bookings-table-wrapper">
 		<h2>Your Bookings</h2>
-		<!-- Spinner or loading indicator while fetching data -->
+
+		<!-- Loading indicator while fetching data -->
 		<div v-if="isLoading">
 			<Spinner size="x-large" />
 		</div>
 
 		<!-- If finished loading and no bookings found -->
-		<div v-else-if="!isLoading && userBookings.length === 0">
+		<div v-else-if="!isLoading && sortedBookings.length === 0">
 			<p>No bookings found.</p>
 		</div>
 
-		<!-- Otherwise, show table of bookings -->
 		<table
 			v-else
 			class="bookings-table"
 		>
 			<thead>
 				<tr>
-					<th>Start Date</th>
-					<th>End Date</th>
-					<th>Paid?</th>
-					<th>Status</th>
+					<!-- TODO: Show amount paid -->
+					<th @click="setSort('startDate')">
+						Start Date
+						<span v-if="sortKey === 'startDate'">
+							{{ sortOrder === 'asc' ? '↑' : '↓' }}
+						</span>
+					</th>
+					<th @click="setSort('endDate')">
+						End Date
+						<span v-if="sortKey === 'endDate'">
+							{{ sortOrder === 'asc' ? '↑' : '↓' }}
+						</span>
+					</th>
+					<th @click="setSort('paidAt')">
+						Paid?
+						<span v-if="sortKey === 'paidAt'">
+							{{ sortOrder === 'asc' ? '↑' : '↓' }}
+						</span>
+					</th>
+					<th @click="setSort('status')">
+						Status
+						<span v-if="sortKey === 'status'">
+							{{ sortOrder === 'asc' ? '↑' : '↓' }}
+						</span>
+					</th>
+					<th>View</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr
-					v-for="(booking, index) in userBookings"
+					v-for="(booking, index) in sortedBookings"
 					:key="booking.id"
 				>
 					<td>{{ booking.startDate || "N/A" }}</td>
 					<td>{{ booking.endDate || "N/A" }}</td>
 					<td>{{ bookingIsPaid(booking) ? "Yes" : "No" }}</td>
 					<td>{{ getBookingStatus(booking) }}</td>
+					<td>
+						<router-link :to="`/booking/${booking.id}`">
+							View
+						</router-link>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -40,7 +67,7 @@
 </template>
 
 <script>
-import {collection, query, where, getDocs} from "firebase/firestore"
+import { collection, query, where, getDocs } from "firebase/firestore"
 import { db } from "@/firebase"
 import store from "@/store/store"
 
@@ -52,6 +79,8 @@ export default {
 		return {
 			isLoading: false,
 			userBookings: [],
+			sortKey: "",
+			sortOrder: "asc",
 		}
 	},
 
@@ -60,9 +89,51 @@ export default {
 		this.fetchUserBookings()
 	},
 
+	computed: {
+		/**
+		 * @since 2.3.0
+		 */
+		sortedBookings () 
+		{
+			if (!this.sortKey || this.userBookings.length === 0) 
+			{
+				return this.userBookings
+			}
+			const sorted = [
+				...this.userBookings,
+			]
+			sorted.sort((a, b) => 
+			{
+				let aVal = a[this.sortKey]
+				let bVal = b[this.sortKey]
+
+				// If sorting by date field
+				if (this.sortKey === "startDate" || this.sortKey === "endDate") 
+				{
+					aVal = aVal ? new Date(aVal).getTime() : 0
+					bVal = bVal ? new Date(bVal).getTime() : 0
+				}
+
+				if (aVal < bVal) 
+				{
+					return this.sortOrder === "asc" ? -1 : 1
+				}
+				if (aVal > bVal) 
+				{
+					return this.sortOrder === "asc" ? 1 : -1
+				}
+				return 0
+			})
+			return sorted
+		},
+	},
+
 	methods: {
 		/**
 		 * Fetch all bookings for the currently logged-in user
+		 *
+		 * @todo Probably move this to the store and do in the background when the app is loaded
+		 * @since 2.3.0
 		 */
 		async fetchUserBookings () 
 		{
@@ -82,7 +153,6 @@ export default {
 					where("guestID", "==", currentUser.uid)
 				)
 				const querySnapshot = await getDocs(q)
-
 				const bookings = []
 				querySnapshot.forEach((docSnap) => 
 				{
@@ -109,17 +179,21 @@ export default {
 		 * (Assumes there's a paidAt field, or a status check, etc.)
 		 *
 		 * @param booking
+		 * @returns {boolean}
+		 * @since 2.3.0
 		 */
 		bookingIsPaid (booking) 
 		{
-			return !!booking?.paidAt // or whatever logic you use
+			return !!booking?.paidAt // Example logic
 		},
 
 		/**
 		 * Determines if a booking is in the past, present, or future,
 		 * based on the current date and the start/end dates.
 		 *
+		 * @todo Switch to luxon and DateTime
 		 * @param booking
+		 * @since 2.3.0
 		 */
 		getBookingStatus (booking) 
 		{
@@ -141,17 +215,33 @@ export default {
 			{
 				return "Future"
 			}
+
 			// If now is after the end date
 			else if (now > endTime) 
 			{
 				return "Past"
 			}
-			// Otherwise, we are within the stay window
+
+			// Otherwise, the booking is within the stay window
 			return "Present"
 		},
-	},
 
-	components: {
+		/**
+		 * @param key
+		 * @since 2.3.0
+		 */
+		setSort (key) 
+		{
+			if (this.sortKey === key) 
+			{
+				this.sortOrder = this.sortOrder === "asc" ? "desc" : "asc"
+			}
+			else 
+			{
+				this.sortKey = key
+				this.sortOrder = "asc"
+			}
+		},
 	},
 }
 </script>
