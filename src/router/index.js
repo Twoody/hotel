@@ -6,6 +6,7 @@ import AirbnbCleaning from "../views/AirbnbCleaning.vue"
 import Amenities from "../views/Amenities.vue"
 import Home from "../views/Home.vue"
 import Login from "../views/Login.vue"
+import ManageBooking from "../views/bookings/ManageBooking.vue"
 import Maps from "../views/Maps.vue"
 import MapItem from "../views/MapItem.vue"
 import NotFound from "../views/NotFound.vue"
@@ -51,6 +52,11 @@ const routes = [
 		component: MapItem,
 		name: "mapItem",
 		path: "/maps/:id",
+	},
+	{
+		component: ManageBooking,
+		name: "manageBooking",
+		path: "/booking/:id",
 	},
 	{
 		component: NotFound,

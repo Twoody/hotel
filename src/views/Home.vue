@@ -107,7 +107,12 @@ export default {
 					}
 				)
 
-				console.log("Booking successfully created with ID: ", newBookingRef.id)
+				this.$router.push({
+					name: "manageBooking",
+					params: {
+						id: newBookingRef.id, 
+					},
+				})
 			}
 			catch (err)
 			{
@@ -115,7 +120,6 @@ export default {
 			}
 			finally
 			{
-				// TODO: Push the user to a page to finish booking request
 				this.isProcessing = false
 			}
 		},
