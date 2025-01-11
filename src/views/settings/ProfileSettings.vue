@@ -5,14 +5,19 @@
 			Here you could add user profile form fields,
 			upload avatars, social links, etc.
 		</p>
-		<!-- Additional content as needed -->
+
+		<BookingsTable />
 	</div>
 </template>
 
 <script>
+import BookingsTable from "@/components/entities/BookingsTable.vue"
+
 export default {
 	name: "ProfileSettings",
-	// Add props, data, methods, etc., as needed
+	components: {
+		BookingsTable,
+	},
 }
 </script>
 
