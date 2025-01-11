@@ -163,6 +163,7 @@ export default {
 		 * Called when user clicks a tab in the Filters component
 		 *
 		 * @param {number} id
+		 * @since 2.3.0
 		 */
 		handleTabNavigation (id) 
 		{
@@ -176,6 +177,14 @@ export default {
 				this.availableTabs[id].active = true
 				this.activeTab = this.availableTabs[id]
 			}
+
+			this.$router.replace({
+				query: {
+					...this.$route.query,
+					"active-tab": id,
+				},
+			})
+
 			// Optionally log to analytics
 			try 
 			{
