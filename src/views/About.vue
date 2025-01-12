@@ -72,7 +72,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-/* TODO: Make max-width scroll window scroll into margins */
 .about-wrapper {
 	align-content: center;
 	align-items: center;

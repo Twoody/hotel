@@ -11,7 +11,6 @@ import Maps from "../views/Maps.vue"
 import MapItem from "../views/MapItem.vue"
 import NotFound from "../views/NotFound.vue"
 import UserSettings from "../views/settings/UserSettings.vue"
-import Signup from "../views/Signup.vue"
 import ThermometerPage from "../views/ThermometerPage.vue"
 
 const routes = [
@@ -62,11 +61,6 @@ const routes = [
 		component: NotFound,
 		path: "/:catchAll(.*)",
 		name: "404",
-	},
-	{
-		component: Signup,
-		name: "singup",
-		path: "/signup",
 	},
 	{
 		component: UserSettings,
