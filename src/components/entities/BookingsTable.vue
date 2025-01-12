@@ -70,11 +70,12 @@
 import { collection, query, where, getDocs } from "firebase/firestore"
 import { db } from "@/firebase"
 import store from "@/store/store"
+import { DateTime } from "luxon"
 
 export default {
 	name: "BookingsTable",
 
-	data () 
+	data ()
 	{
 		return {
 			isLoading: false,
@@ -84,7 +85,7 @@ export default {
 		}
 	},
 
-	created () 
+	created ()
 	{
 		this.fetchUserBookings()
 	},
@@ -93,32 +94,32 @@ export default {
 		/**
 		 * @since 2.3.0
 		 */
-		sortedBookings () 
+		sortedBookings ()
 		{
-			if (!this.sortKey || this.userBookings.length === 0) 
+			if (!this.sortKey || this.userBookings.length === 0)
 			{
 				return this.userBookings
 			}
 			const sorted = [
 				...this.userBookings,
 			]
-			sorted.sort((a, b) => 
+			sorted.sort((a, b) =>
 			{
 				let aVal = a[this.sortKey]
 				let bVal = b[this.sortKey]
 
 				// If sorting by date field
-				if (this.sortKey === "startDate" || this.sortKey === "endDate") 
+				if (this.sortKey === "startDate" || this.sortKey === "endDate")
 				{
 					aVal = aVal ? new Date(aVal).getTime() : 0
 					bVal = bVal ? new Date(bVal).getTime() : 0
 				}
 
-				if (aVal < bVal) 
+				if (aVal < bVal)
 				{
 					return this.sortOrder === "asc" ? -1 : 1
 				}
-				if (aVal > bVal) 
+				if (aVal > bVal)
 				{
 					return this.sortOrder === "asc" ? 1 : -1
 				}
@@ -135,13 +136,13 @@ export default {
 		 * @todo Probably move this to the store and do in the background when the app is loaded
 		 * @since 2.3.0
 		 */
-		async fetchUserBookings () 
+		async fetchUserBookings ()
 		{
 			this.isLoading = true
-			try 
+			try
 			{
 				const currentUser = store.state.user.user
-				if (!currentUser?.uid) 
+				if (!currentUser?.uid)
 				{
 					// If no logged-in user, skip the query or handle appropriately
 					this.userBookings = []
@@ -154,7 +155,7 @@ export default {
 				)
 				const querySnapshot = await getDocs(q)
 				const bookings = []
-				querySnapshot.forEach((docSnap) => 
+				querySnapshot.forEach((docSnap) =>
 				{
 					const data = docSnap.data()
 					bookings.push({
@@ -164,11 +165,11 @@ export default {
 				})
 				this.userBookings = bookings
 			}
-			catch (error) 
+			catch (error)
 			{
 				console.error("Error fetching user bookings:", error)
 			}
-			finally 
+			finally
 			{
 				this.isLoading = false
 			}
@@ -182,7 +183,7 @@ export default {
 		 * @returns {boolean}
 		 * @since 2.3.0
 		 */
-		bookingIsPaid (booking) 
+		bookingIsPaid (booking)
 		{
 			return !!booking?.paidAt // Example logic
 		},
@@ -191,52 +192,62 @@ export default {
 		 * Determines if a booking is in the past, present, or future,
 		 * based on the current date and the start/end dates.
 		 *
-		 * @todo Switch to luxon and DateTime
 		 * @param booking
+		 * @returns {string} Booking status of past, present, future, or unknown
 		 * @since 2.3.0
 		 */
-		getBookingStatus (booking) 
+		getBookingStatus (booking)
 		{
-			const now = new Date().getTime()
+			// Current time using luxon
+			const now = DateTime.now()
+
+			// Convert booking start/end to luxon DateTime objects if they exist
 			const startTime = booking?.startDate
-				? new Date(booking.startDate).getTime()
-				: null
-			const endTime = booking?.endDate
-				? new Date(booking.endDate).getTime()
+				? DateTime.fromISO(booking.startDate)
 				: null
 
-			if (!startTime || !endTime) 
+			const endTime = booking?.endDate
+				? DateTime.fromISO(booking.endDate)
+				: null
+
+			// If either date is missing or invalid, return 'Unknown'
+			if (!startTime || !endTime || !startTime.isValid || !endTime.isValid) 
 			{
 				return "Unknown"
 			}
 
-			// If now is before the start date
+			// Extend the end date by 1 day to account for overlapping time
+			// (the user is still considered present through the following day).
+			const extendedEndTime = endTime.plus({
+				days: 1, 
+			})
+
+			// Compare DateTime objects directly
 			if (now < startTime) 
 			{
 				return "Future"
 			}
-
-			// If now is after the end date
-			else if (now > endTime) 
+			else if (now > extendedEndTime)
 			{
 				return "Past"
 			}
-
-			// Otherwise, the booking is within the stay window
-			return "Present"
+			else 
+			{
+				return "Present"
+			}
 		},
 
 		/**
 		 * @param key
 		 * @since 2.3.0
 		 */
-		setSort (key) 
+		setSort (key)
 		{
-			if (this.sortKey === key) 
+			if (this.sortKey === key)
 			{
 				this.sortOrder = this.sortOrder === "asc" ? "desc" : "asc"
 			}
-			else 
+			else
 			{
 				this.sortKey = key
 				this.sortOrder = "asc"
