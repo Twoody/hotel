@@ -26,10 +26,9 @@ import { firebaseAuth } from "@/firebase"
 import { addUserToFirestore } from "@/utils"
 import store from "@/store/store.js"
 
-// Helper to capitalize the first letter
 /**
- *
- * @param word
+ * @param {string} word - A word that needs the first letter capitalized
+ * @returns {string} - The parameter, but apitalize the first letter
  */
 function capitalize (word)
 {
@@ -131,7 +130,7 @@ export default {
 		},
 
 		/**
-		 * Capitalizes the provider name for display
+		 * @returns {string} - Capitalized version of provider name for display
 		 */
 		providerName () 
 		{

@@ -219,6 +219,14 @@ module.exports = {
 				"before": true,
 			}
 		],
+		"jsdoc/check-tag-names": 
+		[
+			1,
+			{
+				"definedTags": ["warning"]
+			}
+
+		],
 		"max-len": [
 			"error",
 			{
