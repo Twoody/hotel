@@ -22,14 +22,13 @@ A filterable list of things to do
 </template>
 
 <script>
-import {MAPS} from "constants/misc.js"
-import {LOCAL_ACTIVITIES} from "constants/localActivities.js"
+import { MAPS } from "constants/misc.js"
+import { LOCAL_ACTIVITIES } from "constants/localActivities.js"
 import MapFilters from "components/buttons/filters/MapFilters"
 
 export default {
 	name: "Maps",
-	components:
-	{
+	components: {
 		MapFilters,
 	},
 
@@ -43,8 +42,7 @@ export default {
 		}
 	},
 
-	computed:
-	{
+	computed: {
 		allActivities ()
 		{
 			let all = []
@@ -57,14 +55,14 @@ export default {
 			}
 
 			// Sort alphabetically
-			all.sort((a, b) => (a.title > b.title) ? 1 : -1)
+			all.sort((a, b) => (a.title > b.title ? 1 : -1))
 			return all
 		},
 
 		/**
-		 * @returns {object} - List of cards to be shown after filters applied; Defaults to all
+		 * @returns {object[]} - List of cards to be shown after filters are applied; Defaults to all activities.
 		 */
-		shownActivies () 
+		shownActivies ()
 		{
 			/**
 			 * Firestore url for cat w/ hammer:
@@ -96,19 +94,20 @@ export default {
 				}
 				else if (!this.activeFilters.length)
 				{
-				// If no filters are selected, show everything
+					// If no filters are selected, show everything
 					activity.shown = true
 				}
 				ret.push(activity)
 			}
 
-			return ret 
+			return ret
 		},
 	},
-	methods: 
-	{
+	methods: {
 		/**
-		 * @param {integer} id - ID of the firestore related activity
+		 * Redirects the user to the detail page of the selected activity.
+		 *
+		 * @param {number} id - ID of the Firestore-related activity.
 		 * @returns {void}
 		 * @since 2.3.0
 		 */
@@ -123,10 +122,12 @@ export default {
 		},
 
 		/**
-		 * @param {object} newFilters - new filters to replace the old
+		 * Updates the active filters for the map.
+		 *
+		 * @param {object[]} newFilters - New filters to replace the old ones.
 		 * @returns {void}
 		 */
-		updateFilters (newFilters) 
+		updateFilters (newFilters)
 		{
 			this.activeFilters = newFilters
 		},
