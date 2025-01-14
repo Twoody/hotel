@@ -105,6 +105,9 @@ export default {
 
 	computed: {
 		/**
+		 * Sorts the user's bookings based on the selected sort key and order.
+		 *
+		 * @returns {Array<object>} The sorted list of bookings.
 		 * @since 2.3.0
 		 */
 		sortedBookings ()
@@ -114,7 +117,7 @@ export default {
 				return this.userBookings
 			}
 			const sorted = [
-				...this.userBookings, 
+				...this.userBookings,
 			]
 			sorted.sort((a, b) =>
 			{
@@ -144,11 +147,10 @@ export default {
 
 	methods: {
 		/**
-		 * Returns true if booking is fully paid, false otherwise.
-		 * (Assumes there's a paidAt field, or a status check, etc.)
+		 * Determines whether the booking is fully paid.
 		 *
-		 * @param booking
-		 * @returns {boolean}
+		 * @param {object} booking - The booking object to check.
+		 * @returns {boolean} True if the booking is paid, false otherwise.
 		 * @since 2.3.0
 		 */
 		bookingIsPaid (booking)
@@ -157,16 +159,17 @@ export default {
 		},
 
 		/**
-		 * Delete the booking from Firestore and remove it from the list
+		 * Deletes a booking from Firestore and updates the local state.
 		 *
-		 * @param {string} bookingId - the Firestore document ID
+		 * @param {string} bookingId - The Firestore document ID of the booking to delete.
+		 * @returns {Promise<void>}
 		 * @since 2.3.0
 		 */
 		async deleteBooking (bookingId)
 		{
 			try
 			{
-				// Remove from firestore
+				// Remove from Firestore
 				await deleteDoc(doc(db, "bookings", bookingId))
 
 				// Remove from local state
@@ -181,9 +184,10 @@ export default {
 		},
 
 		/**
-		 * Fetch all bookings for the currently logged-in user
+		 * Fetches all bookings for the currently logged-in user.
 		 *
-		 * @todo Probably move this to the store and do in the background when the app is loaded
+		 * @todo Move this to the store for background fetching.
+		 * @returns {Promise<void>}
 		 * @since 2.3.0
 		 */
 		async fetchUserBookings ()
@@ -213,7 +217,6 @@ export default {
 						...data,
 						isPaid: this.bookingIsPaid(data),
 						status: this.getBookingStatus(data),
-
 					})
 				})
 				this.userBookings = bookings
@@ -229,11 +232,10 @@ export default {
 		},
 
 		/**
-		 * Determines if a booking is in the past, present, or future,
-		 * based on the current date and the start/end dates.
+		 * Determines the booking status (Past, Present, Future, or Unknown).
 		 *
-		 * @param booking
-		 * @returns {string} Booking status of "Past", "Present", "Future", or "Unknown"
+		 * @param {object} booking - The booking object containing start and end dates.
+		 * @returns {string} The status of the booking.
 		 * @since 2.3.0
 		 */
 		getBookingStatus (booking)
@@ -256,7 +258,7 @@ export default {
 
 			// Extend the end date by 1 day to account for overlapping time
 			const extendedEndTime = endTime.plus({
-				days: 1, 
+				days: 1,
 			})
 
 			if (now < startTime)
@@ -274,9 +276,9 @@ export default {
 		},
 
 		/**
-		 * Handle sorting when header is clicked
+		 * Updates the sorting key and order when a header is clicked.
 		 *
-		 * @param key
+		 * @param {string} key - The key to sort by.
 		 * @since 2.3.0
 		 */
 		setSort (key)
