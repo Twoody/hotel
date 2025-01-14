@@ -12,70 +12,68 @@
 			<p>No bookings found.</p>
 		</div>
 
-		<table
+		<!-- Scrollable table -->
+		<div
 			v-else
-			class="bookings-table"
+			class="table-scroll-wrapper"
 		>
-			<thead>
-				<tr>
-					<!-- TODO: Show amount paid -->
-					<th @click="setSort('startDate')">
-						Start Date
-						<span v-if="sortKey === 'startDate'">
-							{{ sortOrder === 'asc' ? '↑' : '↓' }}
-						</span>
-					</th>
-					<th @click="setSort('endDate')">
-						End Date
-						<span v-if="sortKey === 'endDate'">
-							{{ sortOrder === 'asc' ? '↑' : '↓' }}
-						</span>
-					</th>
-					<th @click="setSort('paidAt')">
-						Paid?
-						<span v-if="sortKey === 'paidAt'">
-							{{ sortOrder === 'asc' ? '↑' : '↓' }}
-						</span>
-					</th>
-					<th @click="setSort('status')">
-						Status
-						<span v-if="sortKey === 'status'">
-							{{ sortOrder === 'asc' ? '↑' : '↓' }}
-						</span>
-					</th>
-					<!-- NEW COLUMN: Actions -->
-					<th>
-						Actions
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr
-					v-for="(booking) in sortedBookings"
-					:key="booking.id"
-				>
-					<td>{{ booking.startDate || "N/A" }}</td>
-					<td>{{ booking.endDate || "N/A" }}</td>
-					<td>{{ booking.isPaid ? "Yes" : "No" }}</td>
-					<td>{{ booking.status }}</td>
-					<!-- Booking "View" link and delete icon if unpaid -->
-					<!-- TODO: finish making a global css for this class -->
-					<td class="space-evenly action-column">
-						<router-link :to="`/booking/${booking.id}`">
-							View
-						</router-link>
-						
-						<!-- Show trash icon only if booking is unpaid -->
-						<font-awesome-icon
-							v-if="!booking.isPaid"
-							icon="trash"
-							class="delete-icon"
-							@click="deleteBooking(booking.id)"
-						/>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+			<table class="bookings-table">
+				<thead>
+					<tr>
+						<th @click="setSort('startDate')">
+							Start Date
+							<span v-if="sortKey === 'startDate'">
+								{{ sortOrder === 'asc' ? '↑' : '↓' }}
+							</span>
+						</th>
+						<th @click="setSort('endDate')">
+							End Date
+							<span v-if="sortKey === 'endDate'">
+								{{ sortOrder === 'asc' ? '↑' : '↓' }}
+							</span>
+						</th>
+						<th @click="setSort('paidAt')">
+							Paid?
+							<span v-if="sortKey === 'paidAt'">
+								{{ sortOrder === 'asc' ? '↑' : '↓' }}
+							</span>
+						</th>
+						<th @click="setSort('status')">
+							Status
+							<span v-if="sortKey === 'status'">
+								{{ sortOrder === 'asc' ? '↑' : '↓' }}
+							</span>
+						</th>
+						<!-- NEW COLUMN: Actions -->
+						<th class="action-column">
+							Actions
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr
+						v-for="(booking) in sortedBookings"
+						:key="booking.id"
+					>
+						<td>{{ booking.startDate || "N/A" }}</td>
+						<td>{{ booking.endDate || "N/A" }}</td>
+						<td>{{ booking.isPaid ? "Yes" : "No" }}</td>
+						<td>{{ booking.status }}</td>
+						<td class="space-evenly action-column">
+							<router-link :to="`/booking/${booking.id}`">
+								View
+							</router-link>
+							<font-awesome-icon
+								v-if="!booking.isPaid"
+								icon="trash"
+								class="delete-icon"
+								@click="deleteBooking(booking.id)"
+							/>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </template>
 
@@ -311,25 +309,39 @@ export default {
 		margin-bottom: 10px;
 	}
 
+	.table-scroll-wrapper {
+		overflow-x: auto; /* Enable horizontal scrolling */
+		margin-top: 15px;
+	}
+
 	.bookings-table {
 		border-collapse: collapse;
-		width: 100%;
-		margin-top: 15px;
+		width: 100%; /* Allows the table to shrink to fit its content */
 
-		th, td {
+		th,
+		td {
 			border: 1px solid @myblack;
 			padding: 8px;
 			text-align: left;
 		}
+
 		th {
+			text-align: center;
 			background-color: @color-purple;
 			color: white;
 		}
 	}
+
 	.action-column {
-		align-items: center;
-		min-width: 75px;
+		min-width: 95px;
+		text-align: center;
 	}
+
+	.space-evenly {
+		display: flex;
+		justify-content: space-evenly;
+	}
+
 	.delete-icon {
 		margin-left: 10px;
 		cursor: pointer;
@@ -339,13 +351,5 @@ export default {
 			color: red;
 		}
 	}
-}
-.space-between {
-	display: flex;
-	justify-content: space-between;
-}
-.space-evenly {
-	display: flex;
-	justify-content: space-evenly;
 }
 </style>
