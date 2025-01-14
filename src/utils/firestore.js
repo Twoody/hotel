@@ -79,7 +79,8 @@ export async function updateFirestoreUser (currentUser, newPayload)
 
 /**
  * 
- * @param {object} user
+ * @param {object} user - A firestore user document from the users collection.
+ * @since 2.2.3
  */
 export async function addUserToFirestore (user) 
 {
@@ -132,8 +133,8 @@ export async function addUserToFirestore (user)
 }
 
 /**
- * 
- * @param {object} user
+ * @param {object} user - A firestore user document from the users collection.
+ * @since 2.2.3
  */
 export async function getUsersAccount (user) 
 {
