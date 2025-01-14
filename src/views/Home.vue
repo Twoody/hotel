@@ -41,8 +41,7 @@ import WifiAccordion from "@/components/accordions/questions/WifiAccordion"
 
 export default {
 	name: "Home",
-	components:
-	{
+	components: {
 		AccessibilityAccordion,
 		CheckInAndOutAccordion,
 		GuestSafetyAccordion,
@@ -57,8 +56,7 @@ export default {
 		}
 	},
 
-	methods:
-	{
+	methods: {
 		/**
 		 * @returns {void} Get
 		 * @since 2.3.0
@@ -66,12 +64,18 @@ export default {
 		getBookedDays ()
 		{
 			// TODO: Store dates in firestore
-			//			Get disabled dates from firestore
-			//			Utilize `disableDays` via Vue Cal (e.g. 2020-09-18)
+			//			 Get disabled dates from firestore
+			//			 Utilize `disableDays` via Vue Cal (e.g. 2020-09-18)
 		},
 
 		/**
-		 * @param bookingData
+		 * Handles the booking request by creating a booking document in Firestore.
+		 * Redirects the user to the manage booking page upon success.
+		 *
+		 * @param {object} bookingData - The data related to the booking.
+		 * @param {string} [bookingData.startDate] - The start date of the booking.
+		 * @param {string} [bookingData.endDate] - The end date of the booking.
+		 * @returns {Promise<void>} Resolves when the booking request is processed.
 		 * @since 2.3.0
 		 */
 		async processBookingRequest (bookingData = {})
@@ -91,26 +95,23 @@ export default {
 				const timestamp = serverTimestamp()
 				const bookingsRef = await collection(db, "bookings")
 				const newBookingRef = doc(bookingsRef)
-				await setDoc(
-					newBookingRef,
-					{
-						bookedAt: null,
-						countChildren: null,
-						countGuests: null,
-						countPets: null,
-						createdAt: timestamp,
-						endDate: bookingData.endDate || null,
-						guestID: this.currentUser.uid,
-						hostID: 1,
-						startDate: bookingData.startDate || null,
-						updatedAt: timestamp,
-					}
-				)
+				await setDoc(newBookingRef, {
+					bookedAt: null,
+					countChildren: null,
+					countGuests: null,
+					countPets: null,
+					createdAt: timestamp,
+					endDate: bookingData.endDate || null,
+					guestID: this.currentUser.uid,
+					hostID: 1,
+					startDate: bookingData.startDate || null,
+					updatedAt: timestamp,
+				})
 
 				this.$router.push({
 					name: "manageBooking",
 					params: {
-						id: newBookingRef.id, 
+						id: newBookingRef.id,
 					},
 				})
 			}
@@ -137,7 +138,6 @@ export default {
 		{
 			return store.state.user.isAuthReady
 		},
-
 	},
 }
 </script>
