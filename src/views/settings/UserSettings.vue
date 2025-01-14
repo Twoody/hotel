@@ -63,7 +63,7 @@ import ProfileSettings from "@/views/settings/ProfileSettings.vue"
 export default {
 	name: "UserSettings",
 
-	data () 
+	data ()
 	{
 		return {
 			activeTab: null,
@@ -71,68 +71,73 @@ export default {
 				0: {
 					active: false,
 					id: 0,
-					title: "Account", 
+					title: "Account",
 				},
 				1: {
 					active: false,
 					id: 1,
-					title: "Profile", 
+					title: "Profile",
 				},
 				2: {
 					active: false,
 					id: 2,
-					title: "Privacy + Security", 
+					title: "Privacy + Security",
 				},
 			},
 		}
 	},
 
 	computed: {
-
 		/**
-		 * @returns {boolean} - Whether auth state has finished checking
+		 * Checks whether the authentication state has finished checking.
+		 *
+		 * @returns {boolean} True if auth state is ready, false otherwise.
 		 */
-		isAuthReady () 
+		isAuthReady ()
 		{
-			return store.state.user.isAuthReady 
+			return store.state.user.isAuthReady
 		},
 
 		/**
-		 * @returns {boolean} - Whether a user is logged in or not
+		 * Checks whether the user is logged in.
+		 *
+		 * @returns {boolean} True if the user is logged in, false otherwise.
 		 */
-		isLoggedIn () 
+		isLoggedIn ()
 		{
 			return store.state.user.isLoggedIn
 		},
 
 		/**
-		 * @returns {Array} List of the tabs user can visit to view/edit account information
+		 * Returns the list of tabs the user can visit to view/edit account information.
+		 *
+		 * @returns {Array} List of tab objects.
 		 */
-		settingTabs () 
+		settingTabs ()
 		{
 			// Adapt for the <Filters> component
 			return Object.values(this.availableTabs)
 		},
 	},
 
-	created () 
+	created ()
 	{
 		const queryTab = this.getFromQueryString("active-tab")
-		if (queryTab !== null) 
+		if (queryTab !== null)
 		{
 			const tabId = parseInt(queryTab, 10)
-			if (this.availableTabs[tabId]) 
+			if (this.availableTabs[tabId])
 			{
 				this.activeTab = this.availableTabs[tabId]
 				this.availableTabs[tabId].active = true
 			}
-			else 
+			else
 			{
 				this.activeTab = this.availableTabs[0]
 				this.availableTabs[0].active = true
 			}
 		}
-		else 
+		else
 		{
 			this.activeTab = this.availableTabs[0]
 			this.availableTabs[0].active = true
@@ -141,17 +146,15 @@ export default {
 
 	methods: {
 		/**
-		 * Retrieve a value from query string by key.
-		 * - If key is present but no value: returns true
-		 * - If key is not present: returns null
-		 * - If key has a value: returns the string
+		 * Retrieves a value from the query string by key.
 		 *
-		 * @param {string} key
+		 * @param {string} key - The key to look for in the query string.
+		 * @returns {string|null|boolean} The value of the key, null if the key is not present, or true if the key has no value.
 		 */
-		getFromQueryString (key) 
+		getFromQueryString (key)
 		{
 			const urlParams = new URLSearchParams(window.location.search)
-			if (!urlParams.has(key)) 
+			if (!urlParams.has(key))
 			{
 				return null
 			}
@@ -160,19 +163,20 @@ export default {
 		},
 
 		/**
-		 * Called when user clicks a tab in the Filters component
+		 * Handles navigation when the user clicks a tab in the Filters component.
 		 *
-		 * @param {number} id
+		 * @param {number} id - The ID of the tab selected.
+		 * @returns {void}
 		 * @since 2.3.0
 		 */
-		handleTabNavigation (id) 
+		handleTabNavigation (id)
 		{
 			// Deactivate all, then activate the chosen one
-			Object.keys(this.availableTabs).forEach((tabId) => 
+			Object.keys(this.availableTabs).forEach((tabId) =>
 			{
 				this.availableTabs[tabId].active = false
 			})
-			if (this.availableTabs[id]) 
+			if (this.availableTabs[id])
 			{
 				this.availableTabs[id].active = true
 				this.activeTab = this.availableTabs[id]
@@ -186,13 +190,13 @@ export default {
 			})
 
 			// Optionally log to analytics
-			try 
+			try
 			{
 				logEvent(firebaseAnalyics, "settings_tab_navigation", {
 					value: this.availableTabs[id]?.title || "NOT_FOUND",
 				})
 			}
-			catch (e) 
+			catch (e)
 			{
 				console.error(e)
 			}
