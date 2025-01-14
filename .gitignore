@@ -25,6 +25,7 @@ pnpm-debug.log*
 log
 diff
 out
+prompts/random.txt
 
 # Editor directories and files
 .idea
