@@ -19,6 +19,7 @@ import { faLock } from "@fortawesome/free-solid-svg-icons"
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons/faSpinner"
 import { faStar } from "@fortawesome/free-solid-svg-icons"
+import { faTrash } from "@fortawesome/free-solid-svg-icons"
 import { faUserCog } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { library } from "@fortawesome/fontawesome-svg-core"
@@ -34,6 +35,7 @@ library.add(faLock)
 library.add(faPencilAlt)
 library.add(faSpinner)
 library.add(faStar)
+library.add(faTrash)
 library.add(faUserCog)
 
 // Prep the app

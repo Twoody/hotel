@@ -43,22 +43,35 @@
 							{{ sortOrder === 'asc' ? '↑' : '↓' }}
 						</span>
 					</th>
-					<th>View</th>
+					<!-- NEW COLUMN: Actions -->
+					<th>
+						Actions
+					</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr
-					v-for="(booking, index) in sortedBookings"
+					v-for="(booking) in sortedBookings"
 					:key="booking.id"
 				>
 					<td>{{ booking.startDate || "N/A" }}</td>
 					<td>{{ booking.endDate || "N/A" }}</td>
-					<td>{{ bookingIsPaid(booking) ? "Yes" : "No" }}</td>
-					<td>{{ getBookingStatus(booking) }}</td>
-					<td>
+					<td>{{ booking.isPaid ? "Yes" : "No" }}</td>
+					<td>{{ booking.status }}</td>
+					<!-- Booking "View" link and delete icon if unpaid -->
+					<!-- TODO: finish making a global css for this class -->
+					<td class="space-evenly action-column">
 						<router-link :to="`/booking/${booking.id}`">
 							View
 						</router-link>
+						
+						<!-- Show trash icon only if booking is unpaid -->
+						<font-awesome-icon
+							v-if="!booking.isPaid"
+							icon="trash"
+							class="delete-icon"
+							@click="deleteBooking(booking.id)"
+						/>
 					</td>
 				</tr>
 			</tbody>
@@ -67,7 +80,7 @@
 </template>
 
 <script>
-import { collection, query, where, getDocs } from "firebase/firestore"
+import { collection, query, where, getDocs, doc, deleteDoc } from "firebase/firestore"
 import { db } from "@/firebase"
 import store from "@/store/store"
 import { DateTime } from "luxon"
@@ -79,9 +92,9 @@ export default {
 	{
 		return {
 			isLoading: false,
-			userBookings: [],
 			sortKey: "",
 			sortOrder: "asc",
+			userBookings: [],
 		}
 	},
 
@@ -101,7 +114,7 @@ export default {
 				return this.userBookings
 			}
 			const sorted = [
-				...this.userBookings,
+				...this.userBookings, 
 			]
 			sorted.sort((a, b) =>
 			{
@@ -131,6 +144,43 @@ export default {
 
 	methods: {
 		/**
+		 * Returns true if booking is fully paid, false otherwise.
+		 * (Assumes there's a paidAt field, or a status check, etc.)
+		 *
+		 * @param booking
+		 * @returns {boolean}
+		 * @since 2.3.0
+		 */
+		bookingIsPaid (booking)
+		{
+			return !!booking?.paidAt
+		},
+
+		/**
+		 * Delete the booking from Firestore and remove it from the list
+		 *
+		 * @param {string} bookingId - the Firestore document ID
+		 * @since 2.3.0
+		 */
+		async deleteBooking (bookingId)
+		{
+			try
+			{
+				// Remove from firestore
+				await deleteDoc(doc(db, "bookings", bookingId))
+
+				// Remove from local state
+				this.userBookings = this.userBookings.filter(
+					(booking) => booking.id !== bookingId
+				)
+			}
+			catch (error)
+			{
+				console.error("Error deleting booking:", error)
+			}
+		},
+
+		/**
 		 * Fetch all bookings for the currently logged-in user
 		 *
 		 * @todo Probably move this to the store and do in the background when the app is loaded
@@ -144,7 +194,7 @@ export default {
 				const currentUser = store.state.user.user
 				if (!currentUser?.uid)
 				{
-					// If no logged-in user, skip the query or handle appropriately
+					// If no logged-in user, skip the query
 					this.userBookings = []
 					return
 				}
@@ -161,6 +211,9 @@ export default {
 					bookings.push({
 						id: docSnap.id,
 						...data,
+						isPaid: this.bookingIsPaid(data),
+						status: this.getBookingStatus(data),
+
 					})
 				})
 				this.userBookings = bookings
@@ -176,24 +229,11 @@ export default {
 		},
 
 		/**
-		 * Returns true if booking is fully paid, false otherwise.
-		 * (Assumes there's a paidAt field, or a status check, etc.)
-		 *
-		 * @param booking
-		 * @returns {boolean}
-		 * @since 2.3.0
-		 */
-		bookingIsPaid (booking)
-		{
-			return !!booking?.paidAt // Example logic
-		},
-
-		/**
 		 * Determines if a booking is in the past, present, or future,
 		 * based on the current date and the start/end dates.
 		 *
 		 * @param booking
-		 * @returns {string} Booking status of past, present, future, or unknown
+		 * @returns {string} Booking status of "Past", "Present", "Future", or "Unknown"
 		 * @since 2.3.0
 		 */
 		getBookingStatus (booking)
@@ -201,29 +241,25 @@ export default {
 			// Current time using luxon
 			const now = DateTime.now()
 
-			// Convert booking start/end to luxon DateTime objects if they exist
+			// Convert booking start/end to luxon DateTime objects if valid
 			const startTime = booking?.startDate
 				? DateTime.fromISO(booking.startDate)
 				: null
-
 			const endTime = booking?.endDate
 				? DateTime.fromISO(booking.endDate)
 				: null
 
-			// If either date is missing or invalid, return 'Unknown'
-			if (!startTime || !endTime || !startTime.isValid || !endTime.isValid) 
+			if (!startTime || !endTime || !startTime.isValid || !endTime.isValid)
 			{
 				return "Unknown"
 			}
 
 			// Extend the end date by 1 day to account for overlapping time
-			// (the user is still considered present through the following day).
 			const extendedEndTime = endTime.plus({
 				days: 1, 
 			})
 
-			// Compare DateTime objects directly
-			if (now < startTime) 
+			if (now < startTime)
 			{
 				return "Future"
 			}
@@ -231,13 +267,15 @@ export default {
 			{
 				return "Past"
 			}
-			else 
+			else
 			{
 				return "Present"
 			}
 		},
 
 		/**
+		 * Handle sorting when header is clicked
+		 *
 		 * @param key
 		 * @since 2.3.0
 		 */
@@ -286,5 +324,26 @@ export default {
 			color: white;
 		}
 	}
+	.action-column {
+		align-items: center;
+		min-width: 75px;
+	}
+	.delete-icon {
+		margin-left: 10px;
+		cursor: pointer;
+		color: @myblack;
+
+		&:hover {
+			color: red;
+		}
+	}
+}
+.space-between {
+	display: flex;
+	justify-content: space-between;
+}
+.space-evenly {
+	display: flex;
+	justify-content: space-evenly;
 }
 </style>
