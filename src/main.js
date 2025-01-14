@@ -48,7 +48,7 @@ app.use(teahub)
 app.component("font-awesome-icon", FontAwesomeIcon)
 
 /**
- * @param ms
+ * @param {number} ms - Time to wait in milliseconds
  * @global
  * @example this.$sleep(3000)
  * @since 2.2.1
