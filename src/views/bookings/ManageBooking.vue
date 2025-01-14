@@ -1,6 +1,8 @@
 <template>
 	<div class="manage-booking-page-wrapper">
-		<!-- 1 & 2 & 3) If auth is not ready, user is still logging in, or the booking is loading: Show a spinner -->
+		<!-- 1 & 2 & 3)
+			If auth is not ready, user is still logging in, or the booking is loading: Show a spinner
+		-->
 		<div v-if="!isAuthReady || isLoggingIn || isLoadingBooking">
 			<Spinner size="x-large" />
 		</div>
