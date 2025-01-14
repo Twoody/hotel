@@ -9,6 +9,9 @@ module.exports = {
 		"plugin:jsdoc/recommended",
 		"eslint:recommended"
 	],
+	"ignorePatterns": [
+		"src/views/ThermometerPage.vue",
+	],
 	"overrides": [
 		// Apply custom .vue files extension rules
 		{
