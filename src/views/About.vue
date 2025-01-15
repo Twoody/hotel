@@ -13,18 +13,18 @@
 			<p>
 				Betsy and Tanner met in Iowa, married in New York, and live in Portland.
 				They have three pets:
-				<ol>
-					<li>
-						Bro'Dee
-					</li>
-					<li>
-						Ruby
-					</li>
-					<li>
-						Kouldbie
-					</li>
-				</ol>
 			</p>
+			<ol class="numbered-list">
+				<li>
+					Bro'Dee
+				</li>
+				<li>
+					Ruby
+				</li>
+				<li>
+					Kouldbie
+				</li>
+			</ol>
 		</div>
 		<div class="about-section">
 			<!-- TODO: Componentize -->
@@ -124,6 +124,14 @@ export default {
 			}
 		}
 
+	}
+	.numbered-list {
+		align-items: center;
+		align-content: center;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		width: auto;
 	}
 }
 </style>
