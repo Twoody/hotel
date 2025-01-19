@@ -31,7 +31,6 @@ export default defineConfig({
       "tests/**/*.{test,spec}.{js,jsx,ts,tsx}",
     ],
     alias: {
-      'teahub': './node_modules/teahub', // Resolve your library if it's local
     },
   },
 })
