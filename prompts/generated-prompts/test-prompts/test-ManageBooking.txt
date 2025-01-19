@@ -1,0 +1,299 @@
+Source File:
+```
+<template>
+	<div class="manage-booking-page-wrapper">
+		<!-- 1 & 2 & 3)
+			If auth is not ready, user is still logging in, or the booking is loading: Show a spinner
+		-->
+		<div v-if="!isAuthReady || isLoggingIn || isLoadingBooking">
+			<Spinner size="x-large" />
+		</div>
+
+		<!-- 4) If auth is ready, but user is not logged in -->
+		<div v-else-if="isAuthReady && !isLoggedIn">
+			<BookingNotLoggedIn />
+		</div>
+
+		<!-- 5) If booking was not found in Firestore -->
+		<div v-else-if="bookingNotFound">
+			<BookingNotFound />
+		</div>
+
+		<!-- 6) If booking is found, but belongs to another user -->
+		<div v-else-if="!bookingBelongsToUser">
+			<UnauthorizedBooking />
+		</div>
+
+		<!-- 7) If booking is complete (fully paid, etc.) -->
+		<div v-else-if="bookingCompleted">
+			<CompletedBooking
+				:booking="booking"
+			/>
+		</div>
+
+		<!-- 8) If booking belongs to the user but is not finalized/paid -->
+		<div v-else>
+			<FinalizeBooking
+				:booking="booking"
+			/>
+		</div>
+	</div>
+</template>
+
+<script>
+import { doc, getDoc } from "firebase/firestore"
+import { db } from "@/firebase"
+import store from "@/store/store"
+
+// Example placeholders for each state
+import BookingNotLoggedIn from "@/views/bookings/BookingNotLoggedIn.vue"
+import BookingNotFound from "@/views/bookings/BookingNotFound.vue"
+import CompletedBooking from "@/views/bookings/CompletedBooking.vue"
+import FinalizeBooking from "@/views/bookings/FinalizeBooking.vue"
+import UnauthorizedBooking from "@/views/bookings/UnauthorizedBooking.vue"
+
+export default {
+	name: "ManageBooking",
+
+	data ()
+	{
+		return {
+			/** Will hold the booking object */
+			booking: {
+				invalid: true,
+			},
+
+			/** True if no booking doc in Firestore */
+			bookingNotFound: false,
+
+			isLoadingBooking: false,
+		}
+	},
+
+	computed: {
+
+		/** @returns {boolean} Condition if booking was created by the current user or not */
+		bookingBelongsToUser ()
+		{
+			if (this.booking.guestID === this.currentUser?.uid)
+			{
+				return true
+			}
+			return false
+		},
+
+		/** @returns {boolean} Condition if booking is “done” and paid for */
+		bookingCompleted ()
+		{
+			return this.booking?.paidAt ? true : false
+		},
+
+		currentUser ()
+		{
+			return store.state.user.user
+		},
+
+		/** @returns {boolean} Track auth states from store */
+		isAuthReady ()
+		{
+			return store.state.user.isAuthReady
+		},
+
+		isLoggedIn ()
+		{
+			return store.state.user.isLoggedIn
+		},
+
+		/** @returns {boolean} Track logging in state from store */
+		isLoggingIn ()
+		{
+			return store.state.user.isLoggingIn
+		},
+	},
+
+	async created ()
+	{
+		await this.fetchBooking()
+	},
+
+	methods: {
+		/**
+		 * Fetch the booking doc from Firestore based on the route param `:id`.
+		 * On success/failure, update local state accordingly.
+		 */
+		async fetchBooking ()
+		{
+			this.isLoadingBooking = true
+			try
+			{
+				const bookingId = this.$route.params.id || ""
+				const bookingDocRef = doc(db, "bookings", bookingId)
+				const bookingSnap = await getDoc(bookingDocRef)
+
+				if (!bookingSnap.exists())
+				{
+					this.bookingNotFound = true
+					return
+				}
+
+				const data = bookingSnap.data()
+				this.booking = {
+					id: bookingSnap.id,
+					...data,
+				}
+			}
+			catch (error)
+			{
+				console.error("Error fetching booking:", error)
+			}
+			finally
+			{
+				this.isLoadingBooking = false
+			}
+		},
+	},
+
+	components: {
+		BookingNotFound,
+		BookingNotLoggedIn,
+		CompletedBooking,
+		FinalizeBooking,
+		UnauthorizedBooking,
+	},
+}
+</script>
+
+<style scoped lang="less">
+@import "../../../assets/styles/styles";
+
+.manage-booking-page-wrapper {
+	background-color: @color-purple;
+	border-radius: 7px;
+	height: auto;
+	margin: 7px;
+	max-width: min(98%, 660px);
+	padding: 9px;
+	width: 100%;
+
+	h1 {
+		border-bottom: 1px solid @myblack;
+		margin-bottom: 5px;
+	}
+	p {
+		font-size: 25px;
+	}
+}
+</style>
+
+```
+
+package.json:
+```
+{
+  "name": "hotel",
+  "version": "2.2.4",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+    "test": "vitest",
+    "test:coverage": "npm run test -- --coverage"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-brands-svg-icons": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/vue-fontawesome": "^3.0.1",
+    "less": "^4.1.3",
+    "less-loader": "^7.2.1",
+    "luxon": "^2.4.0",
+    "teahub": "^0.1.0-prerelease11",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.13",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.3",
+    "@vue/test-utils": "^2.4.0-alpha.2",
+    "eslint": "^8.19.0",
+    "eslint-plugin-jsdoc": "^39.3.3",
+    "eslint-plugin-vue": "^9.1.1",
+    "firebase": "^11.1.0",
+    "jsdom": "^25.0.1",
+    "less": "^4.1.0",
+    "less-loader": "^7.2.1",
+    "vite": "^2.9.9",
+    "vitest": "^2.1.2"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended",
+      "@vue/standard"
+    ],
+    "rules": {},
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
+```
+
+vitest.config.js:
+```
+import {resolve} from "path"
+import { defineConfig } from "vitest/config"
+import Vue from "@vitejs/plugin-vue"
+
+export default defineConfig({
+  plugins: [
+    Vue(),
+  ],
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, ".", "src"),
+      components: resolve(__dirname, "src/components/"),
+      constants: resolve(__dirname, "src/constants/"),
+      find: /^~/,
+      img: resolve(__dirname, "assets/img"),
+      mocks: resolve(__dirname, ".", "tests/__mocks__/"),
+      services: resolve(__dirname, "src/services/"),
+      src: resolve(__dirname, "src"),
+      store: resolve(__dirname, "src/store/"),
+      styles: resolve(__dirname, "src/assets/styles/"),
+      svgs: resolve(__dirname, "src/assets/svgs/"),
+    },
+  },
+
+  root: ".", // Define the root
+  test: {
+    globals: true,
+    environment: "jsdom",
+    // The file extension of your test files
+    include: [
+      "tests/**/*.{test,spec}.{js,jsx,ts,tsx}",
+    ],
+  },
+})
+```
+
+Assignment
+Your assignment is to write adequate unit tests for `Source File`. If there are any inherit bugs or issues, report the issues with the code with your response.

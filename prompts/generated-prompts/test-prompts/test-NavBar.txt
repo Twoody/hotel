@@ -1,0 +1,295 @@
+Source File:
+```
+The general navbar for our project
+<template>
+	<div class="nav-wrapper">
+		<div class="nav-items">
+			<router-link
+				class="nav-item"
+				to="/"
+			>
+				Home
+			</router-link>
+			<router-link
+				class="nav-item"
+				to="/about"
+			>
+				About
+			</router-link>
+			<router-link
+				class="nav-item"
+				to="/maps"
+			>
+				Maps
+			</router-link>
+			<router-link
+				class="nav-item"
+				to="/amenities"
+			>
+				Amenities
+			</router-link>
+			<router-link
+				v-if="isAuthReady && !isLoggedIn"
+				class="nav-item"
+				to="/login"
+			>
+				Login
+			</router-link>
+		</div>
+		<div
+			v-if="!isAuthReady"
+			class="user-items"
+		>
+			<div class="user-icon">
+				<LoadingBar size="small" tall/>
+			</div>
+		</div>
+		<div
+			v-if="isAuthReady && isLoggedIn"
+			class="user-items"
+			@click="gotoUserSettings"
+		>
+			<div class="user-icon">
+				<font-awesome-icon icon="user-cog" class="fa-xl"/>
+			</div>
+		</div>
+		<div
+			v-else
+			class="user-items options-guest"
+		>
+			<!-- Put any guest actions here -->
+		</div>
+	</div>
+</template>
+
+<script>
+import store from "@/store/store.js"
+
+export default {
+	name: "NavBar",
+	computed:
+	{
+		/**
+		 * @returns {string} - Users first name if loaded; Else empty string
+		 */
+		firstName ()
+		{
+			console.info("user: ", store.state.user.user)
+			return store.state.user.user.first_name || ""
+		},
+
+		/**
+		 * @returns {boolean} - Whether a user is logged in or not
+		 */
+		isAuthReady ()
+		{
+			return store.state.user.isAuthReady
+		},
+
+		/**
+		 * @returns {boolean} - Whether the app is initializing the user or not
+		 */
+		isLoadingData ()
+		{
+			return store.state.user.isLoggingIn
+		},
+
+		/**
+		 * @returns {boolean} - Whether a user is logged in or not
+		 */
+		isLoggedIn ()
+		{
+			return store.state.user.isLoggedIn
+		},
+
+		/**
+		 * @returns {string} - Users last name if loaded; Else empty string
+		 */
+		lastName ()
+		{
+			return store.state.user.user.last_name || ""
+		},
+
+		/**
+		 * @returns {string} - Users initials to be displayed; Else dash
+		 */
+		userInitials ()
+		{
+			const first = this.firstName.length ? this.firstName[0].toUpperCase() : ""
+			const last = this.lastName.length ? this.lastName[0].toUpperCase() : ""
+			return (first + last) || "-"
+		},
+	},
+	methods:
+	{
+		gotoUserSettings ()
+		{
+			this.$router.push({
+				path: "/settings",
+			})
+		},
+	},
+}
+</script>
+
+<style lang="less">
+@import "../../../assets/styles/styles";
+
+/* @todo setup a main file and set margins/padding there probably */
+.nav-wrapper {
+	@v-padding: 30px;
+	align-content: center;
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	max-width: 500px;
+	padding: 10px;
+	padding-bottom: @v-padding;
+	padding-top: @v-padding;
+	position: relative;
+	width: 100%;
+
+	.nav-items {
+		flex-grow: 1;
+
+		.nav-item {
+			margin: 5px;
+		}
+	}
+	.user-items {
+		cursor: pointer;
+
+		.user-icon {
+			margin-right: 13px;
+		}
+	}
+	.user-logout {
+		cursor: pointer;
+		font-size: 13px;
+		margin-top: 4px;
+		padding-left: 5px;
+	}
+
+}
+a {
+	font-weight: bold;
+	color: #2c3e50;
+}
+a.router-link-exact-active {
+	color: #42b983;
+}
+</style>
+```
+
+package.json:
+```
+{
+  "name": "hotel",
+  "version": "2.2.4",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+    "test": "vitest",
+    "test:coverage": "npm run test -- --coverage"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-brands-svg-icons": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/vue-fontawesome": "^3.0.1",
+    "less": "^4.1.3",
+    "less-loader": "^7.2.1",
+    "luxon": "^2.4.0",
+    "teahub": "^0.1.0-prerelease11",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.13",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.3",
+    "@vue/test-utils": "^2.4.0-alpha.2",
+    "eslint": "^8.19.0",
+    "eslint-plugin-jsdoc": "^39.3.3",
+    "eslint-plugin-vue": "^9.1.1",
+    "firebase": "^11.1.0",
+    "jsdom": "^25.0.1",
+    "less": "^4.1.0",
+    "less-loader": "^7.2.1",
+    "vite": "^2.9.9",
+    "vitest": "^2.1.2"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended",
+      "@vue/standard"
+    ],
+    "rules": {},
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
+```
+
+vitest.config.js:
+```
+import {resolve} from "path"
+import { defineConfig } from "vitest/config"
+import Vue from "@vitejs/plugin-vue"
+
+export default defineConfig({
+  plugins: [
+    Vue(),
+  ],
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, ".", "src"),
+      components: resolve(__dirname, "src/components/"),
+      constants: resolve(__dirname, "src/constants/"),
+      find: /^~/,
+      img: resolve(__dirname, "assets/img"),
+      mocks: resolve(__dirname, ".", "tests/__mocks__/"),
+      services: resolve(__dirname, "src/services/"),
+      src: resolve(__dirname, "src"),
+      store: resolve(__dirname, "src/store/"),
+      styles: resolve(__dirname, "src/assets/styles/"),
+      svgs: resolve(__dirname, "src/assets/svgs/"),
+    },
+  },
+
+  root: ".", // Define the root
+  test: {
+    globals: true,
+    environment: "jsdom",
+    // The file extension of your test files
+    include: [
+      "tests/**/*.{test,spec}.{js,jsx,ts,tsx}",
+    ],
+  },
+})
+```
+
+Assignment
+Your assignment is to write adequate unit tests for `Source File`. If there are any inherit bugs or issues, report the issues with the code with your response.
