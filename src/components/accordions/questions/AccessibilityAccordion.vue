@@ -16,7 +16,7 @@
 				Please reach out,
 				and we will do everything in our capabilities to make your stay a success.
 				Wheelchair accessibility is our biggest "next step" for our space.
-				We appologize for that inconvenience.
+				We apologize for that inconvenience.
 			</p>
 		</template>
 	</QuestionAccordion>
@@ -25,7 +25,7 @@
 <script>
 
 export default {
-	name: "AccessibilityQuestionAccordion",
+	name: "AccessibilityAccordion",
 	components: {},
 }
 </script>
