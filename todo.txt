@@ -18,3 +18,30 @@ export default {
   },
 };
 ```
+
+
+
+
+src/components/buttons/filters/MapFilters.vue:		 * @todo Store active filters in localstorage with a "last visited time"
+
+src/components/buttons/login/SocialLogin.vue:		 * @todo Create and move to the store + App.vue level
+src/components/buttons/login/SocialLogin.vue:		 * @todo Possible consider https://github.com/kaimallea/isMobile
+src/components/nav/NavBar.vue:/* @todo setup a main file and set margins/padding there probably */
+src/components/entities/BookingsTable.vue:					<!-- TODO: Show amount paid -->
+src/components/entities/BookingsTable.vue:		 * @todo Probably move this to the store and do in the background when the app is loaded
+src/components/entities/BookingsTable.vue:		 * @todo Switch to luxon and DateTime
+src/views/settings/UserSettings.vue:				<!-- TODO: Red warning/danger design -->
+src/views/settings/PrivacyAndSecuritySettings.vue:			console.log("Delete user account clicked (TODO).")
+src/views/settings/PrivacyAndSecuritySettings.vue:			console.log("Reset password clicked (TODO).")
+src/views/bookings/FinalizeBooking.vue:			// TODO: Implement payment flow, or navigate to a payment page
+src/views/Login.vue:		 * @todo validate email address too
+src/views/Login.vue:		 * @todo Setup a spinner in template when user is logging in
+src/views/Login.vue:		 * @todo https://firebase.google.com/docs/auth/web/email-link-auth?authuser=0#web-version-9_1
+src/views/Login.vue:		 * @todo https://firebase.google.com/docs/auth/web/email-link-auth?authuser=0#web-version-9_1
+src/views/Login.vue:		 * @todo configure errors for user logging in
+src/views/MapItem.vue:						<!-- TODO svg -->
+src/views/MapItem.vue:						<!-- TODO svg -->
+src/views/MapItem.vue:						<!-- TODO svg -->
+src/views/Amenities.vue:/* TODO: Make max-width scroll window scroll into margins */
+src/store/__mocks__/user.js:// TODO: Either setup a running store per docs or plugin stuff from store
+src/store/user.js:		 * @todo Want more robust error handling (e.g., user feedback, a redirect, etc.)

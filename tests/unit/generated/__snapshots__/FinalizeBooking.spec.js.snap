@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FinalizeBooking > renders properly 1`] = `
+"<div data-v-46062080="" class="finalize-booking-wrapper">
+  <h2 data-v-46062080="">Finalize Your Booking</h2>
+  <p data-v-46062080=""> Please complete any outstanding steps to confirm your booking. </p><!-- Example of fields or next actions -->
+  <div data-v-46062080="">
+    <p data-v-46062080=""><strong data-v-46062080="">Booking ID:</strong> 123</p>
+    <p data-v-46062080=""><strong data-v-46062080="">Guest ID:</strong> 456</p><!-- Perhaps show a form or "Pay Now" button here --><button data-v-46062080="" class="pay-button"> Pay Now </button>
+  </div>
+</div>"
+`;
