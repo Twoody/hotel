@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
-import AmenitiesTable from '@/AmenitiesTable.vue';
-import { AMENITIES } from 'src/constants/amenities.js';
+import AmenitiesTable from '@/components/entities/amenities/AmenitiesTable.vue';
+import { AMENITIES } from '@/constants/amenities.js';
 
 describe('AmenitiesTable.vue', () => {
 
@@ -19,7 +19,7 @@ describe('AmenitiesTable.vue', () => {
   });
 
   it('formats the title correctly', () => {
-    expect(wrapper.vm.formatTitle(\"LIVING_ROOM\")).toBe(\"LIVING ROOM\");
+    expect(wrapper.vm.formatTitle("LIVING_ROOM")).toBe("LIVING ROOM");
   });
 
 });

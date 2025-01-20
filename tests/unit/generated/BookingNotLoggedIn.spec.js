@@ -1,9 +1,9 @@
-import { mount } from \"@vue/test-utils\";
-import BookingNotLoggedIn from \"@/components/BookingNotLoggedIn\";
-import { nextTick } from \"vue\";
-import { VueRouter } from \"vue-router\";
+import { mount } from "@vue/test-utils";
+import BookingNotLoggedIn from "@/views/bookings/BookingNotLoggedIn.vue";
+import { nextTick } from "vue";
+import { VueRouter } from "vue-router";
 
-describe(\"BookingNotLoggedIn.vue\", () => {
+describe("BookingNotLoggedIn.vue", () => {
   
   //assuming VueRouter is installed
   const router = new VueRouter({
@@ -12,12 +12,12 @@ describe(\"BookingNotLoggedIn.vue\", () => {
   
   const wrapper = mount(BookingNotLoggedIn, { global: { plugins: [router] }});
 
-  it(\"renders a message for not logged in users\", () => {
-    const headline = wrapper.find(\"h2\");
-    expect(headline.text()).toEqual(\"You are not logged in.\");
+  it("renders a message for not logged in users", () => {
+    const headline = wrapper.find("h2");
+    expect(headline.text()).toEqual("You are not logged in.");
   });
 
-  it(\"prompts users to log in\", async () => {
+  it("prompts users to log in", async () => {
     const link = wrapper.findComponent({ name: 'RouterLink' });
     expect(link.props().to).toEqual('/login');
     link.trigger('click');
