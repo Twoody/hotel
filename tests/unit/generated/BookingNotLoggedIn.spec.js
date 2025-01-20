@@ -1,16 +1,21 @@
 import { mount } from "@vue/test-utils";
 import BookingNotLoggedIn from "@/views/bookings/BookingNotLoggedIn.vue";
 import { nextTick } from "vue";
-import { VueRouter } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
 describe("BookingNotLoggedIn.vue", () => {
-  
-  //assuming VueRouter is installed
-  const router = new VueRouter({
-      routes: [{ path: '/login', name: 'login' }]
+  // Create the router instance for Vue 3
+  const router = createRouter({
+    history: createWebHistory(), // Use web history
+    routes: [{ path: '/login', name: 'login' }],
   });
-  
-  const wrapper = mount(BookingNotLoggedIn, { global: { plugins: [router] }});
+
+  // Mount the component with the router
+  const wrapper = mount(BookingNotLoggedIn, {
+    global: {
+      plugins: [router], // Provide the router plugin
+    },
+  });
 
   it("renders a message for not logged in users", () => {
     const headline = wrapper.find("h2");
@@ -18,10 +23,18 @@ describe("BookingNotLoggedIn.vue", () => {
   });
 
   it("prompts users to log in", async () => {
-    const link = wrapper.findComponent({ name: 'RouterLink' });
+    // Push the initial route
+    router.push('/');
+    await router.isReady(); // Ensure the router is ready before running tests
+
+    const link = wrapper.findComponent({ name: "RouterLink" });
     expect(link.props().to).toEqual('/login');
-    link.trigger('click');
+
+    await link.trigger("click");
     await nextTick();
-    expect(wrapper.vm.$route.path).toBe('/login')
+
+    // Check the updated route
+    expect(router.currentRoute.value.path).toBe('/login');
   });
 });
+
