@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import CompletedBooking from '@/components/CompletedBooking.vue'
+import CompletedBooking from '@/views/bookings/CompletedBooking.vue'
 
 describe('CompletedBooking.vue', () => {
   it('renders booking details when passed', () => {

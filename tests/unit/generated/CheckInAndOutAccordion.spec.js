@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import CheckInAndOutQuestionAccordion from '@/path/to/CheckInAndOutQuestionAccordion.vue'
+import CheckInAndOutQuestionAccordion from '@/components/accordions/questions/CheckInAndOutAccordion.vue'
 
 describe('CheckInAndOutQuestionAccordion.vue', () => {
   let wrapper

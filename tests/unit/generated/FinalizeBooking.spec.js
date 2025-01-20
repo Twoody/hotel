@@ -1,14 +1,12 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import FinalizeBooking from '@/components/FinalizeBooking'
+import { mount, createLocalVue } from '@vue/test-utils'
+import FinalizeBooking from '@/views/bookings/FinalizeBooking.vue'
 import Vue from 'vue'
 
 let wrapper
 
 beforeEach(() => {
-  const localVue = createLocalVue()
 
-  wrapper = shallowMount(FinalizeBooking, {
-    localVue,
+  wrapper = mount(FinalizeBooking, {
     propsData: {
       booking: {
         id: '123',
@@ -19,7 +17,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  wrapper.destroy()
+  wrapper?.destroy()
 })
 
 describe('FinalizeBooking', () => {
@@ -33,7 +31,7 @@ describe('FinalizeBooking', () => {
   })
 
   test('calls `onPayNow` method when `Pay Now` button is clicked', async () => {
-    const mockMethod = jest.spyOn(FinalizeBooking.methods, 'onPayNow')
+    const mockMethod = vi.spyOn(FinalizeBooking.methods, 'onPayNow')
     await wrapper.find('.pay-button').trigger('click')
     expect(mockMethod).toHaveBeenCalled()
   })
