@@ -4,7 +4,7 @@
 		has-nested
 	>
 		<template #title>
-			<span  data-testid="FAQ-trash-title">
+			<span data-testid="FAQ-trash-title">
 				Trash	+ Recycling + Pets
 			</span>
 		</template>
