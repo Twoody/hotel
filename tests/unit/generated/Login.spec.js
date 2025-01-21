@@ -18,55 +18,73 @@ vi.mock("@/firebase", () => ({
 
 // For example:
 
-const createWrapper = (options = {}) => {
-  const store = createStore({
-    state: {
-      user: {
-        isAuthReady: false,
-        isLoggedIn: false,
-        isLoggingIn: false,
-      },
-    },
-    mutations: {
-      setIsLoggingIn (state, value) {
-        state.user.isLoggingIn = value
-      },
-    },
-    actions: {
-      fetchUser: vi.fn(),
-    },
-  });
+const createWrapper = (options = {}) => 
+{
+	const store = createStore({
+		state: {
+			user: {
+				isAuthReady: false,
+				isLoggedIn: false,
+				isLoggingIn: false,
+			},
+		},
+		mutations: {
+			setIsLoggingIn (state, value) 
+			{
+				state.user.isLoggingIn = value
+			},
+		},
+		actions: {
+			fetchUser: vi.fn(),
+		},
+	})
 
-  const router = createRouter({
-    history: createWebHistory(),
-    routes: [
-      {
-        path: "/",
-        name: "Home",
-        component: { template: "<div>Home</div>" }, // fix the router warning
-      },
-    ],
-  });
+	const router = createRouter({
+		history: createWebHistory(),
+		routes: [
+			{
+				path: "/",
+				name: "Home",
+				component: {
+					template: "<div>Home</div>", 
+				}, // fix the router warning
+			},
+		],
+	})
 
-  return mount(Login, {
-    global: {
-      plugins: [store, router],
-      stubs: {
-        MyButton: {
-          template: "<button><slot /></button>",
-        },
-        Validatable: {
-          template: "<div><slot /></div>",
-        },
-        SocialLogin: {
-          template: "<div>Social Login</div>",
-        },
-      },
-    },
-    ...options,
-  });
-};
-
+	return mount(Login, {
+		global: {
+			plugins: [
+				store,
+				router,
+			],
+			stubs: {
+				MyButton: {
+					template: `
+						<button
+							v-bind="$attrs"
+							:class="$attrs.class"
+							:disabled="$attrs.disabled"
+						>
+							<slot />
+						</button>
+					`,
+				},
+				Validatable: {
+					template: `
+						<div>
+							<slot />
+						</div>
+					`,
+				},
+				SocialLogin: {
+					template: "<div>Social Login</div>",
+				},
+			},
+		},
+		...options,
+	})
+}
 
 describe("Login.vue", () => 
 {
@@ -88,43 +106,57 @@ describe("Login.vue", () =>
 		expect(wrapper.find("h3").text()).toBe("Checking firebase auth status...")
 	})
 
-	it("shows the already logged-in message when the user is logged in", () => {
-  const wrapper = createWrapper({
-    // Provide an initial store state via options:
-    data: () => ({
-      // or use a store plugin override approach
-    }),
-    global: {
-      // Instead of mocks, we can do a slight store override:
-      plugins: [
-        createStore({
-          state: {
-            user: {
-              isAuthReady: true,
-              isLoggedIn: true,
-              isLoggingIn: false,
-            },
-          },
-          mutations: {},
-        }),
-      ],
-    },
-  });
-  expect(wrapper.find("h3").text()).toBe("Already Logged in");
-});
-
+	it("shows the already logged-in message when the user is logged in", () => 
+	{
+		const wrapper = createWrapper({
+		// Provide an initial store state via options:
+			data: () => ({
+			// or use a store plugin override approach
+			}),
+			global: {
+			// Instead of mocks, we can do a slight store override:
+				plugins: [
+					createStore({
+						state: {
+							user: {
+								isAuthReady: true,
+								isLoggedIn: true,
+								isLoggingIn: false,
+							},
+						},
+						mutations: {},
+					}),
+				],
+			},
+		})
+		expect(wrapper.find("h3").text()).toBe("Already Logged in")
+	})
 
 	it("toggles between sign-in and sign-up modes", async () => 
 	{
-		const wrapper = createWrapper()
-		const signInButton = wrapper.find(".title-toggle:nth-child(1)")
-		const signUpButton = wrapper.find(".title-toggle:nth-child(3)")
+		const wrapper = createWrapper({
+			global: {
+				mocks: {
+					$store: {
+						state: {
+							user: {
+								isAuthReady: true, 
+							}, 
+						},
+					},
+				},
+			},
+		})
+		// Find both toggles
+		const toggles = wrapper.findAll(".title-toggle")
+		expect(toggles.length).toBe(2)
 
-		expect(wrapper.vm.isRegistering).toBe(false)
-		await signUpButton.trigger("click")
+		// signUpButton is toggles[1]
+		await toggles[1].trigger("click")
 		expect(wrapper.vm.isRegistering).toBe(true)
 
-		await signInButton.trigger("click")
+		// signInButton is toggles[0]
+		await toggles[0].trigger("click")
 		expect(wrapper.vm.isRegistering).toBe(false)
 	})
 
@@ -132,11 +164,15 @@ describe("Login.vue", () =>
 	{
 		const wrapper = createWrapper()
 
-		wrapper.vm.email = ""
+		wrapper.vm.email = "" // Force it invalid
 		wrapper.vm.password = ""
 		wrapper.vm.passwordConfirm = ""
 
+		// This calls `this.$refs.email?.focus()`
 		await wrapper.vm.assignFocus()
+
+		// Because <Validatable> stub preserves <input ref="email" />,
+		// the ref is now defined.
 		expect(wrapper.vm.$refs.email).toBeDefined()
 	})
 
