@@ -1,9 +1,9 @@
 import { mount } from '@vue/test-utils';
-import store from \"@/store/store\"
-import BookingsTable from '@/components/BookingsTable';
+import store from "@/store/store"
+import BookingsTable from '@/components/entities/BookingsTable';
 
 // You may need to add more mock data to cover all cases.
-jest.mock('@/store/store', () => ({
+vi.mock('@/store/store', () => ({
   state: {
     user: {
       user: {
@@ -32,7 +32,7 @@ describe('BookingsTable', () => {
     const wrapper = mount(BookingsTable);
     await wrapper.setData({ 
       isLoading: false, 
-      userBookings: [{  id: 'test', startDate: \"2023-11-23T10:20:30Z\", endDate: \"2023-11-24T10:20:30Z\", isPaid: true, status: \"Future\"}] 
+      userBookings: [{  id: 'test', startDate: "2023-11-23T10:20:30Z", endDate: "2023-11-24T10:20:30Z", isPaid: true, status: "Future"}] 
     });
 
     expect(wrapper.find('table').isVisible()).toBe(true);
