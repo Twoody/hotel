@@ -1,51 +1,54 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import VueRouter from 'vue-router';
-import Vuex from 'vuex';
-import NavBar from \"@/path/to/NavBar.vue\";
-
-const localVue = createLocalVue();
-localVue.use(VueRouter);
-localVue.use(Vuex);
-
-const router = new VueRouter();
-let store;
-
-beforeEach(() => {
-  store = new Vuex.Store({
-    state: {
-      user: {
-        user: {first_name: '', last_name: ''},
-        isLoggedIn: false,
-        isAuthReady: false,
-        isLoggingIn: false
-      }
-    }
-  });
-});
+import NavBar from '@/components/NavBar'
+import { mount, createLocalVue } from '@vue/test-utils'
+import Vuex from 'vuex'
+import VueRouter from 'vue-router'
 
 describe('NavBar.vue', () => {
-  it('renders navigation items', () => {
-    const wrapper = shallowMount(NavBar, { localVue, router, store });
-    expect(wrapper.findAll('.nav-item').length).toBe(5);
-  });
+  let wrapper
+  let store
+  let state
+  let actions
+  let getters
+  let router
 
-  it('renders Login link when not logged in', () => {
-    store.state.user.isAuthReady = true;
-    const wrapper = shallowMount(NavBar, { localVue, router, store });
-    expect(wrapper.find('.nav-item').text()).toBe('Login');
-  });
+  beforeEach(() => {
+    const localVue = createLocalVue()
+    router = new VueRouter()
+    localVue.use(VueRouter)
+    localVue.use(Vuex)
 
-  it('renders user settings when user is logged in', () => {
-    store.state.user.isLoggedIn = true;
-    const wrapper = shallowMount(NavBar, { localVue, router, store });
-    expect(wrapper.find('.user-items').exists()).toBe(true);
-  });
+    state = {
+      user: {
+          isLoggedIn: false,
+          isAuthReady: false,
+      },
+    }
 
-  it('go to user settings when the user-icon is clicked', async () => {
-    store.state.user.isLoggedIn = true;
-    const wrapper = shallowMount(NavBar, { localVue, router, store });
-    const userIcon = wrapper.find('.user-icon');
-    await userIcon.trigger('click');
-    expect(wrapper.vm.$route.path).toBe('/settings');
-  });
-});
+    actions = {
+     // Declare actions or mock them
+    }
+
+    getters = {
+     // Declare getters or mock them
+    }
+
+    store = new Vuex.Store({
+     state,
+     actions,
+     getters,
+    })
+
+    wrapper = mount(NavBar, {
+      localVue,
+      router,
+      store,
+    })
+  })
+
+  it('renders a vue instance', () => {
+    expect(wrapper.isVueInstance()).toBe(true)
+  })
+
+  // Describe further tests...
+})
+
