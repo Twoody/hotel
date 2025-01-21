@@ -1,36 +1,48 @@
 import { mount } from \"@vue/test-utils\";
-import TrashQuestionAccordion from \"@/components/TrashQuestionAccordion.vue\";
+import { Vue } from \"vue/dist/vue.esm-bundler\";
+import QuestionAccordion from \"@/component/QuestionAccordion\";  // ensure path
 
-describe(\"TrashQuestionAccordion\", () => {
-  
-  // Test to check the component mounts successfully
-  test(\"mounts successfully\", () => {
-    const wrapper = mount(TrashQuestionAccordion);
-    expect(wrapper.exists()).toBe(true);
-  });
+// Helper function to create the wrapper
+const createComponent = propsData => mount(QuestionAccordion, { propsData });
 
-  // Test to check the rendered content
-  test(\"renders correct content\", () => {
-    const wrapper = mount(TrashQuestionAccordion);
-    expect(wrapper.text()).toContain(\"Trash + Recycling + Pets\");
-    expect(wrapper.text()).toContain(\"Trash, recycling, and composte is picked up every Tuesday morning\");
-    expect(wrapper.text()).toContain(\"You can either contact Tanner or carry the trash up yourself\");
-  });
+describe(\"TashQuestionAccordion.vue\", () => {
+    test('renders the correct title', () => {
+        const wrapper = createComponent({
+            title: 'Trash + Recycling + Pets'
+        });
 
-  // Test to check correct class is applied
-  test(\"correct class is applied\", () => {
-    const wrapper = mount(TrashQuestionAccordion);
-    expect(wrapper.classes()).toContain(\"trash-accordion-section\");
-  });
-  
-  // Test to check for nested question accordion
-  test(\"validates has-nested prop\", () => {
-    const wrapper = mount(TrashQuestionAccordion, {
-      props: {
-        hasNested: true,
-      }
+        expect(wrapper.findTemplateRef('#title').text()).toBe('Trash + Recycling + Pets');
     });
-    
-    expect(wrapper.vm.$props.hasNested).toBe(true);
-  });
+
+    test('renders the correct content', () => {
+        const wrapper = createComponent({
+            content: 'Trash, recycling, and composte is picked up every Tuesday morning...'
+        });
+
+        expect(wrapper.find('.trash-info').exists()).toBe(true);
+        expect(wrapper.find('.trash-info').text()).toContain('Trash, recycling, and composte is picked up every Tuesday morning');
+    });
+
+    test('renders the correct classes', () => {
+        const wrapper = createComponent({
+            class: 'trash-accordion-section'
+        });
+
+        expect(wrapper.classes()).toContain('trash-accordion-section');
+    });
+
+    test('renders li elements correctly with color styling', () => {
+        const wrapper = createComponent();
+
+        const trash = wrapper.find('li:nth-of-type(1) span')
+        expect(trash.text()).toBe('Trash is the green bin.');
+        expect(trash.attributes().style).toBe('color:green;')
+        // Repeat for other li elements
+    });
+
+    test('has the correct name', () => {
+        const wrapper = createComponent();
+
+        expect(wrapper.vm.$options.name).toBe(\"TashQuestionAccordion\");
+    });
 });

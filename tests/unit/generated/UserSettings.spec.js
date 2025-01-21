@@ -1,69 +1,80 @@
-import { shallowMount } from "@vue/test-utils"
-import UserSettings from "@/path/to/user/settings/AccountSettings.vue"
-import Spinner from "@/path/to/spinner/Spinner.vue"
-import AccountSettings from "@/views/settings/AccountSettings.vue"
-import PrivacyAndSecuritySettings from "@/views/settings/PrivacyAndSecuritySettings.vue"
-import ProfileSettings from "@/views/settings/ProfileSettings.vue"
+import { mount } from '@vitest/unit'
+import UserSettings from '@/UserSettings.vue'
+import store from '@/store/store.js'
+import { createRouter, createWebHistory } from 'vue-router'
 
-describe("UserSettings.vue", () => 
-{
-	let wrapper
+// create new router instance for testing purposes
+const router = createRouter({
+  history: createWebHistory(),
+  routes: []
+})
 
-	beforeEach(() => 
-	{
-		wrapper = shallowMount(UserSettings)
-	})
+// helper function to create wrapper
+const createWrapper = (component) => {
+  return mount(component, {
+    global: {
+      plugins: [store, router],
+    },
+  })
+}
 
-	afterEach(() => 
-	{
-		wrapper.destroy()
-	})
+describe('UserSettings.vue', () => {
+  it('renders a spinner when authentication process is ongoing', () => {
+    // prepare
+    store.state.user.isAuthReady = false;
+    const wrapper = createWrapper(UserSettings);
+    // execute
+    const spinner = wrapper.findComponent(\"Spinner\");
+    // verify
+    expect(spinner.exists()).toBe(true);
+  })
 
-	it("renders spinner if auth not ready", () => 
-	{
-		// mock the computed prop isAuthReady to return false
-		wrapper = shallowMount(UserSettings, {
-			computed: {
-				isAuthReady: () => false,
-			},
-		})
+  it('displays login reminder when auth is ready but user not logged in', () => {
+    // prepare
+    store.state.user.isAuthReady = true;
+    store.state.user.isLoggedIn = false;
+    const wrapper = createWrapper(UserSettings);
+    // execute
+    const reminder = wrapper.getText();
+    // verify
+    expect(reminder).toContain(\"Currently not logged in; Please visit the login page\");
+  })
 
-		expect(wrapper.findComponent(Spinner).exists()).toBe(true)
-	})
+  it('renders the User Settings tabs when user is authenticated', () => {
+    // prepare
+    store.state.user.isAuthReady = true;
+    store.state.user.isLoggedIn = true;
+    const wrapper = createWrapper(UserSettings);
+    // execute
+    const tabs = wrapper.findComponent(\"Filters\");
+    // verify
+    expect(tabs.exists()).toBe(true);
+  })
 
-	// create similar tests for remaining scenarios
-  
-	it("renders AccountSettings when activeTab id is 0", () => 
-	{
-		wrapper = shallowMount(UserSettings, {
-			data: () => ({
-				activeTab: {
-					id: 0, 
-				}, 
-			}),
-			computed: {
-				isAuthReady: () => true,
-				isLoggedIn: () => true,
-			},
-		})
+  it('sets the active tab based on route query', async () => {
+    // prepare
+    store.state.user.isAuthReady = true;
+    store.state.user.isLoggedIn = true;
+    await router.push({ path: \"/\", query: { \"active-tab\": 1 } });
+    const wrapper = createWrapper(UserSettings);
+    // execute
+    await wrapper.vm.$nextTick();
+    // verify
+    expect(wrapper.vm.activeTab.id).toBe(1);
+  })
 
-		expect(wrapper.findComponent(AccountSettings).exists()).toBe(true)
-	})
-
-	// create similar tests for remaining sub-components
-  
-	it("calls handleTabNavigation when Filters component emits update", () => 
-	{
-		const mockTabId = 1 // replace with appropriate value
-		wrapper.setData({
-			activeTab: {
-				id: 0, 
-			}, 
-		})
-
-		wrapper.vm.handleTabNavigation = jest.fn()
-		wrapper.find("filters-selector").vm.$emit("update", mockTabId) // replace 'filters-selector' with your Filters component's selector
-
-		expect(wrapper.vm.handleTabNavigation).toHaveBeenCalledWith(mockTabId)
-	})
+  it('logs a firebase event on tab navigation', () => {
+    // prepare
+    store.state.user.isAuthReady = true;
+    store.state.user.isLoggedIn = true;
+    const wrapper = createWrapper(UserSettings);
+    // mock the logEvent function
+    jest.mock(\"firebase/analytics\", () => ({
+      logEvent: jest.fn(),
+    }));
+    // execute
+    wrapper.vm.handleTabNavigation(2);
+    // verify
+    expect(logEvent).toHaveBeenCalledWith(firebaseAnalyics, \"settings_tab_navigation\", { value: \"Privacy + Security\" });
+  })
 })

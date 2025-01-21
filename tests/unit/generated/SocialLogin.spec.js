@@ -1,48 +1,54 @@
-ests/unit/socialLogin.spec.js:
-import { mount } from '@vue/test-utils'
-import SocialLogin from \"@/path/to/SocialLogin\";
-import store from  \"@/store/store\";
-import { nextTick } from 'vue';
+import { mountVue } from 'path/to/mountHelper'
+import { createStore } from 'vuex';
+import SocialLogin from '@/path-to/SocialLogin.vue'; // path to SocialLogin in project
 
-jest.mock('@/firebase', () => ({
-  firebaseAuth: {
-    signInWithPopup: jest.fn(),
-  },
-  GoogleAuthProvider: jest.fn(),
-  FacebookAuthProvider: jest.fn()
-}))
-
-jest.mock('@/utils', () => ({
-  addUserToFirestore: jest.fn(),
-}))
-
-describe('SocialLogin.vue', () => {
+describe('SocialLogin.vue', () => {  
   let wrapper;
+  let store;
 
   beforeEach(() => {
-    wrapper = mount(SocialLogin, {
-      global: {
-        plugins: [store]
+    store = createStore({
+      state: {
+        user: {
+          isLoggedIn: false,
+          isAuthReady: false,
+          isLoggingIn: false,
+        },
       },
-      propsData: {
-        provider: 'google'
-      }
-    })
-  })
-  
-  it('renders provider name', () => {
-    expect(wrapper.find('.social-button-dex').text()).toBe('Google');
-  })
+      mutations: { // mock the mutations in store
+        setIsLoggingIn(state, value) {
+          state.user.isLoggingIn = value;
+        },
+      },
+      actions: { // mock the actions in store
+        fetchUser(state, data) {
+          // action implementation here
+        },
+      },
+    });
 
-  it('login button is disabled when user is already logged in', async () => {
-    expect(wrapper.find('.social-button').attributes().disabled).toBe('false');
-    
-    await store.commit('user/setUser', {id: 1, name: 'Test user'});
-    
-    await nextTick(); // Wait for rerender
-    
-    expect(wrapper.find('.social-button').attributes().disabled).toBe('true');
-  })
+    wrapper = mountVue(SocialLogin, {
+      props: {
+        provider: 'google',
+      },
+      global: {
+        plugins: [store], // provide store as plugin
+      },
+    });
+  });
 
-  // Add more test cases....
-})
+  test('handleLogin', async () => {
+    const button = wrapper.find('.social-button'); // find button element
+
+    // mocking firebase
+    const userMock = { user: { uid: '1', displayName: 'John Doe' } };
+    global.firebaseAuth = jest.fn().mockImplementation(() => {
+      return {
+        signInWithPopup: () => Promise.resolve(userMock),
+      };
+    });
+
+    await button.trigger('click'); // trigger click event
+    expect(button.attributes('disabled')).toBe(undefined); // button should not be disabled
+  });
+});

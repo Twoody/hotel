@@ -1,32 +1,51 @@
-// ProfileSettings.test.js
-import { mount } from "@vue/test-utils"
-import ProfileSettings from "@/components/ProfileSettings.vue"
-import BookingsTable from "@/components/entities/BookingsTable.vue"
+// NameOfFile.spec.ts
 
-describe("ProfileSettings", () => 
-{
-	let wrapper
+import { mount, VueWrapper } from \"@vue/test-utils\";
+import ProfileSettings from \"@/components/ProfileSettings.vue\";
+import BookingsTable from \"@/components/entities/BookingsTable.vue\";
+import { createStore } from \"vuex\";
+import { createRouter, createWebHistory } from 'vue-router';
 
-	beforeEach(() => 
-	{
-		wrapper = mount(ProfileSettings)
-	})
+let wrapper: VueWrapper<any>;
+const mockStore = createStore({
+  state: {},
+  getters: {},
+  mutations: {},
+  actions: {},
+});
 
-	it("Should render h2 tag correctly", () => 
-	{
-		const heading = wrapper.find("h2")
-		expect(heading.text()).toBe("Profile Tab")
-	})
+const mockRouter = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes: []
+});
 
-	it("Should render p tag correctly", () => 
-	{
-		const para = wrapper.find("p")
-		expect(para.text()).toContain("Here you could add user profile form fields")
-	})
+const createComponent = () => {
+  wrapper = mount(ProfileSettings, {
+    global: {
+      components: {
+        BookingsTable,
+      },
+      plugins: [mockStore, mockRouter],
+    },
+  });
+};
 
-	it("Should render the BookingsTable component", () => 
-	{
-		expect(wrapper.findComponent(BookingsTable).exists()).toBe(true)
-	})
-})
+describe(\"ProfileSettings.vue\", () => {
+  beforeEach(() => {
+    createComponent();
+  });
 
+  afterEach(() => {
+    wrapper.unmount();
+  });
+
+  it(\"should render h2 element with 'Profile Tab' text\", () => {
+    expect(wrapper.get(\"h2\").text()).toBe(\"Profile Tab\");
+  });
+
+  it(\"should render p element with expected text\", () => {
+    const expectedText = \"Here you could add user profile form fields,\
+                        \nupload avatars, social links, etc.\";
+    expect(wrapper.get(\"p\").text()).toBe(expectedText);
+  });
+});

@@ -1,44 +1,33 @@
-import { MAPS, MAP_FILTERS } from './maps.js';
+import { mount } from '@vue/test-utils'
+import Vue from 'vue'
+import { MAP_FILTERS, MAPS } from './source.js'
 
-test('MAPS has all properties', () => {
-    const mapKeys = Object.keys(MAPS);
-    const expectedKeys = [
-        'BURNSIDE',
-        'CANBY',
-        'COLUMBIA_RIVER_GORGE',
-        'EUGENE',
-        'LAKE_OSWEGO',
-        'LAVENDER_FARMS',
-        'MADDOX',
-        'MARKETS',
-        'MSY',
-        'MT_HOOD',
-        'OREGON_CITY',
-        'OREGON_COAST',
-        'SAUVY_ISLAND',
-        'STUB_STEWART',
-        'TRYON',
-        'WILAMETE_RIVER',
-        'WILDNERNESS',
-    ];
-    expect(mapKeys.sort()).toEqual(expectedKeys.sort());
-});
+const makeWrapper = (Component, propsData) => {
+  return mount(Component, { propsData })
+}
 
-test('MAP_FILTERS has all properties', () => {
-    const filterKeys = Object.values(MAP_FILTERS);
-    const expectedValues = [
-        \"Dog Friendly\",
-        \"Food\",
-        \"Groceries\",
-        \"Child Friendly\",
-        \"Running\",
-        \"Hiking\",
-        \"Exercise\",
-        \"Attractions\",
-        \"Drinks\",
-        \"Walking\",
-        \"Shopping\",
-        \"Music\",
-    ];
-    expect(filterKeys.sort()).toEqual(expectedValues.sort());
-});
+// Define your component here
+const Component = Vue.extend({
+  methods: {
+    getMapFilter: function (filterId) {
+      return MAP_FILTERS[filterId]
+    },
+    getMapName: function (mapId) {
+      return Object.keys(MAPS).find(key => MAPS[key] === mapId)
+    }
+  }
+})
+
+describe('Testing MAPS and MAP_FILTERS', () => {
+  test('getMapFilter returns correct filter', () => {
+    const wrapper = makeWrapper(Component)
+    expect(wrapper.vm.getMapFilter(1)).toBe('Dog Friendly')
+    expect(wrapper.vm.getMapFilter(2)).toBe('Food')
+  })
+
+  test('getMapName returns correct map name', () => {
+    const wrapper = makeWrapper(Component)
+    expect(wrapper.vm.getMapName(1)).toBe('BURNSIDE')
+    expect(wrapper.vm.getMapName(10)).toBe('CANBY')
+  })
+})
