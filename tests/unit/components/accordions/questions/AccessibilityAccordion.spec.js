@@ -1,9 +1,8 @@
 import { mount } from "@vue/test-utils"
 import AccessibilityAccordion from "@/components/accordions/questions/AccessibilityAccordion.vue"
 
-// Helper function to create a wrapper 
 /**
- *
+ * Helper function to create a wrapper 
  */
 function createWrapper () 
 {

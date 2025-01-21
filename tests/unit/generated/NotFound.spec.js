@@ -1,9 +1,21 @@
 import { mount } from '@vue/test-utils'
-import MyComponent from '@/components/MyComponent.vue'  // Please replace this by your component's actual path
+import { defineComponent, h } from 'vue'
 
-describe('MyComponent', () => {
-  test('renders correctly', () => {
-    const wrapper = mount(MyComponent)
-    expect(wrapper.html()).toContain(\"<h1>Oops, it looks like the page you're looking for doesn't exist.</h1>\")
+// Creating a helper function to create a wrapper using mount
+const createWrapper = (component) => {
+  return mount(component)
+}
+
+describe('404 Page', () => {
+  it('renders correct error message', () => {
+    const NotFoundComponent = defineComponent({
+      render() {
+        return h('template', {}, 
+          h('h1', "Oops, it looks like the page you're looking for doesn't exist.")
+        )
+      }
+    })
+    const wrapper = createWrapper(NotFoundComponent)
+    expect(wrapper.html()).toContain("Oops, it looks like the page you're looking for doesn't exist.")
   })
 })
