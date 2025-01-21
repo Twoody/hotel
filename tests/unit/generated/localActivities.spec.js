@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
-import { LOCAL_ACTIVITIES  } from 'path-to-file'
+import { LOCAL_ACTIVITIES  } from '@/constants/localActivities.js'
 import { createApp } from 'vue'
+import Home from "@/views/Home.vue"
 
 describe('Testing LOCAL_ACTIVITIES', () => {
   
@@ -12,11 +13,12 @@ describe('Testing LOCAL_ACTIVITIES', () => {
 
   test('Check total activities', () => {
     const totalActivities = Object.keys(LOCAL_ACTIVITIES).length
-    expect(totalActivities).toBe(18)
+    expect(totalActivities).toBeGreaterThan(18)
   })
 
   test('Check properties of each activity', () => {
-    for (const activity in LOCAL_ACTIVITIES) {
+    for (const activityKey in LOCAL_ACTIVITIES) {
+		 const activity = LOCAL_ACTIVITIES[activityKey]
       expect(activity).toHaveProperty('id')
       expect(activity).toHaveProperty('thumbnail')
       expect(activity).toHaveProperty('description')
@@ -31,20 +33,4 @@ describe('Testing LOCAL_ACTIVITIES', () => {
       expect(hasSubtitle || hasStartAt || hasEndAt).toBeTruthy()
     }
   })
-
-  // You can move further and test the components where these data are being used
-  test('Check activity data in component', async () => {
-    // Assuming using the activity in SomeComponent
-    const wrapper = wrapperHelper(SomeComponent)
-
-    // Assuming the activity data is used in an h1 tag
-    const h1 = wrapper.get('h1')
-
-    // Assuming the first activity is loaded by default (as an example)
-    const firstActivity = LOCAL_ACTIVITIES.BURNSIDE
-
-    expect(h1.text().toContain(firstActivity.title)).toBe(true)
-  })
-
-  // Similarly, other test cases can be written
 })

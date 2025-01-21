@@ -1,5 +1,5 @@
-import { mount } from '@vitest/unit'
-import UserSettings from '@/UserSettings.vue'
+import { mount } from "@vue/test-utils"
+import UserSettings from '@/views/settings/UserSettings.vue'
 import store from '@/store/store.js'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -10,8 +10,8 @@ const router = createRouter({
 })
 
 // helper function to create wrapper
-const createWrapper = (component) => {
-  return mount(component, {
+const createWrapper = () => {
+  return mount(UserSettings, {
     global: {
       plugins: [store, router],
     },
@@ -22,9 +22,9 @@ describe('UserSettings.vue', () => {
   it('renders a spinner when authentication process is ongoing', () => {
     // prepare
     store.state.user.isAuthReady = false;
-    const wrapper = createWrapper(UserSettings);
+    const wrapper = createWrapper();
     // execute
-    const spinner = wrapper.findComponent(\"Spinner\");
+    const spinner = wrapper.findComponent("Spinner");
     // verify
     expect(spinner.exists()).toBe(true);
   })
@@ -33,20 +33,20 @@ describe('UserSettings.vue', () => {
     // prepare
     store.state.user.isAuthReady = true;
     store.state.user.isLoggedIn = false;
-    const wrapper = createWrapper(UserSettings);
+    const wrapper = createWrapper();
     // execute
     const reminder = wrapper.getText();
     // verify
-    expect(reminder).toContain(\"Currently not logged in; Please visit the login page\");
+    expect(reminder).toContain("Currently not logged in; Please visit the login page");
   })
 
   it('renders the User Settings tabs when user is authenticated', () => {
     // prepare
     store.state.user.isAuthReady = true;
     store.state.user.isLoggedIn = true;
-    const wrapper = createWrapper(UserSettings);
+    const wrapper = createWrapper();
     // execute
-    const tabs = wrapper.findComponent(\"Filters\");
+    const tabs = wrapper.findComponent("Filters");
     // verify
     expect(tabs.exists()).toBe(true);
   })
@@ -55,8 +55,8 @@ describe('UserSettings.vue', () => {
     // prepare
     store.state.user.isAuthReady = true;
     store.state.user.isLoggedIn = true;
-    await router.push({ path: \"/\", query: { \"active-tab\": 1 } });
-    const wrapper = createWrapper(UserSettings);
+    await router.push({ path: "/", query: { "active-tab": 1 } });
+    const wrapper = createWrapper();
     // execute
     await wrapper.vm.$nextTick();
     // verify
@@ -67,14 +67,14 @@ describe('UserSettings.vue', () => {
     // prepare
     store.state.user.isAuthReady = true;
     store.state.user.isLoggedIn = true;
-    const wrapper = createWrapper(UserSettings);
+    const wrapper = createWrapper();
     // mock the logEvent function
-    jest.mock(\"firebase/analytics\", () => ({
+    jest.mock("firebase/analytics", () => ({
       logEvent: jest.fn(),
     }));
     // execute
     wrapper.vm.handleTabNavigation(2);
     // verify
-    expect(logEvent).toHaveBeenCalledWith(firebaseAnalyics, \"settings_tab_navigation\", { value: \"Privacy + Security\" });
+    expect(logEvent).toHaveBeenCalledWith(firebaseAnalyics, "settings_tab_navigation", { value: "Privacy + Security" });
   })
 })
