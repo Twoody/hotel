@@ -7,9 +7,16 @@ import Login from "@/views/Login.vue";
 // Mock Firebase methods
 vi.mock("firebase/auth", () => ({
   createUserWithEmailAndPassword: vi.fn(),
-  getAuth: vi.fn(),
   signInWithEmailAndPassword: vi.fn(),
+  getAuth: vi.fn(),
 }));
+
+// Mock Local Firebase helpers
+vi.mock("@/firebase", () => ({
+  db: {},
+}));
+
+
 
 // Helper function to create a wrapper
 const createWrapper = (options = {}) => {

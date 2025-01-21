@@ -5,7 +5,7 @@ import { vi } from "vitest";
 import { createStore } from "vuex";
 
 // Mock Firebase methods
-vi.mock("@/firebase", () => ({
+vi.mock("@/firebase.js", () => ({
   db: {},
 }));
 
