@@ -117,7 +117,6 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 import { firebaseAuth } from "@/firebase"
 import SocialLogin from "@/components/forms/SocialLogin.vue"
-import store from "@/store/store.js"
 
 export default {
 	name: "Login",
@@ -197,7 +196,7 @@ export default {
 		 */
 		isAuthReady ()
 		{
-			return store.state.user.isAuthReady
+			return this.$store.state.user.isAuthReady
 		},
 
 		/**
@@ -206,7 +205,7 @@ export default {
 		 */
 		isLoggedIn ()
 		{
-			return store.state.user.isLoggedIn
+			return this.$store.state.user.isLoggedIn
 		},
 
 		/**
@@ -216,7 +215,7 @@ export default {
 		 */
 		isLoggingIn ()
 		{
-			return store.state.user.isLoggingIn
+			return this.$store.state.user.isLoggingIn
 		},
 
 		/** @returns {boolean} When registering, if passwords match or not */
@@ -232,7 +231,7 @@ export default {
 		{
 			if (!this.email)
 			{
-				this.$refs.email.focus()
+				this.$refs.email?.focus()
 				return false
 			}
 			else if (!this.password)
