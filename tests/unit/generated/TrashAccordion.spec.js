@@ -1,5 +1,5 @@
-import { mount } from "@vue/test-utils";
-import TrashAccordion from "@/components/accordions/questions/TrashAccordion.vue";
+import { mount } from "@vue/test-utils"
+import TrashAccordion from "@/components/accordions/questions/TrashAccordion.vue"
 
 /**
  * Helper function to create a wrapper 
@@ -28,39 +28,44 @@ function createWrapper ()
 	)
 }
 
-
-describe("TashAccordion.vue", () => {
-		test('renders the correct title', () => {
+describe("TashAccordion.vue", () => 
+{
+	test("renders the correct title", () => 
+	{
 		const wrapper = createWrapper()
 
-				expect(wrapper.find('[data-testid="FAQ-trash-title"]').text()).toBe('Trash + Recycling + Pets');
-		});
+		expect(wrapper.find("[data-testid=\"FAQ-trash-title\"]").text()).toBe("Trash + Recycling + Pets")
+	})
 
-		test('renders the correct content', () => {
+	test("renders the correct content", () => 
+	{
 		const wrapper = createWrapper()
 
-				expect(wrapper.find('.trash-info').exists()).toBe(true);
-				expect(wrapper.find('.trash-info').text()).toContain('Trash, recycling, and composte is picked up every Tuesday morning');
-		});
+		expect(wrapper.find(".trash-info").exists()).toBe(true)
+		expect(wrapper.find(".trash-info").text()).toContain("Trash, recycling, and composte is picked up every Tuesday morning")
+	})
 
-		test('renders the correct classes', () => {
+	test("renders the correct classes", () => 
+	{
 		const wrapper = createWrapper()
 
-				expect(wrapper.classes()).toContain('trash-accordion-section');
-		});
+		expect(wrapper.classes()).toContain("trash-accordion-section")
+	})
 
-		test('renders li elements correctly with color styling', () => {
+	test("renders li elements correctly with color styling", () => 
+	{
 		const wrapper = createWrapper()
 
-				const trash = wrapper.find('li:nth-of-type(1) span')
-				expect(trash.text()).toBe('Trash is the green bin.');
-				expect(trash.attributes().style).toBe('color: green;')
-				// Repeat for other li elements
-		});
+		const trash = wrapper.find("li:nth-of-type(1) span")
+		expect(trash.text()).toBe("Trash is the green bin.")
+		expect(trash.attributes().style).toBe("color: green;")
+		// Repeat for other li elements
+	})
 
-		test('has the correct name', () => {
+	test("has the correct name", () => 
+	{
 		const wrapper = createWrapper()
 
-				expect(wrapper.vm.$options.name).toBe("TashAccordion");
-		});
-});
+		expect(wrapper.vm.$options.name).toBe("TashAccordion")
+	})
+})

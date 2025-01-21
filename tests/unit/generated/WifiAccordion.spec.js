@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils"
-import WifiAccordion from '@/components/accordions/questions/WifiAccordion.vue'
+import WifiAccordion from "@/components/accordions/questions/WifiAccordion.vue"
 
 /**
  * Helper function to create a wrapper 
@@ -28,28 +28,33 @@ function createWrapper ()
 	)
 }
 
-describe('WifiAccordion', () => {
-	let wrapper;
+describe("WifiAccordion", () => 
+{
+	let wrapper
 
-	beforeEach(() => {
+	beforeEach(() => 
+	{
 		 wrapper = createWrapper()
-	});
+	})
 
-	afterEach(() => {
+	afterEach(() => 
+	{
 		 wrapper.unmount()
-	});
+	})
 
-	it('should have a proper title', () => {
+	it("should have a proper title", () => 
+	{
 		const wrapper = createWrapper()
 		const titleElement = wrapper.find(".accordion-section > div:first-child")
 		expect(titleElement.exists()).toBe(true)
 		expect(titleElement.text()).toContain("Wifi")
-	});
+	})
 
-	it('should have proper content', () => {
-		const content = wrapper.find('.wifi-accordion-section').text()		
+	it("should have proper content", () => 
+	{
+		const content = wrapper.find(".wifi-accordion-section").text()		
 		// Add proper assertions against the content					
-	});
+	})
 	
 	// Add more tests as needed
-});
+})
