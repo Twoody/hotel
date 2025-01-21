@@ -1,6 +1,6 @@
-import { mountVue } from 'path/to/mountHelper'
+import { mount } from "@vue/test-utils"
 import { createStore } from 'vuex';
-import SocialLogin from '@/path-to/SocialLogin.vue'; // path to SocialLogin in project
+import SocialLogin from '@/components/buttons/login/SocialLogin.vue'
 
 describe('SocialLogin.vue', () => {  
   let wrapper;
@@ -27,7 +27,7 @@ describe('SocialLogin.vue', () => {
       },
     });
 
-    wrapper = mountVue(SocialLogin, {
+    wrapper = mount(SocialLogin, {
       props: {
         provider: 'google',
       },
@@ -42,7 +42,7 @@ describe('SocialLogin.vue', () => {
 
     // mocking firebase
     const userMock = { user: { uid: '1', displayName: 'John Doe' } };
-    global.firebaseAuth = jest.fn().mockImplementation(() => {
+    global.firebaseAuth = vi.fn().mockImplementation(() => {
       return {
         signInWithPopup: () => Promise.resolve(userMock),
       };

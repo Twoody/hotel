@@ -4,7 +4,9 @@
 		has-nested
 	>
 		<template #title>
-			Trash	+ Recycling + Pets
+			<span  data-testid="FAQ-trash-title">
+				Trash	+ Recycling + Pets
+			</span>
 		</template>
 		<template #content>
 			<div class="trash-info">
@@ -42,7 +44,7 @@
 <script>
 
 export default {
-	name: "TashQuestionAccordion",
+	name: "TashAccordion",
 	components: {},
 }
 </script>

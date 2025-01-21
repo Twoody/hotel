@@ -1,5 +1,5 @@
-import { mount } from \"@vue/test-utils\"
-import SplashScreen from '../src/components/SplashScreen.vue'
+import { mount } from "@vue/test-utils"
+import SplashScreen from '@/components/entities/SplashScreen.vue'
 import { expect } from 'chai'
 
 // Helper function to create a wrapper
