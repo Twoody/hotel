@@ -345,5 +345,12 @@ export default defineConfig({
 })
 ```
 
-Assignment
-Your assignment is to write adequate unit tests for `Source File`. If there are any inherit bugs or issues, report the issues with the code with your response.
+Assignment:
+Your assignment is to write adequate unit tests for an app and for `Source File`. 
+The app is using vite, vitest, and vue3.
+The is app using a front end library (teahub), a vuex store, and the vue router.
+Your job is to increase the test coverage of the code in `Source File` with tests written in vitest.
+Ensure to use the vitest `mount` instead of `render`.
+Ensure a helper function is created at the start of the file to create the `wrapper` using `mount`.
+If there are any inherit bugs or issues, report the issues with the code with your response.
+
