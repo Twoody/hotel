@@ -37,10 +37,12 @@
 			class="room-list"
 		>
 			<template #title>
-				Special Notes: Living Room
+				<span data-testid="title-living-room-with-dog">
+					Special Notes: Living Room
+				</span>
 			</template>
 			<template #content>
-				<ol>
+				<ol data-testid="content-living-room-with-dog">
 					<li>
 						Replace grey/fuzzy comforter with white/gery comforter by laundry machine
 					</li>
@@ -197,7 +199,7 @@
 				Dining Room
 			</template>
 			<template #content>
-				<ol>
+				<ol data-testid="content-dining-room">
 					<li v-if="hasFlowers">
 						Change the water to the flowers; Trim flowers if necessary
 					</li>
@@ -409,7 +411,7 @@
 				Living Room
 			</template>
 			<template #content>
-				<ol>
+				<ol data-testid="content-living-room-defaults">
 					<li>
 						Check blankets for hair and odor; Wash if found
 					</li>
