@@ -8,7 +8,7 @@
 		</div>
 
 		<!-- If finished loading and no bookings found -->
-		<div v-else-if="!isLoading && sortedBookings.length === 0">
+		<div class="no-bookings" v-else-if="!isLoading && sortedBookings.length === 0">
 			<p>No bookings found.</p>
 		</div>
 
@@ -101,6 +101,17 @@ export default {
 	},
 
 	computed: {
+		currentUser ()
+		{
+			if (!this.$store?.state?.user?.user)
+			{
+				return {
+					invalid: true,
+				}
+			}
+			return this.$store.state.user.user
+		},
+
 		/**
 		 * Sorts the user's bookings based on the selected sort key and order.
 		 *
@@ -189,20 +200,19 @@ export default {
 		 */
 		async fetchUserBookings ()
 		{
+			if (!this.currentUser?.uid || this.currentUser.invalid)
+			{
+				// If no logged-in user, skip the query
+				console.error("no user found")
+				this.userBookings = []
+				return
+			}
 			this.isLoading = true
 			try
 			{
-				const currentUser = this.$store.state.user.user
-				if (!currentUser?.uid)
-				{
-					// If no logged-in user, skip the query
-					this.userBookings = []
-					return
-				}
-
 				const q = query(
 					collection(db, "bookings"),
-					where("guestID", "==", currentUser.uid)
+					where("guestID", "==", this.currentUser.uid)
 				)
 				const querySnapshot = await getDocs(q)
 				const bookings = []

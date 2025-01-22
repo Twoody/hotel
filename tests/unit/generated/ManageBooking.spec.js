@@ -60,7 +60,7 @@ const createWrapper = (options = {}) =>
 			stubs: {
 				Spinner: {
 					name: "Spinner",
-					 template: '<div class="spinner-stub">Spinner</div>',
+					 template: "<div class=\"spinner-stub\">Spinner</div>",
 				},
 				BookingNotLoggedIn: {
 					template: "<div>BookingNotLoggedIn</div>",
