@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from "vue-router"
 import { vi } from "vitest"
 import Login from "@/views/Login.vue"
 import user from "@/store/user"
+import * as _FirebaseAuth from "firebase/auth"	// <-- import as a namespace
 
 // Mock Firebase methods
 vi.mock("firebase/auth", () => ({
@@ -15,11 +16,14 @@ vi.mock("firebase/auth", () => ({
 // Mock Local Firebase helpers
 vi.mock("@/firebase", () => ({
 	db: {},
+	firebaseAuth: {},
 }))
 
-// For example:
+// Spy on the named export function from the namespace
+const createUserSpy = vi.spyOn(_FirebaseAuth, "createUserWithEmailAndPassword")
+const signInSpy = vi.spyOn(_FirebaseAuth, "signInWithEmailAndPassword")
 
-const createWrapper = (options = {}) => 
+const createWrapper = ({ userState = {}, ...options } = {}) => 
 {
 	const store = createStore({
 		modules: {
@@ -42,6 +46,10 @@ const createWrapper = (options = {}) =>
 			fetchUser: vi.fn(),
 		},
 	})
+
+	// Merge your userState overrides
+	//		This could be a simple Object.assign(...) or a deeper merge
+	Object.assign(store.state.user, userState)
 
 	const router = createRouter({
 		history: createWebHistory(),
@@ -94,63 +102,34 @@ describe("Login.vue", () =>
 {
 	it("renders the login page and displays the checking auth status message", () => 
 	{
-		const wrapper = createWrapper({
-			global: {
-				mocks: {
-					$store: {
-						state: {
-							user: {
-								isAuthReady: false, 
-							}, 
-						},
-					},
-				},
-			},
-		})
+		const wrapper = createWrapper()
 		expect(wrapper.find("h3").text()).toBe("Checking firebase auth status...")
 	})
 
 	it("shows the already logged-in message when the user is logged in", () => 
 	{
+		let userState = {
+			isAuthReady: true,
+			isLoggedIn: true,
+		}
+
 		const wrapper = createWrapper({
-		// Provide an initial store state via options:
-			data: () => ({
-			// or use a store plugin override approach
-			}),
-			global: {
-			// Instead of mocks, we can do a slight store override:
-				plugins: [
-					createStore({
-						state: {
-							user: {
-								isAuthReady: true,
-								isLoggedIn: true,
-								isLoggingIn: false,
-							},
-						},
-						mutations: {},
-					}),
-				],
-			},
+			userState,
 		})
 		expect(wrapper.find("h3").text()).toBe("Already Logged in")
 	})
 
 	it("toggles between sign-in and sign-up modes", async () => 
 	{
+		let userState = {
+			isAuthReady: true,
+			isLoggedIn: false,
+		}
+
 		const wrapper = createWrapper({
-			global: {
-				mocks: {
-					$store: {
-						state: {
-							user: {
-								isAuthReady: true, 
-							}, 
-						},
-					},
-				},
-			},
+			userState,
 		})
+		await wrapper.vm.$nextTick()
 		// Find both toggles
 		const toggles = wrapper.findAll(".title-toggle")
 		expect(toggles.length).toBe(2)
@@ -166,18 +145,12 @@ describe("Login.vue", () =>
 
 	it("validates user input and focuses on invalid fields", async () => 
 	{
+		let userState = {
+			isAuthReady: true,
+			isLoggedIn: false,
+		}
 		const wrapper = createWrapper({
-			global: {
-				mocks: {
-					$store: {
-						state: {
-							user: {
-								isAuthReady: true, 
-							}, 
-						},
-					},
-				},
-			},
+			userState,
 		})
 
 		wrapper.vm.email = "" // Force it invalid
@@ -194,19 +167,12 @@ describe("Login.vue", () =>
 
 	it("handles login errors gracefully", async () => 
 	{
+		let userState = {
+			isAuthReady: true,
+			isLoggedIn: false,
+		}
 		const wrapper = createWrapper({
-			global: {
-				mocks: {
-					$store: {
-						state: {
-							user: {
-								isAuthReady: true, 
-							}, 
-						},
-						commit: vi.fn(),
-					},
-				},
-			},
+			userState,
 		})
 
 		const { signInWithEmailAndPassword, } = await import("firebase/auth")
@@ -233,23 +199,39 @@ describe("Login.vue", () =>
 
 	it("registers a new user with valid credentials", async () => 
 	{
-		const wrapper = createWrapper()
-
-		const { createUserWithEmailAndPassword, } = await import("firebase/auth")
-		createUserWithEmailAndPassword.mockResolvedValueOnce({
+		createUserSpy.mockResolvedValueOnce({
 			user: {
 				uid: "testUser123", 
 			},
 		})
 
-		wrapper.vm.isRegistering = true
+		let userState = {
+			isAuthReady: true,
+			isLoggedIn: false,
+		}
+		const wrapper = createWrapper({
+			userState,
+		})
+
+		// Ensure registration toggle + activate registration mode
+		let registerToggle = wrapper.find("[data-testid=\"button-toggle-to-registration\"]")
+		expect(registerToggle.exists()).toBe(true)
+		await registerToggle.trigger("click")
+
+		// Ensure the right buttons are showing for registration
+		let loginButton = wrapper.find("[data-testid=\"button-login-text\"]")
+		let registerButton = wrapper.find("[data-testid=\"button-register-text\"]")
+		expect(loginButton.exists()).toBe(false)
+		expect(registerButton.exists()).toBe(true)
+
 		wrapper.vm.email = "test@example.com"
 		wrapper.vm.password = "password123"
 		wrapper.vm.passwordConfirm = "password123"
 
-		await wrapper.vm.registerNewUser()
+		await registerButton.trigger("click")
+		expect(wrapper.vm.registrationError).toBe("")
 
-		expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(
+		expect(createUserSpy).toHaveBeenCalledWith(
 			expect.anything(),
 			"test@example.com",
 			"password123"
@@ -258,7 +240,13 @@ describe("Login.vue", () =>
 
 	it("displays validation errors for incorrect input", () => 
 	{
-		const wrapper = createWrapper()
+		let userState = {
+			isAuthReady: true,
+			isLoggedIn: false,
+		}
+		const wrapper = createWrapper({
+			userState,
+		})
 
 		wrapper.vm.email = ""
 		wrapper.vm.password = "short"
@@ -274,33 +262,35 @@ describe("Login.vue", () =>
 
 	it("disables login button while logging in", async () => 
 	{
+
+		let userState = {
+			isAuthReady: true,
+			isLoggedIn: false,
+			isLoggingIn: true,
+		}
 		const wrapper = createWrapper({
-			global: {
-				mocks: {
-					$store: {
-						state: {
-							user: {
-								isLoggingIn: true, 
-							}, 
-						},
-					},
-				},
-			},
+			userState,
 		})
 
 		const loginButton = wrapper.find(".login-button")
-		expect(loginButton.attributes("disabled")).toBeDefined()
+		expect(loginButton.attributes("disabled")).toBe(true) // button should not be disabled
 	})
 
 	it("redirects to the home page after successful login", async () => 
 	{
-		const wrapper = createWrapper()
+		let userState = {
+			isAuthReady: true,
+			isLoggedIn: false,
+			isLoggingIn: false,
+		}
+		const wrapper = createWrapper({
+			userState,
+		})
 
 		const router = wrapper.vm.$router
 		const pushSpy = vi.spyOn(router, "push")
 
-		const { signInWithEmailAndPassword, } = await import("firebase/auth")
-		signInWithEmailAndPassword.mockResolvedValueOnce({
+		signInSpy.mockResolvedValueOnce({
 			user: {
 				uid: "testUser123", 
 			},
