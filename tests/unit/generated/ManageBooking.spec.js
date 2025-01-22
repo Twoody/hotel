@@ -7,7 +7,7 @@ import ManageBooking from "@/views/bookings/ManageBooking.vue"
 // Mock Firebase methods
 vi.mock("firebase/firestore", () => ({
 	doc: vi.fn(() => ({
-		id: "testBookingId", 
+		id: "testBookingId",
 	})),
 	getDoc: vi.fn(() => ({
 		exists: () => true,
@@ -25,7 +25,7 @@ vi.mock("@/firebase", () => ({
 }))
 
 // Helper function to create wrapper
-const createWrapper = (options = {}) => 
+const createWrapper = (options = {}) =>
 {
 	const store = createStore({
 		state: {
@@ -34,7 +34,7 @@ const createWrapper = (options = {}) =>
 				isLoggedIn: true,
 				isLoggingIn: false,
 				user: {
-					uid: "testUserId", 
+					uid: "testUserId",
 				},
 			},
 		},
@@ -46,7 +46,7 @@ const createWrapper = (options = {}) =>
 		routes: [
 			{
 				path: "/booking/:id",
-				name: "Booking", 
+				name: "Booking",
 			},
 		],
 	})
@@ -59,22 +59,23 @@ const createWrapper = (options = {}) =>
 			],
 			stubs: {
 				Spinner: {
-					template: "<div>Spinner</div>", 
+					name: "Spinner",
+					 template: '<div class="spinner-stub">Spinner</div>',
 				},
 				BookingNotLoggedIn: {
-					template: "<div>BookingNotLoggedIn</div>", 
+					template: "<div>BookingNotLoggedIn</div>",
 				},
 				BookingNotFound: {
-					template: "<div>BookingNotFound</div>", 
+					template: "<div>BookingNotFound</div>",
 				},
 				CompletedBooking: {
-					template: "<div>CompletedBooking</div>", 
+					template: "<div>CompletedBooking</div>",
 				},
 				FinalizeBooking: {
-					template: "<div>FinalizeBooking</div>", 
+					template: "<div>FinalizeBooking</div>",
 				},
 				UnauthorizedBooking: {
-					template: "<div>UnauthorizedBooking</div>", 
+					template: "<div>UnauthorizedBooking</div>",
 				},
 			},
 		},
@@ -82,9 +83,9 @@ const createWrapper = (options = {}) =>
 	})
 }
 
-describe("ManageBooking.vue", () => 
+describe("ManageBooking.vue", () =>
 {
-	it("shows a spinner while auth or booking is loading", () => 
+	it("shows a spinner while auth or booking is loading", () =>
 	{
 		const wrapper = createWrapper({
 			global: {
@@ -92,19 +93,19 @@ describe("ManageBooking.vue", () =>
 					$store: {
 						state: {
 							user: {
-								isAuthReady: false, 
-							}, 
+								isAuthReady: false,
+							},
 						},
 					},
 				},
 			},
 		})
 		expect(wrapper.findComponent({
-			name: "Spinner", 
+			name: "Spinner",
 		}).exists()).toBe(true)
 	})
 
-	it("shows the BookingNotLoggedIn component if the user is not logged in", () => 
+	it("shows the BookingNotLoggedIn component if the user is not logged in", () =>
 	{
 		const wrapper = createWrapper({
 			global: {
@@ -112,19 +113,19 @@ describe("ManageBooking.vue", () =>
 					$store: {
 						state: {
 							user: {
-								isLoggedIn: false, 
-							}, 
+								isLoggedIn: false,
+							},
 						},
 					},
 				},
 			},
 		})
 		expect(wrapper.findComponent({
-			name: "BookingNotLoggedIn", 
+			name: "BookingNotLoggedIn",
 		}).exists()).toBe(true)
 	})
 
-	it("shows the BookingNotFound component if no booking is found", async () => 
+	it("shows the BookingNotFound component if no booking is found", async () =>
 	{
 		const { getDoc, } = await import("firebase/firestore")
 		getDoc.mockResolvedValueOnce({
@@ -136,17 +137,17 @@ describe("ManageBooking.vue", () =>
 
 		expect(wrapper.vm.bookingNotFound).toBe(true)
 		expect(wrapper.findComponent({
-			name: "BookingNotFound", 
+			name: "BookingNotFound",
 		}).exists()).toBe(true)
 	})
 
-	it("shows the UnauthorizedBooking component if booking belongs to another user", async () => 
+	it("shows the UnauthorizedBooking component if booking belongs to another user", async () =>
 	{
 		const { getDoc, } = await import("firebase/firestore")
 		getDoc.mockResolvedValueOnce({
 			exists: () => true,
 			data: () => ({
-				guestID: "differentUserId", 
+				guestID: "differentUserId",
 			}),
 		})
 
@@ -155,18 +156,18 @@ describe("ManageBooking.vue", () =>
 
 		expect(wrapper.vm.bookingBelongsToUser).toBe(false)
 		expect(wrapper.findComponent({
-			name: "UnauthorizedBooking", 
+			name: "UnauthorizedBooking",
 		}).exists()).toBe(true)
 	})
 
-	it("shows the CompletedBooking component if the booking is complete", async () => 
+	it("shows the CompletedBooking component if the booking is complete", async () =>
 	{
 		const { getDoc, } = await import("firebase/firestore")
 		getDoc.mockResolvedValueOnce({
 			exists: () => true,
 			data: () => ({
 				guestID: "testUserId",
-				paidAt: "2023-01-01", 
+				paidAt: "2023-01-01",
 			}),
 		})
 
@@ -175,17 +176,17 @@ describe("ManageBooking.vue", () =>
 
 		expect(wrapper.vm.bookingCompleted).toBe(true)
 		expect(wrapper.findComponent({
-			name: "CompletedBooking", 
+			name: "CompletedBooking",
 		}).exists()).toBe(true)
 	})
 
-	it("shows the FinalizeBooking component if the booking is not complete", async () => 
+	it("shows the FinalizeBooking component if the booking is not complete", async () =>
 	{
 		const { getDoc, } = await import("firebase/firestore")
 		getDoc.mockResolvedValueOnce({
 			exists: () => true,
 			data: () => ({
-				guestID: "testUserId", 
+				guestID: "testUserId",
 			}),
 		})
 
@@ -194,13 +195,13 @@ describe("ManageBooking.vue", () =>
 
 		expect(wrapper.vm.bookingCompleted).toBe(false)
 		expect(wrapper.findComponent({
-			name: "FinalizeBooking", 
+			name: "FinalizeBooking",
 		}).exists()).toBe(true)
 	})
 
-	it("handles errors during booking fetch", async () => 
+	it("handles errors during booking fetch", async () =>
 	{
-		const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => 
+		const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() =>
 		{})
 		const { getDoc, } = await import("firebase/firestore")
 		getDoc.mockRejectedValueOnce(new Error("Firestore error"))
@@ -214,7 +215,7 @@ describe("ManageBooking.vue", () =>
 		consoleErrorSpy.mockRestore()
 	})
 
-	it("tracks loading state during booking fetch", async () => 
+	it("tracks loading state during booking fetch", async () =>
 	{
 		const wrapper = createWrapper()
 
