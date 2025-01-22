@@ -3,7 +3,7 @@ User should be able to register/login from multiple places
 	<div class="social-login-wrapper">
 		<GoogleLogin class="login-option" />
 			
-		<!-- * @warning facebook authentiacation is currently blocked until a Buiness Number is sent in -->
+		<!-- * @warning facebook authentiacation is currently blocked until Buiness Number is done -->
 		<!-- <FacebookLogin class="login-option" /> -->
 	</div>
 </template>

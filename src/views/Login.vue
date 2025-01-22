@@ -205,6 +205,15 @@ export default {
 		},
 
 		/**
+		 * @returns {boolean} - Whether a user can click the log in button or not
+		 * @since 2.3.0
+		 */
+		isLogInDisabled ()
+		{
+			return this.isLoggingIn && !this.isLoggedIn && this.isAuthReady ? true : false
+		},
+
+		/**
 		 * @returns {boolean} - Whether a user is logged in or not
 		 * @since 0.1.0
 		 */
@@ -221,15 +230,6 @@ export default {
 		isLoggingIn ()
 		{
 			return this.$store.state.user.isLoggingIn
-		},
-
-		/**
-		 * @returns {boolean} - Whether a user can click the log in button or not
-		 * @since 2.3.0
-		 */
-		isLogInDisabled ()
-		{
-			return this.isLoggingIn && !this.isLoggedIn && this.isAuthReady ? true : false
 		},
 
 		/** @returns {boolean} When registering, if passwords match or not */
