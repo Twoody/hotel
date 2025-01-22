@@ -57,7 +57,7 @@ const mockStore = {
  *
  * @param options
  */
-function createWrapper (options = {}) 
+function createWrapper (options = {})
 {
 	return mount(Maps, {
 		global: {
@@ -70,15 +70,15 @@ function createWrapper (options = {})
 	})
 }
 
-describe("Maps.vue", () => 
+describe("Maps.vue", () =>
 {
-	beforeEach(() => 
+	beforeEach(() =>
 	{
 		// Clear all mocks before each test
 		vi.clearAllMocks()
 	})
 
-	it("renders a title 'Maps'", () => 
+	it("renders a title 'Maps'", () =>
 	{
 		const wrapper = createWrapper()
 		const title = wrapper.find("h1.main-title")
@@ -86,7 +86,7 @@ describe("Maps.vue", () =>
 		expect(title.text()).toBe("Maps")
 	})
 
-	it("renders the MapFilters component", () => 
+	it("renders the MapFilters component", () =>
 	{
 		const wrapper = createWrapper()
 		// The child is stubbed, but we can still confirm it appears
@@ -94,7 +94,7 @@ describe("Maps.vue", () =>
 		expect(filters.exists()).toBe(true)
 	})
 
-	it("renders activities in .maps-content via MapCard stubs", () => 
+	it("renders activities in .maps-content via MapCard stubs", () =>
 	{
 		const wrapper = createWrapper()
 		const content = wrapper.find(".maps-content")
@@ -111,7 +111,7 @@ describe("Maps.vue", () =>
 		expect(cards).toBeTruthy()
 	})
 
-	it("has a gotoItem method that calls this.$router.push correctly", async () => 
+	it("has a gotoItem method that calls this.$router.push correctly", async () =>
 	{
 		const wrapper = createWrapper()
 
@@ -125,7 +125,7 @@ describe("Maps.vue", () =>
 		})
 	})
 
-	it("updates activeFilters when updateFilters is called", () => 
+	it("updates activeFilters when updateFilters is called", () =>
 	{
 		const wrapper = createWrapper()
 		expect(wrapper.vm.activeFilters).toEqual([])
@@ -133,21 +133,21 @@ describe("Maps.vue", () =>
 		wrapper.vm.updateFilters([
 			{
 				id: 1,
-				title: "Filter A", 
+				title: "Filter A",
 			},
 		])
 		expect(wrapper.vm.activeFilters).toEqual([
 			{
 				id: 1,
-				title: "Filter A", 
+				title: "Filter A",
 			},
 		])
 	})
 
-	it("reflects active filters in computed shownActivies (filters out items not matching)", () => 
+	it("reflects active filters in computed shownActivies (filters out items not matching)", () =>
 	{
 		const wrapper = createWrapper({
-			data () 
+			data ()
 			{
 				return {
 					activities: {
@@ -157,7 +157,7 @@ describe("Maps.vue", () =>
 							tags: [
 								1,
 							],
-							shown: true, 
+							shown: true,
 						},
 						11: {
 							id: 11,
@@ -165,13 +165,15 @@ describe("Maps.vue", () =>
 							tags: [
 								2,
 							],
-							shown: true, 
+							shown: true,
 						},
 						12: {
 							id: 12,
 							title: "Activity 12",
-							tags: [],
-							shown: true, 
+							tags: [
+								3,
+							],
+							shown: true,
 						},
 					},
 				}
@@ -180,13 +182,14 @@ describe("Maps.vue", () =>
 
 		// Initially, no active filters => all are shown
 		expect(wrapper.vm.shownActivies).toHaveLength(3)
+		console.log(wrapper.vm.shownActivies)
 		expect(wrapper.vm.shownActivies.every((act) => act.shown === true)).toBe(true)
 
 		// Now set a filter with id=1 => only items w/ tag=1 should remain
 		wrapper.vm.updateFilters([
 			{
 				id: 1,
-				title: "Fake Filter", 
+				title: "Fake Filter",
 			},
 		])
 
@@ -199,10 +202,10 @@ describe("Maps.vue", () =>
 		expect(shownItems[0].id).toBe(10)
 	})
 
-	it("shows nothing if an activity has empty tags but there is an active filter", () => 
+	it("shows nothing if an activity has empty tags but there is an active filter", () =>
 	{
 		const wrapper = createWrapper({
-			data () 
+			data ()
 			{
 				return {
 					activities: {
@@ -210,7 +213,7 @@ describe("Maps.vue", () =>
 							id: 10,
 							title: "Activity 10",
 							tags: [],
-							shown: true, 
+							shown: true,
 						},
 					},
 				}
@@ -221,7 +224,7 @@ describe("Maps.vue", () =>
 		wrapper.vm.updateFilters([
 			{
 				id: 1,
-				title: "Fake Filter", 
+				title: "Fake Filter",
 			},
 		])
 		const updated = wrapper.vm.shownActivies
@@ -229,18 +232,20 @@ describe("Maps.vue", () =>
 		expect(shownItems).toHaveLength(0)
 	})
 
-	it("displays all activities if activeFilters is empty", () => 
+	it("displays all activities if activeFilters is empty", () =>
 	{
 		const wrapper = createWrapper({
-			data () 
+			data ()
 			{
 				return {
 					activities: {
 						10: {
 							id: 10,
 							title: "Activity 10",
-							tags: [],
-							shown: true, 
+							tags: [
+								1,
+							],
+							shown: true,
 						},
 						11: {
 							id: 11,
@@ -248,7 +253,7 @@ describe("Maps.vue", () =>
 							tags: [
 								2,
 							],
-							shown: true, 
+							shown: true,
 						},
 					},
 				}
@@ -260,4 +265,3 @@ describe("Maps.vue", () =>
 		expect(wrapper.vm.shownActivies.every((act) => act.shown === true)).toBe(true)
 	})
 })
-
