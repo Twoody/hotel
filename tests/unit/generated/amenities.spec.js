@@ -1,26 +1,63 @@
+// tests/unit/Amenities.spec.js
 import { mount } from "@vue/test-utils"
+import { describe, it, expect, beforeEach } from "vitest"
 import Amenities from "@/views/Amenities.vue"
 
-describe("Amenities.vue", () => 
+// A helper function to mount the Amenities component
+/**
+ *
+ * @param options
+ */
+function createWrapper (options = {})
+{
+	return mount(Amenities, {
+		// We can stub out the child component if needed, especially if
+		// AmenitiesTable makes additional network/store calls we want to avoid here.
+		global: {
+			stubs: {
+				AmenitiesTable: {
+					name: "AmenitiesTable",
+					template: "<div class=\"stubbed-amenities-table\"></div>",
+				},
+			},
+		},
+		...options,
+	})
+}
+
+describe("Amenities.vue", () =>
 {
 	let wrapper
 
-	beforeEach(() => 
+	beforeEach(() =>
 	{
-		wrapper = mount(Amenities)
+		wrapper = createWrapper()
 	})
 
-	it.only("renders the correct markup", () => 
+	it("mounts the component successfully", () =>
 	{
-		expect(wrapper.html()).toContain("<h1>Amenities</h1>")
-		expect(wrapper.html()).toContain("<amenities-table-stub></amenities-table-stub>")
+		expect(wrapper.exists()).toBe(true)
 	})
 
-	// Check if AmenitiesTable component is present
-	it("has a component", () => 
+	it("renders the correct heading", () =>
 	{
-		expect(wrapper.findComponent({
-			name: "AmenitiesTable",
-		})).toBeTruthy()
+		const heading = wrapper.find("h1")
+		expect(heading.exists()).toBe(true)
+		expect(heading.text()).toBe("Amenities")
+	})
+
+	it("contains the amenities-wrapper class", () =>
+	{
+		const container = wrapper.find(".amenities-wrapper")
+		expect(container.exists()).toBe(true)
+	})
+
+	it("renders the AmenitiesTable component", () =>
+	{
+		// We stubbed out AmenitiesTable above as <div class="stubbed-amenities-table" />
+		// so let's check that the stub is present:
+		const tableStub = wrapper.find(".stubbed-amenities-table")
+		expect(tableStub.exists()).toBe(true)
 	})
 })
+
