@@ -260,9 +260,8 @@ describe("Login.vue", () =>
 		expect(errors.passwordConfirm).toBe("Passwords do not match")
 	})
 
-	it("disables login button while logging in", async () => 
+	it("disables login button while logging in", () => 
 	{
-
 		let userState = {
 			isAuthReady: true,
 			isLoggedIn: false,
@@ -273,7 +272,7 @@ describe("Login.vue", () =>
 		})
 
 		const loginButton = wrapper.find(".login-button")
-		expect(loginButton.attributes("disabled")).toBe(true) // button should not be disabled
+		expect(loginButton.element.disabled).toBe(true)
 	})
 
 	it("redirects to the home page after successful login", async () => 
@@ -306,4 +305,3 @@ describe("Login.vue", () =>
 		})
 	})
 })
-
