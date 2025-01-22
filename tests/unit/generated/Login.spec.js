@@ -3,6 +3,7 @@ import { createStore } from "vuex"
 import { createRouter, createWebHistory } from "vue-router"
 import { vi } from "vitest"
 import Login from "@/views/Login.vue"
+import user from "@/store/user"
 
 // Mock Firebase methods
 vi.mock("firebase/auth", () => ({
@@ -21,6 +22,9 @@ vi.mock("@/firebase", () => ({
 const createWrapper = (options = {}) => 
 {
 	const store = createStore({
+		modules: {
+			user: user,	// Register the user module
+		},
 		state: {
 			user: {
 				isAuthReady: false,
@@ -162,7 +166,19 @@ describe("Login.vue", () =>
 
 	it("validates user input and focuses on invalid fields", async () => 
 	{
-		const wrapper = createWrapper()
+		const wrapper = createWrapper({
+			global: {
+				mocks: {
+					$store: {
+						state: {
+							user: {
+								isAuthReady: true, 
+							}, 
+						},
+					},
+				},
+			},
+		})
 
 		wrapper.vm.email = "" // Force it invalid
 		wrapper.vm.password = ""
@@ -178,7 +194,20 @@ describe("Login.vue", () =>
 
 	it("handles login errors gracefully", async () => 
 	{
-		const wrapper = createWrapper()
+		const wrapper = createWrapper({
+			global: {
+				mocks: {
+					$store: {
+						state: {
+							user: {
+								isAuthReady: true, 
+							}, 
+						},
+						commit: vi.fn(),
+					},
+				},
+			},
+		})
 
 		const { signInWithEmailAndPassword, } = await import("firebase/auth")
 		signInWithEmailAndPassword.mockRejectedValueOnce({
@@ -190,6 +219,14 @@ describe("Login.vue", () =>
 
 		await wrapper.vm.login()
 
+		// Ensure the right buttons are showing
+		let loginButton = wrapper.find("[data-testid=\"button-login-text\"]")
+		let registerButton = wrapper.find("[data-testid=\"button-register-text\"]")
+		expect(registerButton.exists()).toBe(false)
+		expect(loginButton.exists()).toBe(true)
+
+		expect(loginButton.isVisible()).toBe(true)
+		expect(loginButton.text()).toBe("Log In")
 		expect(wrapper.vm.loginError).toBe("User not found")
 		expect(wrapper.vm.success).toBe(false)
 	})

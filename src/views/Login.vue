@@ -91,12 +91,14 @@
 							<span
 								v-if="isRegistering"
 								key="isRegistering"
+								data-testid='button-register-text'
 							>
 								Register Email
 							</span>
 							<span
 								v-else
 								key="!isRegistering"
+								data-testid='button-login-text'
 							>
 								Log In
 							</span>
@@ -286,13 +288,14 @@ export default {
 			}
 			catch (error)
 			{
+				let defaultError = "User not found"
 				if (error.code === "auth/user-not-found")
 				{
-					this.loginError = "User not found"
+					this.loginError = defaultError
 				}
 				else
 				{
-					this.loginError = error.code
+					this.loginError = error.code || "User not found"
 				}
 			}
 					
