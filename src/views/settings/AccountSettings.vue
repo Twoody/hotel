@@ -197,7 +197,6 @@
 <script>
 import { updateFirestoreUser } from "@/utils/firestore.js"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import store from "@/store/store.js"
 
 export default {
 	name: "AccountSettings",
@@ -225,7 +224,7 @@ export default {
 	computed: {
 		currentUser ()
 		{
-			return store.state.user.user
+			return this.$store.state.user.user
 		},
 		displayedFormErrors ()
 		{
