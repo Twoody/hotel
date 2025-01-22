@@ -80,7 +80,6 @@
 <script>
 import { collection, query, where, getDocs, doc, deleteDoc } from "firebase/firestore"
 import { db } from "@/firebase"
-import store from "@/store/store"
 import { DateTime } from "luxon"
 
 export default {
@@ -193,7 +192,7 @@ export default {
 			this.isLoading = true
 			try
 			{
-				const currentUser = store.state.user.user
+				const currentUser = this.$store.state.user.user
 				if (!currentUser?.uid)
 				{
 					// If no logged-in user, skip the query
@@ -207,7 +206,7 @@ export default {
 				)
 				const querySnapshot = await getDocs(q)
 				const bookings = []
-				querySnapshot.forEach((docSnap) =>
+				querySnapshot?.forEach((docSnap) =>
 				{
 					const data = docSnap.data()
 					bookings.push({
