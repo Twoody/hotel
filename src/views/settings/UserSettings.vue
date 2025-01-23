@@ -2,13 +2,11 @@
 	<div class="setting-page-wrapper">
 		<h1>Settings</h1>
 
-		<!-- 1) If Firebase Auth is still initializing -->
-		<div v-if="!isAuthReady">
-			<Spinner size="x-large" />
-		</div>
-
 		<!-- 2) If auth is ready, but user is not logged in -->
-		<div v-else-if="isAuthReady && !isLoggedIn">
+		<div
+			v-if="!isLoggedIn"
+			data-testid="user-settings-case-not-logged-in"
+		>
 			Currently not logged in; Please visit
 			<router-link
 				class="nav-item"
@@ -19,7 +17,10 @@
 		</div>
 
 		<!-- 3) If auth is ready, user is logged in -->
-		<div v-else-if="isAuthReady && isLoggedIn">
+		<div
+			v-else-if="isLoggedIn"
+			data-testid="user-settings-tab-navigation"
+		>
 			<div class="settings-tabs-wrapper">
 				<Filters
 					:filters="settingTabs"
@@ -30,17 +31,23 @@
 			<!-- Instead of large v-if blocks, load subcomponents conditionally -->
 			<AccountSettings
 				v-if="activeTab && activeTab.id === 0"
+				data-testid="user-settings-account-settings"
 			/>
 
 			<ProfileSettings
 				v-else-if="activeTab && activeTab.id === 1"
+				data-testid="user-settings-profile-settings"
 			/>
 
 			<PrivacyAndSecuritySettings
 				v-else-if="activeTab && activeTab.id === 2"
+				data-testid="user-settings-security-settings"
 			/>
 
-			<div v-else>
+			<div
+				v-else
+				data-testid="user-settings-unrecgonized-tab"
+			>
 				<!-- TODO: Red warning/danger design -->
 				<p>
 					Please pick a section from the tabs above.
@@ -53,7 +60,6 @@
 <script>
 import { logEvent } from "firebase/analytics"
 import { firebaseAnalyics } from "@/firebase"
-import store from "@/store/store.js"
 
 // Import your new sub-components
 import AccountSettings from "@/views/settings/AccountSettings.vue"
@@ -89,23 +95,13 @@ export default {
 
 	computed: {
 		/**
-		 * Checks whether the authentication state has finished checking.
-		 *
-		 * @returns {boolean} True if auth state is ready, false otherwise.
-		 */
-		isAuthReady ()
-		{
-			return store.state.user.isAuthReady
-		},
-
-		/**
 		 * Checks whether the user is logged in.
 		 *
 		 * @returns {boolean} True if the user is logged in, false otherwise.
 		 */
 		isLoggedIn ()
 		{
-			return store.state.user.isLoggedIn
+			return this.$store.state.user.isLoggedIn
 		},
 
 		/**
