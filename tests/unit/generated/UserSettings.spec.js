@@ -3,14 +3,44 @@ import UserSettings from "@/views/settings/UserSettings.vue"
 import store from "@/store/store.js"
 import { createRouter, createWebHistory } from "vue-router"
 
+vi.mock("firebase/analytics", () =>
+{
+	return {
+		// Provide mocked versions of what your code might call
+		getAnalytics: vi.fn(),
+	}
+})
+
 // create new router instance for testing purposes
 const router = createRouter({
 	history: createWebHistory(),
-	routes: [],
+	routes: [
+		{
+			path: "/",
+			name: "Home",
+			component: {
+				template: "<div>Home</div>",
+			},
+		},
+		{
+			path: "/login",
+			name: "Login",
+			component: {
+				template: "<div>Login</div>",
+			},
+		},
+		{
+			path: "/settings",
+			name: "Settings",
+			component: {
+				template: "<div>Settings</div>",
+			},
+		},
+	],
 })
 
 // helper function to create wrapper
-const createWrapper = () => 
+const createWrapper = () =>
 {
 	return mount(UserSettings, {
 		global: {
@@ -18,13 +48,63 @@ const createWrapper = () =>
 				store,
 				router,
 			],
+			stubs: {
+				Spinner: {
+					name: "Spinner",
+					template: "<div class=\"spinner-stub\">Spinner</div>",
+				},
+				Filters: {
+					name: "Filters",
+					template: `<div>
+						<button v-for="filter in filters" :key="filter.id" @click="$emit('update', filter.id)">
+							{{ filter.title }}
+						</button>
+					</div>`,
+					props: [
+						"filters",
+						"inactive",
+					],
+				},
+				MyButton: {
+					name: "MyButton",
+					template: `
+						<button
+							v-bind="$attrs"
+							:class="$attrs.class"
+							:disabled="$attrs.disabled"
+						>
+							<slot />
+						</button>
+					`,
+				},
+
+				Validatable: {
+					name: "Validatable",
+					template: "<div class='validatable-stub'><slot /></div>",
+				},
+
+				LoadingBar: {
+					name: "LoadingBar",
+					template: "<div class=\"loadingbar-stub\">Loading Bar</div>",
+				},
+				FontAwesomeIcon: {
+					name: "FontAwesomeIcon",
+					props: [
+						"icon",
+						"class",
+					],
+					template: "<span class=\"font-awesome-icon\" :class=\"$props.class\" />",
+				},
+
+			},
+
 		},
 	})
 }
 
-describe("UserSettings.vue", () => 
+describe("UserSettings.vue", () =>
 {
-	it("renders a spinner when authentication process is ongoing", () => 
+	it("renders a spinner when authentication process is ongoing", () =>
 	{
 		// prepare
 		store.state.user.isAuthReady = false
@@ -35,7 +115,7 @@ describe("UserSettings.vue", () =>
 		expect(spinner.exists()).toBe(true)
 	})
 
-	it("displays login reminder when auth is ready but user not logged in", () => 
+	it("displays login reminder when auth is ready but user not logged in", () =>
 	{
 		// prepare
 		store.state.user.isAuthReady = true
@@ -47,7 +127,7 @@ describe("UserSettings.vue", () =>
 		expect(reminder).toContain("Currently not logged in; Please visit the login page")
 	})
 
-	it("renders the User Settings tabs when user is authenticated", () => 
+	it("renders the User Settings tabs when user is authenticated", () =>
 	{
 		// prepare
 		store.state.user.isAuthReady = true
@@ -59,7 +139,7 @@ describe("UserSettings.vue", () =>
 		expect(tabs.exists()).toBe(true)
 	})
 
-	it("sets the active tab based on route query", async () => 
+	it("sets the active tab based on route query", async () =>
 	{
 		// prepare
 		store.state.user.isAuthReady = true
@@ -67,8 +147,8 @@ describe("UserSettings.vue", () =>
 		await router.push({
 			path: "/",
 			query: {
-				"active-tab": 1, 
-			}, 
+				"active-tab": 1,
+			},
 		})
 		const wrapper = createWrapper()
 		// execute
@@ -77,7 +157,7 @@ describe("UserSettings.vue", () =>
 		expect(wrapper.vm.activeTab.id).toBe(1)
 	})
 
-	it("logs a firebase event on tab navigation", () => 
+	it("logs a firebase event on tab navigation", () =>
 	{
 		// prepare
 		store.state.user.isAuthReady = true
@@ -91,7 +171,7 @@ describe("UserSettings.vue", () =>
 		wrapper.vm.handleTabNavigation(2)
 		// verify
 		expect(logEvent).toHaveBeenCalledWith(firebaseAnalyics, "settings_tab_navigation", {
-			value: "Privacy + Security", 
+			value: "Privacy + Security",
 		})
 	})
 })
