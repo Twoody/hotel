@@ -3,6 +3,7 @@ import { createStore } from "vuex"
 import { createRouter, createWebHistory } from "vue-router"
 import { vi } from "vitest"
 import ManageBooking from "@/views/bookings/ManageBooking.vue"
+import { getDoc } from "firebase/firestore"
 
 // Mock Firebase methods
 vi.mock("firebase/firestore", () => ({
@@ -25,7 +26,7 @@ vi.mock("@/firebase", () => ({
 }))
 
 // Helper function to create wrapper
-const createWrapper = (options = {}) =>
+const createWrapper = ({ userState = {}, ...options } = {}) =>
 {
 	const store = createStore({
 		state: {
@@ -41,13 +42,27 @@ const createWrapper = (options = {}) =>
 		actions: {},
 	})
 
+	// Merge your userState overrides
+	//		This could be a simple Object.assign(...) or a deeper merge
+	Object.assign(store.state.user, userState)
+
 	const router = createRouter({
 		history: createWebHistory(),
 		routes: [
-			{
+				 {
+				path: "/",
+				name: "home",
+				component: {
+					template: "<div>Home Page</div>",
+				},
+				 },
+				 {
 				path: "/booking/:id",
 				name: "Booking",
-			},
+				component: {
+					template: "<div>Booking page</div>",
+				},
+				 },
 		],
 	})
 
@@ -78,6 +93,13 @@ const createWrapper = (options = {}) =>
 					template: "<div>UnauthorizedBooking</div>",
 				},
 			},
+			mocks: {
+				$route: {
+					params: {
+						id: "TEST_ID",
+					},
+				},
+			},
 		},
 		...options,
 	})
@@ -85,85 +107,12 @@ const createWrapper = (options = {}) =>
 
 describe("ManageBooking.vue", () =>
 {
-	it("shows a spinner while auth or booking is loading", () =>
+	beforeEach(() =>
 	{
-		const wrapper = createWrapper({
-			global: {
-				mocks: {
-					$store: {
-						state: {
-							user: {
-								isAuthReady: false,
-							},
-						},
-					},
-				},
-			},
-		})
-		expect(wrapper.findComponent({
-			name: "Spinner",
-		}).exists()).toBe(true)
-	})
+		// Clear mocks before each test
+		vi.resetAllMocks()
 
-	it("shows the BookingNotLoggedIn component if the user is not logged in", () =>
-	{
-		const wrapper = createWrapper({
-			global: {
-				mocks: {
-					$store: {
-						state: {
-							user: {
-								isLoggedIn: false,
-							},
-						},
-					},
-				},
-			},
-		})
-		expect(wrapper.findComponent({
-			name: "BookingNotLoggedIn",
-		}).exists()).toBe(true)
-	})
-
-	it("shows the BookingNotFound component if no booking is found", async () =>
-	{
-		const { getDoc, } = await import("firebase/firestore")
-		getDoc.mockResolvedValueOnce({
-			exists: () => false,
-		})
-
-		const wrapper = createWrapper()
-		await wrapper.vm.fetchBooking()
-
-		expect(wrapper.vm.bookingNotFound).toBe(true)
-		expect(wrapper.findComponent({
-			name: "BookingNotFound",
-		}).exists()).toBe(true)
-	})
-
-	it("shows the UnauthorizedBooking component if booking belongs to another user", async () =>
-	{
-		const { getDoc, } = await import("firebase/firestore")
-		getDoc.mockResolvedValueOnce({
-			exists: () => true,
-			data: () => ({
-				guestID: "differentUserId",
-			}),
-		})
-
-		const wrapper = createWrapper()
-		await wrapper.vm.fetchBooking()
-
-		expect(wrapper.vm.bookingBelongsToUser).toBe(false)
-		expect(wrapper.findComponent({
-			name: "UnauthorizedBooking",
-		}).exists()).toBe(true)
-	})
-
-	it("shows the CompletedBooking component if the booking is complete", async () =>
-	{
-		const { getDoc, } = await import("firebase/firestore")
-		getDoc.mockResolvedValueOnce({
+		getDoc.mockResolvedValue({
 			exists: () => true,
 			data: () => ({
 				guestID: "testUserId",
@@ -171,42 +120,176 @@ describe("ManageBooking.vue", () =>
 			}),
 		})
 
-		const wrapper = createWrapper()
+	})
+
+	it("shows a spinner while auth or booking is loading", async () =>
+	{
+		let userState = {
+			isAuthReady: false,
+			isLoggedIn: false,
+			isLoggingIn: false,
+			user: null,
+		}
+		const wrapper = createWrapper({
+			userState,
+		})
+
+		expect(wrapper.findComponent({
+			name: "Spinner",
+		}).exists()).toBe(true)
+	})
+
+	it("shows the BookingNotLoggedIn component if the user is not logged in", async () =>
+	{
+		let userState = {
+			isAuthReady: true,
+			isLoggedIn: false,
+			isLoggingIn: false,
+		}
+		const wrapper = createWrapper({
+			userState,
+		})
+
 		await wrapper.vm.fetchBooking()
 
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-loading\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-booking-404\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-not-right-user\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-good-booking\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-completed\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-logged-in\"]").exists()).toBe(true)
+	})
+
+	it("shows the BookingNotFound component if no booking is found", async () =>
+	{
+		getDoc.mockResolvedValueOnce({
+			exists: () => false,
+		})
+
+		let userState = {
+			isAuthReady: true,
+			isLoggedIn: true,
+			isLoggingIn: false,
+			user: null,
+		}
+		const wrapper = createWrapper({
+			userState,
+		})
+
+		await wrapper.vm.fetchBooking()
+
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-loading\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-logged-in\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-booking-404\"]").exists()).toBe(true)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-not-right-user\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-good-booking\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-completed\"]").exists()).toBe(false)
+	})
+
+	it("shows the UnauthorizedBooking component if booking belongs to another user", async () =>
+	{
+		getDoc.mockResolvedValueOnce({
+			exists: () => true,
+			data: () => ({
+				guestID: "differentUserId",
+			}),
+		})
+
+		let userState = {
+			isAuthReady: true,
+			isLoggedIn: true,
+			isLoggingIn: false,
+			user: null,
+		}
+		const wrapper = createWrapper({
+			userState,
+		})
+
+		await wrapper.vm.fetchBooking()
+		expect(wrapper.vm.bookingBelongsToUser).toBe(false)
+
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-loading\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-logged-in\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-booking-404\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-good-booking\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-completed\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-not-right-user\"]").exists()).toBe(true)
+	})
+
+	it("shows the CompletedBooking component if the booking is complete", async () =>
+	{
+		let userState = {
+			isAuthReady: true,
+			isLoggedIn: true,
+			isLoggingIn: false,
+		}
+		const wrapper = createWrapper({
+			userState,
+		})
+
+		await wrapper.vm.fetchBooking()
+		await wrapper.vm.$nextTick()
 		expect(wrapper.vm.bookingCompleted).toBe(true)
-		expect(wrapper.findComponent({
-			name: "CompletedBooking",
-		}).exists()).toBe(true)
+
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-loading\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-logged-in\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-booking-404\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-not-right-user\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-completed\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-good-booking\"]").exists()).toBe(true)
 	})
 
 	it("shows the FinalizeBooking component if the booking is not complete", async () =>
 	{
-		const { getDoc, } = await import("firebase/firestore")
-		getDoc.mockResolvedValueOnce({
+		// Overwrite the mock returned in beforeEach
+		getDoc.mockResolvedValue({
 			exists: () => true,
 			data: () => ({
 				guestID: "testUserId",
+				paidAt: null,
 			}),
 		})
 
-		const wrapper = createWrapper()
-		await wrapper.vm.fetchBooking()
+		let userState = {
+			isAuthReady: true,
+			isLoggedIn: true,
+			isLoggingIn: false,
+		}
+		const wrapper = createWrapper({
+			userState,
+		})
 
+		await wrapper.vm.fetchBooking()
+		await wrapper.vm.$nextTick()
+		expect(wrapper.vm.bookingNotFound).toBe(false)
+		expect(wrapper.vm.booking.guestID).toBe("testUserId")
+		expect(wrapper.vm.booking.paidAt).toBe(null)
 		expect(wrapper.vm.bookingCompleted).toBe(false)
-		expect(wrapper.findComponent({
-			name: "FinalizeBooking",
-		}).exists()).toBe(true)
+
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-loading\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-logged-in\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-booking-404\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-not-right-user\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-good-booking\"]").exists()).toBe(false)
+		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-completed\"]").exists()).toBe(true)
 	})
 
 	it("handles errors during booking fetch", async () =>
 	{
 		const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() =>
 		{})
-		const { getDoc, } = await import("firebase/firestore")
 		getDoc.mockRejectedValueOnce(new Error("Firestore error"))
 
-		const wrapper = createWrapper()
+		let userState = {
+			isAuthReady: true,
+			isLoggedIn: true,
+			isLoggingIn: false,
+			user: null,
+		}
+		const wrapper = createWrapper({
+			userState,
+		})
+		await wrapper.vm.$nextTick()
 		await wrapper.vm.fetchBooking()
 
 		expect(consoleErrorSpy).toHaveBeenCalledWith("Error fetching booking:", new Error("Firestore error"))
@@ -217,7 +300,16 @@ describe("ManageBooking.vue", () =>
 
 	it("tracks loading state during booking fetch", async () =>
 	{
-		const wrapper = createWrapper()
+		let userState = {
+			isAuthReady: true,
+			isLoggedIn: true,
+			isLoggingIn: false,
+			user: null,
+		}
+		const wrapper = createWrapper({
+			userState,
+		})
+		await wrapper.vm.$nextTick()
 
 		expect(wrapper.vm.isLoadingBooking).toBe(false)
 		wrapper.vm.fetchBooking()

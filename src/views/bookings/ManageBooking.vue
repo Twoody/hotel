@@ -3,34 +3,52 @@
 		<!-- 1 & 2 & 3)
 			If auth is not ready, user is still logging in, or the booking is loading: Show a spinner
 		-->
-		<div v-if="!isAuthReady || isLoggingIn || isLoadingBooking">
+		<div
+			v-if="!isAuthReady || isLoggingIn || isLoadingBooking"
+			data-testid="conditional-view-manager-loading"
+		>
 			<Spinner size="x-large" />
 		</div>
 
 		<!-- 4) If auth is ready, but user is not logged in -->
-		<div v-else-if="isAuthReady && !isLoggedIn">
+		<div
+			v-else-if="isAuthReady && !isLoggedIn"
+			data-testid="conditional-view-manager-needs-logged-in"
+		>
 			<BookingNotLoggedIn />
 		</div>
 
 		<!-- 5) If booking was not found in Firestore -->
-		<div v-else-if="bookingNotFound">
+		<div
+			v-else-if="bookingNotFound"
+			data-testid="conditional-view-manager-booking-404"
+		>
 			<BookingNotFound />
 		</div>
 
 		<!-- 6) If booking is found, but belongs to another user -->
-		<div v-else-if="!bookingBelongsToUser">
+		<div
+			v-else-if="!bookingBelongsToUser"
+			data-testid="conditional-view-manager-not-right-user"
+		>
 			<UnauthorizedBooking />
 		</div>
 
 		<!-- 7) If booking is complete (fully paid, etc.) -->
-		<div v-else-if="bookingCompleted">
+		<div
+			v-else-if="bookingCompleted"
+			data-testid="conditional-view-manager-good-booking"
+		>
 			<CompletedBooking
 				:booking="booking"
 			/>
 		</div>
 
 		<!-- 8) If booking belongs to the user but is not finalized/paid -->
-		<div v-else>
+		<div
+			v-else
+			data-testid="conditional-view-manager-needs-completed"
+		>
 			<FinalizeBooking
 				:booking="booking"
 			/>
@@ -41,7 +59,6 @@
 <script>
 import { doc, getDoc } from "firebase/firestore"
 import { db } from "@/firebase"
-import store from "@/store/store"
 
 // Example placeholders for each state
 import BookingNotLoggedIn from "@/views/bookings/BookingNotLoggedIn.vue"
@@ -88,24 +105,30 @@ export default {
 
 		currentUser ()
 		{
-			return store.state.user.user
+			if (!this.$store?.state?.user?.user)
+			{
+				return {
+					invalid: true,
+				}
+			}
+			return this.$store.state.user.user
 		},
 
 		/** @returns {boolean} Track auth states from store */
 		isAuthReady ()
 		{
-			return store.state.user.isAuthReady
+			return this.$store.state.user.isAuthReady
 		},
 
 		isLoggedIn ()
 		{
-			return store.state.user.isLoggedIn
+			return this.$store.state.user.isLoggedIn
 		},
 
 		/** @returns {boolean} Track logging in state from store */
 		isLoggingIn ()
 		{
-			return store.state.user.isLoggingIn
+			return this.$store.state.user.isLoggingIn
 		},
 	},
 
@@ -128,7 +151,7 @@ export default {
 				const bookingDocRef = doc(db, "bookings", bookingId)
 				const bookingSnap = await getDoc(bookingDocRef)
 
-				if (!bookingSnap.exists())
+				if (!bookingSnap?.exists())
 				{
 					this.bookingNotFound = true
 					return
