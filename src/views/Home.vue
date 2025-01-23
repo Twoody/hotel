@@ -29,7 +29,6 @@
 
 <script>
 import { collection, doc, setDoc, serverTimestamp } from "firebase/firestore"
-import store from "@/store/store.js"
 import { db } from "@/firebase" // <-- import your firebase db instance
 
 import AccessibilityAccordion from "@/components/accordions/questions/AccessibilityAccordion"
@@ -128,7 +127,7 @@ export default {
 	computed: {
 		currentUser ()
 		{
-			return store.state.user.user
+			return this.$store.state.user.user
 		},
 
 		/**
@@ -136,7 +135,7 @@ export default {
 		 */
 		isAuthReady ()
 		{
-			return store.state.user.isAuthReady
+			return this.$store.state.user.isAuthReady
 		},
 	},
 }
