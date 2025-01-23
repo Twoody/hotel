@@ -43,6 +43,7 @@ const createWrapper = (options = {}) =>
 		global: {
 			stubs: {
 				Filters: {
+					name: "Filters",
 					template: `<div>
 						<button v-for="filter in filters" :key="filter.id" @click="$emit('update', filter.id)">
 							{{ filter.title }}
@@ -127,6 +128,7 @@ describe("MapFilters.vue", () =>
 				active: false, 
 			},
 		}
+		expect(wrapper.vm.filtersActive?.length).not.toBeTruthy()
 
 		await wrapper.setData({
 			filtersAll: {
@@ -142,9 +144,11 @@ describe("MapFilters.vue", () =>
 				},
 			},
 		})
+		await wrapper.vm.$nextTick()
 
+		expect(wrapper.vm.filtersActive?.length).toBeTruthy()
 		expect(wrapper.emitted()["updated-active"]).toBeTruthy()
-		expect(wrapper.emitted()["updated-active"][0]).toEqual([
+		expect(wrapper.emitted()["updated-active"][1]).toEqual([
 			[
 				{
 					id: 1,
