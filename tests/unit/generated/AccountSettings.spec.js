@@ -71,12 +71,15 @@ function createWrapper (options = {})
 			stubs: {
 				// We can stub out FontAwesomeIcon, Validatable, MyButton, etc. to keep the test more isolated
 				FontAwesomeIcon: {
+					name: "FontAwesomeIcon",
 					template: "<span class='font-awesome-icon' />",
 				},
 				Validatable: {
+					name: "Validatable",
 					template: "<div class='validatable-stub'><slot /></div>",
 				},
 				MyButton: {
+					name: "MyButton",
 					// Forward attributes so :disabled, :in-progress, etc. appear on the button
 					template: `
 						<button
