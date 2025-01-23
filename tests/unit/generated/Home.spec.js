@@ -3,21 +3,41 @@ import Home from "@/views/Home.vue"
 import { createRouter, createWebHistory } from "vue-router"
 import { vi } from "vitest"
 import { createStore } from "vuex"
+import { setDoc } from "firebase/firestore"
 
-// Mock Firebase methods
+// 1) Mock Firestore, so calls like `collection(db, "bookings")` won't throw
+vi.mock("firebase/firestore", () => ({
+	collection: vi.fn(() => "mockCollection"),
+	doc: vi.fn(() => "mockDocRef"),
+	setDoc: vi.fn(),
+	serverTimestamp: vi.fn(() => "mockTimestamp"),
+}))
+
+// 2) Also mock your firebase.js to something like { db: "mockDB" }
 vi.mock("@/firebase.js", () => ({
-	db: {},
+	db: "mockDB",
 }))
 
 // Helper function to create wrapper
-const createWrapper = (options = {}) => 
+const createWrapper = (options = {}) =>
 {
 	const router = createRouter({
 		history: createWebHistory(),
 		routes: [
 			{
+				path: "/",
+				name: "home",
+				component: {
+					template: "<div>Home Page</div>", 
+				},
+			},
+
+			{
 				path: "/manageBooking",
-				name: "manageBooking", 
+				name: "manageBooking",
+				component: {
+					template: "<div>ManageBooking Stub</div>", 
+				},
 			},
 		],
 	})
@@ -26,7 +46,7 @@ const createWrapper = (options = {}) =>
 		state: {
 			user: {
 				user: {
-					uid: "testUser123", 
+					uid: "testUser123",
 				},
 				isAuthReady: true,
 			},
@@ -47,22 +67,22 @@ const createWrapper = (options = {}) =>
 					template: "<div>AvailabilitySearch</div>",
 				},
 				AccessibilityAccordion: {
-					template: "<div>AccessibilityAccordion</div>", 
+					template: "<div>AccessibilityAccordion</div>",
 				},
 				CheckInAndOutAccordion: {
-					template: "<div>CheckInAndOutAccordion</div>", 
+					template: "<div>CheckInAndOutAccordion</div>",
 				},
 				GuestSafetyAccordion: {
-					template: "<div>GuestSafetyAccordion</div>", 
+					template: "<div>GuestSafetyAccordion</div>",
 				},
 				ParkingAccordion: {
-					template: "<div>ParkingAccordion</div>", 
+					template: "<div>ParkingAccordion</div>",
 				},
 				TrashAccordion: {
-					template: "<div>TrashAccordion</div>", 
+					template: "<div>TrashAccordion</div>",
 				},
 				WifiAccordion: {
-					template: "<div>WifiAccordion</div>", 
+					template: "<div>WifiAccordion</div>",
 				},
 			},
 		},
@@ -70,9 +90,9 @@ const createWrapper = (options = {}) =>
 	})
 }
 
-describe("Home.vue", () => 
+describe("Home.vue", () =>
 {
-	it("renders the main wrapper and subcomponents", () => 
+	it("renders the main wrapper and subcomponents", () =>
 	{
 		const wrapper = createWrapper()
 		expect(wrapper.classes()).toContain("home-wrapper")
@@ -80,7 +100,7 @@ describe("Home.vue", () =>
 		expect(wrapper.find(".accordion-sections").exists()).toBe(true)
 	})
 
-	it("renders the booking section with AvailabilitySearch", () => 
+	it("renders the booking section with AvailabilitySearch", () =>
 	{
 		const wrapper = createWrapper()
 		const bookingSection = wrapper.find(".booking-section")
@@ -88,7 +108,7 @@ describe("Home.vue", () =>
 		expect(bookingSection.text()).toContain("AvailabilitySearch")
 	})
 
-	it("renders the accordion sections", () => 
+	it("renders the accordion sections", () =>
 	{
 		const wrapper = createWrapper()
 		const accordionSection = wrapper.find(".accordion-sections")
@@ -101,30 +121,30 @@ describe("Home.vue", () =>
 		expect(accordionSection.text()).toContain("WifiAccordion")
 	})
 
-	it("calls processBookingRequest on booking-request event", async () => 
+	it("calls processBookingRequest on booking-request event", async () =>
 	{
 		const processBookingRequest = vi.spyOn(Home.methods, "processBookingRequest")
 		const wrapper = createWrapper()
 		const searchBar = await wrapper.findComponent({
-			name: "AvailabilitySearch", 
+			name: "AvailabilitySearch",
 		})
 		await searchBar.vm.$emit("booking-request", {
 			startDate: "2023-01-01",
-			endDate: "2023-01-02", 
+			endDate: "2023-01-02",
 		})
 		expect(processBookingRequest).toHaveBeenCalledWith({
 			startDate: "2023-01-01",
-			endDate: "2023-01-02", 
+			endDate: "2023-01-02",
 		})
 	})
 
-	it("handles isProcessing state to prevent duplicate booking requests", async () => 
+	it("handles isProcessing state to prevent duplicate booking requests", async () =>
 	{
 		const wrapper = createWrapper()
 		const instance = wrapper.vm
 
 		expect(instance.isProcessing).toBe(false)
-		instance.processBookingRequest = vi.fn(async () => 
+		instance.processBookingRequest = vi.fn(async () =>
 		{
 			instance.isProcessing = true
 			await new Promise((resolve) => setTimeout(resolve, 100))
@@ -138,7 +158,7 @@ describe("Home.vue", () =>
 		expect(instance.processBookingRequest).toHaveBeenCalledTimes(2)
 	})
 
-	it("redirects to manageBooking after booking creation", async () => 
+	it("redirects to manageBooking after booking creation", async () =>
 	{
 		const wrapper = createWrapper()
 		const router = wrapper.vm.$router
@@ -147,40 +167,47 @@ describe("Home.vue", () =>
 
 		await instance.processBookingRequest({
 			startDate: "2023-01-01",
-			endDate: "2023-01-02", 
+			endDate: "2023-01-02",
 		})
 		expect(pushSpy).toHaveBeenCalledWith({
 			name: "manageBooking",
 			params: {
-				id: undefined, 
+				id: undefined,
 			}, // `id` is undefined here due to mocked Firestore
 		})
 	})
 
-	it("displays the correct state for auth readiness", () => 
+	it("displays the correct state for auth readiness", () =>
 	{
 		const wrapper = createWrapper()
 		expect(wrapper.vm.isAuthReady).toBe(true)
 	})
 
-	it("handles errors during booking creation gracefully", async () => 
+	it("handles errors during booking creation gracefully", async () =>
 	{
 		const wrapper = createWrapper()
 		const instance = wrapper.vm
 		const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => 
 		{})
 
-		instance.processBookingRequest = vi.fn(async () => 
-		{
-			throw new Error("Firestore error")
-		})
+		// Force setDoc to throw an error when called
+		setDoc.mockRejectedValueOnce(new Error("Firestore error"))
 
+		// Now call the real processBookingRequest
 		await instance.processBookingRequest({
 			startDate: "2023-01-01",
-			endDate: "2023-01-02", 
+			endDate: "2023-01-02",
 		})
-		expect(consoleErrorSpy).toHaveBeenCalledWith("Error creating booking document: ", new Error("Firestore error"))
+
+		// Because the real method uses try/catch, the error won't bubble up
+		// But console.error is called with that error.
+		expect(consoleErrorSpy).toHaveBeenCalledWith(
+			"Error creating booking document: ",
+			expect.any(Error)
+		)
+
 		consoleErrorSpy.mockRestore()
+
 	})
 })
 
