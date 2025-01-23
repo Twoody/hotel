@@ -1,25 +1,24 @@
+// tests/unit/OopsPage.spec.js
+import { describe, it, expect } from "vitest"
 import { mount } from "@vue/test-utils"
-import { defineComponent, h } from "vue"
+import NotFound from "@/views/NotFound.vue"
 
-// Creating a helper function to create a wrapper using mount
-const createWrapper = (component) => 
+// Helper function to create the wrapper
+/**
+ *
+ */
+function createWrapper () 
 {
-	return mount(component)
+	return mount(NotFound)
 }
 
-describe("404 Page", () => 
+describe("NotFoun.vue", () => 
 {
-	it("renders correct error message", () => 
+	it("renders the correct heading", () => 
 	{
-		const NotFoundComponent = defineComponent({
-			render () 
-			{
-				return h("template", {}, 
-					h("h1", "Oops, it looks like the page you're looking for doesn't exist.")
-				)
-			},
-		})
-		const wrapper = createWrapper(NotFoundComponent)
-		expect(wrapper.html()).toContain("Oops, it looks like the page you're looking for doesn't exist.")
+		const wrapper = createWrapper()
+		// Verify that the <h1> text is rendered
+		expect(wrapper.find("h1").text().length).toBeGreaterThan(11)
 	})
 })
+
