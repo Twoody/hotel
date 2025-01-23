@@ -43,6 +43,7 @@ const createWrapper = (options = {}) =>
 			],
 			stubs: {
 				AvailabilitySearch: {
+					name: "AvailabilitySearch",
 					template: "<div>AvailabilitySearch</div>",
 				},
 				AccessibilityAccordion: {
@@ -104,9 +105,10 @@ describe("Home.vue", () =>
 	{
 		const processBookingRequest = vi.spyOn(Home.methods, "processBookingRequest")
 		const wrapper = createWrapper()
-		await wrapper.findComponent({
+		const searchBar = await wrapper.findComponent({
 			name: "AvailabilitySearch", 
-		}).vm.$emit("booking-request", {
+		})
+		await searchBar.vm.$emit("booking-request", {
 			startDate: "2023-01-01",
 			endDate: "2023-01-02", 
 		})
