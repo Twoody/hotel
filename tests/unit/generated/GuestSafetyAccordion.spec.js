@@ -15,11 +15,19 @@ function createWrapper ()
 				{
 					QuestionAccordion:
 					{
+						name: "QuestionAccordion",
+						props: [
+							"hasNested",
+						],
 						template: `
-							<div class="accordion-section">
-								<div><slot name="title"></slot></div>
-								<div><slot name="content"></slot></div>
-							</div>
+							<section class="accordion-section">
+								<header class="title-wrappper">
+									<slot name="title" />
+								</header>
+								<div class="content-slot">
+									<slot name="content" />
+								</div>
+							</section>
 						`,
 					},
 				},
@@ -35,7 +43,7 @@ describe("GuestSafetyQuestionAccordion", () =>
 	it("Has a title of \"Guest Safety\"", async () => 
 	{
 		wrapper = createWrapper()
-		const titleElement = wrapper.find(".accordion-section > div:first-child")
+		const titleElement = wrapper.find(".accordion-section > header:first-child")
 
 		expect(titleElement.exists()).toBe(true)
 		expect(titleElement.text()).toContain("Guest Safety")
