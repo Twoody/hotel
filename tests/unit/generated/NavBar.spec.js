@@ -12,7 +12,7 @@ const testUser = {
 }
 const pushMock = vi.fn()
 
-vi.mock("firebase/analytics", () => 
+vi.mock("firebase/analytics", () =>
 {
 	return {
 		// Provide mocked versions of what your code might call
@@ -59,42 +59,42 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 				name: "Home",
 				component: {
 					template: "<div>Home</div>",
-				}, // fix the router warning
+				},
 			},
 			{
 				path: "/about",
 				name: "About",
 				component: {
 					template: "<div>About</div>",
-				}, // fix the router warning
+				},
 			},
 			{
 				path: "/maps",
 				name: "Maps",
 				component: {
 					template: "<div>Maps</div>",
-				}, // fix the router warning
+				},
 			},
 			{
 				path: "/amenities",
 				name: "Amenities",
 				component: {
 					template: "<div>Amenities</div>",
-				}, // fix the router warning
+				},
 			},
 			{
 				path: "/login",
 				name: "Login",
 				component: {
-					template: "<div>Login</div>", 
-				}, 
+					template: "<div>Login</div>",
+				},
 			},
 			{
 				path: "/settings",
 				name: "Settings",
 				component: {
-					template: "<div>Settings</div>", 
-				}, 
+					template: "<div>Settings</div>",
+				},
 			},
 		],
 	})
@@ -103,40 +103,39 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 	return mount(
 		NavBar,
 		{
-		 global: {
+			global: {
 				plugins: [
 					store,
 					router,
 				],
-			 stubs: {
+				stubs: {
 					LoadingBar: {
-				 name: "LoadingBar",
-				 template: "<div class=\"loadingbar-stub\">Loading Bar</div>",
+						name: "LoadingBar",
+						template: "<div class=\"loadingbar-stub\">Loading Bar</div>",
 					},
 					FontAwesomeIcon: {
-				 name: "FontAwesomeIcon",
-				 props: [
+						name: "FontAwesomeIcon",
+						props: [
 							"icon",
 							"class",
 						],
-				 template: "<span class=\"font-awesome-icon\" :class=\"$props.class\" />",
+						template: "<span class=\"font-awesome-icon\" :class=\"$props.class\" />",
 					},
-
-			 },
-		 },
-	 }
+				},
+			},
+		}
 	)
 }
 
-describe("NavBar.vue", () => 
+describe("NavBar.vue", () =>
 {
-	beforeEach(() => 
+	beforeEach(() =>
 	{
 		// Clear all mocks to avoid cross-test pollution
 		vi.clearAllMocks()
 	})
 
-	it("shows main nav links (Home, About, Maps, Amenities) by default", async () => 
+	it("shows main nav links (Home, About, Maps, Amenities) by default", async () =>
 	{
 		let userState = {
 			isLoggedIn: false,
@@ -158,7 +157,7 @@ describe("NavBar.vue", () =>
 		expect(links[3].text()).toBe("Amenities")
 	})
 
-	it("shows the 'Login' link if not logged it", async () => 
+	it("shows the 'Login' link if not logged it", async () =>
 	{
 		let userState = {
 			isLoggedIn: false,
@@ -177,7 +176,7 @@ describe("NavBar.vue", () =>
 		expect(links[4].text()).toBe("Login")
 	})
 
-	it("shows user icon if user is logged in, and clicking it sends to settings", async () => 
+	it("shows user icon if user is logged in, and clicking it sends to settings", async () =>
 	{
 		let userState = {
 			isLoggedIn: true,
@@ -204,7 +203,7 @@ describe("NavBar.vue", () =>
 
 	})
 
-	it("shows a 'guest' user-items section if auth is ready but user not logged in", () => 
+	it("shows a 'guest' user-items section if auth is ready but user not logged in", () =>
 	{
 		let userState = {
 			isAuthReady: true,
@@ -219,7 +218,7 @@ describe("NavBar.vue", () =>
 		expect(guestItems.exists()).toBe(true)
 	})
 
-	it("computes userInitials correctly (not used in template but tested for coverage)", async () => 
+	it("computes userInitials correctly (not used in template but tested for coverage)", async () =>
 	{
 		let userState = {
 			isAuthReady: true,
@@ -239,7 +238,7 @@ describe("NavBar.vue", () =>
 		expect(wrapper.vm.userInitials).toBe("AW")
 	})
 
-	it("falls back to '-' if first/last name is missing", async () => 
+	it("falls back to '-' if first/last name is missing", async () =>
 	{
 		let userState = {
 			isAuthReady: true,
