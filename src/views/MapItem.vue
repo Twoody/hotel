@@ -56,7 +56,7 @@ export default {
 	data: function()
 	{
 		return {
-			activites: LOCAL_ACTIVITIES,
+			activities: LOCAL_ACTIVITIES,
 		}
 	},
 
@@ -68,7 +68,7 @@ export default {
 		 */
 		activity ()
 		{
-			return this.activites[this.$route.params.id] || {}
+			return this.activities[this.$route.params.id] || {}
 		},
 
 		/**
