@@ -5,7 +5,8 @@
 		<!-- Reset Password -->
 		<div class="session-management-wrapper">
 			<MyButton
-				class="user-logout"
+				class="user-action"
+				data-testid="button-user-action-password-reset"
 				:in-progress="isLoggingOut"
 				pill
 				disabled
@@ -20,7 +21,8 @@
 		<!-- Logout -->
 		<div class="session-management-wrapper">
 			<MyButton
-				class="user-logout"
+				class="user-action"
+				data-testid="button-user-action-logout"
 				:in-progress="isLoggingOut"
 				pill
 				@click="logout"
@@ -34,7 +36,8 @@
 		<!-- Delete Account -->
 		<div class="session-management-wrapper">
 			<MyButton
-				class="user-logout"
+				class="user-action"
+				data-testid="button-user-action-delete-account"
 				:in-progress="isLoggingOut"
 				pill
 				disabled
@@ -60,7 +63,6 @@
 <script>
 import { signOut } from "firebase/auth"
 import { firebaseAuth } from "@/firebase"
-import store from "@/store/store.js"
 
 export default {
 	name: "PrivacyAndSecuritySettings",
@@ -87,7 +89,7 @@ export default {
 			try 
 			{
 				await signOut(firebaseAuth)
-				store.dispatch("logoutUser")
+				this.$store.dispatch("logoutUser")
 				this.$router.push({
 					path: "/",
 				})

@@ -85,6 +85,7 @@ function createWrapper (options = {})
 						<button
 							v-bind="$attrs"
 							:disabled="$attrs.disabled"
+							@click="$attrs['@click']"
 						>
 							<slot />
 						</button>
