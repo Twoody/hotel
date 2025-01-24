@@ -6,7 +6,6 @@ import user from "@/store/user"
 import { logEvent } from "firebase/analytics"
 import { firebaseAnalyics } from "@/firebase"
 
-
 const testUser = {
 	uid: "del-12",
 	first_name: "foo",
@@ -24,9 +23,8 @@ vi.mock("firebase/analytics", () =>
 	}
 })
 vi.mock("@/firebase", () => ({
-  firebaseAnalyics: {}, // Provide a simple mock object
+	firebaseAnalyics: {}, // Provide a simple mock object
 }))
-
 
 // create new router instance for testing purposes
 // helper function to create wrapper
@@ -81,7 +79,7 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 			},
 		],
 	})
-	router.push = pushMock
+	// router.push = pushMock
 
 	return mount(UserSettings, {
 		global: {
@@ -168,31 +166,30 @@ describe("UserSettings.vue", () =>
 
 	})
 
-	  it("sets the active tab based on route query", async () =>
-  {
-    // 1) Create the wrapper first
-    const wrapper = createWrapper({
-      userState: {
-        isAuthReady: true,
-        isLoggedIn: true,
-      },
-    })
+	it("sets the active tab based on route query", async () =>
+	{
+		// 1) Create the wrapper first
+		const wrapper = createWrapper({
+			userState: {
+				isAuthReady: true,
+				isLoggedIn: true,
+			},
+		})
 
-    // 2) Then push the new route
-    await wrapper.vm.$router.push({
-      path: "/",
-      query: {
-        "active-tab": 1,
-      },
-    })
+		// 2) Then push the new route
+		await wrapper.vm.$router.push({
+			path: "/",
+			query: {
+				"active-tab": 1,
+			},
+		})
 
-    // 3) Wait a tick for watchers or lifecycle
-    await wrapper.vm.$nextTick()
+		// 3) Wait a tick for watchers or lifecycle
+		await wrapper.vm.$nextTick()
 
-    // 4) Verify the active tab
-    expect(wrapper.vm.activeTab.id).toBe(1)
-  })
-
+		// 4) Verify the active tab
+		expect(wrapper.vm.activeTab.id).toBe(1)
+	})
 
 	it("logs a firebase event on tab navigation", () =>
 	{

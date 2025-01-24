@@ -139,6 +139,27 @@ export default {
 			this.availableTabs[0].active = true
 		}
 	},
+	watch:
+	{
+		"$route.query.active-tab":
+		{
+			handler (newTab)
+			{
+				const tabId = parseInt(newTab, 10)
+				if (this.availableTabs[tabId])
+				{
+					this.activeTab = this.availableTabs[tabId]
+					this.availableTabs[tabId].active = true
+				}
+				else
+				{
+					this.activeTab = this.availableTabs[0]
+					this.availableTabs[0].active = true
+				}
+			},
+			immediate: true,
+		},
+	},
 
 	methods: {
 		/**
