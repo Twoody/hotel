@@ -14,6 +14,9 @@ global.console = {
 
 const pushMock = vi.fn()
 
+vi.mock("@/src/store/user.js", () => ({
+	logoutUser: vi.fn(),
+}))
 vi.mock("firebase/analytics", () =>
 {
 	return {
@@ -32,7 +35,7 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 		state: {
 			user: {
 				isAuthReady: false,
-				isLoggedIn: false,
+				isLoggedIn: true,
 				isLoggingIn: false,
 				user: null,
 			},
@@ -45,6 +48,7 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 		},
 		actions: {
 			fetchUser: vi.fn(),
+			updateUserStore: vi.fn(),
 		},
 	})
 	// Merge your userState overrides
@@ -133,28 +137,34 @@ describe("PrivacyAndSecuritySettings.vue", () =>
 	it("calls resetUserPassword when reset password button is clicked", async () => 
 	{
 		const wrapper = createWrapper()
-		const resetPasswordButton = wrapper.findAll("[data-testid=\"button-user-action-password-reset\"]")[0]
+		const resetPasswordButton = wrapper.find(
+			"[data-testid=\"button-user-action-password-reset\"]"
+		)
 		await resetPasswordButton.trigger("click")
 
 		expect(console.log).toHaveBeenCalledWith("Reset password clicked (TODO).")
 	})
 
-	it("calls logout when logout button is clicked", async () => 
+	it("updates store when logout button is clicked", async () => 
 	{
 		const wrapper = createWrapper()
-		const logoutButton = wrapper.findAll("[data-testid=\"button-user-action-logout\"]")[0]
-		expect(wrapper.vm.isLoggingOut).toBe(false)
+		expect(wrapper.vm.isLoggedIn).toBe(true)
 
+		const logoutButton = wrapper.find(
+			"[data-testid=\"button-user-action-logout\"]"
+		)
 		await logoutButton.trigger("click")
+		// this.$store.dispatch("logoutUser")
 
-		// Check if logout method changed isLoggingOut to true initially
-		expect(wrapper.vm.isLoggingOut).toBe(false) // Button is set to no-op in UI logic
+		expect(wrapper.vm.isLoggedIn).toBe(false)
 	})
 
 	it("calls deleteUserAccount when delete account button is clicked", async () => 
 	{
 		const wrapper = createWrapper()
-		const deleteAccountButton = wrapper.findAll("[data-testid=\"button-user-action-delete-account\"]")[0]
+		const deleteAccountButton = wrapper.find(
+			"[data-testid=\"button-user-action-delete-account\"]"
+		)
 		await deleteAccountButton.trigger("click")
 
 		expect(console.log).toHaveBeenCalledWith("Delete user account clicked (TODO).")
@@ -164,22 +174,20 @@ describe("PrivacyAndSecuritySettings.vue", () =>
 	{
 		const wrapper = createWrapper()
 
-		const resetPasswordButton = wrapper.findAll("[data-testid=\"button-user-action-password-reset\"]")[0]
-		const deleteAccountButton = wrapper.findAll("[data-testid=\"button-user-action-delete-account\"]")[0]
+		const resetPasswordButton = wrapper.find(
+			"[data-testid=\"button-user-action-password-reset\"]"
+		)
+		const deleteAccountButton = wrapper.find(
+			"[data-testid=\"button-user-action-delete-account\"]"
+		)
 
-		// Check that the buttons are disabled
-		expect(resetPasswordButton.exists()).toBe(true)
-		expect(deleteAccountButton.exists()).toBe(true)
 		expect(resetPasswordButton.element.disabled).toBe(true)
 		expect(deleteAccountButton.element.disabled).toBe(true)
 
-		// Attempt to click them (should not trigger)
 		await resetPasswordButton.trigger("click")
 		await deleteAccountButton.trigger("click")
 
-		// Assert that console.log was NOT called for these buttons
 		expect(console.log).not.toHaveBeenCalledWith("Reset password clicked (TODO).")
 		expect(console.log).not.toHaveBeenCalledWith("Delete user account clicked (TODO).")
 	})
 })
-

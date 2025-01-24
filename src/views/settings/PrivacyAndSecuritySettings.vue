@@ -9,7 +9,7 @@
 				data-testid="button-user-action-password-reset"
 				:in-progress="isLoggingOut"
 				pill
-				disabled
+				:disabled="canResetPassword === false"
 				@click="resetUserPassword"
 			>
 				Reset Password
@@ -40,7 +40,7 @@
 				data-testid="button-user-action-delete-account"
 				:in-progress="isLoggingOut"
 				pill
-				disabled
+				:disabled="canDeleteAccount === false"
 				@click="deleteUserAccount"
 			>
 				Delete Account
@@ -72,6 +72,27 @@ export default {
 		return {
 			isLoggingOut: false,
 		}
+	},
+	computed: {
+		canDeleteAccount ()
+		{
+			return false
+		},
+		canResetPassword ()
+		{
+			return false
+		},
+
+		/**
+		 * Checks whether the user is logged in.
+		 *
+		 * @returns {boolean} True if the user is logged in, false otherwise.
+		 */
+		isLoggedIn ()
+		{
+			return this.$store.state.user.isLoggedIn
+		},
+
 	},
 	methods: {
 		deleteUserAccount () 
