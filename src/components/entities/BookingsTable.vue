@@ -203,7 +203,7 @@ export default {
 			if (!this.currentUser?.uid || this.currentUser.invalid)
 			{
 				// If no logged-in user, skip the query
-				console.error("no user found")
+				// console.error("no user found")
 				this.userBookings = []
 				return
 			}
