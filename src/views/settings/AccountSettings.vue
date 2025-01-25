@@ -301,7 +301,7 @@ export default {
 					this.currentUser,
 					payloadToUpdate
 				)
-				if (result.success)
+				if (result?.success)
 				{
 					alert("User updated successfully!")
 					// Once user is updated, get updated user for store
@@ -309,7 +309,7 @@ export default {
 				}
 				else
 				{
-					console.error("Error updating user:", result.message)
+					console.error("Error updating user: ", result?.message)
 					alert("Failed to update user.")
 				}
 			}
