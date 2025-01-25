@@ -26,9 +26,6 @@ const signInSpy = vi.spyOn(_FirebaseAuth, "signInWithEmailAndPassword")
 const createWrapper = ({ userState = {}, ...options } = {}) => 
 {
 	const store = createStore({
-		modules: {
-			user: user,	// Register the user module
-		},
 		state: {
 			user: {
 				isAuthReady: false,

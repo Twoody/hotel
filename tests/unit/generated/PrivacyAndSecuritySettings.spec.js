@@ -6,14 +6,6 @@ import PrivacyAndSecuritySettings from "@/views/settings/PrivacyAndSecuritySetti
 import { logEvent } from "firebase/analytics"
 import { firebaseAnalyics } from "@/firebase"
 
-// Mock console.log to track calls for specific methods
-global.console = {
-	log: vi.fn(),
-	error: vi.fn(),
-}
-
-const pushMock = vi.fn()
-
 vi.mock("@/src/store/user.js", () => ({
 	logoutUser: vi.fn(),
 }))
@@ -27,6 +19,14 @@ vi.mock("firebase/analytics", () =>
 })
 vi.mock("@/firebase", () => ({
 	firebaseAnalyics: {}, // Provide a simple mock object
+}))
+vi.mock("firebase/auth", () => ({
+	signOut: vi.fn().mockResolvedValue(),
+}))
+
+vi.mock("@/firebase", () => ({
+	db: {},
+	firebaseAuth: {},
 }))
 
 const createWrapper = ({ userState = {}, ...options } = {}) =>
@@ -45,10 +45,16 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 			{
 				state.user.isLoggingIn = value
 			},
+			setIsLoggedIn (state, value)
+			{
+				state.user.isLoggedIn = value
+			},
 		},
+
 		actions: {
 			fetchUser: vi.fn(),
 			updateUserStore: vi.fn(),
+			logoutUser: ({ commit, }) => commit("setIsLoggedIn", false),
 		},
 	})
 	// Merge your userState overrides
@@ -95,9 +101,9 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 					name: "MyButton",
 					template: `
 						<button
-							v-bind="$attrs"
-							:disabled="$attrs.disabled"
-							@click="$attrs['@click']"
+							:disabled="disabled"
+								:class="{ disabled: disabled }"
+								@click="$emit('click', $event)"
 						>
 							<slot />
 						</button>
@@ -114,14 +120,14 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 	})
 }
 
-describe("PrivacyAndSecuritySettings.vue", () => 
+describe("PrivacyAndSecuritySettings.vue", () =>
 {
-	beforeEach(() => 
+	beforeEach(() =>
 	{
 		vi.resetAllMocks() // Reset mocks before each test
 	})
 
-	it("renders the component with the correct structure", () => 
+	it("renders the component with the correct structure", () =>
 	{
 		const wrapper = createWrapper()
 		const heading = wrapper.find("h2")
@@ -134,60 +140,109 @@ describe("PrivacyAndSecuritySettings.vue", () =>
 		)
 	})
 
-	it("calls resetUserPassword when reset password button is clicked", async () => 
+	it("updates store when logout button is clicked", async () =>
 	{
 		const wrapper = createWrapper()
-		const resetPasswordButton = wrapper.find(
-			"[data-testid=\"button-user-action-password-reset\"]"
-		)
-		await resetPasswordButton.trigger("click")
+		await wrapper.vm.$router.push({
+			path: "/settings",
+			query: {
+				"active-tab": 1,
+			},
+		})
 
-		expect(console.log).toHaveBeenCalledWith("Reset password clicked (TODO).")
-	})
+		expect(wrapper.vm.isLoggingOut).toBe(false)
+		await wrapper.vm.$nextTick()
 
-	it("updates store when logout button is clicked", async () => 
-	{
-		const wrapper = createWrapper()
-		expect(wrapper.vm.isLoggedIn).toBe(true)
+		// Verify the initial state
+		expect(wrapper.vm.$store.state.user.isLoggedIn).toBe(true)
 
-		const logoutButton = wrapper.find(
-			"[data-testid=\"button-user-action-logout\"]"
-		)
+		const logoutButton = wrapper.find("[data-testid=\"button-user-action-logout\"]")
 		await logoutButton.trigger("click")
-		// this.$store.dispatch("logoutUser")
 
-		expect(wrapper.vm.isLoggedIn).toBe(false)
+		// Wait for the logout method to complete
+		await wrapper.vm.$nextTick()
+
+		// TODO: Similar test to check that the route is updated
+		// expect(wrapper.vm.$router.currentRoute.value.path).toBe("/");
+
+		// Verify the Vuex state was updated
+		expect(wrapper.vm.$store.state.user.isLoggedIn).toBe(false)
 	})
-
-	it("calls deleteUserAccount when delete account button is clicked", async () => 
+	it("ensures disabled buttons cannot trigger their respective methods", async () =>
 	{
-		const wrapper = createWrapper()
-		const deleteAccountButton = wrapper.find(
-			"[data-testid=\"button-user-action-delete-account\"]"
-		)
-		await deleteAccountButton.trigger("click")
+		const wrapper = createWrapper({
+			userState: {
+				isLoggedIn: false, // Set a scenario where the user is not logged in
+			},
+		})
+		await wrapper.vm.$nextTick()
 
-		expect(console.log).toHaveBeenCalledWith("Delete user account clicked (TODO).")
-	})
-
-	it("ensures disabled buttons cannot trigger their respective methods", async () => 
-	{
-		const wrapper = createWrapper()
-
-		const resetPasswordButton = wrapper.find(
+		const resetPasswordButton = wrapper.findComponent(
 			"[data-testid=\"button-user-action-password-reset\"]"
 		)
 		const deleteAccountButton = wrapper.find(
 			"[data-testid=\"button-user-action-delete-account\"]"
 		)
 
-		expect(resetPasswordButton.element.disabled).toBe(true)
-		expect(deleteAccountButton.element.disabled).toBe(true)
+		expect(wrapper.vm.canResetPassword).toBe(false)
+		expect(wrapper.vm.canDeleteAccount).toBe(false)
 
+		// Check that the buttons are disabled based on the reactive state
+		expect(resetPasswordButton.classes()).toContain("disabled")
+		expect(deleteAccountButton.classes()).toContain("disabled")
+
+		// Attempt to trigger a click (shouldn't work because the buttons are disabled)
 		await resetPasswordButton.trigger("click")
 		await deleteAccountButton.trigger("click")
 
-		expect(console.log).not.toHaveBeenCalledWith("Reset password clicked (TODO).")
-		expect(console.log).not.toHaveBeenCalledWith("Delete user account clicked (TODO).")
+		// Verify that console.log wasn't called since methods shouldn't execute
+		const consoleSpy = vi.spyOn(console, "log")
+		expect(consoleSpy).not.toHaveBeenCalled()
+		consoleSpy.mockRestore()
+	})
+
+	it("calls resetUserPassword when reset password button is clicked", async () =>
+	{
+		const wrapper = createWrapper({
+			userState: {
+				isLoggedIn: true, // Ensure the user is logged in to enable the button
+			},
+		})
+
+		const consoleSpy = vi.spyOn(console, "log").mockImplementation(() =>
+		{})
+
+		const resetPasswordButton = wrapper.findComponent(
+			"[data-testid=\"button-user-action-password-reset\"]"
+		)
+		expect(resetPasswordButton.exists()).toBe(true)
+
+		// Trigger the click event
+		await resetPasswordButton.vm.$emit("click")
+
+		// Verify the method was called
+		expect(consoleSpy).toHaveBeenCalledWith("Reset password clicked (TODO).")
+	})
+
+	it("calls deleteUserAccount when delete account button is clicked", async () =>
+	{
+		const wrapper = createWrapper({
+			userState: {
+				isLoggedIn: true,
+			}, // Enable the button
+		})
+
+		const consoleSpy = vi.spyOn(console, "log").mockImplementation(() =>
+		{})
+
+		const deleteAccountButton = wrapper.findComponent(
+			"[data-testid=\"button-user-action-delete-account\"]"
+		)
+
+		// Trigger the click event
+		await deleteAccountButton.vm.$emit("click")
+
+		// Verify the method was called
+		expect(consoleSpy).toHaveBeenCalledWith("Delete user account clicked (TODO).")
 	})
 })

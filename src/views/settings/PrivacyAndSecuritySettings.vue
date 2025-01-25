@@ -23,6 +23,7 @@
 			<MyButton
 				class="user-action"
 				data-testid="button-user-action-logout"
+				:disabled="isLoggingOut"
 				:in-progress="isLoggingOut"
 				pill
 				@click="logout"
@@ -76,11 +77,11 @@ export default {
 	computed: {
 		canDeleteAccount ()
 		{
-			return false
+			return (this.isLoggedIn && !this.isLoggingOut) && false
 		},
 		canResetPassword ()
 		{
-			return false
+			return (this.isLoggedIn && !this.isLoggingOut) && false
 		},
 
 		/**

@@ -25,7 +25,7 @@ vi.mock("@/components/buttons/filters/MapFilters.vue", () => ({
 vi.mock("@/components/buttons/filters/MapCard.vue", () => ({
 	default: {
 		name: "MapCard",
-		template: "<div class=\"mocked-map-card\" />",
+		template: "<div class=\"mocked-map-card\">Map Card</div>",
 		props: [
 			"activity",
 			"imageURL",
@@ -182,7 +182,6 @@ describe("Maps.vue", () =>
 
 		// Initially, no active filters => all are shown
 		expect(wrapper.vm.shownActivies).toHaveLength(3)
-		console.log(wrapper.vm.shownActivies)
 		expect(wrapper.vm.shownActivies.every((act) => act.shown === true)).toBe(true)
 
 		// Now set a filter with id=1 => only items w/ tag=1 should remain
