@@ -9,6 +9,9 @@ module.exports = {
 		"plugin:jsdoc/recommended",
 		"eslint:recommended"
 	],
+	"ignorePatterns": [
+		"src/views/ThermometerPage.vue",
+	],
 	"overrides": [
 		// Apply custom .vue files extension rules
 		{
@@ -218,6 +221,14 @@ module.exports = {
 			{
 				"before": true,
 			}
+		],
+		"jsdoc/check-tag-names": 
+		[
+			1,
+			{
+				"definedTags": ["warning"]
+			}
+
 		],
 		"max-len": [
 			"error",

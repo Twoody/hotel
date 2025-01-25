@@ -24,13 +24,21 @@ export default {
 	{
 		return {
 			debt: {
-				currentBalance:  603745.39,
 				originalOwed:718902.00,
 			},
 		}
 	},
 	computed:
 	{
+		currentBalance ()
+		{
+			const homeLoan = 400000
+			const tannerStudentLoans = 65000
+			const betsyStudenLoans = 35000
+
+			return 603745.39 // 2025-01-11 -- Probably a few years old from this date
+		},
+
 		debtPaid ()
 		{
 			return this.debt.originalOwed - this.debt.currentBalance

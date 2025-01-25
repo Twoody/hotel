@@ -1,0 +1,276 @@
+Source File:
+```
+<template>
+	<div class="map-filters-wrapper">
+		<Filters
+			:filters="filtersInactive"
+			inactive
+			@update="handleClick($event)"
+		/>
+		<Filters
+			:filters="filtersActive"
+			@update="handleClick($event)"
+		/>
+	</div>
+</template>
+
+<script>
+import { logEvent } from "firebase/analytics"
+import { firebaseAnalyics } from "@/firebase" // using the pre-initialized db
+import {MAP_FILTERS} from "constants/misc.js"
+
+export default {
+	name: "MapFilters",
+	components: {},
+
+	data: function()
+	{
+		return {
+			/** Store a local copy to manage state */
+			filters: MAP_FILTERS,
+			filtersAll: {},
+		}
+	},
+
+	computed:
+	{
+		/**
+		 * @todo Store active filters in localstorage with a "last visited time"
+		 * @returns {Array} List of the filters the user has activated since page loaded
+		 */
+		filtersActive () 
+		{
+			let active = []
+			for (let id in this.filtersAll)
+			{
+				let filter = this.filtersAll[id]
+				filter.id = id * 1
+				if (filter.active) 
+				{
+					active.push(filter)
+				}
+			}
+			return active.sort( (a, b) => this.sortFilter(a, b))
+		},
+
+		/**
+		 * @returns {Array} List of the filters the user has not activated
+		 */
+		filtersInactive () 
+		{
+			let inactive = []
+
+			for (let id in this.filtersAll)
+			{
+				let filter = this.filtersAll[id]
+				filter.id = id * 1
+				if (! filter.active) 
+				{
+					inactive.push(filter)
+				}
+			}
+			return inactive.sort( (a, b) => this.sortFilter(a, b))
+		},
+	},
+	methods: 
+	{
+		buildFilters () 
+		{
+			let ret = {}
+			for (let id in this.filters)
+			{
+				ret[id] = {
+					active: false,
+					id: id,
+					title: this.filters[id],
+				}
+			}
+			return ret
+		},
+
+		handleClick (id) 
+		{
+			// Clear blue on next element in list
+			document.activeElement?.blur && document.activeElement.blur()
+			const ID = id * 1
+			let value = ! this.filtersAll[ID].active
+			this.filtersAll[ID].active = value
+
+			// Send event to GA
+			try
+			{
+				const title = value ? "map_filter_set" : "map_filter_unset"
+				logEvent(
+					firebaseAnalyics,
+					title,
+					{
+						value: this.filtersAll[id].title || "NOT_FOUND",
+					}
+				)
+			}
+			catch (e)
+			{
+				console.error(e)
+			}
+		},
+
+		/**
+		 * @param {object} a - A filter
+		 * @param {object} b - A filter
+		 * @returns {boolean} Should `a` come after `b` alphabetically?
+		 */
+		sortFilter (a, b) 
+		{
+			let at = a.title.toUpperCase()
+			let bt = b.title.toUpperCase()
+			return (at < bt) ? -1 : (at > bt) ? 1 : 0
+		},
+	},
+	created () 
+	{
+		this.filtersAll = this.buildFilters()
+	},
+	watch:
+	{
+		filtersActive ()
+		{
+			if (this.filtersActive)
+			{
+				this.$emit("updated-active", this.filtersActive)
+			}
+		},
+	},
+}
+</script>
+
+<style scoped lang="less">
+@import "../../../../assets/styles/styles";
+
+.map-filters-wrapper {
+	.filters-wrapper {
+		:deep(.my-button-wrapper) {
+			&.active {
+				background: @color-purple;
+			}
+		}
+	}
+}
+</style>
+```
+
+package.json:
+```
+{
+  "name": "hotel",
+  "version": "2.2.4",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+    "test": "vitest",
+    "test:coverage": "npm run test -- --coverage"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-brands-svg-icons": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/vue-fontawesome": "^3.0.1",
+    "less": "^4.1.3",
+    "less-loader": "^7.2.1",
+    "luxon": "^2.4.0",
+    "teahub": "^0.1.0-prerelease11",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.13",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.3",
+    "@vue/test-utils": "^2.4.0-alpha.2",
+    "eslint": "^8.19.0",
+    "eslint-plugin-jsdoc": "^39.3.3",
+    "eslint-plugin-vue": "^9.1.1",
+    "firebase": "^11.1.0",
+    "jsdom": "^25.0.1",
+    "less": "^4.1.0",
+    "less-loader": "^7.2.1",
+    "vite": "^2.9.9",
+    "vitest": "^2.1.2"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended",
+      "@vue/standard"
+    ],
+    "rules": {},
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
+```
+
+vitest.config.js:
+```
+import {resolve} from "path"
+import { defineConfig } from "vitest/config"
+import Vue from "@vitejs/plugin-vue"
+
+export default defineConfig({
+  plugins: [
+    Vue(),
+  ],
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, ".", "src"),
+      components: resolve(__dirname, "src/components/"),
+      constants: resolve(__dirname, "src/constants/"),
+      find: /^~/,
+      img: resolve(__dirname, "assets/img"),
+      mocks: resolve(__dirname, ".", "tests/__mocks__/"),
+      services: resolve(__dirname, "src/services/"),
+      src: resolve(__dirname, "src"),
+      store: resolve(__dirname, "src/store/"),
+      styles: resolve(__dirname, "src/assets/styles/"),
+      svgs: resolve(__dirname, "src/assets/svgs/"),
+    },
+  },
+
+  root: ".", // Define the root
+  test: {
+    globals: true,
+    environment: "jsdom",
+    // The file extension of your test files
+    include: [
+      "tests/**/*.{test,spec}.{js,jsx,ts,tsx}",
+    ],
+  },
+})
+```
+
+Assignment
+Your assignment is to write adequate unit tests for an app and for `Source File`. 
+The app is using vite, vitest, and vue3.
+The is app using a front end library (teahub), a vuex store, and the vue router.
+Your job is to increase the test coverage of the code in `Source File` with tests written in vitest.
+Ensure to use the vitest `mount` instead of `render`.
+Ensure a helper function is created at the start of the file to create the `wrapper` using `mount`.
+If there are any inherit bugs or issues, report the issues with the code with your response.

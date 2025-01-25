@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import {AMENITIES} from "src/constants/amenities.js"
+import {AMENITIES} from "@/constants/amenities.js"
 
 export default {
 	name: "AmenitiesTable",

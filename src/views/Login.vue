@@ -12,6 +12,7 @@
 		<div v-else>
 			<div class="flex-container">
 				<MyButton
+					data-testid="button-toggle-to-login"
 					class="title-toggle"
 					:class="{selected: !isRegistering}"
 					:disabled="isRegistering === false"
@@ -24,6 +25,7 @@
 				</MyButton>
 				<span>or</span>
 				<MyButton
+					data-testid="button-toggle-to-registration"
 					class="title-toggle"
 					:class="{selected: isRegistering}"
 					:disabled="isRegistering === true"
@@ -81,6 +83,7 @@
 					<MyButton
 						class="login-button"
 						:in-progress="isLoggingIn"
+						:disabled="isLogInDisabled"
 						:success="success"
 						@click="loginOrRegister"
 					>
@@ -91,12 +94,14 @@
 							<span
 								v-if="isRegistering"
 								key="isRegistering"
+								data-testid="button-register-text"
 							>
 								Register Email
 							</span>
 							<span
 								v-else
 								key="!isRegistering"
+								data-testid="button-login-text"
 							>
 								Log In
 							</span>
@@ -117,7 +122,6 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 import { firebaseAuth } from "@/firebase"
 import SocialLogin from "@/components/forms/SocialLogin.vue"
-import store from "@/store/store.js"
 
 export default {
 	name: "Login",
@@ -197,7 +201,16 @@ export default {
 		 */
 		isAuthReady ()
 		{
-			return store.state.user.isAuthReady
+			return this.$store.state.user.isAuthReady
+		},
+
+		/**
+		 * @returns {boolean} - Whether a user can click the log in button or not
+		 * @since 2.3.0
+		 */
+		isLogInDisabled ()
+		{
+			return this.isLoggingIn && !this.isLoggedIn && this.isAuthReady ? true : false
 		},
 
 		/**
@@ -206,7 +219,7 @@ export default {
 		 */
 		isLoggedIn ()
 		{
-			return store.state.user.isLoggedIn
+			return this.$store.state.user.isLoggedIn
 		},
 
 		/**
@@ -216,7 +229,7 @@ export default {
 		 */
 		isLoggingIn ()
 		{
-			return store.state.user.isLoggingIn
+			return this.$store.state.user.isLoggingIn
 		},
 
 		/** @returns {boolean} When registering, if passwords match or not */
@@ -232,7 +245,7 @@ export default {
 		{
 			if (!this.email)
 			{
-				this.$refs.email.focus()
+				this.$refs.email?.focus()
 				return false
 			}
 			else if (!this.password)
@@ -287,13 +300,14 @@ export default {
 			}
 			catch (error)
 			{
+				let defaultError = "User not found"
 				if (error.code === "auth/user-not-found")
 				{
-					this.loginError = "User not found"
+					this.loginError = defaultError
 				}
 				else
 				{
-					this.loginError = error.code
+					this.loginError = error.code || "User not found"
 				}
 			}
 					
@@ -340,10 +354,9 @@ export default {
 			// First clear existing errors
 			this.registrationError = ""
 
-			/* eslint-disable no-unused-vars */
 			try
 			{
-				const response = await createUserWithEmailAndPassword(
+				await createUserWithEmailAndPassword(
 					firebaseAuth,
 					this.email,
 					this.password
@@ -354,16 +367,12 @@ export default {
 			}
 			catch (error)
 			{
-				const errorCode = error.code
-				const errorMessage = error.message
+				console.error(`Registration Error: ${error.code}: ${error.message}`)
 
 				// The AuthCredential type that was used.
-				const credential = error.credential
-				this.registrationError = errorMessage
+				this.registrationError = error.message
 			}
-			/* eslint-enable no-unused-vars */
 		},
-
 	},
 	watch:
 	{
@@ -381,7 +390,9 @@ export default {
 			}
 		},
 
-		/** */
+		/**
+		 * Watch toggle for registering or logging in
+		 */
 		isRegistering ()
 		{
 			this.isShowingErrors = false

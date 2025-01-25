@@ -1,6 +1,5 @@
 <template>
 	<div id="app">
-		<!-- TODO: Tie into vue comps -->
 		<AppSection
 			:isShowing="$store.state.layout.isShowingBanner"
 			@click="$store.commit('setIsShowingBanner', false)"
@@ -26,7 +25,13 @@
 			class="main-section"
 			is-showing
 		>
+
+			<!-- Consider a route guard via `beforeEach` instead -->
+			<SplashScreen
+				v-if="isShowingSplashScreen"
+			/>
 			<router-view
+				v-else
 				v-slot="{ Component }"
 			>
 				<transition
@@ -60,14 +65,17 @@
 import { onAuthStateChanged } from "firebase/auth"
 import { firebaseAuth } from "@/firebase" // Adjust path as necessary
 import { addUserToFirestore } from "@/utils"
+import store from "@/store/store"
 
 import NavBar from "components/nav/NavBar"
+import SplashScreen from "@/components/entities/SplashScreen.vue"
 
 export default {
 	name: "App",
 	components:
 	{
 		NavBar,
+		SplashScreen,
 	},
 	data: function()
 	{
@@ -75,7 +83,16 @@ export default {
 			isNavCollapsed: true,
 		}
 	},
-	computed: {},
+	computed:
+	{
+		/**
+		 * @returns {boolean} If still setting up authentication or logging the user is, show the splash screen
+		 */
+		isShowingSplashScreen ()
+		{
+			return !store.state.user.isAuthReady || store.state.user.isLoggingIn
+		},
+	},
 	watch:
 	{
 		/**

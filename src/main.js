@@ -14,10 +14,12 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons"
 import { faClipboard } from "@fortawesome/free-solid-svg-icons"
 import { faClipboardList } from "@fortawesome/free-solid-svg-icons"
 import { faCopyright } from "@fortawesome/free-solid-svg-icons"
-import { faFacebook } from "@fortawesome/free-brands-svg-icons"
 import { faGoogle } from "@fortawesome/free-brands-svg-icons"
+import { faLock } from "@fortawesome/free-solid-svg-icons"
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons/faSpinner"
 import { faStar } from "@fortawesome/free-solid-svg-icons"
+import { faTrash } from "@fortawesome/free-solid-svg-icons"
 import { faUserCog } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { library } from "@fortawesome/fontawesome-svg-core"
@@ -28,10 +30,12 @@ library.add(faChevronRight)
 library.add(faClipboard)
 library.add(faClipboardList)
 library.add(faCopyright)
-library.add(faFacebook)
 library.add(faGoogle)
+library.add(faLock)
+library.add(faPencilAlt)
 library.add(faSpinner)
 library.add(faStar)
+library.add(faTrash)
 library.add(faUserCog)
 
 // Prep the app
@@ -44,7 +48,7 @@ app.use(teahub)
 app.component("font-awesome-icon", FontAwesomeIcon)
 
 /**
- * @param ms
+ * @param {number} ms - Time to wait in milliseconds
  * @global
  * @example this.$sleep(3000)
  * @since 2.2.1

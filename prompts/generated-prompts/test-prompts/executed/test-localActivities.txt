@@ -1,0 +1,447 @@
+Source File:
+```
+
+const LOCAL = {
+	BURNSIDE: {
+		id: "BURNSIDE",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		maps_id: 1,
+		tags: [
+			1,
+			10,
+		],
+		title: "Burnside Park",
+		subtitle: "River accessible nature trail",
+	},
+	MADDOX: {
+		id: "MADDOX",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 2,
+		tags: [
+			1,
+			10,
+		],
+		title: "Maddox Woods",
+		subtitle: "River accessible historical trail",
+	},
+	MARKETS: {
+		id: "MARKETS",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 3,
+		tags: [
+			1,
+			2,
+			3,
+			4,
+			7,
+			9,
+			10,
+		],
+		title: "Central Village",
+		subtitle: "Coffee, sushi, pet store, ...",
+	},
+	WILDNERNESS: {
+		id: "WILDNERNESS",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 4,
+		tags: [
+			1,
+			5,
+			10,
+		],
+		title: "Wilderness Park",
+	},
+	MSY: {
+		id: "MSY",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 5,
+		tags: [
+			1,
+			5,
+			10,
+		],
+		title: "Mary S. Young Park",
+	},
+	OREGON_CITY: {
+		id: "OREGON_CITY",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 6,
+		tags: [
+			1,
+			2,
+			5,
+			12,
+		],
+		title: "Oregon City",
+		subtitle: "Food carts, music, & more!",
+	},
+	ORANGE_THEORY: {
+		id: "ORANGE_THEORY",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 7,
+		tags: [
+			5,
+			7,
+		],
+		title: "Orange Theory",
+		subtitle: "Group Fitness Center",
+	},
+	SUSHI_HURRAY: {
+		id: "SUSHI_HURRAY",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 8,
+		tags: [
+			2,
+			4,
+		],
+		title: "Sushi Hurray",
+		subtitle: "Conveyor belt sushi",
+	},
+	LAKE_OSWEGO: {
+		id: "LAKE_OSWEGO",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 8,
+		tags: [
+			1,
+			2,
+			4,
+			5,
+			6,
+			7,
+			8,
+			9,
+			11,
+			12,
+		],
+		title: "Lake Oswego",
+		subtitle: "Movies, food, music, & more!",
+	},
+	WILAMETE_RIVER: {
+		id: "WILAMETE_RIVER",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 9,
+		tags: [
+			1,
+			4,
+			6,
+			7,
+			10,
+		],
+		title: "Willamette River",
+		subtitle: "Boating to kayaking with Herrons and Bald Eagle",
+	},
+	CANBY: {
+		id: "CANBY",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 10,
+		tags: [
+			1,
+			2,
+			4,
+			9,
+			11,
+			12,
+		],
+		title: "Canby",
+	},
+	TRYON: {
+		id: "TRYON",
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 11,
+		tags: [
+			1,
+			4,
+			5,
+			6,
+		],
+		title: "Tryon State Park",
+	},
+	13: {
+		id: 13,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 13,
+		tags: [
+			2,
+			9,
+			12,
+		],
+		title: "503 Restuarant",
+		subtitle: "Contemporary dining room & bar",
+	},
+	14: {
+		id: 14,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 14,
+		tags: [
+			1,
+			2,
+			4,
+			9,
+			11,
+			12,
+		],
+		title: "Hist. West Linn",
+		subtitle: "Historical downtown West Linn",
+	},
+	15: {
+		id: 15,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 15,
+		tags: [
+			2,
+		],
+		title: "Asian Kitchen",
+		subtitle: "Pad Thai & Thom Yum goodness",
+	},
+	16: {
+		id: 16,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 16,
+		tags: [
+			2,
+		],
+		title: "La Sen",
+		subtitle: "Vietnamese pho deliciousness!",
+	},
+	17: {
+		id: 17,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 17,
+		tags: [
+			3,
+			4,
+			9,
+		],
+		title: "Market of Choice",
+		subtitle: "Groceries + Hot food + Cafe + Dessert",
+	},
+	18: {
+		id: 18,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 18,
+		tags: [
+			1,
+			4,
+		],
+		title: "Splash Pad",
+		subtitle: "Open Memorial day to October",
+	},
+	19: {
+		id: 19,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 19,
+		tags: [
+			1,
+			4,
+		],
+		title: "Public Playground",
+		subtitle: "Great for the family",
+	},
+	20: {
+		id: 20,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 20,
+		tags: [
+			1,
+			4,
+		],
+		title: "Camassia Park",
+		subtitle: "April & May bloomages",
+	},
+	21: {
+		id: 21,
+		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
+		description: "",
+		end_at: "",
+		start_at: "",
+		maps_id: 21,
+		tags: [
+			7,
+			9,
+		],
+		title: "Brew Group",
+		subtitle: "Beer, Bike, and Portland",
+	},
+
+}
+
+export {
+	LOCAL as LOCAL_ACTIVITIES
+}
+```
+
+package.json:
+```
+{
+  "name": "hotel",
+  "version": "2.2.4",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+    "test": "vitest",
+    "test:coverage": "npm run test -- --coverage"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-brands-svg-icons": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/vue-fontawesome": "^3.0.1",
+    "less": "^4.1.3",
+    "less-loader": "^7.2.1",
+    "luxon": "^2.4.0",
+    "teahub": "^0.1.0-prerelease11",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.13",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.3",
+    "@vue/test-utils": "^2.4.0-alpha.2",
+    "eslint": "^8.19.0",
+    "eslint-plugin-jsdoc": "^39.3.3",
+    "eslint-plugin-vue": "^9.1.1",
+    "firebase": "^11.1.0",
+    "jsdom": "^25.0.1",
+    "less": "^4.1.0",
+    "less-loader": "^7.2.1",
+    "vite": "^2.9.9",
+    "vitest": "^2.1.2"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended",
+      "@vue/standard"
+    ],
+    "rules": {},
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
+```
+
+vitest.config.js:
+```
+import {resolve} from "path"
+import { defineConfig } from "vitest/config"
+import Vue from "@vitejs/plugin-vue"
+
+export default defineConfig({
+  plugins: [
+    Vue(),
+  ],
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, ".", "src"),
+      components: resolve(__dirname, "src/components/"),
+      constants: resolve(__dirname, "src/constants/"),
+      find: /^~/,
+      img: resolve(__dirname, "assets/img"),
+      mocks: resolve(__dirname, ".", "tests/__mocks__/"),
+      services: resolve(__dirname, "src/services/"),
+      src: resolve(__dirname, "src"),
+      store: resolve(__dirname, "src/store/"),
+      styles: resolve(__dirname, "src/assets/styles/"),
+      svgs: resolve(__dirname, "src/assets/svgs/"),
+    },
+  },
+
+  root: ".", // Define the root
+  test: {
+    globals: true,
+    environment: "jsdom",
+    // The file extension of your test files
+    include: [
+      "tests/**/*.{test,spec}.{js,jsx,ts,tsx}",
+    ],
+  },
+})
+```
+
+Assignment:
+Your assignment is to write adequate unit tests for an app and for `Source File`. 
+The app is using vite, vitest, and vue3.
+The is app using a front end library (teahub), a vuex store, and the vue router.
+Your job is to increase the test coverage of the code in `Source File` with tests written in vitest.
+Ensure to use the vitest `mount` instead of `render`.
+Ensure a helper function is created at the start of the file to create the `wrapper` using `mount`.
+If there are any inherit bugs or issues, report the issues with the code with your response.
+

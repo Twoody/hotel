@@ -72,7 +72,7 @@ export default {
 	},
 	computed:
 	{
-		/** @returns {number} */
+		/** @returns {number} The current percent of total debt paid off */
 		currentPercent ()
 		{
 			if (!this.currentAmount || !this.maxAmount)

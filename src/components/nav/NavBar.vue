@@ -27,7 +27,7 @@ The general navbar for our project
 				Amenities
 			</router-link>
 			<router-link
-				v-if="isAuthReady && !isLoggedIn"
+				v-if="!isLoggedIn && !isLoadingData"
 				class="nav-item"
 				to="/login"
 			>
@@ -35,7 +35,7 @@ The general navbar for our project
 			</router-link>
 		</div>
 		<div
-			v-if="!isAuthReady"
+			v-if="isLoadingData"
 			class="user-items"
 		>
 			<div class="user-icon">
@@ -43,7 +43,7 @@ The general navbar for our project
 			</div>
 		</div>
 		<div
-			v-if="isAuthReady && isLoggedIn"
+			v-if="isLoggedIn"
 			class="user-items"
 			@click="gotoUserSettings"
 		>
@@ -61,7 +61,6 @@ The general navbar for our project
 </template>
 
 <script>
-import store from "@/store/store.js"
 
 export default {
 	name: "NavBar",
@@ -72,16 +71,7 @@ export default {
 		 */
 		firstName ()
 		{
-			console.info("user: ", store.state.user.user)
-			return store.state.user.user.first_name || ""
-		},
-
-		/**
-		 * @returns {boolean} - Whether a user is logged in or not
-		 */
-		isAuthReady ()
-		{
-			return store.state.user.isAuthReady
+			return this.$store.state.user.user.first_name || ""
 		},
 
 		/**
@@ -89,7 +79,7 @@ export default {
 		 */
 		isLoadingData ()
 		{
-			return store.state.user.isLoggingIn
+			return this.$store.state.user.isLoggingIn
 		},
 
 		/**
@@ -97,7 +87,7 @@ export default {
 		 */
 		isLoggedIn ()
 		{
-			return store.state.user.isLoggedIn
+			return this.$store.state.user.isLoggedIn
 		},
 
 		/**
@@ -105,7 +95,7 @@ export default {
 		 */
 		lastName ()
 		{
-			return store.state.user.user.last_name || ""
+			return this.$store.state.user.user.last_name || ""
 		},
 
 		/**

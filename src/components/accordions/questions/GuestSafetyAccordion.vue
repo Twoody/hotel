@@ -16,7 +16,7 @@
 <script>
 
 export default {
-	name: "GuestSafetyQuestionAccordion",
+	name: "GuestSafetyAccordion",
 	components: {},
 }
 </script>

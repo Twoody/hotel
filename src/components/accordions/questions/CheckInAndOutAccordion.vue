@@ -18,7 +18,7 @@
 <script>
 
 export default {
-	name: "CheckInAndOutQuestionAccordion",
+	name: "CheckInAndOutAccordion",
 	components: {},
 }
 </script>
