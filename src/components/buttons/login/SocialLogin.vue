@@ -5,7 +5,7 @@
 		</div>
 		<MyButton
 			class="social-button"
-			:disabled="isLoggingIn || !isAuthReady || isLoggedIn"
+			:disabled="isLoggingIn || isLoggedIn"
 			@click="handleLogin"
 		>
 			<font-awesome-icon
@@ -24,7 +24,6 @@ import {signInWithPopup,
 	FacebookAuthProvider} from "firebase/auth"
 import { firebaseAuth } from "@/firebase"
 import { addUserToFirestore } from "@/utils"
-import store from "@/store/store.js"
 
 /**
  * @param {string} word - A word that needs the first letter capitalized
@@ -78,17 +77,6 @@ export default {
 		},
 
 		/**
-		 * Uses the store to check if the auth is ready
-		 *
-		 * @returns {boolean} - Whether a user is logged in or not
-		 * @since 2.2.1
-		 */
-		isAuthReady () 
-		{
-			return store.state.user.isAuthReady
-		},
-
-		/**
 		 * Uses the store to check if the user is logged in
 		 *
 		 * @returns {boolean} - Whether a user is logged in or not
@@ -96,7 +84,7 @@ export default {
 		 */
 		isLoggedIn () 
 		{
-			return store.state.user.isLoggedIn
+			return this.$store.state.user.isLoggedIn
 		},
 
 		/**
@@ -107,7 +95,7 @@ export default {
 		 */
 		isLoggingIn () 
 		{
-			return store.state.user.isLoggingIn
+			return this.$store.state.user.isLoggingIn
 		},
 
 		/**
@@ -174,7 +162,7 @@ export default {
 			let success = false
 
 			// If we are currently logging in or already logged in, do nothing
-			if (this.isLoggingIn && this.isAuthReady && !this.isLoggedIn) 
+			if (this.isLoggingIn && !this.isLoggedIn) 
 			{
 				return success
 			}

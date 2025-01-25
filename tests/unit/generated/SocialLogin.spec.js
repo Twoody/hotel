@@ -1,67 +1,117 @@
 import { mount } from "@vue/test-utils"
 import { createStore } from "vuex"
 import SocialLogin from "@/components/buttons/login/SocialLogin.vue"
+import { vi } from "vitest"
 
-describe("SocialLogin.vue", () => 
-{  
-	let wrapper
-	let store
+// Mock Firebase analytics
+vi.mock("firebase/analytics", () => ({
+	getAnalytics: vi.fn(),
+	logEvent: vi.fn(),
+}))
 
-	beforeEach(() => 
-	{
-		store = createStore({
-			state: {
-				user: {
-					isLoggedIn: false,
-					isAuthReady: false,
-					isLoggingIn: false,
-				},
-			},
-			mutations: { // mock the mutations in store
-				setIsLoggingIn (state, value) 
-				{
-					state.user.isLoggingIn = value
-				},
-			},
-			actions: { // mock the actions in store
-				fetchUser (state, data) 
-				{
-					// action implementation here
-				},
-			},
-		})
+// Mock local Firebase helpers
+vi.mock("@/firebase", () => ({
+	firebaseAnalytics: {}, // Provide a simple mock object
+}))
 
-		wrapper = mount(SocialLogin, {
-			props: {
-				provider: "google",
+const createWrapper = ({ userState = {}, ...options } = {}) => 
+{
+	const store = createStore({
+		state: {
+			user: {
+				isLoggedIn: false,
+				isAuthReady: false,
+				isLoggingIn: false,
 			},
-			global: {
-				plugins: [
-					store,
-				], // provide store as plugin
+		},
+		mutations: {
+			setIsLoggingIn (state, value) 
+			{
+				state.user.isLoggingIn = value
 			},
-		})
+		},
+		actions: {
+			fetchUser: vi.fn(),
+		},
 	})
 
-	test("handleLogin", async () => 
-	{
-		const button = wrapper.find(".social-button") // find button element
+	// Merge your userState overrides
+	Object.assign(store.state.user, userState)
 
-		// mocking firebase
+	return mount(SocialLogin, {
+		props: {
+			provider: "google",
+		},
+		global: {
+			plugins: [
+				store,
+			],
+			stubs: {
+				FontAwesomeIcon: {
+					template: `
+						<span
+							class="font-awesome-icon"
+							:class="$attrs.class"
+						/>
+					`,
+				},
+				MyButton: {
+					template: `
+						<button
+							:disabled="disabled"
+							:class="{ disabled: disabled }"
+							@click="$emit('click', $event)"
+						>
+							<slot />
+						</button>
+					`,
+					props: [
+						"disabled",
+						"inProgress",
+						"pill",
+					],
+				},
+			},
+		},
+		...options,
+	})
+}
+
+describe("SocialLogin.vue", () => 
+{
+	it("renders the social login button", () => 
+	{
+		const wrapper = createWrapper()
+		expect(wrapper.find(".social-button").exists()).toBe(true)
+	})
+
+	it("handles login on button click", async () => 
+	{
+		const wrapper = createWrapper()
+
+		// Mock Firebase authentication
 		const userMock = {
 			user: {
 				uid: "1",
-				displayName: "John Doe", 
-			}, 
+				displayName: "John Doe",
+			},
 		}
-		global.firebaseAuth = vi.fn().mockImplementation(() => 
-		{
-			return {
-				signInWithPopup: () => Promise.resolve(userMock),
-			}
-		})
+		global.firebaseAuth = vi.fn().mockImplementation(() => ({
+			signInWithPopup: () => Promise.resolve(userMock),
+		}))
 
-		await button.trigger("click") // trigger click event
-		expect(button.attributes("disabled")).toBe(undefined) // button should not be disabled
+		// Trigger the click event
+		const button = wrapper.find(".social-button")
+		await button.trigger("click")
+
+		expect(button.classes()).not.toContain("disabled")
+	})
+
+	it("displays the correct provider label", async () => 
+	{
+		const wrapper = createWrapper()
+		await wrapper.vm.$nextTick()
+		expect(wrapper.find(".social-button-dex").text()).toContain("Google")
 	})
 })
+
