@@ -35,5 +35,33 @@ export default defineConfig({
 		setupFiles: "./tests/setup/vitest.setup.js",
 		alias: {
 		},
+		coverage: {
+			reporter: ['text', 'html'],
+			exclude:
+			[
+				'.eslintrc.js',
+				'babel.config.js',
+				'vite.config.js',
+				'vitest.config.js',
+				'hotel/dist/**',
+				'dist/**',
+				'tests/**',
+
+				'attic/**',
+				'src/App.vue',
+				'src/db.js',
+				'src/main.js',
+				'src/components/buttons/login/FacebookLogin.vue',
+				'src/components/entities/Thermometer.vue',
+				'src/constants/**',
+				'src/router/**',
+				'src/store/**',
+				'src/utils/firestore.js',
+				'src/views/Foobar.vue',
+				'src/views/ThermometerPage.vue',
+				'**/__mocks__/**',
+
+			],
+		},
 	},
 })
