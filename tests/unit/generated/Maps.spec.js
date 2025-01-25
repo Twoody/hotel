@@ -3,45 +3,23 @@ import { mount } from "@vue/test-utils"
 import Maps from "@/views/Maps.vue"
 
 /**
- * MOCKED: We'll mock MapFilters and MapCard to avoid
- * deeper integration tests and to focus coverage on the logic inside `Maps`.
- */
-
-// Mock the child components
-vi.mock("components/buttons/filters/MapFilters.vue", () => ({
-	default: {
-		name: "MapFilters",
-		template: "<div class=\"mocked-map-filters\" />",
-	},
-}))
-
-vi.mock("@/components/buttons/filters/MapFilters.vue", () => ({
-	default: {
-		name: "MapFilters",
-		template: "<div class=\"mocked-map-filters\" />",
-	},
-}))
-
-vi.mock("@/components/buttons/filters/MapCard.vue", () => ({
-	default: {
-		name: "MapCard",
-		template: "<div class=\"mocked-map-card\">Map Card</div>",
-		props: [
-			"activity",
-			"imageURL",
-			"isOnline",
-			"shown",
-		],
-	},
-}))
-
-/**
  * Create a simple mock router to check $router.push calls.
  */
 const pushMock = vi.fn()
 const mockRouter = {
 	push: pushMock,
 }
+vi.mock("firebase/analytics", () =>
+{
+	return {
+		// Provide mocked versions of what your code might call
+		getAnalytics: vi.fn(),
+		logEvent: vi.fn(),
+	}
+})
+vi.mock("@/firebase", () => ({
+	firebaseAnalyics: {}, // Provide a simple mock object
+}))
 
 /**
  * Create a simple mock store with `state.isOnline`
@@ -61,6 +39,15 @@ function createWrapper (options = {})
 {
 	return mount(Maps, {
 		global: {
+			            stubs: {
+				MapCard: {
+					template: "<div class=\"mocked-map-card\">Map Card</div>",
+				},
+				MapFilters: {
+					template: "<div class=\"mocked-map-filters\"></div>",
+				},
+			},
+
 			mocks: {
 				$store: mockStore,
 				$router: mockRouter,

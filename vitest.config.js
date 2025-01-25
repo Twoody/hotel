@@ -29,10 +29,10 @@ export default defineConfig({
 	test: {
 		globals: true,
 		environment: "jsdom",
-		// The file extension of your test files
 		include: [
-			"tests/**/*.{test,spec}.{js,jsx,ts,tsx}",
+			"tests/**/*.{test,spec,setup}.{js,jsx,ts,tsx}",
 		],
+		setupFiles: "./tests/setup/vitest.setup.js",
 		alias: {
 		},
 	},

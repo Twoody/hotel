@@ -241,8 +241,6 @@ describe("AccountSettings.vue", () =>
 
 	it("alerts user on success", async () => 
 	{
-		globalThis.alert = vi.fn() // mock alert
-
 		// Return success = true from updateFirestoreUser
 		updateFirestoreUser.mockResolvedValueOnce({
 			success: true, 
@@ -254,13 +252,11 @@ describe("AccountSettings.vue", () =>
 		// Wait for the promise
 		await wrapper.vm.$nextTick()
 
-		expect(globalThis.alert).toHaveBeenCalledWith("User updated successfully!")
+		expect(window.alert).toHaveBeenCalledWith("User updated successfully!")
 	})
 
 	it("alerts an error on failure", async () => 
 	{
-		globalThis.alert = vi.fn()
-
 		updateFirestoreUser
 			.mockResolvedValueOnce({
 				success: false,
@@ -276,7 +272,7 @@ describe("AccountSettings.vue", () =>
 		await wrapper.vm.$nextTick()
 
 		// The code calls "alert('Failed to update user.')" if !success
-		expect(globalThis.alert).toHaveBeenCalledWith("Failed to update user.")
+		expect(window.alert).toHaveBeenCalledWith("Failed to update user.")
 	})
 })
 
