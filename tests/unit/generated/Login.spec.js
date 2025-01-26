@@ -3,7 +3,6 @@ import { createStore } from "vuex"
 import { createRouter, createWebHistory } from "vue-router"
 import { vi } from "vitest"
 import Login from "@/views/Login.vue"
-import user from "@/store/user"
 import * as _FirebaseAuth from "firebase/auth"	// <-- import as a namespace
 
 // Mock Firebase methods

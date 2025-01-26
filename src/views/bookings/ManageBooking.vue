@@ -47,7 +47,7 @@
 		<!-- 8) If booking belongs to the user but is not finalized/paid -->
 		<div
 			v-else
-			data-testid="conditional-view-manager-needs-completed"
+			data-testid="conditional-view-manager-not-completed"
 		>
 			<FinalizeBooking
 				:booking="booking"

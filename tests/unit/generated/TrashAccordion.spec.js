@@ -33,16 +33,20 @@ describe("TashAccordion.vue", () =>
 	test("renders the correct title", () => 
 	{
 		const wrapper = createWrapper()
+		const trashTitle = wrapper.find("[data-testid=\"FAQ-trash-title\"]")
 
-		expect(wrapper.find("[data-testid=\"FAQ-trash-title\"]").text()).toBe("Trash + Recycling + Pets")
+		expect(trashTitle.text()).toBe("Trash + Recycling + Pets")
 	})
 
 	test("renders the correct content", () => 
 	{
 		const wrapper = createWrapper()
+		const info = wrapper.find(".trash-info")
 
-		expect(wrapper.find(".trash-info").exists()).toBe(true)
-		expect(wrapper.find(".trash-info").text()).toContain("Trash, recycling, and composte is picked up every Tuesday morning")
+		expect(info.exists()).toBe(true)
+		expect(info.text()).toContain(
+			"Trash, recycling, and composte is picked up every Tuesday morning"
+		)
 	})
 
 	test("renders the correct classes", () => 

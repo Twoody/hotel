@@ -184,6 +184,16 @@ module.exports = {
 				"no-redeclare": "warn",
 			},
 		},
+		{
+			"files": [
+				"tests/**"
+			],
+			"rules": {
+				"jsdoc/require-returns": "off",
+				"jsdoc/require-param-description": "off",
+				"jsdoc/require-param-type": "off"
+			}
+		},
 	],
 	"rules": {
 		"array-bracket-newline": [
@@ -222,7 +232,7 @@ module.exports = {
 				"before": true,
 			}
 		],
-		"jsdoc/check-tag-names": 
+		"jsdoc/check-tag-names":
 		[
 			1,
 			{

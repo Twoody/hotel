@@ -39,7 +39,7 @@ function createWrapper (options = {})
 {
 	return mount(Maps, {
 		global: {
-			            stubs: {
+			stubs: {
 				MapCard: {
 					template: "<div class=\"mocked-map-card\">Map Card</div>",
 				},
@@ -98,7 +98,7 @@ describe("Maps.vue", () =>
 		expect(cards).toBeTruthy()
 	})
 
-	it("has a gotoItem method that calls this.$router.push correctly", async () =>
+	it("has a gotoItem method that calls this.$router.push correctly", () =>
 	{
 		const wrapper = createWrapper()
 

@@ -43,7 +43,10 @@ describe("AirbnbCleaning.vue", () =>
 	it("conditionally renders living room notes when hasDog is true", () => 
 	{
 		const wrapper = createWrapper()
-		expect(wrapper.find("[data-testid=\"title-living-room-with-dog\"]").text()).toContain("Special Notes: Living Room")
+		const withDog = wrapper.find(
+			"[data-testid=\"title-living-room-with-dog\"]"
+		)
+		expect(withDog.text()).toContain("Special Notes: Living Room")
 	})
 
 	it("renders multiple QuestionAccordion components", () => 
@@ -61,10 +64,11 @@ describe("AirbnbCleaning.vue", () =>
 		expect(nestedAccordions.length).toBeGreaterThan(0)
 	})
 
-	it("conditionally renders dog-related items in living room when hasDog is true", () => 
+	it("conditionally renders dog-related items in living", () => 
 	{
 		const wrapper = createWrapper()
-		expect(wrapper.find("[data-testid=\"content-living-room-defaults\"]").text()).toContain("dog bed")
+		const livingRoom = wrapper.find("[data-testid=\"content-living-room-defaults\"]")
+		expect(livingRoom.text()).toContain("dog bed")
 	})
 
 	it("conditionally renders flower-related items in dining room when hasFlowers is true", () => 

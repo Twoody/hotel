@@ -3,8 +3,6 @@ import { describe, it, expect, beforeEach, vi } from "vitest"
 import { createStore } from "vuex"
 import { createRouter, createWebHistory } from "vue-router"
 import PrivacyAndSecuritySettings from "@/views/settings/PrivacyAndSecuritySettings.vue"
-import { logEvent } from "firebase/analytics"
-import { firebaseAnalyics } from "@/firebase"
 
 vi.mock("@/src/store/user.js", () => ({
 	logoutUser: vi.fn(),
@@ -14,12 +12,8 @@ vi.mock("firebase/analytics", () =>
 	return {
 		// Provide mocked versions of what your code might call
 		getAnalytics: vi.fn(),
-		logEvent: vi.fn(),
 	}
 })
-vi.mock("@/firebase", () => ({
-	firebaseAnalyics: {}, // Provide a simple mock object
-}))
 vi.mock("firebase/auth", () => ({
 	signOut: vi.fn().mockResolvedValue(),
 }))

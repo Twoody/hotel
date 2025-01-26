@@ -1,18 +1,10 @@
 import { mount } from "@vue/test-utils"
+import { vi } from "vitest"
 import { createStore } from "vuex"
 import { createRouter, createWebHistory } from "vue-router"
 import UserSettings from "@/views/settings/UserSettings.vue"
-import user from "@/store/user"
 import { logEvent } from "firebase/analytics"
 import { firebaseAnalyics } from "@/firebase"
-
-const testUser = {
-	uid: "del-12",
-	first_name: "foo",
-	last_name: "bar",
-}
-
-const pushMock = vi.fn()
 
 vi.mock("firebase/analytics", () =>
 {
@@ -28,7 +20,7 @@ vi.mock("@/firebase", () => ({
 
 // create new router instance for testing purposes
 // helper function to create wrapper
-const createWrapper = ({ userState = {}, ...options } = {}) =>
+const createWrapper = ({ userState = {}, } = {}) =>
 {
 	const store = createStore({
 		state: {
@@ -79,7 +71,6 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 			},
 		],
 	})
-	// router.push = pushMock
 
 	return mount(UserSettings, {
 		global: {
@@ -95,7 +86,11 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 				Filters: {
 					name: "Filters",
 					template: `<div>
-						<button v-for="filter in filters" :key="filter.id" @click="$emit('update', filter.id)">
+						<button
+							v-for="filter in filters"
+							:key="filter.id"
+							@click="$emit('update', filter.id)"
+						>
 							{{ filter.title }}
 						</button>
 					</div>`,

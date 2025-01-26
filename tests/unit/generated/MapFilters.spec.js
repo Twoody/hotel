@@ -1,7 +1,6 @@
 import { mount } from "@vue/test-utils"
 import { vi } from "vitest"
 import MapFilters from "@/components/buttons/filters/MapFilters.vue"
-import { MAP_FILTERS } from "constants/misc.js"
 
 // 1) Define any hoisted variables/functions you need:
 const { mockLogEvent, } = vi.hoisted(() => 
@@ -45,7 +44,11 @@ const createWrapper = (options = {}) =>
 				Filters: {
 					name: "Filters",
 					template: `<div>
-						<button v-for="filter in filters" :key="filter.id" @click="$emit('update', filter.id)">
+						<button
+							v-for="filter in filters"
+							:key="filter.id"
+							@click="$emit('update', filter.id)
+						>
 							{{ filter.title }}
 						</button>
 					</div>`,

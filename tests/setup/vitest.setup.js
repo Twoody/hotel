@@ -1,3 +1,4 @@
+import { vi } from "vitest"
 // Mock global alert
 global.alert = vi.fn()
 

@@ -40,7 +40,7 @@ let wrapper
 
 describe("GuestSafetyQuestionAccordion", () => 
 {
-	it("Has a title of \"Guest Safety\"", async () => 
+	it("Has a title of \"Guest Safety\"", () => 
 	{
 		wrapper = createWrapper()
 		const titleElement = wrapper.find(".accordion-section > header:first-child")
@@ -49,12 +49,16 @@ describe("GuestSafetyQuestionAccordion", () =>
 		expect(titleElement.text()).toContain("Guest Safety")
 	})
 
-	it("Has correct content about guest safety", async () => 
+	it("Has correct content about guest safety", () => 
 	{
 		wrapper = createWrapper()
 		const contentElement = wrapper.find(".accordion-section > div:last-child")
 		expect(contentElement.exists()).toBe(true)
-		expect(contentElement.text()).toContain("We live in the area and are in touch with leading local experts.")
-		expect(contentElement.text()).toContain("We encourage communication and provide guests with important local information.")
+		expect(contentElement.text()).toContain(
+			"We live in the area and are in touch with leading local experts."
+		)
+		expect(contentElement.text()).toContain(
+			"We encourage communication and provide guests with important local information."
+		)
 	})
 })
