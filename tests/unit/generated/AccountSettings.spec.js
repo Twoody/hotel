@@ -18,7 +18,7 @@ import { updateFirestoreUser } from "@/utils/firestore.js"
  *
  * @param userState
  */
-function createVuexStore (userState = {}) 
+function createVuexStore (userState = {})
 {
 	return createStore({
 		state: {
@@ -36,7 +36,7 @@ function createVuexStore (userState = {})
 /**
  *
  */
-function createTestRouter () 
+function createTestRouter ()
 {
 	return createRouter({
 		history: createWebHistory(),
@@ -45,8 +45,8 @@ function createTestRouter ()
 				path: "/",
 				name: "Home",
 				component: {
-					template: "<div>Home Page</div>", 
-				}, 
+					template: "<div>Home Page</div>",
+				},
 			},
 		],
 	})
@@ -57,7 +57,7 @@ function createTestRouter ()
  *
  * @param options
  */
-function createWrapper (options = {}) 
+function createWrapper (options = {})
 {
 	const store = createVuexStore(options.userState || {})
 	const router = createTestRouter()
@@ -103,14 +103,14 @@ function createWrapper (options = {})
 	})
 }
 
-describe("AccountSettings.vue", () => 
+describe("AccountSettings.vue", () =>
 {
-	beforeEach(() => 
+	beforeEach(() =>
 	{
 		vi.resetAllMocks()
 	})
 
-	it("renders the account settings form with a heading", () => 
+	it("renders the account settings form with a heading", () =>
 	{
 		const wrapper = createWrapper()
 		expect(wrapper.find("h2").text()).toBe("Account Settings")
@@ -120,7 +120,7 @@ describe("AccountSettings.vue", () =>
 		expect(form.exists()).toBe(true)
 	})
 
-	it("preloads form data from currentUser if available", () => 
+	it("preloads form data from currentUser if available", () =>
 	{
 		// Provide user in the store
 		const wrapper = createWrapper({
@@ -137,7 +137,7 @@ describe("AccountSettings.vue", () =>
 		expect(wrapper.vm.formData.city).toBe("Test City")
 	})
 
-	it("disables the phone and email inputs", () => 
+	it("disables the phone and email inputs", () =>
 	{
 		// Even if phone/email exist, they should appear 'locked'
 		const wrapper = createWrapper({
@@ -154,13 +154,13 @@ describe("AccountSettings.vue", () =>
 		expect(phoneInput.element.disabled).toBe(true)
 	})
 
-	it("displays a required phone error if user has no phone number", () => 
+	it("displays a required phone error if user has no phone number", () =>
 	{
 		// The code sets errors.phoneNumber if currentUser has no phone
 		const wrapper = createWrapper({
 			userState: {
-				phone: "", 
-			}, 
+				phone: "",
+			},
 		})
 		// Force isShowingErrors = true so error messages appear
 		wrapper.vm.isShowingErrors = true
@@ -171,7 +171,7 @@ describe("AccountSettings.vue", () =>
 		expect(wrapper.vm.errors.phoneNumber).toBe("User must have a phone number")
 	})
 
-	it("calls updateFirestoreUser when submitting the form", async () => 
+	it("calls updateFirestoreUser when submitting the form", async () =>
 	{
 		const wrapper = createWrapper({
 			userState: {
@@ -179,7 +179,6 @@ describe("AccountSettings.vue", () =>
 				phone: "555-555-5555",
 			},
 		})
-		const storeSpy = vi.spyOn(wrapper.vm.$store, "dispatch")
 
 		// Fill out some fields
 		wrapper.vm.formData.first_name = "Jane"
@@ -194,7 +193,7 @@ describe("AccountSettings.vue", () =>
 		expect(updateFirestoreUser).toHaveBeenCalledWith(
 			{
 				email: "myuser@example.com",
-				phone: "555-555-5555", 
+				phone: "555-555-5555",
 			}, // currentUser
 			expect.objectContaining({
 				first_name: "Jane",
@@ -206,20 +205,18 @@ describe("AccountSettings.vue", () =>
 		// Because result is not mocked, code goes to the "else" or catch
 		// But we can at least see it tried. If we want to test success path:
 		updateFirestoreUser.mockResolvedValueOnce({
-			success: true, 
+			success: true,
 		})
-
-		// If success is true, we expect storeSpy to dispatch "updateUserStore"
 	})
 
-	it("has a submit button that manages state and edge cases", async () => 
+	it("has a submit button that manages state and edge cases", async () =>
 	{
 		const wrapper = createWrapper()
 		expect(wrapper.vm.isUpdating).toBe(false)
 
 		// Force a success result
 		updateFirestoreUser.mockResolvedValueOnce({
-			success: true, 
+			success: true,
 		})
 
 		// Check that the submit button is there and is clickable when not isUpdating
@@ -232,18 +229,18 @@ describe("AccountSettings.vue", () =>
 		// Repeate the test, but this time assume the button has already been clicked once and is actively updating
 		wrapper.vm.isUpdating = true
 		updateFirestoreUser.mockResolvedValueOnce({
-			success: true, 
+			success: true,
 		})
 
 		await submitButton.trigger("click")
 		expect(wrapper.vm.isUpdating).toBe(true)
 	})
 
-	it("alerts user on success", async () => 
+	it("alerts user on success", async () =>
 	{
 		// Return success = true from updateFirestoreUser
 		updateFirestoreUser.mockResolvedValueOnce({
-			success: true, 
+			success: true,
 		})
 
 		const wrapper = createWrapper()
@@ -255,17 +252,17 @@ describe("AccountSettings.vue", () =>
 		expect(window.alert).toHaveBeenCalledWith("User updated successfully!")
 	})
 
-	it("alerts an error on failure", async () => 
+	it("alerts an error on failure", async () =>
 	{
 		updateFirestoreUser
 			.mockResolvedValueOnce({
 				success: false,
 				message: "Something failed",
-		 })
+			})
 			.mockResolvedValueOnce({
 				success: false,
 				message: "Something failed",
-		 })
+			})
 
 		const wrapper = createWrapper()
 		await wrapper.find("form.user-settings-form").trigger("submit.prevent")

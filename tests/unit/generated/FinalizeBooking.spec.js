@@ -37,7 +37,7 @@ describe("FinalizeBooking.vue", () =>
 		expect(wrapper.exists()).toBe(true)
 	})
 
-	it("requires a booking prop", async () => 
+	it("requires a booking prop", () => 
 	{
 		// If you want to see how it behaves with no prop, you can do:
 		// (But note, 'type: Object, required: true' will warn)
@@ -54,7 +54,9 @@ describe("FinalizeBooking.vue", () =>
 		expect(heading.exists()).toBe(true)
 		expect(heading.text()).toBe("Finalize Your Booking")
 
-		expect(wrapper.text()).toContain("Please complete any outstanding steps to confirm your booking.")
+		expect(wrapper.text()).toContain(
+			"Please complete any outstanding steps to confirm your booking."
+		)
 	})
 
 	it("displays booking details if booking prop is present", () => 

@@ -51,7 +51,9 @@ describe("AccessibilityAccordion.vue", () =>
 		expect(contentElement.exists()).toBe(true)
 		expect(contentElement.text()).toContain("We believe that anyone can belong anywhere")
 		expect(contentElement.text()).toContain("Please reach out")
-		expect(contentElement.text()).toContain("Wheelchair accessibility is our biggest \"next step\" for our space.")
+		expect(contentElement.text()).toContain(
+			"Wheelchair accessibility is our biggest \"next step\" for our space."
+		)
 		expect(contentElement.text()).toContain("We apologize for that inconvenience.")
 	})
 })

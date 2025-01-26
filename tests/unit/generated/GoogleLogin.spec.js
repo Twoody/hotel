@@ -1,4 +1,5 @@
 import { shallowMount } from "@vue/test-utils"
+import { vi } from "vitest"
 import GoogleLogin from "@/components/buttons/login/GoogleLogin.vue"
 // Mock Firebase analytics
 vi.mock("firebase/analytics", () => ({

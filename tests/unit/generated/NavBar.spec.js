@@ -3,7 +3,6 @@ import { createStore } from "vuex"
 import { createRouter, createWebHistory } from "vue-router"
 import { describe, it, expect, vi, beforeEach } from "vitest"
 import NavBar from "@/components/nav/NavBar.vue" // <-- Adjust to actual path
-import user from "@/store/user"
 
 const testUser = {
 	uid: "del-12",
@@ -27,7 +26,7 @@ vi.mock("firebase/analytics", () =>
  * @param root0
  * @param root0.userState
  */
-const createWrapper = ({ userState = {}, ...options } = {}) =>
+const createWrapper = ({ userState = {},} = {}) =>
 {
 	const store = createStore({
 		state: {

@@ -4,19 +4,19 @@ import UnauthorizedBooking from "@/views/bookings/UnauthorizedBooking.vue"
 /**
  *
  */
-function mountComponent () 
+function mountComponent ()
 {
 	return mount(UnauthorizedBooking)
 }
 
-describe("UnauthorizedBooking", () => 
+describe("UnauthorizedBooking", () =>
 {
-	test("has the right class structure", () => 
+	test("has the right class structure", () =>
 	{
-	  const wrapper = mountComponent()
+		const wrapper = mountComponent()
 		expect(wrapper.find(".unauthorized-booking-wrapper").exists()).toBe(true)
 	})
-	test("renders access denied header", () => 
+	test("renders access denied header", () =>
 	{
 		const wrapper = mountComponent()
 		const header = wrapper.find("h2")
@@ -25,7 +25,7 @@ describe("UnauthorizedBooking", () =>
 		expect(header.text()).toBe("Access Denied")
 	})
 
-	test("renders error message", () => 
+	test("renders error message", () =>
 	{
 		const wrapper = mountComponent()
 		const message = wrapper.find("p")

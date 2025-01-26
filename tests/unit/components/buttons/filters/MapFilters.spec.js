@@ -1,4 +1,5 @@
 import { mount } from "@vue/test-utils"
+import { vi } from "vitest"
 import MapFilters from "@/components/buttons/filters/MapFilters.vue"
 // Mock Firebase analytics
 vi.mock("firebase/analytics", () => ({

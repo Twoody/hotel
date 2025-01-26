@@ -1,6 +1,5 @@
 import { mount } from "@vue/test-utils"
 import AmenitiesTable from "@/components/entities/amenities/AmenitiesTable.vue"
-import { vi } from "vitest"
 
 const createWrapper = ({ options = {}, } = {}) => 
 {

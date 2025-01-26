@@ -1,4 +1,4 @@
-import { mount, VueWrapper } from "@vue/test-utils"
+import { mount} from "@vue/test-utils"
 import { vi } from "vitest"
 import ProfileSettings from "@/views/settings/ProfileSettings.vue"
 import BookingsTable from "@/components/entities/BookingsTable.vue"
@@ -89,8 +89,9 @@ describe("ProfileSettings.vue", () =>
 	it("should render p element with expected text", () => 
 	{
 		// Use a template literal that matches the actual p text
-		const expectedText = "Here you could add user profile form fields, upload avatars, social links, etc."
-		expect(wrapper.get("p").text()).toBe(expectedText)
+		expect(wrapper.get("p").text()).toBe(
+			"Here you could add user profile form fields, upload avatars, social links, etc."
+		)
 	})
 })
 

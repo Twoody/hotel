@@ -8,7 +8,7 @@ import BookingsTable from "@/components/entities/BookingsTable.vue"
 vi.mock("@/firebase.js", () => ({
 	db: {},
 }))
-vi.mock("firebase/firestore", () => 
+vi.mock("firebase/firestore", () =>
 {
 	return {
 		// Mocked Firestore methods
@@ -16,7 +16,7 @@ vi.mock("firebase/firestore", () =>
 		query: vi.fn(),
 		where: vi.fn(),
 		getDocs: vi.fn().mockResolvedValue({
-			forEach: (callback) => 
+			forEach: (callback) =>
 			{
 				callback({
 					id: "2",
@@ -61,7 +61,7 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 				path: "/",
 				name: "homne",
 				component: {
-					template: "<div>Home Page</div>", 
+					template: "<div>Home Page</div>",
 				},
 			},
 		],
@@ -76,25 +76,25 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 			// Stub out components so we don’t need their real implementations
 			stubs: {
 				Spinner: {
-				 name: "Spinner",
-				 template: "<div class=\"spinner-stub\">Spinner</div>",
+					name: "Spinner",
+					template: "<div class=\"spinner-stub\">Spinner</div>",
 				},
 				// The component uses <router-link> for booking links
 				RouterLink: {
-				 name: "RouterLink",
-				 props: [
+					name: "RouterLink",
+					props: [
 						"to",
 					],
-				 template: "<a :href=\"to\"><slot /></a>",
+					template: "<a :href=\"to\"><slot /></a>",
 				},
 				// It also uses <font-awesome-icon>, so we can stub
 				FontAwesomeIcon: {
-				 name: "FontAwesomeIcon",
-				 props: [
+					name: "FontAwesomeIcon",
+					props: [
 						"icon",
 						"class",
 					],
-				 template: "<span class=\"font-awesome-icon\" :class=\"$props.class\" />",
+					template: "<span class=\"font-awesome-icon\" :class=\"$props.class\" />",
 				},
 			},
 		},
@@ -102,28 +102,28 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 	})
 }
 
-describe("BookingsTable.vue", () => 
+describe("BookingsTable.vue", () =>
 {
-	beforeEach(() => 
+	beforeEach(() =>
 	{
 		// Clear mocks before each test
 		vi.resetAllMocks()
 	})
 
-	it("mounts without error", () => 
+	it("mounts without error", () =>
 	{
 		const wrapper = createWrapper({ })
 		expect(wrapper.exists()).toBe(true)
 	})
 
-	it("shows a Spinner if isLoading is true", async () => 
+	it("shows a Spinner if isLoading is true", async () =>
 	{
 		const wrapper = createWrapper()
 		await wrapper.vm.$nextTick()
 		// Initially, isLoading is false
 		expect(wrapper.vm.isLoading).toBe(false)
 		await wrapper.setData({
-			isLoading: true, 
+			isLoading: true,
 		})
 
 		// Now the spinner block should render
@@ -134,7 +134,7 @@ describe("BookingsTable.vue", () =>
 		// The table or "no bookings" text should not be rendered now
 	})
 
-	it("shows 'No bookings found.' if finished loading and no bookings", async () => 
+	it("shows 'No bookings found.' if finished loading and no bookings", async () =>
 	{
 		const wrapper = createWrapper({ })
 		await wrapper.vm.$nextTick()
@@ -153,7 +153,7 @@ describe("BookingsTable.vue", () =>
 		expect(wrapper.find("table.bookings-table").exists()).toBe(false)
 	})
 
-	it("displays the table if userBookings is non-empty", async () => 
+	it("displays the table if userBookings is non-empty", async () =>
 	{
 		// Provide some test bookings
 		const testBookings = [
@@ -162,14 +162,14 @@ describe("BookingsTable.vue", () =>
 				startDate: "2025-01-01",
 				endDate: "2025-01-05",
 				isPaid: true,
-				status: "Future", 
+				status: "Future",
 			},
 			{
 				id: "2",
 				startDate: "2024-12-25",
 				endDate: "2024-12-31",
 				isPaid: false,
-				status: "Future", 
+				status: "Future",
 			},
 		]
 
@@ -193,7 +193,7 @@ describe("BookingsTable.vue", () =>
 		expect(rows.length).toBe(2)
 	})
 
-	it("sorts bookings by clicked column", async () => 
+	it("sorts bookings by clicked column", async () =>
 	{
 		// Provide test data unsorted
 		const testBookings = [
@@ -201,13 +201,13 @@ describe("BookingsTable.vue", () =>
 				id: "1",
 				startDate: "2025-01-05",
 				isPaid: true,
-				status: "Future", 
+				status: "Future",
 			},
 			{
 				id: "2",
 				startDate: "2025-01-01",
 				isPaid: false,
-				status: "Future", 
+				status: "Future",
 			},
 		]
 
@@ -238,7 +238,7 @@ describe("BookingsTable.vue", () =>
 		expect(wrapper.vm.sortedBookings[0].id).toBe("1")
 	})
 
-	it("calls deleteDoc when deleteBooking is invoked", async () => 
+	it("calls deleteDoc when deleteBooking is invoked", async () =>
 	{
 		// Provide a single booking
 		const testBookings = [
@@ -246,13 +246,13 @@ describe("BookingsTable.vue", () =>
 				id: "1",
 				startDate: "2025-01-05",
 				isPaid: true,
-				status: "Future", 
+				status: "Future",
 			},
 			{
 				id: "2",
 				startDate: "2025-01-01",
 				isPaid: false,
-				status: "Future", 
+				status: "Future",
 			},
 		]
 
@@ -283,7 +283,7 @@ describe("BookingsTable.vue", () =>
 		expect(wrapper.vm.userBookings.find((b) => b.id === "2")).toBeUndefined()
 	})
 
-	it("fetches user bookings on created() if a user is logged in", async () => 
+	it("fetches user bookings on created() if a user is logged in", async () =>
 	{
 		// We mock getDocs, which is called in fetchUserBookings
 		const { getDocs, } = await import("firebase/firestore")
@@ -301,7 +301,7 @@ describe("BookingsTable.vue", () =>
 		expect(getDocs).toHaveBeenCalledTimes(1)
 	})
 
-	it("skips fetching if no user is logged in", async () => 
+	it("skips fetching if no user is logged in", async () =>
 	{
 		let userState = {
 			isAuthReady: true,
