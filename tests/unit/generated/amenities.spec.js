@@ -3,7 +3,6 @@ import { mount } from "@vue/test-utils"
 import { describe, it, expect, beforeEach } from "vitest"
 import Amenities from "@/views/Amenities.vue"
 
-// A helper function to mount the Amenities component
 /**
  *
  * @param options

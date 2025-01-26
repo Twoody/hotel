@@ -1,4 +1,5 @@
 import { mount } from "@vue/test-utils"
+import { vi } from "vitest"
 import { createStore } from "vuex"
 import { createRouter, createWebHistory } from "vue-router"
 import UserSettings from "@/views/settings/UserSettings.vue"
