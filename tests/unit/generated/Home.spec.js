@@ -28,7 +28,7 @@ const createWrapper = (options = {}) =>
 				path: "/",
 				name: "home",
 				component: {
-					template: "<div>Home Page</div>", 
+					template: "<div>Home Page</div>",
 				},
 			},
 
@@ -36,7 +36,7 @@ const createWrapper = (options = {}) =>
 				path: "/manageBooking",
 				name: "manageBooking",
 				component: {
-					template: "<div>ManageBooking Stub</div>", 
+					template: "<div>ManageBooking Stub</div>",
 				},
 			},
 		],
@@ -171,9 +171,8 @@ describe("Home.vue", () =>
 		})
 		expect(pushSpy).toHaveBeenCalledWith({
 			name: "manageBooking",
-			params: {
-				id: undefined,
-			}, // `id` is undefined here due to mocked Firestore
+			// `id` is undefined in params due to mocked Firestore
+			params: {},
 		})
 	})
 
@@ -187,7 +186,7 @@ describe("Home.vue", () =>
 	{
 		const wrapper = createWrapper()
 		const instance = wrapper.vm
-		const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => 
+		const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() =>
 		{})
 
 		// Force setDoc to throw an error when called

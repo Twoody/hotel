@@ -49,20 +49,20 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 	const router = createRouter({
 		history: createWebHistory(),
 		routes: [
-				 {
+			{
 				path: "/",
 				name: "home",
 				component: {
 					template: "<div>Home Page</div>",
 				},
-				 },
-				 {
+			},
+			{
 				path: "/booking/:id",
 				name: "Booking",
 				component: {
 					template: "<div>Booking page</div>",
 				},
-				 },
+			},
 		],
 	})
 
@@ -75,7 +75,7 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 			stubs: {
 				Spinner: {
 					name: "Spinner",
-					 template: "<div class=\"spinner-stub\">Spinner</div>",
+					template: "<div class=\"spinner-stub\">Spinner</div>",
 				},
 				BookingNotLoggedIn: {
 					template: "<div>BookingNotLoggedIn</div>",
@@ -122,7 +122,7 @@ describe("ManageBooking.vue", () =>
 
 	})
 
-	it("shows a spinner while auth or booking is loading", async () =>
+	it("shows a spinner while auth or booking is loading", () =>
 	{
 		let userState = {
 			isAuthReady: false,
@@ -152,12 +152,19 @@ describe("ManageBooking.vue", () =>
 
 		await wrapper.vm.fetchBooking()
 
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-loading\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-booking-404\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-not-right-user\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-good-booking\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-completed\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-logged-in\"]").exists()).toBe(true)
+		const loading = wrapper.find("[data-testid=\"conditional-view-manager-loading\"]")
+		const notFound = wrapper.find("[data-testid=\"conditional-view-manager-booking-404\"]")
+		const unauthorized = wrapper.find("[data-testid=\"conditional-view-manager-not-right-user\"]")
+		const good = wrapper.find("[data-testid=\"conditional-view-manager-good-booking\"]")
+		const notCompleted = wrapper.find("[data-testid=\"conditional-view-manager-not-completed\"]")
+		const loggedOut = wrapper.find("[data-testid=\"conditional-view-manager-needs-logged-in\"]")
+
+		expect(loading.exists()).toBe(false)
+		expect(notFound.exists()).toBe(false)
+		expect(unauthorized.exists()).toBe(false)
+		expect(good.exists()).toBe(false)
+		expect(notCompleted.exists()).toBe(false)
+		expect(loggedOut.exists()).toBe(true)
 	})
 
 	it("shows the BookingNotFound component if no booking is found", async () =>
@@ -177,13 +184,19 @@ describe("ManageBooking.vue", () =>
 		})
 
 		await wrapper.vm.fetchBooking()
+		const loading = wrapper.find("[data-testid=\"conditional-view-manager-loading\"]")
+		const notFound = wrapper.find("[data-testid=\"conditional-view-manager-booking-404\"]")
+		const unauthorized = wrapper.find("[data-testid=\"conditional-view-manager-not-right-user\"]")
+		const good = wrapper.find("[data-testid=\"conditional-view-manager-good-booking\"]")
+		const notCompleted = wrapper.find("[data-testid=\"conditional-view-manager-not-completed\"]")
+		const loggedOut = wrapper.find("[data-testid=\"conditional-view-manager-needs-logged-in\"]")
 
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-loading\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-logged-in\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-booking-404\"]").exists()).toBe(true)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-not-right-user\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-good-booking\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-completed\"]").exists()).toBe(false)
+		expect(loading.exists()).toBe(false)
+		expect(unauthorized.exists()).toBe(false)
+		expect(loggedOut.exists()).toBe(false)
+		expect(notCompleted.exists()).toBe(false)
+		expect(good.exists()).toBe(false)
+		expect(notFound.exists()).toBe(true)
 	})
 
 	it("shows the UnauthorizedBooking component if booking belongs to another user", async () =>
@@ -207,13 +220,19 @@ describe("ManageBooking.vue", () =>
 
 		await wrapper.vm.fetchBooking()
 		expect(wrapper.vm.bookingBelongsToUser).toBe(false)
+		const loading = wrapper.find("[data-testid=\"conditional-view-manager-loading\"]")
+		const notFound = wrapper.find("[data-testid=\"conditional-view-manager-booking-404\"]")
+		const unauthorized = wrapper.find("[data-testid=\"conditional-view-manager-not-right-user\"]")
+		const good = wrapper.find("[data-testid=\"conditional-view-manager-good-booking\"]")
+		const notCompleted = wrapper.find("[data-testid=\"conditional-view-manager-not-completed\"]")
+		const loggedOut = wrapper.find("[data-testid=\"conditional-view-manager-needs-logged-in\"]")
 
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-loading\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-logged-in\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-booking-404\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-good-booking\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-completed\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-not-right-user\"]").exists()).toBe(true)
+		expect(loading.exists()).toBe(false)
+		expect(notFound.exists()).toBe(false)
+		expect(loggedOut.exists()).toBe(false)
+		expect(notCompleted.exists()).toBe(false)
+		expect(good.exists()).toBe(false)
+		expect(unauthorized.exists()).toBe(true)
 	})
 
 	it("shows the CompletedBooking component if the booking is complete", async () =>
@@ -231,12 +250,19 @@ describe("ManageBooking.vue", () =>
 		await wrapper.vm.$nextTick()
 		expect(wrapper.vm.bookingCompleted).toBe(true)
 
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-loading\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-logged-in\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-booking-404\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-not-right-user\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-completed\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-good-booking\"]").exists()).toBe(true)
+		const loading = wrapper.find("[data-testid=\"conditional-view-manager-loading\"]")
+		const notFound = wrapper.find("[data-testid=\"conditional-view-manager-booking-404\"]")
+		const unauthorized = wrapper.find("[data-testid=\"conditional-view-manager-not-right-user\"]")
+		const good = wrapper.find("[data-testid=\"conditional-view-manager-good-booking\"]")
+		const notCompleted = wrapper.find("[data-testid=\"conditional-view-manager-not-completed\"]")
+		const loggedOut = wrapper.find("[data-testid=\"conditional-view-manager-needs-logged-in\"]")
+
+		expect(loading.exists()).toBe(false)
+		expect(notFound.exists()).toBe(false)
+		expect(unauthorized.exists()).toBe(false)
+		expect(loggedOut.exists()).toBe(false)
+		expect(notCompleted.exists()).toBe(false)
+		expect(good.exists()).toBe(true)
 	})
 
 	it("shows the FinalizeBooking component if the booking is not complete", async () =>
@@ -266,12 +292,19 @@ describe("ManageBooking.vue", () =>
 		expect(wrapper.vm.booking.paidAt).toBe(null)
 		expect(wrapper.vm.bookingCompleted).toBe(false)
 
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-loading\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-logged-in\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-booking-404\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-not-right-user\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-good-booking\"]").exists()).toBe(false)
-		expect(wrapper.find("[data-testid=\"conditional-view-manager-needs-completed\"]").exists()).toBe(true)
+		const loading = wrapper.find("[data-testid=\"conditional-view-manager-loading\"]")
+		const notFound = wrapper.find("[data-testid=\"conditional-view-manager-booking-404\"]")
+		const unauthorized = wrapper.find("[data-testid=\"conditional-view-manager-not-right-user\"]")
+		const good = wrapper.find("[data-testid=\"conditional-view-manager-good-booking\"]")
+		const notCompleted = wrapper.find("[data-testid=\"conditional-view-manager-not-completed\"]")
+		const loggedOut = wrapper.find("[data-testid=\"conditional-view-manager-needs-logged-in\"]")
+
+		expect(loading.exists()).toBe(false)
+		expect(notFound.exists()).toBe(false)
+		expect(unauthorized.exists()).toBe(false)
+		expect(good.exists()).toBe(false)
+		expect(loggedOut.exists()).toBe(false)
+		expect(notCompleted.exists()).toBe(true)
 	})
 
 	it("handles errors during booking fetch", async () =>
@@ -292,7 +325,10 @@ describe("ManageBooking.vue", () =>
 		await wrapper.vm.$nextTick()
 		await wrapper.vm.fetchBooking()
 
-		expect(consoleErrorSpy).toHaveBeenCalledWith("Error fetching booking:", new Error("Firestore error"))
+		expect(consoleErrorSpy).toHaveBeenCalledWith(
+			"Error fetching booking:",
+			new Error("Firestore error")
+		)
 		expect(wrapper.vm.isLoadingBooking).toBe(false)
 
 		consoleErrorSpy.mockRestore()

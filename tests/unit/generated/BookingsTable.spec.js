@@ -30,7 +30,7 @@ vi.mock("firebase/firestore", () =>
 		}),
 
 		doc: vi.fn(),
-		deleteDoc: vi.fn().mockResolvedValue(undefined),
+		deleteDoc: vi.fn().mockResolvedValue(),
 	}
 })
 

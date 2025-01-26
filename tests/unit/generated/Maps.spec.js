@@ -39,7 +39,7 @@ function createWrapper (options = {})
 {
 	return mount(Maps, {
 		global: {
-stubs: {
+			stubs: {
 				MapCard: {
 					template: "<div class=\"mocked-map-card\">Map Card</div>",
 				},
