@@ -83,7 +83,6 @@ export default {
 	width: 100%;
 
 	h1 {
-		flex-grow:1;
 		width: 100%;
 	}
 	.about-section {
