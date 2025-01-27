@@ -215,7 +215,7 @@ describe("PrivacyAndSecuritySettings.vue", () =>
 		await resetPasswordButton.vm.$emit("click")
 
 		// Verify the method was called
-		expect(consoleSpy).toHaveBeenCalledWith("Reset password clicked (TODO).")
+		expect(consoleSpy).toHaveBeenCalledWith("Password reset email sent successfully.")
 	})
 
 	it("calls deleteUserAccount when delete account button is clicked", async () =>
