@@ -86,7 +86,7 @@ export default {
 	computed: {
 		canDeleteAccount () 
 		{
-			return this.isLoggedIn && !this.isLoggingOut
+			return this.isLoggedIn && !this.isLoggingOut && false
 		},
 		canResetPassword () 
 		{
