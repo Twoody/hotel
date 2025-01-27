@@ -1,19 +1,25 @@
 <template>
-	<div class="user-settings-form-wrapper">
+	<div class="user-settings-security-tab-wrapper">
 		<h2>Privacy + Security Tab</h2>
 
 		<!-- Reset Password -->
 		<div class="session-management-wrapper">
-			<MyButton
-				class="user-action"
-				data-testid="button-user-action-password-reset"
-				:in-progress="isLoggingOut"
-				pill
-				:disabled="canResetPassword === false"
-				@click="resetUserPassword"
+			<Validatable
+				class="input-wrapper"
+				:error="resetUserMessage"
 			>
-				Reset Password
-			</MyButton>
+				<MyButton
+					class="user-action"
+					data-testid="button-user-action-password-reset"
+					:disabled="canResetPassword === false"
+					:in-progress="isResetingPassword"
+					:success="showingResetSuccess"
+					pill
+					@click="resetUserPassword"
+				>
+					Reset Password
+				</MyButton>
+			</Validatable>
 		</div>
 
 		<hr >
@@ -62,43 +68,78 @@
 </template>
 
 <script>
-import { signOut } from "firebase/auth"
+import { signOut, deleteUser, sendPasswordResetEmail } from "firebase/auth"
 import { firebaseAuth } from "@/firebase"
 
 export default {
 	name: "PrivacyAndSecuritySettings",
-	// Add props, data, methods, etc., as needed
 	data () 
 	{
 		return {
 			isLoggingOut: false,
+			isResetingPassword: false,
+			resetUserMessage: "",
+			showingResetSuccess: false,
 		}
 	},
 	computed: {
-		canDeleteAccount ()
+		canDeleteAccount () 
 		{
-			return (this.isLoggedIn && !this.isLoggingOut) && false
+			return this.isLoggedIn && !this.isLoggingOut
 		},
-		canResetPassword ()
+		canResetPassword () 
 		{
-			return (this.isLoggedIn && !this.isLoggingOut) && false
+			return this.isLoggedIn && !this.isLoggingOut && 
+				!this.showingResetSuccess && !this.isResetingPassword
 		},
-
 		/**
 		 * Checks whether the user is logged in.
 		 *
 		 * @returns {boolean} True if the user is logged in, false otherwise.
 		 */
-		isLoggedIn ()
+		isLoggedIn () 
 		{
 			return this.$store.state.user.isLoggedIn
 		},
-
+	},
+	created () {
+		this.showingResetSuccess = true
+		this.resetUserMessage = 'check me out i am message'
 	},
 	methods: {
-		deleteUserAccount () 
+		/**
+		 * Deletes the currently logged-in user account.
+		 *
+		 * @since 2.4.0
+		 */
+		async deleteUserAccount () 
 		{
-			console.log("Delete user account clicked (TODO).")
+			if (!this.isLoggedIn) 
+			{
+				console.error("User not logged in.")
+				return
+			}
+
+			try 
+			{
+				const user = firebaseAuth.currentUser
+				if (!user) 
+				{
+					console.error("No current user found.")
+					return
+				}
+
+				await deleteUser(user)
+				this.$store.dispatch("logoutUser")
+				this.$router.push({
+					path: "/", 
+				})
+				console.log("User account deleted successfully.")
+			}
+			catch (error) 
+			{
+				console.error("Error deleting account:", error)
+			}
 		},
 
 		async logout () 
@@ -126,14 +167,56 @@ export default {
 			}
 		},
 
-		resetUserPassword () 
+		/**
+		 * Sends a password reset email to the user's email address.
+		 *
+		 * @since 2.4.0
+		 */
+		async resetUserPassword () 
 		{
-			console.log("Reset password clicked (TODO).")
+			if (this.showingResetSuccess)
+			{
+				this.resetUserMessage = "Already sent reset email"
+				return false
+			}
+
+			this.isResetingPassword = true
+			try 
+			{
+				const user = firebaseAuth.currentUser
+				if (!user?.email) 
+				{
+					this.resetUserMessage = "No current user or email found."
+					return
+				}
+
+				await sendPasswordResetEmail(firebaseAuth, user.email)
+				this.resetUserMessage = "Password reset email sent successfully."
+				this.showingResetSuccess = true
+				this.isResetingPassword = false 
+				return true
+			}
+			catch (error) 
+			{
+				this.isResetingPassword = false 
+				console.error("Error resetting password:", error)
+				this.resetUserMessage = "Error resetting password; Try again?"
+				return false
+			}
 		},
+
 	},
 }
 </script>
 
-<style scoped lang="less">
-/* Insert any privacy/security-specific styles here */
+<style lang="less">
+@import "../assets/styles/styles";
+.user-settings-security-tab-wrapper {
+	.session-management-wrapper {
+		.error-message {
+			color: red;
+		}
+	}
+}
 </style>
+
