@@ -95,7 +95,7 @@
 							<span
 								v-if="isRegistering"
 								key="isRegistering"
-								class='cta-submit'
+								class="cta-submit"
 								data-testid="button-register-text"
 							>
 								Register Email
@@ -103,7 +103,7 @@
 							<span
 								v-else
 								key="!isRegistering"
-								class='cta-submit'
+								class="cta-submit"
 								data-testid="button-login-text"
 							>
 								Log In
@@ -414,6 +414,7 @@ export default {
 	max-width: 70%;
 	padding: 10px;
 	padding-top: 43px;
+			width: 100%;
 
 	.flex-container {
 		align-items: center;
@@ -465,8 +466,10 @@ export default {
 		padding-bottom: 7px;
 		position: relative;
 		transition: all 0.5s ease;
+			width: 100%;
 
 		.cta-submit {
+			width: 100%;
 			font-size: 20px;
 		}
 
@@ -481,11 +484,9 @@ export default {
 			overflow: visible;
 		}
 
-
 		.input-wrapper {
-			min-width: 90%;
+				width: 100%;
 			transition: all 0.5s ease-in-out, overflow 0.5s;
-			width: auto;
 
 			.login-item {
 				border-radius: 5px;
@@ -494,7 +495,7 @@ export default {
 				margin-bottom: 10px;
 				min-height: 32px;
 				transition: all 0.5s ease;
-				width: 100%;
+			width: calc(100% - 10px);
 
 				&:active {
 					transform: translate3d(-1px, 0, 0) scale(1.02);
@@ -512,8 +513,8 @@ export default {
 		.login-button-wrapper {
 			margin-bottom: 10px;
 			margin-top: 10px;
-			min-width: 50%;
-			max-width: 50%;
+			min-width: 70%;
+			max-width: 70%;
 
 			.login-button {
 				margin-bottom: 14px;
