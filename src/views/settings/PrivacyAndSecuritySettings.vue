@@ -219,7 +219,8 @@ export default {
 			display: flex;
 			flex-direction: column;
 			.error-message {
-				color: red;
+				// TODO: Pick a better color
+				color: blue;
 			}
 		}
 	}
