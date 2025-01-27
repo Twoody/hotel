@@ -7,6 +7,7 @@
 			<Validatable
 				class="input-wrapper"
 				:error="resetUserMessage"
+				:showError="resetUserMessage?.length"
 			>
 				<MyButton
 					class="user-action"
@@ -102,9 +103,8 @@ export default {
 			return this.$store.state.user.isLoggedIn
 		},
 	},
-	created () {
-		this.showingResetSuccess = true
-		this.resetUserMessage = 'check me out i am message'
+	created () 
+	{
 	},
 	methods: {
 		/**
@@ -213,8 +213,14 @@ export default {
 @import "../assets/styles/styles";
 .user-settings-security-tab-wrapper {
 	.session-management-wrapper {
-		.error-message {
-			color: red;
+		.input-wrapper {
+			align-content: center;
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			.error-message {
+				color: red;
+			}
 		}
 	}
 }
