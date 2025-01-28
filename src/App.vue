@@ -164,6 +164,22 @@ export default {
 			console.error("Local: Could not connect to Firebase")
 			console.error(e)
 		}
+
+		// TODO: consider an admin page
+		//	admin.initializeApp();
+		//	try
+		//	{
+		//		const userRecord = await admin.auth().getUser(uid);
+		//		console.log('User still exists:', userRecord);
+		//	}
+		//		catch (error) {
+		//		if (error.code === 'auth/user-not-found') {
+		//			console.log('User successfully deleted.');
+		//		} else {
+		//			console.error('Error fetching user:', error);
+		//		}
+		//	}
+
 	},
 	beforeDestroy: function()
 	{
