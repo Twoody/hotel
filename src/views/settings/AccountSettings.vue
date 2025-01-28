@@ -339,40 +339,6 @@ export default {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-
-		.user-setting-input-wrapper {
-			align-items: center;
-		}
-
-		label {
-			display: flex;
-			flex-direction: column;
-			font-weight: bold;
-			.locked-input {
-				cursor: not-allowed;
-			}
-			.lock-icon {
-				cursor: not-allowed;
-			}
-			.input-wrapper {
-				align-items: center;
-				display: flex;
-				gap: 0.5rem;
-				/* The left padding is simply for positioning; adjust as needed. */
-				padding-left: 19px;
-			}
-
-			input {
-				padding: 0.5rem;
-				border: 1px solid #ccc;
-				border-radius: 5px;
-			}
-
-			input.inactive {
-				background-color: #f0f0f0;
-				color: #999;
-			}
-		}
 	}
 	hr {
 		border: 1px solid @myblack;
