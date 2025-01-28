@@ -1,4 +1,4 @@
-import { doc, collection, getDoc, setDoc } from "firebase/firestore"
+import { doc, deleteDoc, collection, getDoc, setDoc } from "firebase/firestore"
 import { db } from "@/firebase" // using the pre-initialized db
 
 /**
@@ -31,7 +31,7 @@ export async function updateFirestoreUser (currentUser, newPayload)
 	}
 	/** 
 	 * For an even stricter security model, you could do something like:
-	 *   if (!currentUser.isAdmin && currentUser.uid !== newPayload.uidToUpdate) { ... } 
+	 *	 if (!currentUser.isAdmin && currentUser.uid !== newPayload.uidToUpdate) { ... } 
 	 * or fetch custom claims from Firebase Auth and only allow certain roles to do certain updates.
 	 */
 
@@ -43,7 +43,7 @@ export async function updateFirestoreUser (currentUser, newPayload)
 	 * If you want to allow an admin to update someone else, pass the correct uid via newPayload or similar.
 	 */
 	const userDocRef = doc(db, "users", currentUser.uid)
-  
+	
 	try 
 	{
 		const userDoc = await getDoc(userDocRef)
@@ -130,6 +130,45 @@ export async function addUserToFirestore (user)
 		querySnapshot.invalid = true 
 	}
 	return querySnapshot
+}
+
+/**
+ * Deletes a user's document from the Firestore users collection.
+ *
+ * @param {object} user - The Firebase user object to delete (must include `uid`).
+ * @returns {object} successMessage - Indicates whether the operation was successful.
+ */
+export async function deleteUserFromFirestore (user) 
+{
+	let successMessage = {
+		success: false,
+		message: "DEFAULT",
+	}
+
+	if (!user || !user.uid) 
+	{
+		successMessage.message = "No valid user to delete."
+		console.error(successMessage.message)
+		return successMessage
+	}
+
+	const userDocRef = doc(db, "users", user.uid)
+
+	try 
+	{
+		// Delete the user document from Firestore
+		await deleteDoc(userDocRef)
+		successMessage.success = true
+		successMessage.message = `User document "${user.uid}" deleted successfully.`
+		console.info(successMessage.message)
+		return successMessage
+	}
+	catch (error) 
+	{
+		successMessage.message = `Error deleting Firestore user document: "${user.uid}".`
+		console.error(successMessage.message, error)
+		return successMessage
+	}
 }
 
 /**

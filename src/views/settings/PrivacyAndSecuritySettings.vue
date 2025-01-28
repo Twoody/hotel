@@ -66,11 +66,11 @@
 
 		<!-- Modal for Delete Account -->
 		<DialogModal
-			class="modal-overlay"
-			:backgroundColor='"#f7e9f3"'
-			:bodyColor='"#f7e9f3"'
-			:footerColor='"#f7e9f3"'
-			:headerColor='"#f7e9f3"'
+			class="delete-modal-overlay"
+			:backgroundColor="&quot;#f7e9f3&quot;"
+			:bodyColor="&quot;#f7e9f3&quot;"
+			:footerColor="&quot;#f7e9f3&quot;"
+			:headerColor="&quot;#f7e9f3&quot;"
 
 			:closeButtonLabel="'Cancel'"
 			:visible="showDeleteModal"
@@ -102,7 +102,7 @@
 				<div class="modal-buttons">
 					<MyButton
 						class="confirm-delete"
-						@click="confirmDeleteAccount"
+						@click="deleteUserAccount"
 						:disabled="isDeletingAccount || !deletePassword.length"
 						:in-progress="isDeletingAccount"
 					>
@@ -115,8 +115,13 @@
 </template>
 
 <script>
-import { signOut, deleteUser, sendPasswordResetEmail, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth"
+import {deleteUser,
+	reauthenticateWithCredential,
+	sendPasswordResetEmail,
+	signOut,
+	EmailAuthProvider} from "firebase/auth"
 import { firebaseAuth } from "@/firebase"
+import { deleteUserFromFirestore } from "@/utils"
 
 export default {
 	name: "PrivacyAndSecuritySettings",
@@ -170,18 +175,10 @@ export default {
 		/**
 		 * @since 2.4.0
 		 */
-		openDeleteModal ()
-		{
-			this.showDeleteModal = true;
-		},
-
-		/**
-		 * @since 2.4.0
-		 */
 		closeDeleteModal ()
 		{
-			this.showDeleteModal = false;
-			this.deletePassword = "";
+			this.showDeleteModal = false
+			this.deletePassword = ""
 		},
 
 		/**
@@ -196,44 +193,59 @@ export default {
 				return
 			}
 
-			this.isDeletingAccount = true;
+			this.isDeletingAccount = true
 
 			try 
 			{
-				if (!this.currentUser) 
+				if (!this.currentUser?.email.length || !firebaseAuth.currentUser) 
 				{
 					console.error("No current user found.")
 					return
 				}
 				const credential = EmailAuthProvider.credential(
-					user.email,
+					this.currentUser.email,
 					this.deletePassword
-				);
+				)
+				console.log(credential)
 
 				// Re-authenticate the user
-				await reauthenticateWithCredential(user, credential);
+				await firebaseAuth.currentUser.getIdToken(true)
+				await reauthenticateWithCredential(firebaseAuth.currentUser, credential)
+				console.log("auth passed")
 
-				// Delete the user account
-				await deleteUser(user);
-
-				this.$store.dispatch("logoutUser");
-				this.$router.push({ path: "/" });
-				console.log("User account deleted successfully.");
+				// Delete the user account from `user` collection first
+				const result = await deleteUserFromFirestore(this.currentUser)
+				if (!result.success)
+				{
+					console.error("Failed to delete user from Firestore:", result.message)
+				}
+				else
+				{
+					// If user collection was deleted, the primary user can be removed now too
+					await deleteUser(firebaseAuth.currentUser)
+					// Force sign-out to clear any cached authentication state
+					await signOut(firebaseAuth)
+					this.$store.dispatch("logoutUser")
+					this.$router.push({
+						path: "/", 
+					})
+					console.info("User account deleted successfully.")
+				}
 			}
 			catch (error) 
 			{
 				console.error("Error deleting account:", error)
-				alert("Error deleting account. Please try again.");
+				alert("Error deleting account. Please try again.")
 			}
 			finally 
 			{
-				this.isDeletingAccount = false;
-				this.closeDeleteModal();
+				this.isDeletingAccount = false
+				this.closeDeleteModal()
 			}
 		},
 
 		/**
-		 * @return {boolean} Success of logout or not
+		 * @returns {boolean} Success of logout or not
 		 */
 		async logout () 
 		{
@@ -260,7 +272,14 @@ export default {
 				this.isLoggingOut = false
 				return false
 			}
-			return false
+		},
+
+		/**
+		 * @since 2.4.0
+		 */
+		openDeleteModal ()
+		{
+			this.showDeleteModal = true
 		},
 
 		/**
@@ -319,7 +338,7 @@ export default {
 			}
 		}
 	}
-	.modal-overlay {
+	.delete-modal-overlay {
 		.dialog-content {
 			.dialog-header {
 				border-bottom: 1px solid black;
@@ -355,14 +374,12 @@ export default {
 			margin-top: 20px;
 		}
 		.confirm-delete {
-			background: red;
+			background: @danger;
+			border-radius: 11px !important;
 			color: white;
 		}
-		.dialog-footer {
-			border-radius: 111px;
-		}
 		.dialog-button {
-			border-radius: 111px;
+			border-radius: 11px !important;
 		}
 	}
 }
