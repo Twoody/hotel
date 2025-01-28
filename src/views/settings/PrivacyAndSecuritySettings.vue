@@ -49,7 +49,7 @@
 				:in-progress="isLoggingOut"
 				pill
 				:disabled="canDeleteAccount === false"
-				@click="deleteUserAccount"
+				@click="openDeleteModal"
 			>
 				Delete Account
 			</MyButton>
@@ -64,12 +64,58 @@
 			</p>
 		</div>
 
-		<!-- Additional content as needed -->
+		<!-- Modal for Delete Account -->
+		<DialogModal
+			class="modal-overlay"
+			:backgroundColor='"#f7e9f3"'
+			:bodyColor='"#f7e9f3"'
+			:footerColor='"#f7e9f3"'
+			:headerColor='"#f7e9f3"'
+
+			:closeButtonLabel="'Cancel'"
+			:visible="showDeleteModal"
+			@close="closeDeleteModal"
+		>
+			<template #title>
+				<h3>Are you sure you want to delete your account?</h3>
+			</template>
+			<template #body>
+				<p>Please enter your password to confirm:</p>
+
+				<label class="user-setting-input-wrapper">
+					Password
+					<Validatable
+						class="user-setting-input"
+						:error="displayedFormErrors?.password || ''"
+					>
+						<div class="input-wrapper">
+							<input
+								v-model="deletePassword"
+								type="password"
+								data-testid="input-delete-password"
+								placeholder="Enter your password"
+							>
+						</div>
+					</Validatable>
+				</label>
+
+				<div class="modal-buttons">
+					<MyButton
+						class="confirm-delete"
+						@click="confirmDeleteAccount"
+						:disabled="isDeletingAccount || !deletePassword.length"
+						:in-progress="isDeletingAccount"
+					>
+						Yes, Delete My Account
+					</MyButton>
+				</div>
+			</template>
+		</DialogModal>
 	</div>
 </template>
 
 <script>
-import { signOut, deleteUser, sendPasswordResetEmail } from "firebase/auth"
+import { signOut, deleteUser, sendPasswordResetEmail, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth"
 import { firebaseAuth } from "@/firebase"
 
 export default {
@@ -77,21 +123,35 @@ export default {
 	data () 
 	{
 		return {
+			deletePassword: "",
+			isDeletingAccount: false,
 			isLoggingOut: false,
 			isResetingPassword: false,
 			resetUserMessage: "",
+			showDeleteModal: false,
 			showingResetSuccess: false,
+
 		}
 	},
 	computed: {
 		canDeleteAccount () 
 		{
-			return this.isLoggedIn && !this.isLoggingOut && false
+			return this.isLoggedIn && !this.isLoggingOut &&
+				!this.isDeletingAccount
 		},
+
 		canResetPassword () 
 		{
 			return this.isLoggedIn && !this.isLoggingOut && 
 				!this.showingResetSuccess && !this.isResetingPassword
+		},
+
+		/**
+		 * @returns {}
+		 */
+		currentUser () 
+		{
+			return this.$store.state.user.user
 		},
 		/**
 		 * Checks whether the user is logged in.
@@ -108,47 +168,82 @@ export default {
 	},
 	methods: {
 		/**
+		 * @since 2.4.0
+		 */
+		openDeleteModal ()
+		{
+			this.showDeleteModal = true;
+		},
+
+		/**
+		 * @since 2.4.0
+		 */
+		closeDeleteModal ()
+		{
+			this.showDeleteModal = false;
+			this.deletePassword = "";
+		},
+
+		/**
 		 * Deletes the currently logged-in user account.
 		 *
 		 * @since 2.4.0
 		 */
 		async deleteUserAccount () 
 		{
-			if (!this.isLoggedIn) 
+			if (!this.canDeleteAccount) 
 			{
-				console.error("User not logged in.")
 				return
 			}
 
+			this.isDeletingAccount = true;
+
 			try 
 			{
-				const user = firebaseAuth.currentUser
-				if (!user) 
+				if (!this.currentUser) 
 				{
 					console.error("No current user found.")
 					return
 				}
+				const credential = EmailAuthProvider.credential(
+					user.email,
+					this.deletePassword
+				);
 
-				await deleteUser(user)
-				this.$store.dispatch("logoutUser")
-				this.$router.push({
-					path: "/", 
-				})
-				console.log("User account deleted successfully.")
+				// Re-authenticate the user
+				await reauthenticateWithCredential(user, credential);
+
+				// Delete the user account
+				await deleteUser(user);
+
+				this.$store.dispatch("logoutUser");
+				this.$router.push({ path: "/" });
+				console.log("User account deleted successfully.");
 			}
 			catch (error) 
 			{
 				console.error("Error deleting account:", error)
+				alert("Error deleting account. Please try again.");
+			}
+			finally 
+			{
+				this.isDeletingAccount = false;
+				this.closeDeleteModal();
 			}
 		},
 
+		/**
+		 * @return {boolean} Success of logout or not
+		 */
 		async logout () 
 		{
+			// Set and ensure states
 			if (this.isLoggingOut) 
 			{
-				return
+				return false
 			}
 			this.isLoggingOut = true
+
 			try 
 			{
 				await signOut(firebaseAuth)
@@ -156,15 +251,16 @@ export default {
 				this.$router.push({
 					path: "/",
 				})
+				this.isLoggingOut = false
+				return true
 			}
 			catch (error) 
 			{
 				console.error(error)
-			}
-			finally 
-			{
 				this.isLoggingOut = false
+				return false
 			}
+			return false
 		},
 
 		/**
@@ -183,14 +279,13 @@ export default {
 			this.isResetingPassword = true
 			try 
 			{
-				const user = firebaseAuth.currentUser
-				if (!user?.email) 
+				if (!this.currentUser?.email) 
 				{
 					this.resetUserMessage = "No current user or email found."
 					return
 				}
 
-				await sendPasswordResetEmail(firebaseAuth, user.email)
+				await sendPasswordResetEmail(firebaseAuth, this.currentUser.email)
 				this.resetUserMessage = "Password reset email sent successfully."
 				this.showingResetSuccess = true
 				this.isResetingPassword = false 
@@ -222,6 +317,52 @@ export default {
 				// TODO: Pick a better color
 				color: blue;
 			}
+		}
+	}
+	.modal-overlay {
+		.dialog-content {
+			.dialog-header {
+				border-bottom: 1px solid black;
+				color: @myblack;
+			}
+			.dialog-body {
+				color: @myblack;
+			}
+		}
+		align-items: center;
+		background: rgba(0, 0, 0, 0.5);
+		color: @myblack;
+		display: flex;
+		height: 100%;
+		justify-content: center;
+		left: 0;
+		position: fixed;
+		top: 0;
+		width: 100%;
+
+		.modal-content {
+			color: @myblack;
+			background: white;
+			padding: 20px;
+			border-radius: 11px;
+			text-align: center;
+			width: 90%;
+			max-width: 400px;
+		}
+		.modal-buttons {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 20px;
+		}
+		.confirm-delete {
+			background: red;
+			color: white;
+		}
+		.dialog-footer {
+			border-radius: 111px;
+		}
+		.dialog-button {
+			border-radius: 111px;
 		}
 	}
 }
