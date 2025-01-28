@@ -495,7 +495,7 @@ export default {
 				margin-bottom: 10px;
 				min-height: 32px;
 				transition: all 0.5s ease;
-			width: calc(100% - 10px);
+			width: calc(100% - 20px);
 
 				&:active {
 					transform: translate3d(-1px, 0, 0) scale(1.02);
