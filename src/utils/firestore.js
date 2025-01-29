@@ -1,5 +1,6 @@
 import { doc, deleteDoc, collection, getDoc, setDoc } from "firebase/firestore"
-import { db } from "@/firebase" // using the pre-initialized db
+import { db, firebaseAuth } from "@/firebase" // using the pre-initialized db
+import { GoogleAuthProvider, reauthenticateWithCredential, signInWithPopup } from "firebase/auth"
 
 /**
  * Update a user document given appropriate and supported payload fields
@@ -218,4 +219,49 @@ export function getFirestoreUserPayload ()
 		zipcode: "",
 	}
 	return userPayload
+}
+
+/**
+ * @returns {boolean} Was reauthentication done
+ * @since 2.4.0
+ */
+export async function reauthenticateGoogleUser ()
+{
+	const user = firebaseAuth.currentUser
+	if (!user)
+	{
+		console.error("No user is currently signed in.")
+		return false
+	}
+
+	const providerData = user.providerData.find((p) => p.providerId === "google.com")
+	if (!providerData)
+	{
+		// console.info("`google.com` provider not found")
+		return true
+	}
+
+	try
+	{
+		const provider = new GoogleAuthProvider()
+
+		// 🔹 Force Google sign-in popup to get a fresh credential
+		const result = await signInWithPopup(firebaseAuth, provider)
+		const credential = GoogleAuthProvider.credentialFromResult(result)
+
+		if (!credential)
+		{
+			throw new Error("Failed to obtain Google credential for reauthentication.")
+		}
+
+		// 🔹 Re-authenticate with the fresh credential
+		await reauthenticateWithCredential(user, credential)
+		return true
+	}
+	catch (error)
+	{
+		console.error("Reauthentication failed:", error)
+		alert("Session expired. Please sign in again.")
+		return false
+	}
 }
