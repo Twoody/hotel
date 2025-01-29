@@ -118,7 +118,7 @@ export default {
 			})
 				.then(() => 
 				{
-					window.location.reload();
+					window.location.reload()
 				})
 		},
 	},
