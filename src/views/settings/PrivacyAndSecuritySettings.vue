@@ -115,11 +115,7 @@
 </template>
 
 <script>
-import {deleteUser,
-	reauthenticateWithCredential,
-	sendPasswordResetEmail,
-	signOut
-	} from "firebase/auth"
+import {deleteUser, sendPasswordResetEmail, signOut} from "firebase/auth"
 import { firebaseAuth } from "@/firebase"
 import { deleteUserFromFirestore, reauthenticateGoogleUser } from "@/utils"
 
