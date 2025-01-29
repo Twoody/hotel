@@ -108,6 +108,31 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 						"pill",
 					],
 				},
+				DialogModal: {
+					name: "DialogModal",
+					template: `
+						<div class="dialog-modal-wrapper">
+							<div class="title-wrapper">
+								<slot name="title"/>
+							</div>
+							<div class="content-wrapper">
+								<slot name="content"/>
+							</div>
+							<button
+								class='cta-button'
+								@click="$emit('click', $event)"
+							>
+								Close Modal
+							</button>
+						</div>
+					`,
+				},
+
+				Validatable: {
+					name: "Validatable",
+					template: "<div class='validatable-stub'><slot /></div>",
+				},
+
 			},
 		},
 		...options,
@@ -195,48 +220,65 @@ describe("PrivacyAndSecuritySettings.vue", () =>
 		consoleSpy.mockRestore()
 	})
 
-	it("calls resetUserPassword when reset password button is clicked", async () =>
+	it("calls resetUserPassword when reset password button is clicked", async () => 
 	{
+		// Mock the resetUserPassword method
+		const resetUserPasswordMock = vi.spyOn(PrivacyAndSecuritySettings.methods, "resetUserPassword")
+
 		const wrapper = createWrapper({
 			userState: {
 				isLoggedIn: true, // Ensure the user is logged in to enable the button
+				user: {
+					email: "test@example.com", 
+				}, // Mock the current user's email
 			},
 		})
 
-		const consoleSpy = vi.spyOn(console, "log").mockImplementation(() =>
-		{})
+		// Find the reset password button and trigger click event
+		const resetPasswordButton = wrapper.find("[data-testid='button-user-action-password-reset']")
 
-		const resetPasswordButton = wrapper.findComponent(
-			"[data-testid=\"button-user-action-password-reset\"]"
-		)
+		// Ensure the button is enabled
 		expect(resetPasswordButton.exists()).toBe(true)
+		expect(wrapper.vm.canResetPassword).toBe(true)
+		expect(wrapper.vm.isResetingPassword).toBe(false)
+		expect(resetPasswordButton.classes()).not.toContain("disabled")
 
-		// Trigger the click event
-		await resetPasswordButton.vm.$emit("click")
-
-		// Verify the method was called
-		expect(consoleSpy).toHaveBeenCalledWith("Password reset email sent successfully.")
+		// Verify that the method was called
+		await resetPasswordButton.trigger("click")
+		await wrapper.vm.$nextTick()
+		expect(resetUserPasswordMock).toHaveBeenCalledWith( expect.anything())
 	})
 
-	it("calls deleteUserAccount when delete account button is clicked", async () =>
+	it("calls openDeleteModal when delete account button is clicked", async () => 
 	{
+		const openDeleteModal = vi.spyOn(
+			PrivacyAndSecuritySettings.methods,
+			"openDeleteModal"
+		)
+
 		const wrapper = createWrapper({
 			userState: {
-				isLoggedIn: true,
-			}, // Enable the button
+				isLoggedIn: true, // Ensure the user is logged in
+				user: {
+					email: "test@example.com", 
+				}, // Mock current user's email
+			},
 		})
 
-		const consoleSpy = vi.spyOn(console, "log").mockImplementation(() =>
-		{})
+		// Find the delete account button and trigger click event
+		const deleteAccountButton = wrapper.find("[data-testid='button-user-action-delete-account']")
+		// Ensure the button is enabled
+		expect(deleteAccountButton.exists()).toBe(true)
+		expect(wrapper.vm.canDeleteAccount).toBe(true)
+		expect(wrapper.vm.isDeletingAccount).toBe(false)
+		expect(wrapper.vm.showDeleteModal).toBe(false)
+		expect(deleteAccountButton.classes()).not.toContain("disabled")
 
-		const deleteAccountButton = wrapper.findComponent(
-			"[data-testid=\"button-user-action-delete-account\"]"
-		)
-
-		// Trigger the click event
-		await deleteAccountButton.vm.$emit("click")
-
-		// Verify the method was called
-		expect(consoleSpy).toHaveBeenCalledWith("Delete user account clicked (TODO).")
+		// Verify that the method was called
+		await deleteAccountButton.trigger("click")
+		await wrapper.vm.$nextTick()
+		expect(wrapper.vm.showDeleteModal).toBe(true)
+		expect(openDeleteModal).toHaveBeenCalledWith( expect.anything())
 	})
+
 })

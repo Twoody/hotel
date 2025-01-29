@@ -102,9 +102,9 @@
 				<div class="modal-buttons">
 					<MyButton
 						class="confirm-delete"
-						@click="deleteUserAccount"
 						:disabled="isDeletingAccount || !deleteEmail.length"
 						:in-progress="isDeletingAccount"
+						@click="deleteUserAccount"
 					>
 						Yes, Delete My Account
 					</MyButton>
