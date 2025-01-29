@@ -103,7 +103,6 @@ export default {
 			this.$store.commit("setIsShowingBanner", !navigator.onLine)
 		},
 	},
-	// Inside your created function
 	created: function() 
 	{
 		// Initialize Firebase
@@ -111,7 +110,7 @@ export default {
 		{
 			onAuthStateChanged(
 				firebaseAuth,
-				async (user) => // Make the callback async
+				async (user) =>
 				{
 					// Check the mutex so multiple logins do not occur
 					if (this.$store.state.user.isLoggingIn)
@@ -127,8 +126,6 @@ export default {
 
 					if (user?.uid)
 					{
-						// console.info("User is signed in:", user)
-
 						// Now that the user is authenticated, read from Firestore
 						try 
 						{
