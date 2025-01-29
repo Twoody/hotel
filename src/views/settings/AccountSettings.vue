@@ -195,10 +195,8 @@
 </template>
 
 <script>
-import { updateFirestoreUser } from "@/utils/firestore.js"
+import { reauthenticateGoogleUser, updateFirestoreUser } from "@/utils/firestore.js"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { GoogleAuthProvider, reauthenticateWithCredential, signInWithPopup } from "firebase/auth"
-import { firebaseAuth } from "@/firebase" // Adjust path as necessary
 
 export default {
 	name: "AccountSettings",
@@ -279,50 +277,6 @@ export default {
 			}
 		},
 
-		/**
-		 * @returns {boolean} Was reauthentication done
-		 * @since 2.4.0
-		 */
-		async reauthenticateGoogleUser ()
-		{
-			const user = firebaseAuth.currentUser
-			if (!user)
-			{
-				console.error("No user is currently signed in.")
-				return false
-			}
-
-			const providerData = user.providerData.find((p) => p.providerId === "google.com")
-			if (!providerData)
-			{
-				return false
-			}
-
-			try
-			{
-				const provider = new GoogleAuthProvider()
-
-				// 🔹 Force Google sign-in popup to get a fresh credential
-				const result = await signInWithPopup(firebaseAuth, provider)
-				const credential = GoogleAuthProvider.credentialFromResult(result)
-
-				if (!credential)
-				{
-					throw new Error("Failed to obtain Google credential for reauthentication.")
-				}
-
-				// 🔹 Re-authenticate with the fresh credential
-				await reauthenticateWithCredential(user, credential)
-				return true
-			}
-			catch (error)
-			{
-				console.error("Reauthentication failed:", error)
-				alert("Session expired. Please sign in again.")
-				return false
-			}
-		},
-
 		/** @returns {void} */
 		async submitUpdatedUser ()
 		{
@@ -336,8 +290,8 @@ export default {
 			try
 			{
 				// If google user, Reauthenticate before updating Firestore; Else, does nothing
-				const isReauthenticated = await this.reauthenticateGoogleUser()
-				if (!isReauthenticated)
+				const reauthenticatedCheck = await reauthenticateGoogleUser()
+				if (!reauthenticatedCheck)
 				{
 					throw new Error("Reauthentication failed. Cannot update user.")
 				}
