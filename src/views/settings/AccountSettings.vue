@@ -66,7 +66,7 @@
 				Last Name:
 				<Validatable
 					class="user-setting-input"
-					:error="displayedFormErrors.lastName || ''"
+					:error="''"
 				>
 					<div class="input-wrapper">
 						<input
@@ -197,6 +197,8 @@
 <script>
 import { updateFirestoreUser } from "@/utils/firestore.js"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
+import { GoogleAuthProvider, reauthenticateWithCredential, signInWithPopup } from "firebase/auth"
+import { firebaseAuth } from "@/firebase" // Adjust path as necessary
 
 export default {
 	name: "AccountSettings",
@@ -273,6 +275,51 @@ export default {
 				this.formData.street = this.currentUser.street || ""
 				this.formData.state = this.currentUser.state || ""
 				this.formData.zipcode = this.currentUser.zipcode || ""
+
+			}
+		},
+
+		/**
+		 * @returns {boolean} Was reauthentication done
+		 * @since 2.4.0
+		 */
+		async reauthenticateGoogleUser ()
+		{
+			const user = firebaseAuth.currentUser
+			if (!user)
+			{
+				console.error("No user is currently signed in.")
+				return false
+			}
+
+			const providerData = user.providerData.find((p) => p.providerId === "google.com")
+			if (!providerData)
+			{
+				return false
+			}
+
+			try
+			{
+				const provider = new GoogleAuthProvider()
+
+				// 🔹 Force Google sign-in popup to get a fresh credential
+				const result = await signInWithPopup(firebaseAuth, provider)
+				const credential = GoogleAuthProvider.credentialFromResult(result)
+
+				if (!credential)
+				{
+					throw new Error("Failed to obtain Google credential for reauthentication.")
+				}
+
+				// 🔹 Re-authenticate with the fresh credential
+				await reauthenticateWithCredential(user, credential)
+				return true
+			}
+			catch (error)
+			{
+				console.error("Reauthentication failed:", error)
+				alert("Session expired. Please sign in again.")
+				return false
 			}
 		},
 
@@ -283,9 +330,18 @@ export default {
 			{
 				return
 			}
+			
 			this.isUpdating = true
+
 			try
 			{
+				// If google user, Reauthenticate before updating Firestore; Else, does nothing
+				const isReauthenticated = await this.reauthenticateGoogleUser()
+				if (!isReauthenticated)
+				{
+					throw new Error("Reauthentication failed. Cannot update user.")
+				}
+
 				const payloadToUpdate = {
 					city: this.formData.city,
 					country: this.formData.country,
@@ -297,14 +353,10 @@ export default {
 					zipcode: this.formData.zipcode,
 				}
 
-				const result = await updateFirestoreUser(
-					this.currentUser,
-					payloadToUpdate
-				)
+				const result = await updateFirestoreUser(this.currentUser, payloadToUpdate)
 				if (result?.success)
 				{
 					alert("User updated successfully!")
-					// Once user is updated, get updated user for store
 					this.$store.dispatch("updateUserStore")
 				}
 				else
