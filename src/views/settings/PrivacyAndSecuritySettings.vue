@@ -80,20 +80,20 @@
 				<h3>Are you sure you want to delete your account?</h3>
 			</template>
 			<template #body>
-				<p>Please enter your password to confirm:</p>
+				<p>Please enter your email to confirm:</p>
 
 				<label class="user-setting-input-wrapper">
-					Password
+					Email
 					<Validatable
 						class="user-setting-input"
-						:error="displayedFormErrors?.password || ''"
+						:error="displayedFormErrors?.email || ''"
 					>
 						<div class="input-wrapper">
 							<input
-								v-model="deletePassword"
-								type="password"
-								data-testid="input-delete-password"
-								placeholder="Enter your password"
+								v-model="deleteEmail"
+								type="email"
+								data-testid="input-delete-email"
+								placeholder="Enter your email"
 							>
 						</div>
 					</Validatable>
@@ -103,7 +103,7 @@
 					<MyButton
 						class="confirm-delete"
 						@click="deleteUserAccount"
-						:disabled="isDeletingAccount || !deletePassword.length"
+						:disabled="isDeletingAccount || !deleteEmail.length"
 						:in-progress="isDeletingAccount"
 					>
 						Yes, Delete My Account
@@ -118,17 +118,17 @@
 import {deleteUser,
 	reauthenticateWithCredential,
 	sendPasswordResetEmail,
-	signOut,
-	EmailAuthProvider} from "firebase/auth"
+	signOut
+	} from "firebase/auth"
 import { firebaseAuth } from "@/firebase"
-import { deleteUserFromFirestore } from "@/utils"
+import { deleteUserFromFirestore, reauthenticateGoogleUser } from "@/utils"
 
 export default {
 	name: "PrivacyAndSecuritySettings",
 	data () 
 	{
 		return {
-			deletePassword: "",
+			deleteEmail: "",
 			isDeletingAccount: false,
 			isLoggingOut: false,
 			isResetingPassword: false,
@@ -178,7 +178,7 @@ export default {
 		closeDeleteModal ()
 		{
 			this.showDeleteModal = false
-			this.deletePassword = ""
+			this.deleteEmail = ""
 		},
 
 		/**
@@ -202,16 +202,18 @@ export default {
 					console.error("No current user found.")
 					return
 				}
-				const credential = EmailAuthProvider.credential(
-					this.currentUser.email,
-					this.deletePassword
-				)
-				console.log(credential)
+				if (this.deleteEmail != this.currentUser.email)
+				{
+					console.error("Error deleting account: Emails do not match")
+					alert("Emails did not match. Please try again.")
+					return
+				}
 
-				// Re-authenticate the user
-				await firebaseAuth.currentUser.getIdToken(true)
-				await reauthenticateWithCredential(firebaseAuth.currentUser, credential)
-				console.log("auth passed")
+				const reauthenticatedCheck = await reauthenticateGoogleUser()
+				if (!reauthenticatedCheck)
+				{
+					throw new Error("Reauthentication failed. Cannot update user.")
+				}
 
 				// Delete the user account from `user` collection first
 				const result = await deleteUserFromFirestore(this.currentUser)
