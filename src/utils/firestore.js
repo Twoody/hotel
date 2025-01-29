@@ -97,8 +97,6 @@ export async function addUserToFirestore (user)
 	// If user not found in db, send payload to db to add user, then request the user again
 	if (!querySnapshot.exists())
 	{
-		// TODO: Probably make this compatible with facebook user creations? 
-		// 		It was only started for users using google to login
 		const userPayload = getFirestoreUserPayload()
 		// If Google account that has not been recorded
 		userPayload.display_name = user.displayName || ""
