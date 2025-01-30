@@ -187,8 +187,10 @@ export default {
 				{
 					// Add user to Firestore if necessary
 					const firestoreUser = await addUserToFirestore(user)
+					const userData = firestoreUser.data()
+					userData.uid = firebaseAuth.currentUser.uid
 					// Tell Vuex to fetch/store the user
-					this.$store.dispatch("fetchUser", firestoreUser.data())
+					this.$store.dispatch("fetchUser", userData)
 					// Redirect or route as appropriate
 					this.$router.push({
 						path: "/", 

@@ -94,18 +94,21 @@ export default {
 				const timestamp = serverTimestamp()
 				const bookingsRef = await collection(db, "bookings")
 				const newBookingRef = doc(bookingsRef)
-				await setDoc(newBookingRef, {
-					bookedAt: null,
-					countChildren: null,
-					countGuests: null,
-					countPets: null,
-					createdAt: timestamp,
-					endDate: bookingData.endDate || null,
-					guestID: this.currentUser.uid,
-					hostID: 1,
-					startDate: bookingData.startDate || null,
-					updatedAt: timestamp,
-				})
+				await setDoc(
+					newBookingRef,
+					{
+						bookedAt: null,
+						countChildren: null,
+						countGuests: null,
+						countPets: null,
+						createdAt: timestamp,
+						endDate: bookingData.endDate || null,
+						guestID: this.currentUser.uid,
+						hostID: 1,
+						startDate: bookingData.startDate || null,
+						updatedAt: timestamp,
+					}
+				)
 
 				this.$router.push({
 					name: "manageBooking",
