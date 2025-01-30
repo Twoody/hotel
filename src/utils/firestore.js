@@ -1,5 +1,6 @@
-import { doc, collection, getDoc, setDoc } from "firebase/firestore"
-import { db } from "@/firebase" // using the pre-initialized db
+import { doc, deleteDoc, collection, getDoc, setDoc } from "firebase/firestore"
+import { db, firebaseAuth } from "@/firebase" // using the pre-initialized db
+import { GoogleAuthProvider, reauthenticateWithCredential, signInWithPopup } from "firebase/auth"
 
 /**
  * Update a user document given appropriate and supported payload fields
@@ -31,7 +32,7 @@ export async function updateFirestoreUser (currentUser, newPayload)
 	}
 	/** 
 	 * For an even stricter security model, you could do something like:
-	 *   if (!currentUser.isAdmin && currentUser.uid !== newPayload.uidToUpdate) { ... } 
+	 *	 if (!currentUser.isAdmin && currentUser.uid !== newPayload.uidToUpdate) { ... } 
 	 * or fetch custom claims from Firebase Auth and only allow certain roles to do certain updates.
 	 */
 
@@ -43,7 +44,7 @@ export async function updateFirestoreUser (currentUser, newPayload)
 	 * If you want to allow an admin to update someone else, pass the correct uid via newPayload or similar.
 	 */
 	const userDocRef = doc(db, "users", currentUser.uid)
-  
+	
 	try 
 	{
 		const userDoc = await getDoc(userDocRef)
@@ -97,8 +98,6 @@ export async function addUserToFirestore (user)
 	// If user not found in db, send payload to db to add user, then request the user again
 	if (!querySnapshot.exists())
 	{
-		// TODO: Probably make this compatible with facebook user creations? 
-		// 		It was only started for users using google to login
 		const userPayload = getFirestoreUserPayload()
 		// If Google account that has not been recorded
 		userPayload.display_name = user.displayName || ""
@@ -130,6 +129,45 @@ export async function addUserToFirestore (user)
 		querySnapshot.invalid = true 
 	}
 	return querySnapshot
+}
+
+/**
+ * Deletes a user's document from the Firestore users collection.
+ *
+ * @param {object} user - The Firebase user object to delete (must include `uid`).
+ * @returns {object} successMessage - Indicates whether the operation was successful.
+ */
+export async function deleteUserFromFirestore (user) 
+{
+	let successMessage = {
+		success: false,
+		message: "DEFAULT",
+	}
+
+	if (!user || !user.uid) 
+	{
+		successMessage.message = "No valid user to delete."
+		console.error(successMessage.message)
+		return successMessage
+	}
+
+	const userDocRef = doc(db, "users", user.uid)
+
+	try 
+	{
+		// Delete the user document from Firestore
+		await deleteDoc(userDocRef)
+		successMessage.success = true
+		successMessage.message = `User document "${user.uid}" deleted successfully.`
+		console.info(successMessage.message)
+		return successMessage
+	}
+	catch (error) 
+	{
+		successMessage.message = `Error deleting Firestore user document: "${user.uid}".`
+		console.error(successMessage.message, error)
+		return successMessage
+	}
 }
 
 /**
@@ -181,4 +219,49 @@ export function getFirestoreUserPayload ()
 		zipcode: "",
 	}
 	return userPayload
+}
+
+/**
+ * @returns {boolean} Was reauthentication done
+ * @since 2.4.0
+ */
+export async function reauthenticateGoogleUser ()
+{
+	const user = firebaseAuth.currentUser
+	if (!user)
+	{
+		console.error("No user is currently signed in.")
+		return false
+	}
+
+	const providerData = user.providerData.find((p) => p.providerId === "google.com")
+	if (!providerData)
+	{
+		// console.info("`google.com` provider not found")
+		return true
+	}
+
+	try
+	{
+		const provider = new GoogleAuthProvider()
+
+		// 🔹 Force Google sign-in popup to get a fresh credential
+		const result = await signInWithPopup(firebaseAuth, provider)
+		const credential = GoogleAuthProvider.credentialFromResult(result)
+
+		if (!credential)
+		{
+			throw new Error("Failed to obtain Google credential for reauthentication.")
+		}
+
+		// 🔹 Re-authenticate with the fresh credential
+		await reauthenticateWithCredential(user, credential)
+		return true
+	}
+	catch (error)
+	{
+		console.error("Reauthentication failed:", error)
+		alert("Session expired. Please sign in again.")
+		return false
+	}
 }

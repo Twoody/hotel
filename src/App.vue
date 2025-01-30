@@ -103,7 +103,6 @@ export default {
 			this.$store.commit("setIsShowingBanner", !navigator.onLine)
 		},
 	},
-	// Inside your created function
 	created: function() 
 	{
 		// Initialize Firebase
@@ -111,7 +110,7 @@ export default {
 		{
 			onAuthStateChanged(
 				firebaseAuth,
-				async (user) => // Make the callback async
+				async (user) =>
 				{
 					// Check the mutex so multiple logins do not occur
 					if (this.$store.state.user.isLoggingIn)
@@ -127,8 +126,6 @@ export default {
 
 					if (user?.uid)
 					{
-						// console.info("User is signed in:", user)
-
 						// Now that the user is authenticated, read from Firestore
 						try 
 						{
@@ -164,6 +161,22 @@ export default {
 			console.error("Local: Could not connect to Firebase")
 			console.error(e)
 		}
+
+		// TODO: consider an admin page
+		//	admin.initializeApp();
+		//	try
+		//	{
+		//		const userRecord = await admin.auth().getUser(uid);
+		//		console.log('User still exists:', userRecord);
+		//	}
+		//		catch (error) {
+		//		if (error.code === 'auth/user-not-found') {
+		//			console.log('User successfully deleted.');
+		//		} else {
+		//			console.error('Error fetching user:', error);
+		//		}
+		//	}
+
 	},
 	beforeDestroy: function()
 	{

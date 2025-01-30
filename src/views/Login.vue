@@ -41,6 +41,7 @@
 				<Validatable
 					class="input-wrapper"
 					:error="displayedErrors.email || ''"
+					:showError="displayedErrors?.email?.length"
 				>
 					<input
 						v-model="email"
@@ -94,6 +95,7 @@
 							<span
 								v-if="isRegistering"
 								key="isRegistering"
+								class="cta-submit"
 								data-testid="button-register-text"
 							>
 								Register Email
@@ -101,6 +103,7 @@
 							<span
 								v-else
 								key="!isRegistering"
+								class="cta-submit"
 								data-testid="button-login-text"
 							>
 								Log In
@@ -402,7 +405,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 @import "../../assets/styles/styles";
 
 .login-page-wrapper {
@@ -411,7 +414,7 @@ export default {
 	max-width: 70%;
 	padding: 10px;
 	padding-top: 43px;
-	transition: all 0.5s ease;
+			width: 100%;
 
 	.flex-container {
 		align-items: center;
@@ -420,7 +423,6 @@ export default {
 		flex-direction: row;
 		justify-content: center;
 		margin-bottom: 11px;
-		transition: all 0.5s ease;
 
 		span {
 			padding-left: 14px;
@@ -464,10 +466,27 @@ export default {
 		padding-bottom: 7px;
 		position: relative;
 		transition: all 0.5s ease;
+			width: 100%;
+
+		.cta-submit {
+			width: 100%;
+			font-size: 20px;
+		}
+
+		.validatable.collapsed.input-wrapper {
+			height: 0px;
+			min-height: 50px;
+			overflow: hidden;
+		}
+		.validatable.show.input-wrapper {
+			height: 71px;
+			min-height: 70px;
+			overflow: visible;
+		}
 
 		.input-wrapper {
-			min-width: 90%;
-			width: auto;
+				width: 100%;
+			transition: all 0.5s ease-in-out, overflow 0.5s;
 
 			.login-item {
 				border-radius: 5px;
@@ -476,7 +495,7 @@ export default {
 				margin-bottom: 10px;
 				min-height: 32px;
 				transition: all 0.5s ease;
-				width: 100%;
+			width: calc(100% - 20px);
 
 				&:active {
 					transform: translate3d(-1px, 0, 0) scale(1.02);
@@ -494,8 +513,8 @@ export default {
 		.login-button-wrapper {
 			margin-bottom: 10px;
 			margin-top: 10px;
-			min-width: 50%;
-			max-width: 50%;
+			min-width: 70%;
+			max-width: 70%;
 
 			.login-button {
 				margin-bottom: 14px;
@@ -544,9 +563,14 @@ export default {
 }
 
 .xxxx-enter-active, .xxxx-leave-active {
-	transition: all 0.25s ease;
+	transition: opacity 0.25s, font-size 0.3s;
 }
-.xxxx-enter, .xxxx-leave-to {
+.xxxx-enter-from, .xxxx-leave-to {
+	font-size: 0px;
 	opacity: 0;
+}
+.xxxx-enter-to, .xxxx-leave-from {
+	font-size: 10px;
+	opacity: 1;
 }
 </style>

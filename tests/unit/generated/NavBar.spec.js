@@ -10,6 +10,7 @@ const testUser = {
 	last_name: "bar",
 }
 const pushMock = vi.fn()
+const replaceMock = vi.fn()
 
 vi.mock("firebase/analytics", () =>
 {
@@ -97,6 +98,8 @@ const createWrapper = ({ userState = {},} = {}) =>
 			},
 		],
 	})
+	router.replace = replaceMock
+
 	router.push = pushMock
 
 	return mount(
@@ -194,12 +197,12 @@ describe("NavBar.vue", () =>
 		const userItems = wrapper.find(".user-items")
 		expect(userItems.exists()).toBe(true)
 
-		// Clicking it calls gotoUserSettings => router.push("/settings")
 		await userItems.trigger("click")
-		expect(pushMock).toHaveBeenCalledWith({
-			path: "/settings",
-		})
 
+		// Expect `replace` to be called instead of `push`
+		expect(replaceMock).toHaveBeenCalledWith({
+			path: "/settings", 
+		})
 	})
 
 	it("shows a 'guest' user-items section if auth is ready but user not logged in", () =>

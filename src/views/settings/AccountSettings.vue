@@ -4,7 +4,10 @@
 			<h2>Account Settings</h2>
 		</div>
 
-		<form @submit.prevent="submitUpdatedUser" class="user-settings-form">
+		<form
+			@submit.prevent="submitUpdatedUser"
+			class="user-settings-form"
+		>
 			<!-- Email -->
 			<label class="user-setting-input-wrapper">
 				Email:
@@ -66,7 +69,7 @@
 				Last Name:
 				<Validatable
 					class="user-setting-input"
-					:error="displayedFormErrors.lastName || ''"
+					:error="''"
 				>
 					<div class="input-wrapper">
 						<input
@@ -195,7 +198,7 @@
 </template>
 
 <script>
-import { updateFirestoreUser } from "@/utils/firestore.js"
+import { reauthenticateGoogleUser, updateFirestoreUser } from "@/utils/firestore.js"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 
 export default {
@@ -273,6 +276,7 @@ export default {
 				this.formData.street = this.currentUser.street || ""
 				this.formData.state = this.currentUser.state || ""
 				this.formData.zipcode = this.currentUser.zipcode || ""
+
 			}
 		},
 
@@ -283,9 +287,18 @@ export default {
 			{
 				return
 			}
+			
 			this.isUpdating = true
+
 			try
 			{
+				// If google user, Reauthenticate before updating Firestore; Else, does nothing
+				const reauthenticatedCheck = await reauthenticateGoogleUser()
+				if (!reauthenticatedCheck)
+				{
+					throw new Error("Reauthentication failed. Cannot update user.")
+				}
+
 				const payloadToUpdate = {
 					city: this.formData.city,
 					country: this.formData.country,
@@ -297,14 +310,10 @@ export default {
 					zipcode: this.formData.zipcode,
 				}
 
-				const result = await updateFirestoreUser(
-					this.currentUser,
-					payloadToUpdate
-				)
+				const result = await updateFirestoreUser(this.currentUser, payloadToUpdate)
 				if (result?.success)
 				{
 					alert("User updated successfully!")
-					// Once user is updated, get updated user for store
 					this.$store.dispatch("updateUserStore")
 				}
 				else
@@ -339,40 +348,6 @@ export default {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-
-		.user-setting-input-wrapper {
-			align-items: center;
-		}
-
-		label {
-			display: flex;
-			flex-direction: column;
-			font-weight: bold;
-			.locked-input {
-				cursor: not-allowed;
-			}
-			.lock-icon {
-				cursor: not-allowed;
-			}
-			.input-wrapper {
-				align-items: center;
-				display: flex;
-				gap: 0.5rem;
-				/* The left padding is simply for positioning; adjust as needed. */
-				padding-left: 19px;
-			}
-
-			input {
-				padding: 0.5rem;
-				border: 1px solid #ccc;
-				border-radius: 5px;
-			}
-
-			input.inactive {
-				background-color: #f0f0f0;
-				color: #999;
-			}
-		}
 	}
 	hr {
 		border: 1px solid @myblack;
