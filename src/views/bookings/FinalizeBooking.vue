@@ -10,26 +10,89 @@
 		<div v-if="booking">
 			<section class="database-details">
 				<h3>Nerdy stuff</h3>
-				<p><strong>Booking ID:</strong> {{ booking.id }}</p>
+				<p><strong>Booking ID:</strong> {{ bookingID }}</p>
 				<p><strong>Guest ID:</strong> {{ booking.guestID }}</p>
 			</section>
+
 			<section class="finalize-booking">
-				<!-- TODO: show a form with relevant information to finalize the booking -->
-				<!-- E.g. total guests, special requests, cats/dogs, babies, toddlers, kids, etc. -->
-				<!-- Ensure styles match form and input found in AccountSettings -->
-				<!-- Ensure required inputs and errors using `Validatble` -->
-				<!-- Ensure data is stored locally to autofill in case of navigating away from page -->
-				
-				<!-- TODO: Hook this up to stripe once stripe is setup... -->
-				<button
-					class="pay-button"
-					@click="onPayNow"
-				>
+				<h3>Booking Details</h3>
+				<form @submit.prevent="submitBookingDetails">
+					<!-- Total Guests -->
+					<label class="user-setting-input-wrapper">
+						Total Guests:
+						<Validatable class="user-setting-input" :error="errors.totalGuests">
+							<div class="input-wrapper">
+								<input type="number" v-model="formData.totalGuests" required min="1">
+							</div>
+						</Validatable>
+					</label>
+
+					<!-- Special Requests -->
+					<label class="user-setting-input-wrapper">
+						Special Requests:
+						<Validatable class="user-setting-input">
+							<div class="input-wrapper">
+								<textarea v-model="formData.specialRequests"/>
+							</div>
+						</Validatable>
+					</label>
+
+					<!-- Pets -->
+					<label class="user-setting-input-wrapper">
+						Pets:
+						<div class="input-wrapper">
+							<label>
+								<input type="checkbox" v-model="formData.hasCats">
+								Cats
+							</label>
+							<label>
+								<input type="checkbox" v-model="formData.hasDogs">
+								Dogs
+							</label>
+						</div>
+					</label>
+
+					<!-- Babies, Toddlers, Kids -->
+					<label class="user-setting-input-wrapper">
+						Number of Babies (0-2 yrs):
+						<Validatable class="user-setting-input">
+							<div class="input-wrapper">
+								<input type="number" v-model="formData.babies" min="0">
+							</div>
+						</Validatable>
+					</label>
+
+					<label class="user-setting-input-wrapper">
+						Number of Toddlers (2-5 yrs):
+						<Validatable class="user-setting-input">
+							<div class="input-wrapper">
+								<input type="number" v-model="formData.toddlers" min="0">
+							</div>
+						</Validatable>
+					</label>
+
+					<label class="user-setting-input-wrapper">
+						Number of Kids (6-12 yrs):
+						<Validatable class="user-setting-input">
+							<div class="input-wrapper">
+								<input type="number" v-model="formData.kids" min="0">
+							</div>
+						</Validatable>
+					</label>
+
+					<!-- Submit Form -->
+					<button type="submit" class="save-button">
+						Save Details
+					</button>
+				</form>
+
+				<!-- Payment Button -->
+				<button class="pay-button" @click="onPayNow">
 					Pay Now
 				</button>
 			</section>
 		</div>
-		<!-- This should never happen and should be taken care of by 404 page -->
+
 		<div v-else>
 			Unable to proceed due to no booking provided by user.
 		</div>
@@ -45,11 +108,82 @@ export default {
 			type: Object,
 		},
 	},
+	data () 
+	{
+		return {
+			formData: {
+				totalGuests: 1,
+				specialRequests: "",
+				hasCats: false,
+				hasDogs: false,
+				babies: 0,
+				toddlers: 0,
+				kids: 0,
+			},
+			errors: {},
+		}
+	},
+	created () 
+	{
+		if (this.bookingID)
+		{
+			this.loadSavedFormData()
+		}
+	},
+	computed:
+	{
+		bookingID ()
+		{
+			return this.booking.id || ""
+		},
+
+		cacheBookingKey ()
+		{
+			if (!this.bookingID)
+			{
+				return ""
+			}
+			return `bookingFormData-${this.bookingID}`
+		},
+	},
 	methods: {
+		// Load form data from localStorage
+		loadSavedFormData () 
+		{
+			const savedData = localStorage.getItem(this.cacheBookingKey)
+			if (savedData) 
+			{
+				this.formData = JSON.parse(savedData)
+			}
+		},
+
+		// Save form data to localStorage
+		saveFormData () 
+		{
+			localStorage.setItem(this.cacheBookingKey, JSON.stringify(this.formData))
+		},
+
+		// Validate and submit form
+		submitBookingDetails () 
+		{
+			this.errors = {}
+			if (!this.formData.totalGuests || this.formData.totalGuests < 1) 
+			{
+				this.errors.totalGuests = "Total guests must be at least 1."
+			}
+
+			if (Object.keys(this.errors).length === 0) 
+			{
+				this.saveFormData()
+				alert("Booking details saved successfully!")
+			}
+		},
+
+		// Placeholder for payment integration
 		onPayNow () 
 		{
-			// TODO: Implement payment flow, preferably a payment page
-			console.log("User clicked Pay Now for booking:", this.booking.id)
+			console.log("User clicked Pay Now for booking:", this.bookingID)
+			alert("Redirecting to payment page... (Stripe integration pending)")
 		},
 	},
 }
@@ -66,6 +200,54 @@ export default {
 
 	section {
 		border-bottom: 1px solid black;
+		margin-bottom: 15px;
+		padding-bottom: 10px;
+	}
+
+	h2, h3 {
+		margin-bottom: 10px;
+	}
+	p {
+		font-size: 18px;
+		margin-top: 10px;
+	}
+
+	.user-setting-input-wrapper {
+		display: flex;
+		flex-direction: column;
+		margin-top: 10px;
+		font-weight: bold;
+
+		.input-wrapper {
+			margin-top: 5px;
+		}
+
+		input, textarea {
+			width: 100%;
+			padding: 8px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+
+		textarea {
+			height: 80px;
+			resize: none;
+		}
+	}
+
+	.save-button {
+		background: @color-pastel-green;
+		border: none;
+		border-radius: 4px;
+		color: black;
+		cursor: pointer;
+		margin-top: 10px;
+		padding: 10px 20px;
+		font-weight: bold;
+
+		&:hover {
+			background: darken(@color-pastel-green, 5%);
+		}
 	}
 
 	.pay-button {
@@ -76,18 +258,11 @@ export default {
 		cursor: pointer;
 		margin-top: 10px;
 		padding: 10px 20px;
+		font-weight: bold;
 
 		&:hover {
 			background: darken(@color-purple, 5%);
 		}
-	}
-
-	h2 {
-		margin-bottom: 10px;
-	}
-	p {
-		font-size: 18px;
-		margin-top: 10px;
 	}
 }
 </style>
