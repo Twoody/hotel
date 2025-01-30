@@ -1,22 +1,37 @@
 <template>
 	<div class="finalize-booking-wrapper">
-		<h2>Finalize Your Booking</h2>
-		<p>
-			Please complete any outstanding steps to confirm your booking.
-		</p>
+		<section class="cta-instructions">
+			<h2>Finalize Your Booking</h2>
+			<p>
+				Please complete any outstanding steps to confirm your booking.
+			</p>
+		</section>
 
-		<!-- Example of fields or next actions -->
 		<div v-if="booking">
-			<p><strong>Booking ID:</strong> {{ booking.id }}</p>
-			<p><strong>Guest ID:</strong> {{ booking.guestID }}</p>
-			<!-- Perhaps show a form or "Pay Now" button here -->
-			
-			<button
-				class="pay-button"
-				@click="onPayNow"
-			>
-				Pay Now
-			</button>
+			<section class="database-details">
+				<h3>Nerdy stuff</h3>
+				<p><strong>Booking ID:</strong> {{ booking.id }}</p>
+				<p><strong>Guest ID:</strong> {{ booking.guestID }}</p>
+			</section>
+			<section class="finalize-booking">
+				<!-- TODO: show a form with relevant information to finalize the booking -->
+				<!-- E.g. total guests, special requests, cats/dogs, babies, toddlers, kids, etc. -->
+				<!-- Ensure styles match form and input found in AccountSettings -->
+				<!-- Ensure required inputs and errors using `Validatble` -->
+				<!-- Ensure data is stored locally to autofill in case of navigating away from page -->
+				
+				<!-- TODO: Hook this up to stripe once stripe is setup... -->
+				<button
+					class="pay-button"
+					@click="onPayNow"
+				>
+					Pay Now
+				</button>
+			</section>
+		</div>
+		<!-- This should never happen and should be taken care of by 404 page -->
+		<div v-else>
+			Unable to proceed due to no booking provided by user.
 		</div>
 	</div>
 </template>
@@ -33,7 +48,7 @@ export default {
 	methods: {
 		onPayNow () 
 		{
-			// TODO: Implement payment flow, or navigate to a payment page
+			// TODO: Implement payment flow, preferably a payment page
 			console.log("User clicked Pay Now for booking:", this.booking.id)
 		},
 	},
@@ -48,6 +63,10 @@ export default {
 	border-radius: 7px;
 	margin: 7px;
 	padding: 20px;
+
+	section {
+		border-bottom: 1px solid black;
+	}
 
 	.pay-button {
 		background: @color-purple;
@@ -64,7 +83,6 @@ export default {
 	}
 
 	h2 {
-		border-bottom: 1px solid @myblack;
 		margin-bottom: 10px;
 	}
 	p {
