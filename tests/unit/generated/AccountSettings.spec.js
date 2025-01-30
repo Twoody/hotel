@@ -10,7 +10,7 @@ vi.mock("@/utils/firestore.js", () => ({
 }))
 
 import AccountSettings from "@/views/settings/AccountSettings.vue"
-import { updateFirestoreUser } from "@/utils/firestore.js"
+import { reauthenticateGoogleUser, updateFirestoreUser } from "@/utils/firestore.js"
 
 // 2) Minimal store mock or real store
 //		The actual component imports store directly, but it also uses "this.$store" in code
@@ -109,6 +109,10 @@ describe("AccountSettings.vue", () =>
 	beforeEach(() =>
 	{
 		vi.resetAllMocks()
+		vi.spyOn(window, "alert").mockImplementation(() => 
+		{})
+		reauthenticateGoogleUser.mockResolvedValue(true) // Explicit mock reset before each test
+
 	})
 
 	it("renders the account settings form with a heading", () =>
@@ -165,11 +169,15 @@ describe("AccountSettings.vue", () =>
 		})
 		// Force isShowingErrors = true so error messages appear
 		wrapper.vm.isShowingErrors = true
-
-		// The "errors.phoneNumber" is used in the code, but notice we do not
-		// see it in the template unless we choose to display it.
-		// We'll just confirm the computed property has it:
 		expect(wrapper.vm.errors.phoneNumber).toBe("User must have a phone number")
+	})
+	it(" reauthenticateGoogleUser", async () => 
+	{
+		const wrapper = createWrapper()
+		// Call the function manually
+		await wrapper.vm.submitUpdatedUser()
+		// Ensure it's mocked correctly
+		expect(reauthenticateGoogleUser).toHaveBeenCalled()
 	})
 
 	it("calls updateFirestoreUser when submitting the form", async () =>
@@ -179,6 +187,10 @@ describe("AccountSettings.vue", () =>
 				email: "myuser@example.com",
 				phone: "555-555-5555",
 			},
+		})
+
+		updateFirestoreUser.mockResolvedValueOnce({
+			success: true, 
 		})
 
 		// Fill out some fields
@@ -195,6 +207,7 @@ describe("AccountSettings.vue", () =>
 		await form.trigger("submit.prevent")
 		await button.trigger("submit")
 		await button.trigger("click")
+		await wrapper.vm.$nextTick()
 
 		// Expect updateFirestoreUser to have been called
 		expect(updateFirestoreUser).toHaveBeenCalledWith(
@@ -251,8 +264,6 @@ describe("AccountSettings.vue", () =>
 
 		const wrapper = createWrapper()
 		await wrapper.find("form.user-settings-form").trigger("submit.prevent")
-
-		// Wait for the promise
 		await wrapper.vm.$nextTick()
 
 		expect(window.alert).toHaveBeenCalledWith("User updated successfully!")
@@ -278,4 +289,3 @@ describe("AccountSettings.vue", () =>
 		expect(window.alert).toHaveBeenCalledWith("Failed to update user.")
 	})
 })
-
