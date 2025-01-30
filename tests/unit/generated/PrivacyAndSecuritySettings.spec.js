@@ -223,7 +223,10 @@ describe("PrivacyAndSecuritySettings.vue", () =>
 	it("calls resetUserPassword when reset password button is clicked", async () => 
 	{
 		// Mock the resetUserPassword method
-		const resetUserPasswordMock = vi.spyOn(PrivacyAndSecuritySettings.methods, "resetUserPassword")
+		const resetUserPasswordMock = vi.spyOn(
+			PrivacyAndSecuritySettings.methods,
+			"resetUserPassword"
+		)
 
 		const wrapper = createWrapper({
 			userState: {

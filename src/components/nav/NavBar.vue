@@ -111,15 +111,15 @@ export default {
 	methods:
 	{
 		/** @returns {void} If user-cog is clicked while on settings page, always refresh */
-		gotoUserSettings ()
+		async gotoUserSettings ()
 		{
-			this.$router.replace({
+			// Update the URI to default
+			await this.$router.replace({
 				path: "/settings", 
 			})
-				.then(() => 
-				{
-					window.location.reload()
-				})
+
+			// Force reload the page 
+			window.location.reload()
 		},
 	},
 }
