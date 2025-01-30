@@ -4,7 +4,10 @@
 			<h2>Account Settings</h2>
 		</div>
 
-		<form @submit.prevent="submitUpdatedUser" class="user-settings-form">
+		<form
+			@submit.prevent="submitUpdatedUser"
+			class="user-settings-form"
+		>
 			<!-- Email -->
 			<label class="user-setting-input-wrapper">
 				Email:
@@ -280,6 +283,7 @@ export default {
 		/** @returns {void} */
 		async submitUpdatedUser ()
 		{
+					console.log('here')
 			if (this.isUpdating)
 			{
 				return
@@ -291,10 +295,12 @@ export default {
 			{
 				// If google user, Reauthenticate before updating Firestore; Else, does nothing
 				const reauthenticatedCheck = await reauthenticateGoogleUser()
+					console.log('thinking')
 				if (!reauthenticatedCheck)
 				{
 					throw new Error("Reauthentication failed. Cannot update user.")
 				}
+					console.log('made it')
 
 				const payloadToUpdate = {
 					city: this.formData.city,

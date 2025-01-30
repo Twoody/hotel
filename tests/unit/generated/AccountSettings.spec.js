@@ -6,6 +6,7 @@ import { createRouter, createWebHistory } from "vue-router"
 // 1) Mock the updateFirestoreUser function from "@/utils/firestore.js"
 vi.mock("@/utils/firestore.js", () => ({
 	updateFirestoreUser: vi.fn(),
+	reauthenticateGoogleUser: vi.fn().mockResolvedValue(true),
 }))
 
 import AccountSettings from "@/views/settings/AccountSettings.vue"
@@ -187,7 +188,13 @@ describe("AccountSettings.vue", () =>
 
 		// Trigger form submission
 		const form = wrapper.find("form.user-settings-form")
+		const button = wrapper.find(".submit-button")
+		expect(form.exists()).toBe(true)
+		expect(button.exists()).toBe(true)
+		expect(wrapper.vm.isUpdating).toBe(false)
 		await form.trigger("submit.prevent")
+		await button.trigger("submit")
+		await button.trigger("click")
 
 		// Expect updateFirestoreUser to have been called
 		expect(updateFirestoreUser).toHaveBeenCalledWith(
@@ -212,7 +219,6 @@ describe("AccountSettings.vue", () =>
 	it("has a submit button that manages state and edge cases", async () =>
 	{
 		const wrapper = createWrapper()
-		expect(wrapper.vm.isUpdating).toBe(false)
 
 		// Force a success result
 		updateFirestoreUser.mockResolvedValueOnce({
