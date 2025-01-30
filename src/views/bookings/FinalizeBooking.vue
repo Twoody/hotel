@@ -147,7 +147,9 @@ export default {
 		},
 	},
 	methods: {
-		// Load form data from localStorage
+		/**
+		 * @returns {} - Load form data from localStorage
+		 */
 		loadSavedFormData () 
 		{
 			const savedData = localStorage.getItem(this.cacheBookingKey)
@@ -157,13 +159,17 @@ export default {
 			}
 		},
 
-		// Save form data to localStorage
+		/**
+		 * @returns {} -  Save form data to localStorage
+		 */
 		saveFormData () 
 		{
 			localStorage.setItem(this.cacheBookingKey, JSON.stringify(this.formData))
 		},
 
-		// Validate and submit form
+		/**
+		 * @returns {} -  Validate and submit form
+		 */
 		submitBookingDetails () 
 		{
 			this.errors = {}
@@ -179,7 +185,9 @@ export default {
 			}
 		},
 
-		// Placeholder for payment integration
+		/**
+		 * @returns {} -  Placeholder for payment integration
+		 */
 		onPayNow () 
 		{
 			console.log("User clicked Pay Now for booking:", this.bookingID)
