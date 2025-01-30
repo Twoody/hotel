@@ -40,22 +40,23 @@ const createWrapper = (options = {}) =>
 {
 	return mount(MapFilters, {
 		global: {
-			stubs: {
-				Filters: {
+			stubs:
+			{
+				Filters:
+				{
 					name: "Filters",
 					template: `<div>
 						<button
 							v-for="filter in filters"
 							:key="filter.id"
-							@click="$emit('update', filter.id)
-						>
+							@click="$emit('update', filter.id)">
 							{{ filter.title }}
 						</button>
 					</div>`,
-					props: [
-						"filters",
-						"inactive",
-					],
+					props: {
+						filters: Array,
+						inactive: Boolean,
+					},
 				},
 			},
 		},
