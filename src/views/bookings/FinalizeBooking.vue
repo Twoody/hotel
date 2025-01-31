@@ -9,9 +9,15 @@
 
 		<div v-if="booking">
 			<section class="database-details">
-				<h3>Nerdy stuff</h3>
-				<p><strong>Booking ID:</strong> {{ bookingID }}</p>
-				<p><strong>Guest ID:</strong> {{ booking.guestID }}</p>
+				<QuestionAccordion>
+					<template #title>
+						<h3>Nerdy stuff</h3>
+					</template>
+					<template #content>
+						<p><strong>Booking ID:</strong> {{ bookingID }}</p>
+						<p><strong>Guest ID:</strong> {{ booking.guestID }}</p>
+					</template>
+				</QuestionAccordion>
 			</section>
 
 			<section class="finalize-booking">
@@ -20,9 +26,16 @@
 					<!-- Total Guests -->
 					<label class="user-setting-input-wrapper">
 						Total Guests:
-						<Validatable class="user-setting-input" :error="errors.totalGuests">
+						<Validatable
+							class="user-setting-input"
+							:error="errors.totalGuests"
+						>
 							<div class="input-wrapper">
-								<input type="number" v-model="formData.totalGuests" required min="1">
+								<input
+								type="number"
+								v-model="formData.totalGuests"
+								required min="1"
+							>
 							</div>
 						</Validatable>
 					</label>
@@ -42,11 +55,17 @@
 						Pets:
 						<div class="input-wrapper">
 							<label>
-								<input type="checkbox" v-model="formData.hasCats">
+								<input
+								type="checkbox"
+								v-model="formData.hasCats"
+							>
 								Cats
 							</label>
 							<label>
-								<input type="checkbox" v-model="formData.hasDogs">
+								<input
+								type="checkbox"
+								v-model="formData.hasDogs"
+							>
 								Dogs
 							</label>
 						</div>
@@ -54,40 +73,61 @@
 
 					<!-- Babies, Toddlers, Kids -->
 					<label class="user-setting-input-wrapper">
-						Number of Babies (0-2 yrs):
+						Babies (0-2 yrs):
 						<Validatable class="user-setting-input">
 							<div class="input-wrapper">
-								<input type="number" v-model="formData.babies" min="0">
+								<input
+								type="number"
+								v-model="formData.babies"
+								min="0"
+								max="10"
+							>
 							</div>
 						</Validatable>
 					</label>
 
 					<label class="user-setting-input-wrapper">
-						Number of Toddlers (2-5 yrs):
+						Toddlers (2-5 yrs):
 						<Validatable class="user-setting-input">
 							<div class="input-wrapper">
-								<input type="number" v-model="formData.toddlers" min="0">
+								<input
+								type="number"
+								v-model="formData.toddlers"
+								min="0"
+								max="10"
+							>
 							</div>
 						</Validatable>
 					</label>
 
 					<label class="user-setting-input-wrapper">
-						Number of Kids (6-12 yrs):
+						Kids (6-12 yrs):
 						<Validatable class="user-setting-input">
 							<div class="input-wrapper">
-								<input type="number" v-model="formData.kids" min="0">
+								<input
+								type="number"
+								v-model="formData.kids"
+								min="0"
+								max="10"
+							>
 							</div>
 						</Validatable>
 					</label>
 
 					<!-- Submit Form -->
-					<button type="submit" class="save-button">
+					<button
+						type="submit"
+						class="save-button"
+					>
 						Save Details
 					</button>
 				</form>
 
 				<!-- Payment Button -->
-				<button class="pay-button" @click="onPayNow">
+				<button
+					class="pay-button"
+					@click="onPayNow"
+				>
 					Pay Now
 				</button>
 			</section>
@@ -213,7 +253,8 @@ export default {
 	}
 
 	h2, h3 {
-		margin-bottom: 10px;
+		margin: 0;
+		padding: 0;
 	}
 	p {
 		font-size: 18px;
