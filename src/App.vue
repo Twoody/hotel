@@ -67,7 +67,7 @@ import { firebaseAuth } from "@/firebase" // Adjust path as necessary
 import { addUserToFirestore } from "@/utils"
 import store from "@/store/store"
 
-import NavBar from "components/nav/NavBar"
+import NavBar from "@/components/nav/NavBar"
 import SplashScreen from "@/components/entities/SplashScreen.vue"
 
 export default {
