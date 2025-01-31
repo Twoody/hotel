@@ -20,7 +20,11 @@
 				</QuestionAccordion>
 			</section>
 
-			<section class="finalize-booking">
+									<Checkbox v-model='isOnSundays'>
+											Thursday
+										</Checkbox>
+
+		<section class="finalize-booking">
 				<h3>Booking Details</h3>
 				<form @submit.prevent="submitBookingDetails">
 					<!-- Total Guests -->
@@ -43,7 +47,10 @@
 					<!-- Special Requests -->
 					<label class="user-setting-input-wrapper">
 						Special Requests:
-						<Validatable class="user-setting-input">
+						<Validatable
+							class="user-setting-input"
+							:error="errors.specialRequests"
+						>
 							<div class="input-wrapper">
 								<textarea v-model="formData.specialRequests"/>
 							</div>
@@ -140,8 +147,14 @@
 </template>
 
 <script>
+import Checkbox from "@/components/common/Checkbox.vue"
+
 export default {
 	name: "FinalizeBooking",
+	components:
+	{
+		Checkbox
+	},
 	props: {
 		booking: {
 			required: true,
@@ -151,6 +164,7 @@ export default {
 	data () 
 	{
 		return {
+			isOnSundays: false,
 			formData: {
 				totalGuests: 1,
 				specialRequests: "",
