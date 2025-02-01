@@ -3,26 +3,28 @@ Will use the slot as the label.
 
 <template>
 	<div
-		class='checkbox'
-		@click="$emit('input', !value)"
+		class="checkbox"
+		@click="$emit('update:modelValue', !modelValue)"
 	>
-		<Toggle :selected='value'>
-			<slot></slot>
+		<Toggle :selected="modelValue">
+			<slot/>
 		</Toggle>
 	</div>
 </template>
 
 <script>
-import Toggle from '@/components/common/Toggle.vue'
+import Toggle from "@/components/common/Toggle.vue"
 
 export default {
-	name: 'Checkbox',
+	name: "Checkbox",
 	components: {
 		Toggle,
 	},
-	props:
-	{
-		value: Boolean,
+	props: {
+		modelValue: {
+			required: true,
+			type: Boolean,
+		},
 	},
 }
 </script>
