@@ -21,10 +21,24 @@
 			</section>
 
 			<section class="finalize-booking">
-				<h3>Booking Details</h3>
-				<form @submit.prevent="submitBookingDetails">
+				<h3 class='form-header'>Do you have any ...</h3>
+					<p>
+						
+					</p>
+
 					<!-- Checkboxes in Two Columns -->
 					<div class="checkbox-grid">
+						<div class="checkbox-column">
+							<Checkbox v-model="hasBabies">
+								Babies (0-2 years old)
+							</Checkbox>
+							<Checkbox v-model="hasToddlers">
+								Toddlers (2-5 years old)
+							</Checkbox>
+							<Checkbox v-model="hasKids">
+								Kids (6-12 years old)
+							</Checkbox>
+						</div>
 						<div class="checkbox-column">
 							<Checkbox v-model="hasCats">
 								Cats
@@ -32,31 +46,25 @@
 							<Checkbox v-model="hasDogs">
 								Dogs
 							</Checkbox>
-							<Checkbox v-model="hasBabies">
-								Babies
-							</Checkbox>
-						</div>
-						<div class="checkbox-column">
-							<Checkbox v-model="hasToddlers">
-								Toddlers
-							</Checkbox>
-							<Checkbox v-model="hasKids">
-								Kids
-							</Checkbox>
 						</div>
 					</div>
+					<hr>
 
+				<form
+					class='form-wrapper'
+					@submit.prevent="submitBookingDetails"
+				>
 					<!-- Total Aults -->
 					<label class="user-setting-input-wrapper">
-						Total Adults:
 						<Validatable
 							class="user-setting-input"
-							:error="errors.Adults"
+							:error="errors.adults"
 						>
 							<div class="input-wrapper">
+								<span>Total Adults:</span>
 								<input
-									type="number"
 									v-model="formData.Adults"
+									type="number"
 									required min="1"
 								>
 							</div>
@@ -66,13 +74,14 @@
 					<!-- TODO: Have workflow to include place to upload vet records of pet -->
 					<!-- Pets -->
 					<label
-						v-if='hasCats || hasDogs'
+						v-if='hasCats'
 						class="user-setting-input-wrapper"
 					>
-						Pets:
-						<div class="input-wrapper pets-inputs">
-							<!-- Only show the Cats number input if hasCats is true -->
-							<label v-if="hasCats">
+						<Validatable
+							class="user-setting-input"
+							:error="errors.adults"
+						>
+							<div class="input-wrapper pets-inputs" >
 								Cats
 								<input
 									v-model="formData.cats"
@@ -80,26 +89,33 @@
 									min="0"
 									max="10"
 								>
-							</label>
-							<!-- Only show the Dogs number input if hasDogs is true -->
-							<label v-if="hasDogs">
-								Dogs
-								<input
-									v-model="formData.dogs"
-									type="number"
-									min="0"
-									max="10"
-								>
-							</label>
-						</div>
+							</div>
+						</Validatable>
+					</label>
+					<label
+						v-if='hasDogs'
+						class="user-setting-input-wrapper"
+					>
+						<Validatable
+							class="user-setting-input"
+							:error="errors.adults"
+						>
+							<div class="input-wrapper pets-inputs">
+									Dogs
+									<input
+										v-model="formData.dogs"
+										type="number"
+										min="0"
+										max="10"
+									>
+							</div>
+						</Validatable>
 					</label>
 
-					<!-- Babies, Toddlers, Kids -->
-					<!-- Only show the Babies input if hasBabies is true -->
 					<label class="user-setting-input-wrapper" v-if="hasBabies">
-						Babies (0-2 yrs):
 						<Validatable class="user-setting-input">
 							<div class="input-wrapper">
+								Babies
 								<input
 									type="number"
 									v-model="formData.babies"
@@ -110,11 +126,10 @@
 						</Validatable>
 					</label>
 
-					<!-- Only show the Toddlers input if hasToddlers is true -->
 					<label class="user-setting-input-wrapper" v-if="hasToddlers">
-						Toddlers (2-5 yrs):
 						<Validatable class="user-setting-input">
 							<div class="input-wrapper">
+								Toddlers
 								<input
 									type="number"
 									v-model="formData.toddlers"
@@ -125,11 +140,10 @@
 						</Validatable>
 					</label>
 
-					<!-- Only show the Kids input if hasKids is true -->
 					<label class="user-setting-input-wrapper" v-if="hasKids">
-						Kids (6-12 yrs):
 						<Validatable class="user-setting-input">
 							<div class="input-wrapper">
+								Kids
 								<input
 									type="number"
 									v-model="formData.kids"
@@ -295,8 +309,19 @@ export default {
 		margin-top: 10px;
 	}
 
+	.form-header {
+
+	}
+	.form-wrapper {
+		display: flex;
+		flex-direction: column;
+	}
+
 	/* Grid for the checkboxes in two columns */
 	.checkbox-grid {
+		align-content: center;
+		justify-items: center;
+		align-items: center;
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
 		gap: 10px;
@@ -311,6 +336,10 @@ export default {
 
 		.input-wrapper {
 			margin-top: 5px;
+
+			span {
+				width: -webkit-fill-available;
+			}
 		}
 
 		input, textarea {
