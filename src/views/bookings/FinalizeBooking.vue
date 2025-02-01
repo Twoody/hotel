@@ -20,8 +20,20 @@
 				</QuestionAccordion>
 			</section>
 
-			<Checkbox v-model="isOnSundays">
-				Thursday
+			<Checkbox v-model="hasCats">
+				Cats
+			</Checkbox>
+			<Checkbox v-model="hasDogs">
+				Dogs
+			</Checkbox>
+			<Checkbox v-model="hasBabies">
+				Babies
+			</Checkbox>
+			<Checkbox v-model="hasToddlers">
+				Toddlers
+			</Checkbox>
+			<Checkbox v-model="hasKids">
+				Kids
 			</Checkbox>
 
 			<section class="finalize-booking">
@@ -63,15 +75,19 @@
 						<div class="input-wrapper">
 							<label>
 								<input
-									type="checkbox"
-									v-model="formData.hasCats"
+									v-model="formData.cats"
+									type="number"
+									min="0"
+									max="10"
 								>
 								Cats
 							</label>
 							<label>
 								<input
-									type="checkbox"
-									v-model="formData.hasDogs"
+									v-model="formData.dogs"
+									type="number"
+									min="0"
+									max="10"
 								>
 								Dogs
 							</label>
@@ -164,12 +180,16 @@ export default {
 	data () 
 	{
 		return {
-			isOnSundays: false,
+			hasCats: false,
+			hasDogs: false,
+			hasBabies: false,
+			hasToddlers: false,
+			hasKids: false,
 			formData: {
 				totalGuests: 1,
 				specialRequests: "",
-				hasCats: false,
-				hasDogs: false,
+				cats: 0,
+				dogs: 0,
 				babies: 0,
 				toddlers: 0,
 				kids: 0,
