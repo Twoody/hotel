@@ -1,8 +1,8 @@
 <template>
-	<div class='loading-toggle'>
-		<div class='circle'></div>
+	<div class="loading-toggle">
+		<div class="circle"/>
 		<LoadingBar
-			size='medium'
+			size="medium"
 			tall
 		/>
 	</div>
@@ -11,7 +11,7 @@
 <script>
 export default
 {
-	name: 'LoadingToggle',
+	name: "LoadingToggle",
 }
 </script>
 

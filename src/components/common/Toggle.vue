@@ -1,25 +1,25 @@
 Atomic representation of a value that can be true or false
 <template>
 	<div
-		v-if='!inProgress'
-		class='toggle'
+		v-if="!inProgress"
+		class="toggle"
 	>
-		<div class='icon'>
+		<div class="icon">
 			<CheckIcon
-				check-color='#5FED64'
+				check-color="#5FED64"
 				:circle-opacity="selected ? '0.85' : '0.3'"
-				class='check-icon'
+				class="check-icon"
 				has-circle
-				:height='checkboxSize'
-				:is-checked='selected'
-				:width='checkboxSize'
+				:height="checkboxSize"
+				:is-checked="selected"
+				:width="checkboxSize"
 			/>
 		</div>
 		<div
-			class='label'
+			class="label"
 			:class="{'is-highlighting': isHighlighting && selected}"
 		>
-			<label><slot></slot></label>
+			<label><slot/></label>
 		</div>
 	</div>
 	<div v-else>
@@ -28,11 +28,11 @@ Atomic representation of a value that can be true or false
 </template>
 
 <script>
-import CheckIcon from '@/components/common/CheckIcon'
-import LoadingToggle from '@/components/common/LoadingToggle'
+import CheckIcon from "@/components/common/CheckIcon"
+import LoadingToggle from "@/components/common/LoadingToggle"
 
 export default {
-	name: 'Toggle',
+	name: "Toggle",
 	components:
 	{
 		CheckIcon,
@@ -64,7 +64,7 @@ export default {
 	data: function()
 	{
 		return {
-			checkboxSize: '32',
+			checkboxSize: "32",
 		}
 	},
 }
