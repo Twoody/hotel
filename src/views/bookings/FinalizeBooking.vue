@@ -20,11 +20,11 @@
 				</QuestionAccordion>
 			</section>
 
-									<Checkbox v-model='isOnSundays'>
-											Thursday
-										</Checkbox>
+			<Checkbox v-model="isOnSundays">
+				Thursday
+			</Checkbox>
 
-		<section class="finalize-booking">
+			<section class="finalize-booking">
 				<h3>Booking Details</h3>
 				<form @submit.prevent="submitBookingDetails">
 					<!-- Total Guests -->
@@ -36,10 +36,10 @@
 						>
 							<div class="input-wrapper">
 								<input
-								type="number"
-								v-model="formData.totalGuests"
-								required min="1"
-							>
+									type="number"
+									v-model="formData.totalGuests"
+									required min="1"
+								>
 							</div>
 						</Validatable>
 					</label>
@@ -63,16 +63,16 @@
 						<div class="input-wrapper">
 							<label>
 								<input
-								type="checkbox"
-								v-model="formData.hasCats"
-							>
+									type="checkbox"
+									v-model="formData.hasCats"
+								>
 								Cats
 							</label>
 							<label>
 								<input
-								type="checkbox"
-								v-model="formData.hasDogs"
-							>
+									type="checkbox"
+									v-model="formData.hasDogs"
+								>
 								Dogs
 							</label>
 						</div>
@@ -84,11 +84,11 @@
 						<Validatable class="user-setting-input">
 							<div class="input-wrapper">
 								<input
-								type="number"
-								v-model="formData.babies"
-								min="0"
-								max="10"
-							>
+									type="number"
+									v-model="formData.babies"
+									min="0"
+									max="10"
+								>
 							</div>
 						</Validatable>
 					</label>
@@ -98,11 +98,11 @@
 						<Validatable class="user-setting-input">
 							<div class="input-wrapper">
 								<input
-								type="number"
-								v-model="formData.toddlers"
-								min="0"
-								max="10"
-							>
+									type="number"
+									v-model="formData.toddlers"
+									min="0"
+									max="10"
+								>
 							</div>
 						</Validatable>
 					</label>
@@ -112,11 +112,11 @@
 						<Validatable class="user-setting-input">
 							<div class="input-wrapper">
 								<input
-								type="number"
-								v-model="formData.kids"
-								min="0"
-								max="10"
-							>
+									type="number"
+									v-model="formData.kids"
+									min="0"
+									max="10"
+								>
 							</div>
 						</Validatable>
 					</label>
@@ -153,7 +153,7 @@ export default {
 	name: "FinalizeBooking",
 	components:
 	{
-		Checkbox
+		Checkbox,
 	},
 	props: {
 		booking: {
