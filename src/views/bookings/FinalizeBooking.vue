@@ -21,37 +21,37 @@
 			</section>
 
 			<section class="finalize-booking">
-				<h3 class='form-header'>Do you have any ...</h3>
-					<p>
-						
-					</p>
+				<h3 class="form-header">
+					Do you have any ...
+				</h3>
+				<p/>
 
-					<!-- Checkboxes in Two Columns -->
-					<div class="checkbox-grid">
-						<div class="checkbox-column">
-							<Checkbox v-model="hasBabies">
-								Babies (0-2 years old)
-							</Checkbox>
-							<Checkbox v-model="hasToddlers">
-								Toddlers (2-5 years old)
-							</Checkbox>
-							<Checkbox v-model="hasKids">
-								Kids (6-12 years old)
-							</Checkbox>
-						</div>
-						<div class="checkbox-column">
-							<Checkbox v-model="hasCats">
-								Cats
-							</Checkbox>
-							<Checkbox v-model="hasDogs">
-								Dogs
-							</Checkbox>
-						</div>
+				<!-- Checkboxes in Two Columns -->
+				<div class="checkbox-grid">
+					<div class="checkbox-column">
+						<Checkbox v-model="hasBabies">
+							Babies (0-2 years old)
+						</Checkbox>
+						<Checkbox v-model="hasToddlers">
+							Toddlers (2-5 years old)
+						</Checkbox>
+						<Checkbox v-model="hasKids">
+							Kids (6-12 years old)
+						</Checkbox>
 					</div>
-					<hr>
+					<div class="checkbox-column">
+						<Checkbox v-model="hasCats">
+							Cats
+						</Checkbox>
+						<Checkbox v-model="hasDogs">
+							Dogs
+						</Checkbox>
+					</div>
+				</div>
+				<hr>
 
 				<form
-					class='form-wrapper'
+					class="form-wrapper"
 					@submit.prevent="submitBookingDetails"
 				>
 					<!-- Total Aults -->
@@ -74,7 +74,7 @@
 					<!-- TODO: Have workflow to include place to upload vet records of pet -->
 					<!-- Pets -->
 					<label
-						v-if='hasCats'
+						v-if="hasCats"
 						class="user-setting-input-wrapper"
 					>
 						<Validatable
@@ -93,7 +93,7 @@
 						</Validatable>
 					</label>
 					<label
-						v-if='hasDogs'
+						v-if="hasDogs"
 						class="user-setting-input-wrapper"
 					>
 						<Validatable
@@ -101,13 +101,13 @@
 							:error="errors.adults"
 						>
 							<div class="input-wrapper pets-inputs">
-									Dogs
-									<input
-										v-model="formData.dogs"
-										type="number"
-										min="0"
-										max="10"
-									>
+								Dogs
+								<input
+									v-model="formData.dogs"
+									type="number"
+									min="0"
+									max="10"
+								>
 							</div>
 						</Validatable>
 					</label>
@@ -206,7 +206,8 @@ export default {
 			type: Object,
 		},
 	},
-	data () {
+	data () 
+	{
 		return {
 			hasCats: false,
 			hasDogs: false,
@@ -225,17 +226,22 @@ export default {
 			errors: {},
 		}
 	},
-	created () {
-		if (this.bookingID) {
+	created () 
+	{
+		if (this.bookingID) 
+		{
 			this.loadSavedFormData()
 		}
 	},
 	computed: {
-		bookingID () {
+		bookingID () 
+		{
 			return this.booking.id || ""
 		},
-		cacheBookingKey () {
-			if (!this.bookingID) {
+		cacheBookingKey () 
+		{
+			if (!this.bookingID) 
+			{
 				return ""
 			}
 			return `bookingFormData-${this.bookingID}`
@@ -245,9 +251,11 @@ export default {
 		/**
 		 * @returns {} - Load form data from localStorage
 		 */
-		loadSavedFormData () {
+		loadSavedFormData () 
+		{
 			const savedData = localStorage.getItem(this.cacheBookingKey)
-			if (savedData) {
+			if (savedData) 
+			{
 				this.formData = JSON.parse(savedData)
 			}
 		},
@@ -255,20 +263,24 @@ export default {
 		/**
 		 * @returns {} - Save form data to localStorage
 		 */
-		saveFormData () {
+		saveFormData () 
+		{
 			localStorage.setItem(this.cacheBookingKey, JSON.stringify(this.formData))
 		},
 
 		/**
 		 * @returns {} - Validate and submit form
 		 */
-		submitBookingDetails () {
+		submitBookingDetails () 
+		{
 			this.errors = {}
-			if (!this.formData.Adults || this.formData.Adults < 1) {
+			if (!this.formData.Adults || this.formData.Adults < 1) 
+			{
 				this.errors.Adults = "Total adults must be at least 1."
 			}
 
-			if (Object.keys(this.errors).length === 0) {
+			if (Object.keys(this.errors).length === 0) 
+			{
 				this.saveFormData()
 				alert("Booking details saved successfully!")
 			}
@@ -277,7 +289,8 @@ export default {
 		/**
 		 * @returns {} - Placeholder for payment integration
 		 */
-		onPayNow () {
+		onPayNow () 
+		{
 			console.log("User clicked Pay Now for booking:", this.bookingID)
 			alert("Redirecting to payment page... (Stripe integration pending)")
 		},
