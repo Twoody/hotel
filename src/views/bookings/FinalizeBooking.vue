@@ -63,29 +63,33 @@
 						</Validatable>
 					</label>
 
+					<!-- TODO: Have workflow to include place to upload vet records of pet -->
 					<!-- Pets -->
-					<label class="user-setting-input-wrapper">
+					<label
+						v-if='hasCats || hasDogs'
+						class="user-setting-input-wrapper"
+					>
 						Pets:
 						<div class="input-wrapper pets-inputs">
 							<!-- Only show the Cats number input if hasCats is true -->
 							<label v-if="hasCats">
+								Cats
 								<input
 									v-model="formData.cats"
 									type="number"
 									min="0"
 									max="10"
 								>
-								Cats
 							</label>
 							<!-- Only show the Dogs number input if hasDogs is true -->
 							<label v-if="hasDogs">
+								Dogs
 								<input
 									v-model="formData.dogs"
 									type="number"
 									min="0"
 									max="10"
 								>
-								Dogs
 							</label>
 						</div>
 					</label>
