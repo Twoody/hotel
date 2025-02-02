@@ -16,7 +16,6 @@
 				<h3 class="form-header">
 					Do you have any ...
 				</h3>
-				<p/>
 
 				<!-- Checkboxes in Two Columns -->
 				<div class="checkbox-grid">
@@ -168,6 +167,55 @@
 						</Validatable>
 					</label>
 
+					<div class='booking-summary'>
+						<div class='labels col'>
+							<div class='row'>
+								Check-in Date:
+							</div>
+							<div class='row'>
+								Check-out Date:
+							</div>
+							<div class='row'>
+								Daily Rate:
+							</div>
+							<div
+								v-if='hasDogs || hasCats'
+								class='row'
+							>
+								Pet fees
+							</div>
+							<div class='row'>
+								Cleaning fees:
+							</div>
+							<div class='row bold'>
+								Total:
+							</div>
+						</div>
+						<div class='data col'>
+							<div class='row'>
+								{{ booking.startDate }}
+							</div>
+							<div class='row'>
+								{{ booking.endDate }}
+							</div>
+							<div class='row'>
+								{{ dailyRate }}
+							</div>
+							<div
+								v-if='hasDogs || hasCats'
+								class='row'
+							>
+								{{ petFees }}
+							</div>
+							<div class='row'>
+								{{ cleaningFee }}
+							</div>
+							<div class='row bold'>
+								{{ totalCost }}
+							</div>
+						</div>
+					</div>
+
 					<!-- Payment Button -->
 					<MyButton
 						class="pay-button"
@@ -246,6 +294,16 @@ export default {
 				return ""
 			}
 			return `bookingFormData-${this.bookingID}`
+		},
+
+		cleaningFee ()
+		{
+			return "$125"
+		},
+
+		dailyRate ()
+		{
+			return "$85"
 		},
 
 		displayedErrors ()
@@ -352,6 +410,15 @@ export default {
 			}
 			return false
 		},
+
+		petFees ()
+		{
+			return "$100"
+		},
+
+		totalCost (){
+			return '$400'
+		},
 	},
 	watch: {
 		/** Watch for any changes in formData and immediately update local storage. */
@@ -453,7 +520,34 @@ export default {
 		font-size: 18px;
 		margin-top: 10px;
 	}
+	.booking-summary {
+		align-content: center;
+		align-items: center;
+		border-bottom: 1px solid black;
+		border-top: 1px solid black;
+		display: flex;
+		flex-direction: row;
+		gap: 15px;
+		margin-top: 10px;
 
+		.col {
+			align-content: center;
+			align-items: center;
+			display: flex;
+			flex: 1;
+			flex-direction: column;
+			gap: 10px;
+		}
+		.row {
+			flex: 1;
+		}
+		.data {
+			align-items: start;
+		}
+		.labels {
+			align-items: end;
+		}
+	}
 	.form-header {
 
 	}
