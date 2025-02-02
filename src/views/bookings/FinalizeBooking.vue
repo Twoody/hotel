@@ -82,7 +82,7 @@
 							:error="errors.adults"
 						>
 							<div class="input-wrapper pets-inputs" >
-								Cats
+								<span>Cats</span>
 								<input
 									v-model="formData.cats"
 									type="number"
@@ -101,7 +101,7 @@
 							:error="errors.adults"
 						>
 							<div class="input-wrapper pets-inputs">
-								Dogs
+								<span>Dogs</span>
 								<input
 									v-model="formData.dogs"
 									type="number"
@@ -115,10 +115,10 @@
 					<label class="user-setting-input-wrapper" v-if="hasBabies">
 						<Validatable class="user-setting-input">
 							<div class="input-wrapper">
-								Babies
+								<span>Babies</span>
 								<input
-									type="number"
 									v-model="formData.babies"
+									type="number"
 									min="0"
 									max="10"
 								>
@@ -129,10 +129,10 @@
 					<label class="user-setting-input-wrapper" v-if="hasToddlers">
 						<Validatable class="user-setting-input">
 							<div class="input-wrapper">
-								Toddlers
+								<span>Toddlers</span>
 								<input
-									type="number"
 									v-model="formData.toddlers"
+									type="number"
 									min="0"
 									max="10"
 								>
@@ -143,10 +143,10 @@
 					<label class="user-setting-input-wrapper" v-if="hasKids">
 						<Validatable class="user-setting-input">
 							<div class="input-wrapper">
-								Kids
+								<span>Kids</span>
 								<input
-									type="number"
 									v-model="formData.kids"
+									type="number"
 									min="0"
 									max="10"
 								>
@@ -368,12 +368,21 @@ export default {
 		flex-direction: column;
 		margin-top: 10px;
 		font-weight: bold;
+		width: 100%;
 
-		.input-wrapper {
-			margin-top: 5px;
+		.user-setting-input {
+			width: 100%;
 
-			span {
-				width: -webkit-fill-available;
+			.input-wrapper {
+				align-items: center;
+				display: flex;
+				flex-direction: row;
+				margin-top: 5px;
+				width: 100%;
+
+				span {
+					width: -webkit-fill-available;
+				}
 			}
 		}
 
