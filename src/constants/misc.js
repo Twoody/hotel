@@ -32,7 +32,16 @@ const MAP_FILTERS = {
 	12: "Music",
 }
 
+const HOTEL_STATUSES = {
+	1: "Accepting Bookings",
+	2: "Not Accepting Bookings",
+	3: "Banned",
+	4: "Under Construction",
+	5: "Onboarding",
+}
+
 export {
+	HOTEL_STATUSES as HOTEL_STATUSES,
 	MAP_FILTERS as MAP_FILTERS,
 	MAPS as MAPS
 }

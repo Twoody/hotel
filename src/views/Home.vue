@@ -6,7 +6,7 @@
 			</h2>
 			<AvailabilitySearch
 				hideDateBar
-				:disabled='isBookingDisabled'
+				:disabled="isBookingDisabled"
 				:isProcessing="isProcessing"
 				:isLoading="!isAuthReady"
 				@booking-request="processBookingRequest"

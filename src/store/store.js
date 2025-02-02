@@ -1,6 +1,7 @@
 import { createStore } from "vuex"
 
 // Sub Modules
+import hotel from "@/store/hotel"
 import layout from "@/store/layout"
 import user from "@/store/user"
 
@@ -26,6 +27,7 @@ export default createStore({
 	actions: {},
 	modules:
 	{
+		hotel,
 		layout,
 		user,
 	},

@@ -9,7 +9,7 @@
 
 		<div v-if="booking">
 			<BookingDetails
-				:booking='booking'
+				:booking="booking"
 			/>
 
 			<section class="finalize-booking">
@@ -167,50 +167,50 @@
 						</Validatable>
 					</label>
 
-					<div class='booking-summary'>
-						<div class='labels col'>
-							<div class='row'>
+					<div class="booking-summary">
+						<div class="labels col">
+							<div class="row">
 								Check-in Date:
 							</div>
-							<div class='row'>
+							<div class="row">
 								Check-out Date:
 							</div>
-							<div class='row'>
+							<div class="row">
 								Daily Rate:
 							</div>
 							<div
-								v-if='hasDogs || hasCats'
-								class='row'
+								v-if="hasDogs || hasCats"
+								class="row"
 							>
 								Pet fees
 							</div>
-							<div class='row'>
+							<div class="row">
 								Cleaning fees:
 							</div>
-							<div class='row bold'>
+							<div class="row bold">
 								Total:
 							</div>
 						</div>
-						<div class='data col'>
-							<div class='row'>
+						<div class="data col">
+							<div class="row">
 								{{ booking.startDate }}
 							</div>
-							<div class='row'>
+							<div class="row">
 								{{ booking.endDate }}
 							</div>
-							<div class='row'>
+							<div class="row">
 								{{ dailyRate }}
 							</div>
 							<div
-								v-if='hasDogs || hasCats'
-								class='row'
+								v-if="hasDogs || hasCats"
+								class="row"
 							>
 								{{ petFees }}
 							</div>
-							<div class='row'>
+							<div class="row">
 								{{ cleaningFee }}
 							</div>
-							<div class='row bold'>
+							<div class="row bold">
 								{{ totalCost }}
 							</div>
 						</div>
@@ -416,8 +416,9 @@ export default {
 			return "$100"
 		},
 
-		totalCost (){
-			return '$400'
+		totalCost ()
+		{
+			return "$400"
 		},
 	},
 	watch: {

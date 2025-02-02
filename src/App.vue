@@ -105,7 +105,7 @@ export default {
 	},
 	created: function() 
 	{
-		// Initialize Firebase
+		// Initialize Firebase & User Collection
 		try 
 		{
 			onAuthStateChanged(
@@ -137,7 +137,7 @@ export default {
 						}
 						catch (e) 
 						{
-							console.error("App.vue: Could not connect to Firestore database")
+							console.error("App.vue: Could not connect to Firestore User Collection")
 							console.error(e)
 						}
 					}
@@ -162,20 +162,9 @@ export default {
 			console.error(e)
 		}
 
-		// TODO: consider an admin page
-		//	admin.initializeApp();
-		//	try
-		//	{
-		//		const userRecord = await admin.auth().getUser(uid);
-		//		console.log('User still exists:', userRecord);
-		//	}
-		//		catch (error) {
-		//		if (error.code === 'auth/user-not-found') {
-		//			console.log('User successfully deleted.');
-		//		} else {
-		//			console.error('Error fetching user:', error);
-		//		}
-		//	}
+		// TODO: Eventually make this dynamic and able to switch between hotels
+		const hotelUID = "RDfJBr73puFfGggTaQfi"
+		// TODO: get the hotel document and populate the hotel object in the store
 
 	},
 	beforeDestroy: function()
