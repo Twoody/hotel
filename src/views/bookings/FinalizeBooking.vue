@@ -8,17 +8,9 @@
 		</section>
 
 		<div v-if="booking">
-			<section class="database-details">
-				<QuestionAccordion>
-					<template #title>
-						<h3>Nerdy stuff</h3>
-					</template>
-					<template #content>
-						<p><strong>Booking ID:</strong> {{ bookingID }}</p>
-						<p><strong>Guest ID:</strong> {{ booking.guestID }}</p>
-					</template>
-				</QuestionAccordion>
-			</section>
+			<BookingDetails
+				:booking='booking'
+			/>
 
 			<section class="finalize-booking">
 				<h3 class="form-header">
@@ -198,11 +190,13 @@
 </template>
 
 <script>
+import BookingDetails from "@/views/bookings/BookingDetails.vue"
 import Checkbox from "@/components/common/Checkbox.vue"
 
 export default {
 	name: "FinalizeBooking",
 	components: {
+		BookingDetails,
 		Checkbox,
 	},
 	props: {
@@ -440,7 +434,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 @import "../../../assets/styles/styles";
 
 .finalize-booking-wrapper {
@@ -455,10 +449,6 @@ export default {
 		padding-bottom: 10px;
 	}
 
-	h2, h3 {
-		margin: 0;
-		padding: 0;
-	}
 	p {
 		font-size: 18px;
 		margin-top: 10px;
