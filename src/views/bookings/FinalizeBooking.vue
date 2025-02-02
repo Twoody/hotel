@@ -63,7 +63,7 @@
 							<div class="input-wrapper">
 								<span>Total Adults:</span>
 								<input
-									v-model="formData.Adults"
+									v-model="formData.adults"
 									type="number"
 									required min="1"
 								>
@@ -209,21 +209,21 @@ export default {
 	data () 
 	{
 		return {
-			hasCats: false,
-			hasDogs: false,
-			hasBabies: false,
-			hasToddlers: false,
-			hasKids: false,
+			errors: {},
 			formData: {
-				Adults: 1,
-				specialRequests: "",
+				adults: 1,
+				babies: 0,
 				cats: 0,
 				dogs: 0,
-				babies: 0,
-				toddlers: 0,
 				kids: 0,
+				specialRequests: "",
+				toddlers: 0,
 			},
-			errors: {},
+			hasBabies: false,
+			hasCats: false,
+			hasDogs: false,
+			hasKids: false,
+			hasToddlers: false,
 		}
 	},
 	created () 
