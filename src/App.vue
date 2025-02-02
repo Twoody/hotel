@@ -27,6 +27,7 @@
 		>
 
 			<!-- Consider a route guard via `beforeEach` instead -->
+			<!-- Splash screen remains until both user and hotel data are ready -->
 			<SplashScreen
 				v-if="isShowingSplashScreen"
 			/>
@@ -65,7 +66,8 @@
 import { onAuthStateChanged } from "firebase/auth"
 import { firebaseAuth } from "@/firebase" // Adjust path as necessary
 import { addUserToFirestore } from "@/utils"
-import store from "@/store/store"
+import { doc, getDoc } from "firebase/firestore"
+import { db } from "@/firebase"
 
 import NavBar from "@/components/nav/NavBar"
 import SplashScreen from "@/components/entities/SplashScreen.vue"
@@ -90,7 +92,9 @@ export default {
 		 */
 		isShowingSplashScreen ()
 		{
-			return !store.state.user.isAuthReady || store.state.user.isLoggingIn
+			return !this.$store.state.user.isAuthReady ||
+				this.$store.state.user.isLoggingIn || 
+				! this.$store.state.hotel.isLoaded
 		},
 	},
 	watch:
@@ -103,7 +107,7 @@ export default {
 			this.$store.commit("setIsShowingBanner", !navigator.onLine)
 		},
 	},
-	created: function() 
+	created: async function() 
 	{
 		// Initialize Firebase & User Collection
 		try 
@@ -164,8 +168,31 @@ export default {
 
 		// TODO: Eventually make this dynamic and able to switch between hotels
 		const hotelUID = "RDfJBr73puFfGggTaQfi"
-		// TODO: get the hotel document and populate the hotel object in the store
-
+		const hotelDocRef = doc(db, "hotels", hotelUID)
+		let docSnap = await getDoc(hotelDocRef)
+		try
+		{
+			if (docSnap.exists()) 
+			{
+				const hotelData = docSnap.data()
+				// Dispatch the hotel data to the namespaced hotel module
+				this.$store.dispatch("fetchHotel", hotelData)
+			}
+			else 
+			{
+				console.error("Hotel document not found for UID:", hotelUID)
+				this.$store.dispatch("fetchHotel", {
+					invalid: true, 
+				})
+			}
+		}
+		catch (e)
+		{
+			console.error("Error fetching hotel document:", e)
+			this.$store.dispatch("fetchHotel", {
+				invalid: true, 
+			})
+		}
 	},
 	beforeDestroy: function()
 	{
