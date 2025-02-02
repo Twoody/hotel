@@ -129,11 +129,6 @@ export default {
 		},
 	},
 	computed: {
-		// TODO - this is broken and needs fixed
-		isBookingDisabled ()
-		{
-			return this.isProcessing || !this.currentUser?.uid
-		},
 		currentUser ()
 		{
 			return this.$store.state.user.user
@@ -145,6 +140,12 @@ export default {
 		isAuthReady ()
 		{
 			return this.$store.state.user.isAuthReady
+		},
+
+		// TODO - this is broken and needs fixed
+		isBookingDisabled ()
+		{
+			return this.isProcessing || !this.currentUser?.uid || !this.$store.hotel.isLoaded
 		},
 	},
 }

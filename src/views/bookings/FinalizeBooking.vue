@@ -467,6 +467,14 @@ export default {
 		},
 
 		/**
+		 * @returns {} - Placeholder for payment integration
+		 */
+		onPayNow ()
+		{
+			console.log("User clicked Pay Now for booking:", this.bookingID)
+		},
+
+		/**
 		 * @returns {} - Save form data to localStorage
 		 */
 		saveFormData ()
@@ -489,14 +497,6 @@ export default {
 			console.log("i would like to work now")
 			this.isProcessingRequest = false
 			return true
-		},
-
-		/**
-		 * @returns {} - Placeholder for payment integration
-		 */
-		onPayNow ()
-		{
-			console.log("User clicked Pay Now for booking:", this.bookingID)
 		},
 	},
 }
