@@ -56,12 +56,12 @@
 				>
 					<!-- Total Aults -->
 					<label class="user-setting-input-wrapper">
+						<span class="input-label">Total Adults:</span>
 						<Validatable
 							class="user-setting-input"
-							:error="errors.adults"
+							:error="displayedErrors.adults || ''"
 						>
 							<div class="input-wrapper">
-								<span>Total Adults:</span>
 								<input
 									v-model="formData.adults"
 									type="number"
@@ -77,12 +77,12 @@
 						v-if="hasCats"
 						class="user-setting-input-wrapper"
 					>
+						<span class="input-label">Cats</span>
 						<Validatable
 							class="user-setting-input"
-							:error="errors.adults"
+							:error="displayedErrors.cats || ''"
 						>
 							<div class="input-wrapper pets-inputs" >
-								<span>Cats</span>
 								<input
 									v-model="formData.cats"
 									type="number"
@@ -96,12 +96,12 @@
 						v-if="hasDogs"
 						class="user-setting-input-wrapper"
 					>
+						<span class="input-label">Dogs</span>
 						<Validatable
 							class="user-setting-input"
-							:error="errors.adults"
+							:error="displayedErrors.dogs || ''"
 						>
 							<div class="input-wrapper pets-inputs">
-								<span>Dogs</span>
 								<input
 									v-model="formData.dogs"
 									type="number"
@@ -113,9 +113,12 @@
 					</label>
 
 					<label class="user-setting-input-wrapper" v-if="hasBabies">
-						<Validatable class="user-setting-input">
+						<span class="input-label">Babies</span>
+						<Validatable
+							class="user-setting-input"
+							:error="displayedErrors.babies || ''"
+						>
 							<div class="input-wrapper">
-								<span>Babies</span>
 								<input
 									v-model="formData.babies"
 									type="number"
@@ -127,9 +130,12 @@
 					</label>
 
 					<label class="user-setting-input-wrapper" v-if="hasToddlers">
-						<Validatable class="user-setting-input">
+						<span class="input-label">Toddlers</span>
+						<Validatable
+							class="user-setting-input"
+							:error="displayedErrors.toddlers || ''"
+						>
 							<div class="input-wrapper">
-								<span>Toddlers</span>
 								<input
 									v-model="formData.toddlers"
 									type="number"
@@ -141,9 +147,12 @@
 					</label>
 
 					<label class="user-setting-input-wrapper" v-if="hasKids">
-						<Validatable class="user-setting-input">
+						<span class="input-label">Kids</span>
+						<Validatable
+							class="user-setting-input"
+							:error="displayedErrors.kids || ''"
+						>
 							<div class="input-wrapper">
-								<span>Kids</span>
 								<input
 									v-model="formData.kids"
 									type="number"
@@ -156,10 +165,10 @@
 
 					<!-- Special Requests -->
 					<label class="user-setting-input-wrapper">
-						Special Requests:
+						<span class="input-label">Special Requests:</span>
 						<Validatable
 							class="user-setting-input"
-							:error="errors.specialRequests"
+							:error="displayedErrors.specialRequests || ''"
 						>
 							<div class="input-wrapper">
 								<textarea v-model="formData.specialRequests"/>
@@ -167,24 +176,20 @@
 						</Validatable>
 					</label>
 
-					<!-- Submit Form -->
-					<button
-						type="submit"
-						class="save-button"
+					<!-- Payment Button -->
+					<MyButton
+						class="pay-button"
+						:disabled="isSubmitDisabled"
+						:inProgress="isProcessingRequest"
+						:sucess="false"
+						submit
 					>
-						Save Details
-					</button>
+						Pay Now
+					</MyButton>
 				</form>
-
-				<!-- Payment Button -->
-				<button
-					class="pay-button"
-					@click="onPayNow"
-				>
-					Pay Now
-				</button>
 			</section>
 		</div>
+		<!-- End if booking was found -->
 
 		<div v-else>
 			Unable to proceed due to no booking provided by user.
@@ -206,10 +211,9 @@ export default {
 			type: Object,
 		},
 	},
-	data () 
+	data ()
 	{
 		return {
-			errors: {},
 			formData: {
 				adults: 1,
 				babies: 0,
@@ -224,37 +228,155 @@ export default {
 			hasDogs: false,
 			hasKids: false,
 			hasToddlers: false,
+			isProcessingRequest: false,
+			isShowingErrors: false,
 		}
 	},
-	created () 
+	created ()
 	{
-		if (this.bookingID) 
+		if (this.bookingID)
 		{
 			this.loadSavedFormData()
 		}
 	},
 	computed: {
-		bookingID () 
+		bookingID ()
 		{
 			return this.booking.id || ""
 		},
-		cacheBookingKey () 
+
+		cacheBookingKey ()
 		{
-			if (!this.bookingID) 
+			if (!this.bookingID)
 			{
 				return ""
 			}
 			return `bookingFormData-${this.bookingID}`
+		},
+
+		displayedErrors ()
+		{
+			if (this.isShowingErrors)
+			{
+				return this.errors
+			}
+			return {}
+		},
+
+		errors ()
+		{
+			let ret = {}
+
+			if (this.formData.adults > 10)
+			{
+				ret.adults = "Cannot be larger than 10"
+			}
+			if (this.formData.adults <= 0)
+			{
+				ret.adults = "Cannot be zero"
+			}
+			if (this.hasCats)
+			{
+				if (this.formData.cats > 10)
+				{
+					ret.cats = "Cannot be larger than 10"
+				}
+				if (this.formData.cats <= 0)
+				{
+					ret.cats = "Cannot be zero"
+				}
+			}
+			if (this.hasDogs)
+			{
+				if (this.formData.dogs > 10)
+				{
+					ret.dogs = "Cannot be larger than 10"
+				}
+				if (this.formData.dogs <= 0)
+				{
+					ret.dogs = "Cannot be zero"
+				}
+			}
+			if (this.hasBabies)
+			{
+				if (this.formData.babies > 10)
+				{
+					ret.babies = "Cannot be larger than 10"
+				}
+				if (this.formData.babies <= 0)
+				{
+					ret.babies = "Cannot be zero"
+				}
+			}
+			if (this.hasToddlers)
+			{
+				if (this.formData.toddlers > 10)
+				{
+					ret.toddlers = "Cannot be larger than 10"
+				}
+				if (this.formData.toddlers <= 0)
+				{
+					ret.toddlers = "Cannot be zero"
+				}
+			}
+			if (this.hasKids)
+			{
+				if (this.formData.kids > 10)
+				{
+					ret.kids = "Cannot be larger than 10"
+				}
+				if (this.formData.kids <= 0)
+				{
+					ret.kids = "Cannot be zero"
+				}
+			}
+
+			return ret
+		},
+
+		isFormValid ()
+		{
+			return Object.keys(this.errors).length === 0
+		},
+
+		isSubmitDisabled ()
+		{
+			// Only allow one submit at a time
+			if (this.isProcessingRequest)
+			{
+				return true
+			}
+			// Allow first click to activate disabled state IFF errors
+			if (!this.isShowingErrors)
+			{
+				return false
+			}
+			// Disabled button if form is invalid
+			if (!this.isFormValid)
+			{
+				return true
+			}
+			return false
+		},
+	},
+	watch: {
+		/** Watch for any changes in formData and immediately update local storage. */
+		formData: {
+			deep: true,
+			handler ()
+			{
+				this.saveFormData()
+			},
 		},
 	},
 	methods: {
 		/**
 		 * @returns {} - Load form data from localStorage
 		 */
-		loadSavedFormData () 
+		loadSavedFormData ()
 		{
 			const savedData = localStorage.getItem(this.cacheBookingKey)
-			if (savedData) 
+			if (savedData)
 			{
 				this.formData = JSON.parse(savedData)
 			}
@@ -285,7 +407,7 @@ export default {
 		/**
 		 * @returns {} - Save form data to localStorage
 		 */
-		saveFormData () 
+		saveFormData ()
 		{
 			localStorage.setItem(this.cacheBookingKey, JSON.stringify(this.formData))
 		},
@@ -293,28 +415,26 @@ export default {
 		/**
 		 * @returns {} - Validate and submit form
 		 */
-		submitBookingDetails () 
+		submitBookingDetails ()
 		{
-			this.errors = {}
-			if (!this.formData.Adults || this.formData.Adults < 1) 
+			this.isShowingErrors = true
+			this.isProcessingRequest = true
+			if (!this.isFormValid)
 			{
-				this.errors.Adults = "Total adults must be at least 1."
+				this.isProcessingRequest = false
+				return false
 			}
-
-			if (Object.keys(this.errors).length === 0) 
-			{
-				this.saveFormData()
-				alert("Booking details saved successfully!")
-			}
+			console.log("i would like to work now")
+			this.isProcessingRequest = false
+			return true
 		},
 
 		/**
 		 * @returns {} - Placeholder for payment integration
 		 */
-		onPayNow () 
+		onPayNow ()
 		{
 			console.log("User clicked Pay Now for booking:", this.bookingID)
-			alert("Redirecting to payment page... (Stripe integration pending)")
 		},
 	},
 }
@@ -365,19 +485,29 @@ export default {
 
 	.user-setting-input-wrapper {
 		display: flex;
-		flex-direction: column;
+		flex-direction: row;
 		margin-top: 10px;
 		font-weight: bold;
 		width: 100%;
 
+		.input-label {
+			flex: 1;
+		}
+
 		.user-setting-input {
+			align-content: center;
+			display: flex;
+			flex: 1;
+			flex-direction: column;
 			width: 100%;
 
 			.input-wrapper {
+				align-content: center;
 				align-items: center;
 				display: flex;
 				flex-direction: row;
 				margin-top: 5px;
+				padding: 0;
 				width: 100%;
 
 				span {
@@ -417,7 +547,6 @@ export default {
 	.pay-button {
 		background: @color-purple;
 		border: none;
-		border-radius: 4px;
 		color: white;
 		cursor: pointer;
 		margin-top: 10px;
@@ -430,4 +559,3 @@ export default {
 	}
 }
 </style>
-
