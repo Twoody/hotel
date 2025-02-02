@@ -258,6 +258,28 @@ export default {
 			{
 				this.formData = JSON.parse(savedData)
 			}
+
+			// Set checkboxes so data is shown
+			if (this.formData.cats > 0)
+			{
+				this.hasCats = true
+			}
+			if (this.formData.dogs > 0)
+			{
+				this.hasDogs = true
+			}
+			if (this.formData.babies > 0)
+			{
+				this.hasBabies = true
+			}
+			if (this.formData.toddlers > 0)
+			{
+				this.hasToddlers = true
+			}
+			if (this.formData.kids > 0)
+			{
+				this.hasKids = true
+			}
 		},
 
 		/**
