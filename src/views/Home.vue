@@ -6,6 +6,7 @@
 			</h2>
 			<AvailabilitySearch
 				hideDateBar
+				:disabled='isBookingDisabled'
 				:isProcessing="isProcessing"
 				:isLoading="!isAuthReady"
 				@booking-request="processBookingRequest"
@@ -128,6 +129,11 @@ export default {
 		},
 	},
 	computed: {
+		// TODO - this is broken and needs fixed
+		isBookingDisabled ()
+		{
+			return this.isProcessing || !this.currentUser?.uid
+		},
 		currentUser ()
 		{
 			return this.$store.state.user.user
