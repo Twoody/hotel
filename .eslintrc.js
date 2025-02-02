@@ -65,6 +65,7 @@ module.exports = {
 						'About',
 						'Accordion',
 						'Amenities',
+						'Checkbox',
 						'Filters',
 						'Foobar',
 						'Home',
@@ -73,6 +74,7 @@ module.exports = {
 						'Signup',
 						'Spinner',
 						'Thermometer',
+						'Toggle',
 						'Validatable',
 					]
 				}],
