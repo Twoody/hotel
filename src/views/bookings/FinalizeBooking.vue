@@ -431,6 +431,7 @@ export default {
 	methods: {
 		/**
 		 * Load form data from localStorage.
+		 * @since 2.5.0
 		 */
 		loadSavedFormData () 
 		{
@@ -449,15 +450,8 @@ export default {
 		},
 
 		/**
-		 * Handle payment action.
-		 */
-		onPayNow () 
-		{
-			console.log("User clicked Pay Now for booking:", this.bookingID)
-		},
-
-		/**
 		 * Save form data to localStorage.
+		 * @since 2.5.0
 		 */
 		saveFormData () 
 		{
@@ -466,6 +460,8 @@ export default {
 
 		/**
 		 * Validate and submit form.
+		 * @returns {boolean} Success of the booking being processed or not
+		 * @since 2.5.0
 		 */
 		submitBookingDetails () 
 		{

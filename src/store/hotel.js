@@ -62,21 +62,12 @@ export default {
 		 */
 		fetchHotel ({ commit, }, hotel) 
 		{
-			console.log(hotel)
-			if (hotel.invalid) 
-			{
-				// Optionally, reset hotel state or show an error
-				commit("setIsLoaded", true)
-			}
-			else 
-			{
-				commit("setCleaningFee", hotel.cleaning_fee || 0)
-				commit("setDailyRate", hotel.daily_rate || 0)
-				commit("setKidDeposit", hotel.kid_deposit || 0)
-				commit("setPetDeposit", hotel.pet_deposit || 0)
-				commit("setPetFee", hotel.pet_fee || 0)
-				commit("setIsLoaded", true)
-			}
+			commit("setCleaningFee", hotel?.cleaning_fee || 0)
+			commit("setDailyRate", hotel?.daily_rate || 0)
+			commit("setKidDeposit", hotel?.kid_deposit || 0)
+			commit("setPetDeposit", hotel?.pet_deposit || 0)
+			commit("setPetFee", hotel?.pet_fee || 0)
+			commit("setIsLoaded", true)
 		},
 
 		// ... other actions

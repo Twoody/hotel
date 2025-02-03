@@ -145,7 +145,7 @@ export default {
 		// TODO - this is broken and needs fixed
 		isBookingDisabled ()
 		{
-			return this.isProcessing || !this.currentUser?.uid || !this.$store.hotel.isLoaded
+			return this.isProcessing || !this.currentUser?.uid || !this.$store.state.hotel.isLoaded
 		},
 	},
 }
