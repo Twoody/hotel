@@ -71,7 +71,7 @@ export default {
 			else 
 			{
 				commit("setCleaningFee", hotel.cleaning_fee || 0)
-				commit("setDailyRate", hotel.daily_Rate || 0)
+				commit("setDailyRate", hotel.daily_rate || 0)
 				commit("setKidDeposit", hotel.kid_deposit || 0)
 				commit("setPetDeposit", hotel.pet_deposit || 0)
 				commit("setPetFee", hotel.pet_fee || 0)

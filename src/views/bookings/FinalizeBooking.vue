@@ -205,7 +205,7 @@
 								v-if="hasDogs || hasCats"
 								class="row"
 							>
-								{{ petFees }}
+								{{ petFee }}
 							</div>
 							<div class="row">
 								{{ cleaningFee }}
@@ -298,12 +298,12 @@ export default {
 
 		cleaningFee ()
 		{
-			return "$125"
+			return `$${this.$store.state.hotel.cleaningFee}`
 		},
 
 		dailyRate ()
 		{
-			return "$85"
+			return `$${this.$store.state.hotel.dailyRate}`
 		},
 
 		displayedErrors ()
@@ -411,14 +411,17 @@ export default {
 			return false
 		},
 
-		petFees ()
+		petFee ()
 		{
-			return "$100"
+			return `$${this.$store.state.hotel.petFee}`
 		},
 
 		totalCost ()
 		{
-			return "$400"
+			const fees = this.$store.state.hotel.petFee + this.$store.state.hotel.cleaningFee
+			const totalNights = 
+			const bookingCost = 
+			return `$${this.$store.state.hotel.petFee}`
 		},
 	},
 	watch: {
