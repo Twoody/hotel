@@ -6,6 +6,8 @@
 			</h2>
 			<AvailabilitySearch
 				hideDateBar
+				:cleaningFee='totalBookingFees'
+				:dailyRate="this.$store.state.hotel.dailyRate"
 				:disabled="isBookingDisabled"
 				:isProcessing="isProcessing"
 				:isLoading="!isAuthReady"
@@ -146,6 +148,11 @@ export default {
 		isBookingDisabled ()
 		{
 			return this.isProcessing || !this.currentUser?.uid || !this.$store.state.hotel.isLoaded
+		},
+
+		totalBookingFees ()
+		{
+			return this.$store.state.hotel.cleaningFee
 		},
 	},
 }
