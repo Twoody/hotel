@@ -168,53 +168,64 @@
 					</label>
 
 					<div class="booking-summary">
-						<div class="labels col">
-							<div class="row">
+						<div class="row">
+							<div class="label col">
 								Check-in Date:
 							</div>
-							<div class="row">
-								Check-out Date:
-							</div>
-							<div class="row">
-								Daily Rate:
-							</div>
-							<div
-								v-if="hasDogs || hasCats"
-								class="row"
-							>
-								Pet fees
-							</div>
-							<div class="row">
-								Cleaning fees:
-							</div>
-							<div class="row bold">
-								Total:
+							<div class="data col">
+								<input type="date" v-model="localStartDate" class="date-input" >
 							</div>
 						</div>
-						<div class="data col">
-							<div class="row">
-								{{ booking.startDate }}
+
+						<div class="row">
+							<div class="label col">
+								Check-out Date:
 							</div>
-							<div class="row">
-								{{ checkOutDate }}
+							<div class="data col">
+								<input type="date" v-model="localCheckOutDate" class="date-input" >
 							</div>
-							<div class="row">
+						</div>
+
+						<div class="row">
+							<div class="label col">
+								Daily Rate:
+							</div>
+							<div class="data col">
 								{{ dailyRate }}
 							</div>
-							<div
-								v-if="hasDogs || hasCats"
-								class="row"
-							>
+						</div>
+
+						<div
+							v-if="hasDogs || hasCats"
+							class="row"
+						>
+							<div class="label col">
+								Pet fees
+							</div>
+							<div class="data col" >
 								{{ petFee }}
 							</div>
-							<div class="row">
+						</div>
+
+						<div class="row">
+							<div class="label col">
+								Cleaning fees:
+							</div>
+							<div class="data col">
 								{{ cleaningFee }}
 							</div>
-							<div class="row bold">
+						</div>
+
+						<div class="row">
+							<div class="label col bold">
+								Total:
+							</div>
+							<div class="data col bold">
 								{{ bookingCost }}
 							</div>
 						</div>
 					</div>
+					<!-- End booking-summary -->
 
 					<!-- Payment Button -->
 					<Validatable
@@ -260,7 +271,7 @@ export default {
 			type: Object,
 		},
 	},
-	data () 
+	data ()
 	{
 		return {
 			formData: {
@@ -281,9 +292,9 @@ export default {
 			isShowingErrors: false,
 		}
 	},
-	created () 
+	created ()
 	{
-		if (this.bookingID) 
+		if (this.bookingID)
 		{
 			this.loadSavedFormData()
 		}
@@ -298,7 +309,7 @@ export default {
 		 *
 		 * @returns {string} Total cost formatted as currency.
 		 */
-		bookingCost () 
+		bookingCost ()
 		{
 			const nightlyRate = this.$store.state.hotel.dailyRate
 			const cleaningFee = this.$store.state.hotel.cleaningFee
@@ -306,17 +317,18 @@ export default {
 			const daysCost = this.totalNights * nightlyRate
 
 			const totalCost = daysCost + cleaningFee + petFee
+			console.log(totalCost)
 			return `$${totalCost}`
 		},
 
-		bookingID () 
+		bookingID ()
 		{
 			return this.booking.id || ""
 		},
 
-		cacheBookingKey () 
+		cacheBookingKey ()
 		{
-			if (!this.bookingID) 
+			if (!this.bookingID)
 			{
 				return ""
 			}
@@ -328,61 +340,61 @@ export default {
 		 *
 		 * @returns {string} Formatted check-out date.
 		 */
-		checkOutDate () 
+		checkOutDate ()
 		{
 			return DateTime.fromISO(this.booking.endDate).plus({
-				days: 1, 
+				days: 1,
 			}).toFormat("yyyy-MM-dd")
 		},
 
-		cleaningFee () 
+		cleaningFee ()
 		{
 			return `$${this.$store.state.hotel.cleaningFee}`
 		},
 
-		dailyRate () 
+		dailyRate ()
 		{
 			return `$${this.$store.state.hotel.dailyRate}`
 		},
 
-		displayedErrors () 
+		displayedErrors ()
 		{
-			if (this.isShowingErrors) 
+			if (this.isShowingErrors)
 			{
 				return this.errors
 			}
 			return {}
 		},
 
-		errors () 
+		errors ()
 		{
 			let ret = {}
 
-			if (this.formData.adults > 10) 
+			if (this.formData.adults > 10)
 			{
 				ret.adults = "Cannot be larger than 10"
 			}
-			if (this.formData.adults <= 0) 
+			if (this.formData.adults <= 0)
 			{
 				ret.adults = "Cannot be zero"
 			}
-			if (this.hasCats && (this.formData.cats > 10 || this.formData.cats < 0)) 
+			if (this.hasCats && (this.formData.cats > 10 || this.formData.cats < 0))
 			{
 				ret.cats = "Must be between 0 and 10"
 			}
-			if (this.hasDogs && (this.formData.dogs > 10 || this.formData.dogs < 0)) 
+			if (this.hasDogs && (this.formData.dogs > 10 || this.formData.dogs < 0))
 			{
 				ret.dogs = "Must be between 0 and 10"
 			}
-			if (this.hasBabies && (this.formData.babies > 10 || this.formData.babies < 0)) 
+			if (this.hasBabies && (this.formData.babies > 10 || this.formData.babies < 0))
 			{
 				ret.babies = "Must be between 0 and 10"
 			}
-			if (this.hasToddlers && (this.formData.toddlers > 10 || this.formData.toddlers < 0)) 
+			if (this.hasToddlers && (this.formData.toddlers > 10 || this.formData.toddlers < 0))
 			{
 				ret.toddlers = "Must be between 0 and 10"
 			}
-			if (this.hasKids && (this.formData.kids > 10 || this.formData.kids < 0)) 
+			if (this.hasKids && (this.formData.kids > 10 || this.formData.kids < 0))
 			{
 				ret.kids = "Must be between 0 and 10"
 			}
@@ -394,9 +406,12 @@ export default {
 			return ret
 		},
 
+		/** @since 2.5.0 */
 		isBookingInThePast ()
 		{
-			const bookingStatus = getBookingStatus(this.booking)
+			const singleDateBooking = this.booking
+			singleDateBooking.endDate = this.booking.startDate
+			const bookingStatus = getBookingStatus(singleDateBooking)
 			if (bookingStatus === "Past")
 			{
 				return true
@@ -404,20 +419,22 @@ export default {
 			return false
 		},
 
-		isFormValid () 
+		/** @since 2.5.0 */
+		isFormValid ()
 		{
 			return Object.keys(this.errors).length === 0
 		},
 
-		isSubmitDisabled () 
+		/** @since 2.5.0 */
+		isSubmitDisabled ()
 		{
 			// Only allow one submit at a time
-			if (this.isProcessingRequest) 
+			if (this.isProcessingRequest)
 			{
 				return true
 			}
 			// Allow first click to activate disabled state IFF errors
-			if (!this.isShowingErrors) 
+			if (!this.isShowingErrors)
 			{
 				return false
 			}
@@ -426,7 +443,43 @@ export default {
 			return !this.isFormValid || this.isBookingInThePast
 		},
 
-		petFee () 
+		/** @since 2.5.0 */
+		localStartDate:
+		{
+			get () 
+			{
+				return this.booking.startDate
+			},
+			set (newDate) 
+			{
+				const newStartDate = DateTime.fromISO(newDate)
+					.toFormat("yyyy-MM-dd")
+				this.formData.startDate = newStartDate
+				this.$emit('update-booking', { ...this.booking, startDate: newStartDate });
+			},
+		},
+
+		/** @since 2.5.0 */
+		localCheckOutDate:
+		{
+			get () 
+			{
+				return DateTime.fromISO(this.booking.endDate)
+					.plus({
+						days: 1, 
+					})
+					.toFormat("yyyy-MM-dd")
+			},
+			set (newDate) 
+			{
+				const newEndDate = DateTime.fromISO(newDate)
+					.toFormat("yyyy-MM-dd")
+				this.formData.endDate = newEndDate
+				this.$emit('update-booking', { ...this.booking, endDate: newEndDate });
+			},
+		},
+
+		petFee ()
 		{
 			return `$${this.$store.state.hotel.petFee}`
 		},
@@ -436,7 +489,7 @@ export default {
 		 *
 		 * @returns {number} Total nights of the booking.
 		 */
-		totalNights () 
+		totalNights ()
 		{
 			const start = DateTime.fromISO(this.booking.startDate)
 			const end = DateTime.fromISO(this.booking.endDate)
@@ -444,10 +497,32 @@ export default {
 		},
 	},
 	watch: {
+		/** @since 2.5.0 */
+		booking: {
+			deep: true, // Ensures Vue watches nested properties inside `booking`
+			handler(__newBooking) {
+				const newBooking = toRaw(__newBooking)
+				console.log(newBooking)
+				// Ensure dependent variables update when booking changes
+				this.formData.adults = newBooking.adults || 1;
+				this.formData.babies = newBooking.babies || 0;
+				this.formData.toddlers = newBooking.toddlers || 0;
+				this.formData.kids = newBooking.kids || 0;
+				this.formData.cats = newBooking.cats || 0;
+				this.formData.dogs = newBooking.dogs || 0;
+
+				this.hasBabies = newBooking.babies > 0;
+				this.hasToddlers = newBooking.toddlers > 0;
+				this.hasKids = newBooking.kids > 0;
+				this.hasCats = newBooking.cats > 0;
+				this.hasDogs = newBooking.dogs > 0;
+			}
+		},
+
 		/** Watch for any changes in formData and immediately update local storage. */
 		formData: {
 			deep: true,
-			handler () 
+			handler ()
 			{
 				this.saveFormData()
 			},
@@ -459,10 +534,10 @@ export default {
 		 *
 		 * @since 2.5.0
 		 */
-		loadSavedFormData () 
+		loadSavedFormData ()
 		{
 			const savedData = localStorage.getItem(this.cacheBookingKey)
-			if (savedData) 
+			if (savedData)
 			{
 				this.formData = JSON.parse(savedData)
 			}
@@ -480,7 +555,7 @@ export default {
 		 *
 		 * @since 2.5.0
 		 */
-		saveFormData () 
+		saveFormData ()
 		{
 			localStorage.setItem(this.cacheBookingKey, JSON.stringify(this.formData))
 		},
@@ -491,11 +566,11 @@ export default {
 		 * @returns {boolean} Success of the booking being processed or not
 		 * @since 2.5.0
 		 */
-		submitBookingDetails () 
+		submitBookingDetails ()
 		{
 			this.isShowingErrors = true
 			this.isProcessingRequest = true
-			if (!this.isFormValid) 
+			if (!this.isFormValid)
 			{
 				this.isProcessingRequest = false
 				return false
@@ -527,32 +602,41 @@ export default {
 		font-size: 18px;
 		margin-top: 10px;
 	}
+	.date-input {
+		width: 100%;
+		padding: 8px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+	}
+
 	.booking-summary {
 		align-content: center;
 		align-items: center;
 		border-bottom: 1px solid black;
 		border-top: 1px solid black;
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		gap: 15px;
 		margin-top: 10px;
 
 		.col {
+			flex: 1;
+		}
+		.row {
 			align-content: center;
 			align-items: center;
 			display: flex;
 			flex: 1;
-			flex-direction: column;
-			gap: 10px;
-		}
-		.row {
-			flex: 1;
+			flex-direction: row;
+			gap: 20px;
+			width: 100%;
 		}
 		.data {
-			align-items: start;
+			text-align: left;
 		}
-		.labels {
-			align-items: end;
+		.label {
+			text-align: right;
+			align-items: center;
 		}
 	}
 	.form-header {

@@ -51,6 +51,7 @@
 		>
 			<FinalizeBooking
 				:booking="booking"
+				@update-booking="updateBooking"
 			/>
 		</div>
 	</div>
@@ -66,6 +67,7 @@ import BookingNotFound from "@/views/bookings/BookingNotFound.vue"
 import CompletedBooking from "@/views/bookings/CompletedBooking.vue"
 import FinalizeBooking from "@/views/bookings/FinalizeBooking.vue"
 import UnauthorizedBooking from "@/views/bookings/UnauthorizedBooking.vue"
+import { toRaw } from 'vue';
 
 export default {
 	name: "ManageBooking",
@@ -171,6 +173,12 @@ export default {
 			{
 				this.isLoadingBooking = false
 			}
+		},
+
+		/** @since 2.5.0 */
+		updateBooking(updatedBooking)
+		{
+			Object.assign(this.booking, toRaw(updatedBooking));
 		},
 	},
 
