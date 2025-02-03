@@ -196,7 +196,7 @@
 								{{ booking.startDate }}
 							</div>
 							<div class="row">
-								{{ booking.endDate }}
+								{{ checkOutDate }}
 							</div>
 							<div class="row">
 								{{ dailyRate }}
@@ -211,7 +211,7 @@
 								{{ cleaningFee }}
 							</div>
 							<div class="row bold">
-								{{ totalCost }}
+								{{ bookingCost }}
 							</div>
 						</div>
 					</div>
@@ -240,6 +240,7 @@
 <script>
 import BookingDetails from "@/views/bookings/BookingDetails.vue"
 import Checkbox from "@/components/common/Checkbox.vue"
+import { DateTime } from "luxon"
 
 export default {
 	name: "FinalizeBooking",
@@ -253,7 +254,7 @@ export default {
 			type: Object,
 		},
 	},
-	data ()
+	data () 
 	{
 		return {
 			formData: {
@@ -274,161 +275,154 @@ export default {
 			isShowingErrors: false,
 		}
 	},
-	created ()
+	created () 
 	{
-		if (this.bookingID)
+		if (this.bookingID) 
 		{
 			this.loadSavedFormData()
 		}
 	},
 	computed: {
-		bookingID ()
+		bookingID () 
 		{
 			return this.booking.id || ""
 		},
 
-		cacheBookingKey ()
+		/**
+		 * Calculate the total booking cost based on nightly rate, cleaning fee, and pet fees.
+		 *
+		 * @returns {string} Total cost formatted as currency.
+		 */
+		bookingCost () 
 		{
-			if (!this.bookingID)
+			const nightlyRate = this.$store.state.hotel.dailyRate
+			const cleaningFee = this.$store.state.hotel.cleaningFee
+			const petFee = this.hasDogs || this.hasCats ? this.$store.state.hotel.petFee : 0
+			const daysCost = this.totalNights * nightlyRate
+
+			const totalCost = daysCost + cleaningFee + petFee
+			return `$${totalCost}`
+		},
+
+		cacheBookingKey () 
+		{
+			if (!this.bookingID) 
 			{
 				return ""
 			}
 			return `bookingFormData-${this.bookingID}`
 		},
 
-		cleaningFee ()
+		/**
+		 * Calculate and display the check-out date as the day after the booking's end date.
+		 *
+		 * @returns {string} Formatted check-out date.
+		 */
+		checkOutDate () 
+		{
+			return DateTime.fromISO(this.booking.endDate).plus({
+				days: 1, 
+			}).toFormat("yyyy-MM-dd")
+		},
+
+		cleaningFee () 
 		{
 			return `$${this.$store.state.hotel.cleaningFee}`
 		},
 
-		dailyRate ()
+		dailyRate () 
 		{
 			return `$${this.$store.state.hotel.dailyRate}`
 		},
 
-		displayedErrors ()
+		displayedErrors () 
 		{
-			if (this.isShowingErrors)
+			if (this.isShowingErrors) 
 			{
 				return this.errors
 			}
 			return {}
 		},
 
-		errors ()
+		errors () 
 		{
 			let ret = {}
 
-			if (this.formData.adults > 10)
+			if (this.formData.adults > 10) 
 			{
 				ret.adults = "Cannot be larger than 10"
 			}
-			if (this.formData.adults <= 0)
+			if (this.formData.adults <= 0) 
 			{
 				ret.adults = "Cannot be zero"
 			}
-			if (this.hasCats)
+			if (this.hasCats && (this.formData.cats > 10 || this.formData.cats < 0)) 
 			{
-				if (this.formData.cats > 10)
-				{
-					ret.cats = "Cannot be larger than 10"
-				}
-				if (this.formData.cats <= 0)
-				{
-					ret.cats = "Cannot be zero"
-				}
+				ret.cats = "Must be between 0 and 10"
 			}
-			if (this.hasDogs)
+			if (this.hasDogs && (this.formData.dogs > 10 || this.formData.dogs < 0)) 
 			{
-				if (this.formData.dogs > 10)
-				{
-					ret.dogs = "Cannot be larger than 10"
-				}
-				if (this.formData.dogs <= 0)
-				{
-					ret.dogs = "Cannot be zero"
-				}
+				ret.dogs = "Must be between 0 and 10"
 			}
-			if (this.hasBabies)
+			if (this.hasBabies && (this.formData.babies > 10 || this.formData.babies < 0)) 
 			{
-				if (this.formData.babies > 10)
-				{
-					ret.babies = "Cannot be larger than 10"
-				}
-				if (this.formData.babies <= 0)
-				{
-					ret.babies = "Cannot be zero"
-				}
+				ret.babies = "Must be between 0 and 10"
 			}
-			if (this.hasToddlers)
+			if (this.hasToddlers && (this.formData.toddlers > 10 || this.formData.toddlers < 0)) 
 			{
-				if (this.formData.toddlers > 10)
-				{
-					ret.toddlers = "Cannot be larger than 10"
-				}
-				if (this.formData.toddlers <= 0)
-				{
-					ret.toddlers = "Cannot be zero"
-				}
+				ret.toddlers = "Must be between 0 and 10"
 			}
-			if (this.hasKids)
+			if (this.hasKids && (this.formData.kids > 10 || this.formData.kids < 0)) 
 			{
-				if (this.formData.kids > 10)
-				{
-					ret.kids = "Cannot be larger than 10"
-				}
-				if (this.formData.kids <= 0)
-				{
-					ret.kids = "Cannot be zero"
-				}
+				ret.kids = "Must be between 0 and 10"
 			}
 
 			return ret
 		},
 
-		isFormValid ()
+		isFormValid () 
 		{
 			return Object.keys(this.errors).length === 0
 		},
 
-		isSubmitDisabled ()
+		isSubmitDisabled () 
 		{
 			// Only allow one submit at a time
-			if (this.isProcessingRequest)
+			if (this.isProcessingRequest) 
 			{
 				return true
 			}
 			// Allow first click to activate disabled state IFF errors
-			if (!this.isShowingErrors)
+			if (!this.isShowingErrors) 
 			{
 				return false
 			}
 			// Disabled button if form is invalid
-			if (!this.isFormValid)
-			{
-				return true
-			}
-			return false
+			return !this.isFormValid
 		},
 
-		petFee ()
+		petFee () 
 		{
 			return `$${this.$store.state.hotel.petFee}`
 		},
 
-		totalCost ()
+		/**
+		 * Calculate the total number of nights between check-in and check-out.
+		 *
+		 * @returns {number} Total nights of the booking.
+		 */
+		totalNights () 
 		{
-			const fees = this.$store.state.hotel.petFee + this.$store.state.hotel.cleaningFee
-			const totalNights = 
-			const bookingCost = 
-			return `$${this.$store.state.hotel.petFee}`
+			const start = DateTime.fromISO(this.booking.startDate)
+			const end = DateTime.fromISO(this.booking.endDate)
+			return Math.max(1, end.diff(start, "days").days) // Ensure at least 1 night
 		},
 	},
 	watch: {
 		/** Watch for any changes in formData and immediately update local storage. */
 		formData: {
 			deep: true,
-			handler ()
+			handler () 
 			{
 				this.saveFormData()
 			},
@@ -436,68 +430,53 @@ export default {
 	},
 	methods: {
 		/**
-		 * @returns {} - Load form data from localStorage
+		 * Load form data from localStorage.
 		 */
-		loadSavedFormData ()
+		loadSavedFormData () 
 		{
 			const savedData = localStorage.getItem(this.cacheBookingKey)
-			if (savedData)
+			if (savedData) 
 			{
 				this.formData = JSON.parse(savedData)
 			}
 
 			// Set checkboxes so data is shown
-			if (this.formData.cats > 0)
-			{
-				this.hasCats = true
-			}
-			if (this.formData.dogs > 0)
-			{
-				this.hasDogs = true
-			}
-			if (this.formData.babies > 0)
-			{
-				this.hasBabies = true
-			}
-			if (this.formData.toddlers > 0)
-			{
-				this.hasToddlers = true
-			}
-			if (this.formData.kids > 0)
-			{
-				this.hasKids = true
-			}
+			this.hasCats = this.formData.cats > 0
+			this.hasDogs = this.formData.dogs > 0
+			this.hasBabies = this.formData.babies > 0
+			this.hasToddlers = this.formData.toddlers > 0
+			this.hasKids = this.formData.kids > 0
 		},
 
 		/**
-		 * @returns {} - Placeholder for payment integration
+		 * Handle payment action.
 		 */
-		onPayNow ()
+		onPayNow () 
 		{
 			console.log("User clicked Pay Now for booking:", this.bookingID)
 		},
 
 		/**
-		 * @returns {} - Save form data to localStorage
+		 * Save form data to localStorage.
 		 */
-		saveFormData ()
+		saveFormData () 
 		{
 			localStorage.setItem(this.cacheBookingKey, JSON.stringify(this.formData))
 		},
 
 		/**
-		 * @returns {} - Validate and submit form
+		 * Validate and submit form.
 		 */
-		submitBookingDetails ()
+		submitBookingDetails () 
 		{
 			this.isShowingErrors = true
 			this.isProcessingRequest = true
-			if (!this.isFormValid)
+			if (!this.isFormValid) 
 			{
 				this.isProcessingRequest = false
 				return false
 			}
-			console.log("i would like to work now")
+			console.log("Form submitted successfully!")
 			this.isProcessingRequest = false
 			return true
 		},
