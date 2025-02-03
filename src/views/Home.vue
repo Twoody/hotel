@@ -6,8 +6,8 @@
 			</h2>
 			<AvailabilitySearch
 				hideDateBar
-				:cleaningFee='totalBookingFees'
-				:dailyRate="this.$store.state.hotel.dailyRate"
+				:cleaningFee="totalBookingFees"
+				:dailyRate="$store.state.hotel.dailyRate"
 				:disabled="isBookingDisabled"
 				:isProcessing="isProcessing"
 				:isLoading="!isAuthReady"

@@ -217,15 +217,20 @@
 					</div>
 
 					<!-- Payment Button -->
-					<MyButton
-						class="pay-button"
-						:disabled="isSubmitDisabled"
-						:inProgress="isProcessingRequest"
-						:sucess="false"
-						submit
+					<Validatable
+						class=""
+						:error="displayedErrors.pastDate || ''"
 					>
-						Pay Now
-					</MyButton>
+						<MyButton
+							class="pay-button"
+							:disabled="isSubmitDisabled"
+							:inProgress="isProcessingRequest"
+							:sucess="false"
+							submit
+						>
+							Pay Now
+						</MyButton>
+					</Validatable>
 				</form>
 			</section>
 		</div>
@@ -240,6 +245,7 @@
 <script>
 import BookingDetails from "@/views/bookings/BookingDetails.vue"
 import Checkbox from "@/components/common/Checkbox.vue"
+import { getBookingStatus } from "@/utils/misc.js"
 import { DateTime } from "luxon"
 
 export default {
@@ -281,13 +287,12 @@ export default {
 		{
 			this.loadSavedFormData()
 		}
+		if (this.isBookingInThePast)
+		{
+			this.isShowingErrors = true
+		}
 	},
 	computed: {
-		bookingID () 
-		{
-			return this.booking.id || ""
-		},
-
 		/**
 		 * Calculate the total booking cost based on nightly rate, cleaning fee, and pet fees.
 		 *
@@ -302,6 +307,11 @@ export default {
 
 			const totalCost = daysCost + cleaningFee + petFee
 			return `$${totalCost}`
+		},
+
+		bookingID () 
+		{
+			return this.booking.id || ""
 		},
 
 		cacheBookingKey () 
@@ -376,8 +386,22 @@ export default {
 			{
 				ret.kids = "Must be between 0 and 10"
 			}
+			if (this.isBookingInThePast)
+			{
+				ret.pastDate = "Start date no longer available"
+			}
 
 			return ret
+		},
+
+		isBookingInThePast ()
+		{
+			const bookingStatus = getBookingStatus(this.booking)
+			if (bookingStatus === "Past")
+			{
+				return true
+			}
+			return false
 		},
 
 		isFormValid () 
@@ -397,8 +421,9 @@ export default {
 			{
 				return false
 			}
+
 			// Disabled button if form is invalid
-			return !this.isFormValid
+			return !this.isFormValid || this.isBookingInThePast
 		},
 
 		petFee () 
@@ -431,6 +456,7 @@ export default {
 	methods: {
 		/**
 		 * Load form data from localStorage.
+		 *
 		 * @since 2.5.0
 		 */
 		loadSavedFormData () 
@@ -451,6 +477,7 @@ export default {
 
 		/**
 		 * Save form data to localStorage.
+		 *
 		 * @since 2.5.0
 		 */
 		saveFormData () 
@@ -460,6 +487,7 @@ export default {
 
 		/**
 		 * Validate and submit form.
+		 *
 		 * @returns {boolean} Success of the booking being processed or not
 		 * @since 2.5.0
 		 */
