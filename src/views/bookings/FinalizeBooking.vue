@@ -555,6 +555,47 @@ export default {
 				}
 			},
 		},
+
+		/**
+		 * Watchers to reset formData values when a checkbox is unchecked
+		 *
+		 * @param newValue
+		 */
+		hasBabies (newValue) 
+		{
+			if (!newValue) 
+			{
+				this.formData.babies = 0
+			}
+		},
+		hasCats (newValue) 
+		{
+			if (!newValue) 
+			{
+				this.formData.cats = 0
+			}
+		},
+		hasDogs (newValue) 
+		{
+			if (!newValue) 
+			{
+				this.formData.dogs = 0
+			}
+		},
+		hasKids (newValue) 
+		{
+			if (!newValue) 
+			{
+				this.formData.kids = 0
+			}
+		},
+		hasToddlers (newValue) 
+		{
+			if (!newValue) 
+			{
+				this.formData.toddlers = 0
+			}
+		},
 	},
 	methods: {
 		handleEndDate (event)
