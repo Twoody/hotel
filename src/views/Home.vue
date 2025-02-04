@@ -40,6 +40,7 @@ import GuestSafetyAccordion from "@/components/accordions/questions/GuestSafetyA
 import ParkingAccordion from "@/components/accordions/questions/ParkingAccordion"
 import TrashAccordion from "@/components/accordions/questions/TrashAccordion"
 import WifiAccordion from "@/components/accordions/questions/WifiAccordion"
+import { addDays } from "@/utils/misc.js"
 
 export default {
 	name: "Home",
@@ -66,8 +67,8 @@ export default {
 		getBookedDays ()
 		{
 			// TODO: Store dates in firestore
-			//			 Get disabled dates from firestore
-			//			 Utilize `disableDays` via Vue Cal (e.g. 2020-09-18)
+			//			Get disabled dates from firestore
+			//			Utilize `disableDays` via Vue Cal (e.g. 2020-09-18)
 		},
 
 		/**
@@ -97,6 +98,12 @@ export default {
 				const timestamp = serverTimestamp()
 				const bookingsRef = await collection(db, "bookings")
 				const newBookingRef = doc(bookingsRef)
+				// If user only selected one date, properly configure their input to include an endDate
+				let storedEndDate = bookingData.endDate
+				if (bookingData.startDate === bookingData.endDate)
+				{
+					storedEndDate = addDays(bookingData.startDate, 1)
+				}
 				await setDoc(
 					newBookingRef,
 					{
@@ -105,7 +112,8 @@ export default {
 						countGuests: null,
 						countPets: null,
 						createdAt: timestamp,
-						endDate: bookingData.endDate || null,
+						// endDate is always the checkout date
+						endDate: storedEndDate,
 						guestID: this.currentUser.uid,
 						hostID: 1,
 						startDate: bookingData.startDate || null,
