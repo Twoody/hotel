@@ -45,6 +45,7 @@
 					class="form-wrapper"
 					@submit.prevent="submitBookingDetails"
 				>
+				<div class='guests-wrapper'>
 					<!-- Total Aults -->
 					<label class="user-setting-input-wrapper">
 						<span class="input-label">Total Adults:</span>
@@ -56,7 +57,8 @@
 								<input
 									v-model="formData.adults"
 									type="number"
-									required min="1"
+									required
+									min="1"
 								>
 							</div>
 						</Validatable>
@@ -166,27 +168,34 @@
 							</div>
 						</Validatable>
 					</label>
+				</div>
 
 					<div class="booking-summary">
 						<div class="row">
 							<div class="label col">
 								Check-in Date:
 							</div>
-							<div class="data col">
+							<Validatable
+								class="data col"
+								:error="displayedErrors.startDate || ''"
+							>
 								<input
 									type="date"
 									v-model="formData.startDate"
 									@input="handleStartDate"
 									class="date-input"
 								>
-							</div>
+							</Validatable>
 						</div>
 
 						<div class="row">
 							<div class="label col">
 								Check-out Date:
 							</div>
-							<div class="data col">
+							<Validatable
+								class="data col"
+								:error="displayedErrors.endDate || ''"
+							>
 								<!-- Checkout date is not end date -->
 								<input
 									type="date"
@@ -194,7 +203,7 @@
 									@input="handleEndDate"
 									class="date-input"
 								>
-							</div>
+							</Validatable>
 						</div>
 
 						<div class="row">
@@ -241,7 +250,7 @@
 					<!-- Payment Button -->
 					<Validatable
 						class=""
-						:error="displayedErrors.pastDate || ''"
+						:error="displayedErrors.paymentButton || ''"
 					>
 						<MyButton
 							class="pay-button"
@@ -403,9 +412,14 @@ export default {
 			{
 				ret.kids = "Must be between 0 and 10"
 			}
+			// TODO: if endDate is too far in the future
+			// if (formData.endDate is one year from today) {
+			//		ret.endDate = 'End date is too far in the future''
+			// }
+
 			if (this.isBookingInThePast)
 			{
-				ret.pastDate = "Start date no longer available"
+				ret.paymentButton = "Start date no longer available"
 			}
 
 			return ret
@@ -594,8 +608,8 @@ export default {
 		border-top: 1px solid black;
 		display: flex;
 		flex-direction: column;
-		gap: 15px;
-		margin-top: 10px;
+		gap: 7px;
+		padding-top: 10px;
 
 		.col {
 			flex: 1;
@@ -621,8 +635,10 @@ export default {
 
 	}
 	.form-wrapper {
+		.guests-wrapper {
 		display: flex;
 		flex-direction: column;
+	}
 	}
 
 	/* Grid for the checkboxes in two columns */
