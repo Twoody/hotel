@@ -9,6 +9,7 @@
 				:cleaningFee="totalBookingFees"
 				:dailyRate="$store.state.hotel.dailyRate"
 				:disabled="isBookingDisabled"
+					:hideSubmitButton='currentUser?.uid ? false : true'
 				:isProcessing="isProcessing"
 				:isLoading="!isAuthReady"
 				@booking-request="processBookingRequest"
