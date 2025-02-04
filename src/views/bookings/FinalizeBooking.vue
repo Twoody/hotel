@@ -184,6 +184,8 @@
 									v-model="formData.startDate"
 									@input="handleStartDate"
 									class="date-input"
+									:max="maxStartDate"
+									:min="minStartDate"
 								>
 							</Validatable>
 						</div>
@@ -202,6 +204,8 @@
 									v-model="formData.endDate"
 									@input="handleEndDate"
 									class="date-input"
+									:max="maxEndDate"
+									:min="minEndDate"
 								>
 							</Validatable>
 						</div>
@@ -338,6 +342,11 @@ export default {
 		 */
 		bookingCost ()
 		{
+			if (!this.totalNights)
+			{
+				return "-"
+			}
+
 			const nightlyRate = this.$store.state.hotel.dailyRate
 			const cleaningFee = this.$store.state.hotel.cleaningFee
 			const petFee = this.hasDogs || this.hasCats ? this.$store.state.hotel.petFee : 0
@@ -417,6 +426,16 @@ export default {
 			//		ret.endDate = 'End date is too far in the future''
 			// }
 
+			if (!this.formData.endDate)
+			{
+				ret.endDate = "No check-out date"
+			}
+
+			if (!this.formData.startDate)
+			{
+				ret.startDate = "No check-in date"
+			}
+
 			if (this.isBookingInThePast)
 			{
 				ret.paymentButton = "Start date no longer available"
@@ -462,9 +481,51 @@ export default {
 			return !this.isFormValid || this.isBookingInThePast
 		},
 
+		maxEndDate ()
+		{
+			return this.oneYearFromTodayISO
+		},
+
+		maxStartDate ()
+		{
+			return this.oneYearFromTodayISO
+		},
+
+		minEndDate ()
+		{
+			if (this.formData.startDate)
+			{
+				// Enforce at least 1 day after start date
+				return DateTime.fromISO(this.formData.startDate)
+					.plus({
+						days: 1,
+					}).toISODate()
+			}
+			return this.todayISO
+
+		},
+
+		minStartDate ()
+		{
+			return this.todayISO // The start date must be today or later
+		},
+
+		// Get the date one year from today
+		oneYearFromTodayISO ()
+		{
+			return DateTime.now().plus({
+				years: 1,
+			}).toISODate()
+		},
+
 		petFee ()
 		{
 			return `$${this.$store.state.hotel.petFee}`
+		},
+
+		todayISO ()
+		{
+			return DateTime.now().toISODate() // Get today's date in ISO format (YYYY-MM-DD)
 		},
 
 		/**
@@ -472,8 +533,13 @@ export default {
 		 *
 		 * @returns {number} Total nights of the booking.
 		 */
-		totalNights () 
+		totalNights ()
 		{
+			if (!this.formData.startDate || !this.formData.endDate)
+			{
+				return NaN
+			}
+
 			const start = DateTime.fromISO(this.formData.startDate).startOf("day")
 			const end = DateTime.fromISO(this.formData.endDate).startOf("day")
 
@@ -488,7 +554,7 @@ export default {
 		/**
 		 * Watch for any changes in formData and immediately update local storage and `booking`
 		 *
-		 * @since 2.5.0 
+		 * @since 2.5.0
 		 */
 		formData: {
 			deep: true,
@@ -499,26 +565,46 @@ export default {
 		},
 	},
 	methods: {
-		handleEndDate ()
+		handleEndDate (event)
 		{
-			// TODO: plug into parent for updatesw
-			console.log("updating parent")
+			const selectedDate = event.target.value
+			if (selectedDate <= this.todayISO
+				|| selectedDate < this.formData.startDate
+				|| selectedDate > this.oneYearFromTodayISO
+			)
+			{
+				// Do not update due to bad selection
+				return
+			}
+			this.formData.endDate = selectedDate
 			this.$emit("update:booking", {
 				...this.booking,
-				endDate: this.formData.endDate, 
+				endDate: selectedDate,
 			})
+		},
 
-		},
-		handleStartDate ()
+		handleStartDate (event)
 		{
-			// TODO: plug into parent for updatesw
-			console.log("updating parent")
+			const selectedDate = event.target.value
+			if (selectedDate <= this.todayISO
+				|| selectedDate > this.maxStartDate
+				|| selectedDate > this.oneYearFromTodayISO
+			)
+			{
+				// Do not update due to bad selection
+				return
+			}
+			if (this.formData.endDate && selectedDate >= this.formData.endDate)
+			{
+				this.formData.endDate = null
+			}
+			this.formData.startDate = selectedDate
 			this.$emit("update:booking", {
 				...this.booking,
-				startDate: this.formData.startDate, 
+				startDate: selectedDate,
 			})
 		},
-		
+
 		/**
 		 * Load form data from localStorage.
 		 *
