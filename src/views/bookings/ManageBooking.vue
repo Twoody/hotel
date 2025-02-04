@@ -174,10 +174,13 @@ export default {
 			}
 		},
 
-    updateBooking(updatedBooking) {
-        console.log("Parent updating booking:", updatedBooking);
-        this.booking = { ...updatedBooking };
-    },
+		updateBooking (updatedBooking) 
+		{
+			console.log("Parent updating booking:", updatedBooking)
+			this.booking = {
+				...updatedBooking, 
+			}
+		},
 
 	},
 

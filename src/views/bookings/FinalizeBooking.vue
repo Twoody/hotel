@@ -282,7 +282,9 @@ export default {
 			type: Object,
 		},
 	},
-	emits: ['update:booking'],
+	emits: [
+		"update:booking",
+	],
 	data ()
 	{
 		return {
@@ -456,44 +458,51 @@ export default {
 		 *
 		 * @returns {number} Total nights of the booking.
 		 */
-		totalNights () {
-	const start = DateTime.fromISO(this.formData.startDate).startOf('day')
-	const end = DateTime.fromISO(this.formData.endDate).startOf('day')
+		totalNights () 
+		{
+			const start = DateTime.fromISO(this.formData.startDate).startOf("day")
+			const end = DateTime.fromISO(this.formData.endDate).startOf("day")
 
-	// Compute difference correctly & ensure at least 1 night
-	const nights = Math.ceil(end.diff(start, "days").days)
+			// Compute difference correctly & ensure at least 1 night
+			const nights = Math.ceil(end.diff(start, "days").days)
 
-	return nights > 0 ? nights : 1 // Prevent 0 or negative values
-}
+			return nights > 0 ? nights : 1 // Prevent 0 or negative values
+		},
 
 	},
 	watch: {
 		/**
 		 * Watch for any changes in formData and immediately update local storage and `booking`
+		 *
 		 * @since 2.5.0 
 		 */
 		formData: {
 			deep: true,
-			handler (newFormData)
+			handler ()
 			{
 				this.saveFormData()
 			},
 		},
 	},
 	methods: {
-		handleEndDate()
+		handleEndDate ()
 		{
 			// TODO: plug into parent for updatesw
-			console.log('updating parent')
-        this.$emit("update:booking", { ...this.booking, endDate: this.formData.endDate });
-
+			console.log("updating parent")
+			this.$emit("update:booking", {
+				...this.booking,
+				endDate: this.formData.endDate, 
+			})
 
 		},
-			handleStartDate()
+		handleStartDate ()
 		{
 			// TODO: plug into parent for updatesw
-			console.log('updating parent')
-			this.$emit("update:booking", { ...this.booking, startDate: this.formData.startDate });
+			console.log("updating parent")
+			this.$emit("update:booking", {
+				...this.booking,
+				startDate: this.formData.startDate, 
+			})
 		},
 		
 		/**
