@@ -58,7 +58,6 @@
 										v-model="formData.adults"
 										type="number"
 										required
-										min="1"
 									>
 								</div>
 							</Validatable>
@@ -79,8 +78,6 @@
 									<input
 										v-model="formData.cats"
 										type="number"
-										min="0"
-										max="10"
 									>
 								</div>
 							</Validatable>
@@ -98,8 +95,6 @@
 									<input
 										v-model="formData.dogs"
 										type="number"
-										min="0"
-										max="10"
 									>
 								</div>
 							</Validatable>
@@ -115,8 +110,6 @@
 									<input
 										v-model="formData.babies"
 										type="number"
-										min="0"
-										max="10"
 									>
 								</div>
 							</Validatable>
@@ -132,8 +125,6 @@
 									<input
 										v-model="formData.toddlers"
 										type="number"
-										min="0"
-										max="10"
 									>
 								</div>
 							</Validatable>
@@ -149,8 +140,6 @@
 									<input
 										v-model="formData.kids"
 										type="number"
-										min="0"
-										max="10"
 									>
 								</div>
 							</Validatable>
@@ -397,29 +386,29 @@ export default {
 			{
 				ret.adults = "Cannot be larger than 10"
 			}
-			if (this.formData.adults <= 0)
+			else if (this.formData.adults <= 0)
 			{
 				ret.adults = "Cannot be zero"
 			}
-			if (this.hasCats && (this.formData.cats > 10 || this.formData.cats < 0))
+			if (this.hasCats && (this.formData.cats > 10 || this.formData.cats <= 0))
 			{
-				ret.cats = "Must be between 0 and 10"
+				ret.cats = "Must be between 1 and 10"
 			}
-			if (this.hasDogs && (this.formData.dogs > 10 || this.formData.dogs < 0))
+			if (this.hasDogs && (this.formData.dogs > 10 || this.formData.dogs <= 0))
 			{
-				ret.dogs = "Must be between 0 and 10"
+				ret.dogs = "Must be between 1 and 10"
 			}
-			if (this.hasBabies && (this.formData.babies > 10 || this.formData.babies < 0))
+			if (this.hasBabies && (this.formData.babies > 10 || this.formData.babies <= 0))
 			{
-				ret.babies = "Must be between 0 and 10"
+				ret.babies = "Must be between 1 and 10"
 			}
-			if (this.hasToddlers && (this.formData.toddlers > 10 || this.formData.toddlers < 0))
+			if (this.hasToddlers && (this.formData.toddlers > 10 || this.formData.toddlers <= 0))
 			{
-				ret.toddlers = "Must be between 0 and 10"
+				ret.toddlers = "Must be between 1 and 10"
 			}
-			if (this.hasKids && (this.formData.kids > 10 || this.formData.kids < 0))
+			if (this.hasKids && (this.formData.kids > 10 || this.formData.kids <= 0))
 			{
-				ret.kids = "Must be between 0 and 10"
+				ret.kids = "Must be between 1 and 10"
 			}
 			// TODO: if endDate is too far in the future
 			// if (formData.endDate is one year from today) {
@@ -560,7 +549,10 @@ export default {
 			deep: true,
 			handler ()
 			{
-				this.saveFormData()
+				if (this.isFormValid)
+				{
+					this.saveFormData()
+				}
 			},
 		},
 	},
@@ -681,8 +673,8 @@ export default {
 		margin-top: 10px;
 	}
 	.date-input {
-		width: 100%;
-		padding: 8px;
+		width: auto;
+		padding: 11px;
 		border: 1px solid #ccc;
 		border-radius: 5px;
 	}
@@ -695,7 +687,7 @@ export default {
 		display: flex;
 		flex-direction: column;
 		gap: 7px;
-		padding-top: 10px;
+		padding-top: 6px;
 
 		.col {
 			flex: 1;
@@ -722,9 +714,10 @@ export default {
 	}
 	.form-wrapper {
 		.guests-wrapper {
-		display: flex;
-		flex-direction: column;
-	}
+			display: flex;
+			flex-direction: column;
+			padding-bottom: 7px;
+		}
 	}
 
 	/* Grid for the checkboxes in two columns */
