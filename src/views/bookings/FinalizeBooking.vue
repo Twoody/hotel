@@ -45,130 +45,130 @@
 					class="form-wrapper"
 					@submit.prevent="submitBookingDetails"
 				>
-				<div class='guests-wrapper'>
-					<!-- Total Aults -->
-					<label class="user-setting-input-wrapper">
-						<span class="input-label">Total Adults:</span>
-						<Validatable
-							class="user-setting-input"
-							:error="displayedErrors.adults || ''"
-						>
-							<div class="input-wrapper">
-								<input
-									v-model="formData.adults"
-									type="number"
-									required
-									min="1"
-								>
-							</div>
-						</Validatable>
-					</label>
+					<div class="guests-wrapper">
+						<!-- Total Aults -->
+						<label class="user-setting-input-wrapper">
+							<span class="input-label">Total Adults:</span>
+							<Validatable
+								class="user-setting-input"
+								:error="displayedErrors.adults || ''"
+							>
+								<div class="input-wrapper">
+									<input
+										v-model="formData.adults"
+										type="number"
+										required
+										min="1"
+									>
+								</div>
+							</Validatable>
+						</label>
 
-					<!-- TODO: Have workflow to include place to upload vet records of pet -->
-					<!-- Pets -->
-					<label
-						v-if="hasCats"
-						class="user-setting-input-wrapper"
-					>
-						<span class="input-label">Cats</span>
-						<Validatable
-							class="user-setting-input"
-							:error="displayedErrors.cats || ''"
+						<!-- TODO: Have workflow to include place to upload vet records of pet -->
+						<!-- Pets -->
+						<label
+							v-if="hasCats"
+							class="user-setting-input-wrapper"
 						>
-							<div class="input-wrapper pets-inputs" >
-								<input
-									v-model="formData.cats"
-									type="number"
-									min="0"
-									max="10"
-								>
-							</div>
-						</Validatable>
-					</label>
-					<label
-						v-if="hasDogs"
-						class="user-setting-input-wrapper"
-					>
-						<span class="input-label">Dogs</span>
-						<Validatable
-							class="user-setting-input"
-							:error="displayedErrors.dogs || ''"
+							<span class="input-label">Cats</span>
+							<Validatable
+								class="user-setting-input"
+								:error="displayedErrors.cats || ''"
+							>
+								<div class="input-wrapper pets-inputs" >
+									<input
+										v-model="formData.cats"
+										type="number"
+										min="0"
+										max="10"
+									>
+								</div>
+							</Validatable>
+						</label>
+						<label
+							v-if="hasDogs"
+							class="user-setting-input-wrapper"
 						>
-							<div class="input-wrapper pets-inputs">
-								<input
-									v-model="formData.dogs"
-									type="number"
-									min="0"
-									max="10"
-								>
-							</div>
-						</Validatable>
-					</label>
+							<span class="input-label">Dogs</span>
+							<Validatable
+								class="user-setting-input"
+								:error="displayedErrors.dogs || ''"
+							>
+								<div class="input-wrapper pets-inputs">
+									<input
+										v-model="formData.dogs"
+										type="number"
+										min="0"
+										max="10"
+									>
+								</div>
+							</Validatable>
+						</label>
 
-					<label class="user-setting-input-wrapper" v-if="hasBabies">
-						<span class="input-label">Babies</span>
-						<Validatable
-							class="user-setting-input"
-							:error="displayedErrors.babies || ''"
-						>
-							<div class="input-wrapper">
-								<input
-									v-model="formData.babies"
-									type="number"
-									min="0"
-									max="10"
-								>
-							</div>
-						</Validatable>
-					</label>
+						<label class="user-setting-input-wrapper" v-if="hasBabies">
+							<span class="input-label">Babies</span>
+							<Validatable
+								class="user-setting-input"
+								:error="displayedErrors.babies || ''"
+							>
+								<div class="input-wrapper">
+									<input
+										v-model="formData.babies"
+										type="number"
+										min="0"
+										max="10"
+									>
+								</div>
+							</Validatable>
+						</label>
 
-					<label class="user-setting-input-wrapper" v-if="hasToddlers">
-						<span class="input-label">Toddlers</span>
-						<Validatable
-							class="user-setting-input"
-							:error="displayedErrors.toddlers || ''"
-						>
-							<div class="input-wrapper">
-								<input
-									v-model="formData.toddlers"
-									type="number"
-									min="0"
-									max="10"
-								>
-							</div>
-						</Validatable>
-					</label>
+						<label class="user-setting-input-wrapper" v-if="hasToddlers">
+							<span class="input-label">Toddlers</span>
+							<Validatable
+								class="user-setting-input"
+								:error="displayedErrors.toddlers || ''"
+							>
+								<div class="input-wrapper">
+									<input
+										v-model="formData.toddlers"
+										type="number"
+										min="0"
+										max="10"
+									>
+								</div>
+							</Validatable>
+						</label>
 
-					<label class="user-setting-input-wrapper" v-if="hasKids">
-						<span class="input-label">Kids</span>
-						<Validatable
-							class="user-setting-input"
-							:error="displayedErrors.kids || ''"
-						>
-							<div class="input-wrapper">
-								<input
-									v-model="formData.kids"
-									type="number"
-									min="0"
-									max="10"
-								>
-							</div>
-						</Validatable>
-					</label>
+						<label class="user-setting-input-wrapper" v-if="hasKids">
+							<span class="input-label">Kids</span>
+							<Validatable
+								class="user-setting-input"
+								:error="displayedErrors.kids || ''"
+							>
+								<div class="input-wrapper">
+									<input
+										v-model="formData.kids"
+										type="number"
+										min="0"
+										max="10"
+									>
+								</div>
+							</Validatable>
+						</label>
 
-					<!-- Special Requests -->
-					<label class="user-setting-input-wrapper">
-						<span class="input-label">Special Requests:</span>
-						<Validatable
-							class="user-setting-input"
-							:error="displayedErrors.specialRequests || ''"
-						>
-							<div class="input-wrapper">
-								<textarea v-model="formData.specialRequests"/>
-							</div>
-						</Validatable>
-					</label>
-				</div>
+						<!-- Special Requests -->
+						<label class="user-setting-input-wrapper">
+							<span class="input-label">Special Requests:</span>
+							<Validatable
+								class="user-setting-input"
+								:error="displayedErrors.specialRequests || ''"
+							>
+								<div class="input-wrapper">
+									<textarea v-model="formData.specialRequests"/>
+								</div>
+							</Validatable>
+						</label>
+					</div>
 
 					<div class="booking-summary">
 						<div class="row">
