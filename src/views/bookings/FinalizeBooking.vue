@@ -173,7 +173,7 @@
 								Check-in Date:
 							</div>
 							<div class="data col">
-								<input type="date" v-model="localStartDate" class="date-input" >
+								<input type="date" v-model="formData.startDate" class="date-input" >
 							</div>
 						</div>
 
@@ -182,7 +182,8 @@
 								Check-out Date:
 							</div>
 							<div class="data col">
-								<input type="date" v-model="localCheckOutDate" class="date-input" >
+								<!-- Checkout date is not end date -->
+								<input type="date" v-model="formData.endDate" class="date-input" >
 							</div>
 						</div>
 
@@ -271,6 +272,7 @@ export default {
 			type: Object,
 		},
 	},
+	emits: ['update:booking'],
 	data ()
 	{
 		return {
@@ -279,8 +281,10 @@ export default {
 				babies: 0,
 				cats: 0,
 				dogs: 0,
+				endDate: this.booking.endDate,
 				kids: 0,
 				specialRequests: "",
+				startDate: this.booking.startDate,
 				toddlers: 0,
 			},
 			hasBabies: false,
@@ -333,18 +337,6 @@ export default {
 				return ""
 			}
 			return `bookingFormData-${this.bookingID}`
-		},
-
-		/**
-		 * Calculate and display the check-out date as the day after the booking's end date.
-		 *
-		 * @returns {string} Formatted check-out date.
-		 */
-		checkOutDate ()
-		{
-			return DateTime.fromISO(this.booking.endDate).plus({
-				days: 1,
-			}).toFormat("yyyy-MM-dd")
 		},
 
 		cleaningFee ()
@@ -443,42 +435,6 @@ export default {
 			return !this.isFormValid || this.isBookingInThePast
 		},
 
-		/** @since 2.5.0 */
-		localStartDate:
-		{
-			get () 
-			{
-				return this.booking.startDate
-			},
-			set (newDate) 
-			{
-				const newStartDate = DateTime.fromISO(newDate)
-					.toFormat("yyyy-MM-dd")
-				this.formData.startDate = newStartDate
-				this.$emit('update-booking', { ...this.booking, startDate: newStartDate });
-			},
-		},
-
-		/** @since 2.5.0 */
-		localCheckOutDate:
-		{
-			get () 
-			{
-				return DateTime.fromISO(this.booking.endDate)
-					.plus({
-						days: 1, 
-					})
-					.toFormat("yyyy-MM-dd")
-			},
-			set (newDate) 
-			{
-				const newEndDate = DateTime.fromISO(newDate)
-					.toFormat("yyyy-MM-dd")
-				this.formData.endDate = newEndDate
-				this.$emit('update-booking', { ...this.booking, endDate: newEndDate });
-			},
-		},
-
 		petFee ()
 		{
 			return `$${this.$store.state.hotel.petFee}`
@@ -493,38 +449,24 @@ export default {
 		{
 			const start = DateTime.fromISO(this.booking.startDate)
 			const end = DateTime.fromISO(this.booking.endDate)
-			return Math.max(1, end.diff(start, "days").days) // Ensure at least 1 night
+			const nights = Math.max(1, end.diff(start, "days").days)
+			return  nights
 		},
 	},
 	watch: {
-		/** @since 2.5.0 */
-		booking: {
-			deep: true, // Ensures Vue watches nested properties inside `booking`
-			handler(__newBooking) {
-				const newBooking = toRaw(__newBooking)
-				console.log(newBooking)
-				// Ensure dependent variables update when booking changes
-				this.formData.adults = newBooking.adults || 1;
-				this.formData.babies = newBooking.babies || 0;
-				this.formData.toddlers = newBooking.toddlers || 0;
-				this.formData.kids = newBooking.kids || 0;
-				this.formData.cats = newBooking.cats || 0;
-				this.formData.dogs = newBooking.dogs || 0;
-
-				this.hasBabies = newBooking.babies > 0;
-				this.hasToddlers = newBooking.toddlers > 0;
-				this.hasKids = newBooking.kids > 0;
-				this.hasCats = newBooking.cats > 0;
-				this.hasDogs = newBooking.dogs > 0;
-			}
-		},
-
-		/** Watch for any changes in formData and immediately update local storage. */
+		/**
+		 * Watch for any changes in formData and immediately update local storage and `booking`
+		 * @since 2.5.0 
+		 */
 		formData: {
 			deep: true,
-			handler ()
+			handler (newFormData)
 			{
 				this.saveFormData()
+				const updateBooking = this.booking
+				updateBooking.endDate = newFormData.endDate
+				updateBooking.startDate = newFormData.startDate
+				this.$emit('update:booking', updateBooking);
 			},
 		},
 	},
@@ -541,6 +483,8 @@ export default {
 			{
 				this.formData = JSON.parse(savedData)
 			}
+			this.formData.endDate = this.booking.endDate
+			this.formData.startDate = this.booking.startDate
 
 			// Set checkboxes so data is shown
 			this.hasCats = this.formData.cats > 0
