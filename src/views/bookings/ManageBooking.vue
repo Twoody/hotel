@@ -50,7 +50,8 @@
 			data-testid="conditional-view-manager-not-completed"
 		>
 			<FinalizeBooking
-				v-model:booking="booking"
+				:booking="booking"
+				@update:booking="updateBooking"
 			/>
 		</div>
 	</div>
@@ -172,6 +173,12 @@ export default {
 				this.isLoadingBooking = false
 			}
 		},
+
+    updateBooking(updatedBooking) {
+        console.log("Parent updating booking:", updatedBooking);
+        this.booking = { ...updatedBooking };
+    },
+
 	},
 
 	components: {

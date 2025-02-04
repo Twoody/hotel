@@ -173,7 +173,12 @@
 								Check-in Date:
 							</div>
 							<div class="data col">
-								<input type="date" v-model="formData.startDate" class="date-input" >
+								<input
+									type="date"
+									v-model="formData.startDate"
+									@input="handleStartDate"
+									class="date-input"
+								>
 							</div>
 						</div>
 
@@ -183,7 +188,12 @@
 							</div>
 							<div class="data col">
 								<!-- Checkout date is not end date -->
-								<input type="date" v-model="formData.endDate" class="date-input" >
+								<input
+									type="date"
+									v-model="formData.endDate"
+									@input="handleEndDate"
+									class="date-input"
+								>
 							</div>
 						</div>
 
@@ -281,10 +291,10 @@ export default {
 				babies: 0,
 				cats: 0,
 				dogs: 0,
-				endDate: this.booking.endDate,
+				endDate: null,
 				kids: 0,
 				specialRequests: "",
-				startDate: this.booking.startDate,
+				startDate: null,
 				toddlers: 0,
 			},
 			hasBabies: false,
@@ -301,6 +311,8 @@ export default {
 		if (this.bookingID)
 		{
 			this.loadSavedFormData()
+			this.formData.endDate = this.booking.endDate
+			this.formData.startDate = this.booking.startDate
 		}
 		if (this.isBookingInThePast)
 		{
@@ -321,7 +333,6 @@ export default {
 			const daysCost = this.totalNights * nightlyRate
 
 			const totalCost = daysCost + cleaningFee + petFee
-			console.log(totalCost)
 			return `$${totalCost}`
 		},
 
@@ -445,13 +456,16 @@ export default {
 		 *
 		 * @returns {number} Total nights of the booking.
 		 */
-		totalNights ()
-		{
-			const start = DateTime.fromISO(this.booking.startDate)
-			const end = DateTime.fromISO(this.booking.endDate)
-			const nights = Math.max(1, end.diff(start, "days").days)
-			return  nights
-		},
+		totalNights () {
+	const start = DateTime.fromISO(this.formData.startDate).startOf('day')
+	const end = DateTime.fromISO(this.formData.endDate).startOf('day')
+
+	// Compute difference correctly & ensure at least 1 night
+	const nights = Math.ceil(end.diff(start, "days").days)
+
+	return nights > 0 ? nights : 1 // Prevent 0 or negative values
+}
+
 	},
 	watch: {
 		/**
@@ -463,14 +477,25 @@ export default {
 			handler (newFormData)
 			{
 				this.saveFormData()
-				const updateBooking = this.booking
-				updateBooking.endDate = newFormData.endDate
-				updateBooking.startDate = newFormData.startDate
-				this.$emit('update:booking', updateBooking);
 			},
 		},
 	},
 	methods: {
+		handleEndDate()
+		{
+			// TODO: plug into parent for updatesw
+			console.log('updating parent')
+        this.$emit("update:booking", { ...this.booking, endDate: this.formData.endDate });
+
+
+		},
+			handleStartDate()
+		{
+			// TODO: plug into parent for updatesw
+			console.log('updating parent')
+			this.$emit("update:booking", { ...this.booking, startDate: this.formData.startDate });
+		},
+		
 		/**
 		 * Load form data from localStorage.
 		 *
@@ -519,7 +544,7 @@ export default {
 				this.isProcessingRequest = false
 				return false
 			}
-			console.log("Form submitted successfully!")
+			console.info("Form submitted successfully!")
 			this.isProcessingRequest = false
 			return true
 		},
