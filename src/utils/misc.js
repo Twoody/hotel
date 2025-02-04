@@ -1,6 +1,31 @@
 import { DateTime } from "luxon"
 
 /**
+ * Adds a specified number of days to a given date string.
+ * Returns an empty string if the input date is invalid
+ *
+ * @param {string} dateString - The input date in 'YYYY-MM-DD' format.
+ * @param {number} days - The number of days to add.
+ * @returns {string} - The date in 'YYYY-MM-DD' format; Else an empty string if invalid input
+ * @example
+ * addDays('2025-02-04', 10); // Returns '2025-02-14'
+ * addDays('invalid date', 10); // Returns ''
+ */
+export function addDays (dateString, days) 
+{
+	const date = DateTime.fromISO(dateString)
+	if (!date.isValid) 
+	{
+		return ""
+	}
+
+	return date.plus({
+		days, 
+	}).toFormat("yyyy-MM-dd")
+
+}
+
+/**
  * Determines the booking status (Past, Present, Future, or Unknown).
  *
  * @param {object} booking - The booking object containing start and end dates.
