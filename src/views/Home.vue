@@ -9,11 +9,15 @@
 				:cleaningFee="totalBookingFees"
 				:dailyRate="$store.state.hotel.dailyRate"
 				:disabled="isBookingDisabled"
-					:hideSubmitButton='currentUser?.uid ? false : true'
+				:hideSubmitButton="currentUser?.uid ? false : true"
 				:isProcessing="isProcessing"
 				:isLoading="!isAuthReady"
 				@booking-request="processBookingRequest"
 			/>
+			<!-- Full-width login button, displayed when no user is found -->
+			<button v-if="!currentUser?.uid" class="login-button" @click="$router.push('/login')">
+				Log in to Book
+			</button>
 		</div>
 		<div class="accordion-sections">
 			<h2>
@@ -183,7 +187,32 @@ export default {
 
 	.booking-section {
 		background: @color-lavendar;
+		padding: 20px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
+
+	/* Style for the login button */
+	.login-button {
+		width: 100%;
+		max-width: 400px;
+		background-color: @color-primary-monochromatic-2;
+		color: white;
+		border: none;
+		padding: 12px;
+		font-size: 18px;
+		font-weight: bold;
+		cursor: pointer;
+		margin-top: 15px;
+		border-radius: 5px;
+		text-align: center;
+	}
+
+	.login-button:hover {
+		background-color: darken(@color-primary-monochromatic-2, 10%);
+	}
+
 	.accordion-sections {
 		align-items: center;
 		align-content: center;
@@ -218,6 +247,6 @@ export default {
 			}
 		}
 	}
-
 }
 </style>
+
