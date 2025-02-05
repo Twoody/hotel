@@ -15,9 +15,13 @@
 				@booking-request="processBookingRequest"
 			/>
 			<!-- Full-width login button, displayed when no user is found -->
-			<button v-if="!currentUser?.uid" class="login-button" @click="$router.push('/login')">
+			<MyButton
+				v-if="!currentUser?.uid"
+				class="login-button"
+				@click="$router.push('/login')"
+			>
 				Log in to Book
-			</button>
+			</MyButton>
 		</div>
 		<div class="accordion-sections">
 			<h2>
