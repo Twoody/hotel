@@ -190,13 +190,27 @@ export default {
 	}
 
 	.booking-section {
+		align-items: stretch;
 		background: @color-lavendar;
-		padding: 20px;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-	}
+		flex-grow: 1;
+		min-height: fit-content;
+		overflow: visible;
+		padding: 20px;
 
+		.availability-search-wrapper {
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			flex-grow: 1;
+			height: fit-content;
+			.content-section {
+				overflow: visible;
+			}
+		}
+
+	}
 	/* Style for the login button */
 	.login-button {
 		width: 100%;
