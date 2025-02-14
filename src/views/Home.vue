@@ -190,7 +190,7 @@ export default {
 	}
 
 	.booking-section {
-		align-items: stretch;
+		align-items: center;
 		background: @color-lavendar;
 		display: flex;
 		flex-direction: column;
