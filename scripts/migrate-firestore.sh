@@ -19,11 +19,11 @@ setup_migrate_firestore() {
     return 1
   fi
 
-  # Get the current epoch time
-  EPOCH_TIME=$(date +%s)
+  # Get the current ISO8601 timestamp (UTC)
+  TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
   # Construct the destination path
-  DEST_FILE="${QUEUED_DIR}/migration_${EPOCH_TIME}.js"
+  DEST_FILE="${QUEUED_DIR}/migration_${TIMESTAMP}.js"
 
   # Copy the template to the new migration file
   cp "$TEMPLATE_FILE" "$DEST_FILE"
