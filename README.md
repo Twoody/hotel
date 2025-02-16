@@ -1,5 +1,21 @@
 # hotel
 
+## Table of Contents
+
+- [Project Setup](#project-setup)
+- [Compiles and Hot-reloads for Development](#compiles-and-hot-reloads-for-development)
+- [Compiles and Minifies for Production](#compiles-and-minifies-for-production)
+- [Lints and Fixes Files](#lints-and-fixes-files)
+- [Customize Configuration](#customize-configuration)
+- [Documentation](#documentation)
+- [Hosting](#hosting)
+- [Troubleshooting](#troubleshooting)
+- [Firestore Migrations](#firestore-migrations)
+  - [Migration Template](#migration-template)
+  - [Migration Creation Script](#migration-creation-script)
+  - [Migration Execution Script](#migration-execution-script)
+  - [Considerations](#considerations)
+
 ## Project setup
 ```
 npm install
