@@ -129,7 +129,7 @@ async function migrateUsers ()
 	if (failedDocs.length > 0) 
 	{
 		logMessage(`Migration ${MIGRATION_ID} encountered ${failedDocs.length} failed documents.`, "error")
-		console.warn(`⚠️ Migration finished with ${failedDocs.length} failed document(s). Check logs.`)
+		console.warn(`⚠️  Migration finished with ${failedDocs.length} failed document(s). Check logs.`)
 		process.exit(1)
 	}
 	process.exit(0)
@@ -221,7 +221,7 @@ else
 {
 	if (process.env.NODE_ENV === "production") 
 	{
-		console.warn("⚠️ WARNING: Running migration in PRODUCTION mode!")
+		console.warn("⚠️  WARNING: Running migration in PRODUCTION mode!")
 		console.log("You have 5 seconds to cancel (CTRL+C)...")
 
 		setTimeout(() => 
