@@ -3,19 +3,34 @@ const fs = require("fs")
 const path = require("path")
 require("dotenv").config()
 
+const ENV = process.env.NODE_ENV
+let canRun = false
+
 // ✅ Initialize Firebase Admin SDK with correct environment
-if (process.env.NODE_ENV === "development") 
+if (!ENV)
 {
+	console.error('ERROR: No NODE_ENV configured or found')
+	logMessage('Bailing: Inproper config', 'error')
+	process.exit(1)
+}
+else if (ENV === "development") 
+{
+	canRun = true
 	console.log("Running in DEVELOPMENT mode...")
 	process.env.FIRESTORE_EMULATOR_HOST = "localhost:8080" // Use Firestore Emulator
 }
 else 
 {
+	// TODO: Configure list of supported envs and set `canRun` to true IFF NODE_ENV is in that list
+	canRun = true
 	console.log(`Running in ${process.env.NODE_ENV.toUpperCase()} mode...`)
 }
 
-admin.initializeApp()
-const db = admin.firestore()
+if (canRun)
+{
+	admin.initializeApp()
+	const db = admin.firestore()
+}
 
 // ===============================
 // 🔄 SCHEMA VERSION CONTROL
@@ -55,6 +70,10 @@ function logMessage (message, type = "info")
  */
 async function migrateUsers () 
 {
+	if (!canRun)
+	{
+		return
+	}
 	console.log(`Starting migration to schema version ${SCHEMA_VERSION}...`)
 	logMessage(`Migration ${MIGRATION_ID} started.`)
 
@@ -145,6 +164,10 @@ async function migrateUsers ()
  */
 async function rollbackMigration (migrationId) 
 {
+	if (!canRun)
+	{
+		return
+	}
 	console.log(`Rolling back migration ${migrationId}...`)
 	logMessage(`Starting rollback for migration ${migrationId}.`)
 
