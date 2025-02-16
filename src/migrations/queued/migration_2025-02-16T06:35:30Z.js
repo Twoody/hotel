@@ -129,7 +129,7 @@ async function migrateUsers ()
 	if (failedDocs.length > 0) 
 	{
 		logMessage(`Migration ${MIGRATION_ID} encountered ${failedDocs.length} failed documents.`, "error")
-		console.warn(`⚠️ Migration finished with ${failedDocs.length} failed document(s). Check logs.`)
+		console.warn(`⚠️  Migration finished with ${failedDocs.length} failed document(s). Check logs.`)
 		process.exit(1)
 	}
 	process.exit(0)
