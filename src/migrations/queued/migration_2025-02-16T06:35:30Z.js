@@ -130,7 +130,9 @@ async function migrateUsers ()
 	{
 		logMessage(`Migration ${MIGRATION_ID} encountered ${failedDocs.length} failed documents.`, "error")
 		console.warn(`⚠️ Migration finished with ${failedDocs.length} failed document(s). Check logs.`)
+		process.exit(1)
 	}
+	process.exit(0)
 }
 
 // ===============================
@@ -174,6 +176,7 @@ async function rollbackMigration (migrationId)
 			{
 				console.error("Rollback batch commit failed:", error)
 				logMessage(`Rollback batch commit failed: ${error.message}`, "error")
+				process.exit(1)
 			}
 			batch = db.batch()
 			batchCount = 0
@@ -192,11 +195,13 @@ async function rollbackMigration (migrationId)
 		{
 			console.error("Final rollback commit failed:", error)
 			logMessage(`Final rollback commit failed: ${error.message}`, "error")
+			process.exit(1)
 		}
 	}
 
 	console.log(`Rollback complete: ${rolledBackDocs} documents restored.`)
 	logMessage(`Rollback for migration ${migrationId} completed. Restored ${rolledBackDocs} documents.`)
+	process.exit(0)
 }
 
 // ===============================
