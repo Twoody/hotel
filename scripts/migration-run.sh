@@ -4,7 +4,7 @@ execute_migration() {
   MIGRATIONS_DIR="src/migrations"
   QUEUED_DIR="$MIGRATIONS_DIR/queued"
   EXECUTED_DIR="$MIGRATIONS_DIR/executed"
-  LOG_FILE="$MIGRATIONS_DIR/log.md"
+  LOG_FILE="logs/migrations.log"
   ENV_FILE=".env"
 
   # Check if .env exists
