@@ -26,10 +26,10 @@ else
 	console.log(`Running in ${process.env.NODE_ENV.toUpperCase()} mode...`)
 }
 
-if (canRun)
-{
-	admin.initializeApp()
-	const db = admin.firestore()
+let db
+if (canRun) {
+  const { dbAdmin: dbAdmin } = require("../../firebaseAdmin") // Adjust the path as needed
+  db = dbAdmin
 }
 
 // ===============================

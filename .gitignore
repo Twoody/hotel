@@ -12,6 +12,7 @@ node_modules
 coverage
 
 # local env files
+.keys
 .env
 .env.local
 .env.*.local
