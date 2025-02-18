@@ -46,7 +46,7 @@ const MIGRATION_ID = `migration_v${SCHEMA_VERSION}_${Date.now()}` // Unique ID f
  */
 function logMessage (message, type = "info") 
 {
-	const logDir = path.resolve(__dirname, "logs")
+	const logDir = path.resolve(__dirname, "../../../logs")
 	if (!fs.existsSync(logDir)) 
 	{
 		fs.mkdirSync(logDir)
