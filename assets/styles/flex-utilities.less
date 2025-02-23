@@ -1,0 +1,79 @@
+// ===============================
+// FLEX UTILITIES
+// ===============================
+
+// Base flex mixin
+.flexbox(@direction: row, @justify: flex-start, @align: flex-start) {
+  display: flex;
+  flex-direction: @direction;
+  justify-content: @justify;
+  align-items: @align;
+}
+
+// ===============================
+// Row-based Flex Utilities
+// ===============================
+
+.flex-reverse { flex-direction: row-reverse !important; }
+.flex-col-reverse { flex-direction: column-reverse !important; }
+
+// Basic alignments
+.flex-start { .flexbox(row, flex-start, flex-start); }
+.flex-center { .flexbox(row, center, center); }
+.flex-end { .flexbox(row, flex-end, flex-end); }
+
+// Justify variations
+.flex-start-center { .flexbox(row, flex-start, center); }
+.flex-start-end { .flexbox(row, flex-start, flex-end); }
+.flex-center-start { .flexbox(row, center, flex-start); }
+.flex-center-end { .flexbox(row, center, flex-end); }
+.flex-end-start { .flexbox(row, flex-end, flex-start); }
+.flex-end-center { .flexbox(row, flex-end, center); }
+
+// Stretch variations
+.flex-start-stretch { .flexbox(row, flex-start, stretch); }
+.flex-center-stretch { .flexbox(row, center, stretch); }
+.flex-end-stretch { .flexbox(row, flex-end, stretch); }
+
+// ===============================
+// Column-based Flex Utilities
+// ===============================
+
+.flex-col-start { .flexbox(column, flex-start, flex-start); }
+.flex-col-center { .flexbox(column, center, center); }
+.flex-col-end { .flexbox(column, flex-end, flex-end); }
+
+// Column justify variations
+.flex-col-start-center { .flexbox(column, center, flex-start); }
+.flex-col-start-end { .flexbox(column, flex-end, flex-start); }
+.flex-col-center-start { .flexbox(column, flex-start, center); }
+.flex-col-center-end { .flexbox(column, flex-end, center); }
+.flex-col-end-start { .flexbox(column, flex-start, flex-end); }
+.flex-col-end-center { .flexbox(column, center, flex-end); }
+
+// Column with space distribution
+.flex-col-start-around { .flexbox(column, space-around, flex-start); }
+.flex-col-center-around { .flexbox(column, space-around, center); }
+.flex-col-end-around { .flexbox(column, space-around, flex-end); }
+.flex-col-start-between { .flexbox(column, space-between, flex-start); }
+.flex-col-center-between { .flexbox(column, space-between, center); }
+.flex-col-end-between { .flexbox(column, space-between, flex-end); }
+.flex-col-start-evenly { .flexbox(column, space-evenly, flex-start); }
+.flex-col-center-evenly { .flexbox(column, space-evenly, center); }
+.flex-col-end-evenly { .flexbox(column, space-evenly, flex-end); }
+
+// ===============================
+// Spacing Utilities (Row-based)
+// ===============================
+
+.flex-around-start { .flexbox(row, space-around, flex-start); }
+.flex-around-center { .flexbox(row, space-around, center); }
+.flex-around-end { .flexbox(row, space-around, flex-end); }
+
+.flex-between-start { .flexbox(row, space-between, flex-start); }
+.flex-between-center { .flexbox(row, space-between, center); }
+.flex-between-end { .flexbox(row, space-between, flex-end); }
+
+.flex-evenly-start { .flexbox(row, space-evenly, flex-start); }
+.flex-evenly-center { .flexbox(row, space-evenly, center); }
+.flex-evenly-end { .flexbox(row, space-evenly, flex-end); }
