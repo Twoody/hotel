@@ -8,6 +8,7 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "migrate:firestore:setup": "./scripts/migrate-firestore.sh",
     "migrate:run": "./scripts/migration-run.sh",
+	 "migrate:rollback": "./scripts/migration-rollback.sh",
     "test": "vitest",
     "test:coverage": "npm run test -- --coverage"
   },
