@@ -174,6 +174,14 @@ async function rollbackMigration (migrationId)
 	const backupRef = db.collection(`migrations_backup/${migrationId}/users`)
 	const snapshot = await backupRef.get()
 
+	if (snapshot.empty) {
+		console.warn(`⚠️ Backup collection migrations_backup/${migrationId}/users is empty or does not exist.`)
+		logMessage(`Rollback failed: Backup migrations_backup/${migrationId}/users is empty.`, "error")
+		process.exit(1)
+	}
+
+
+
 	let batch = db.batch()
 	let batchCount = 0
 	let rolledBackDocs = 0
@@ -230,16 +238,18 @@ async function rollbackMigration (migrationId)
 // ===============================
 // 🚀 EXECUTE MIGRATION WITH SAFEGUARDS
 // ===============================
-if (process.argv.includes("--rollback")) 
-{
-	const migrationId = process.argv[2]
-	if (!migrationId) 
-	{
-		console.error("❌ Please provide a migration ID for rollback.")
-		process.exit(1)
-	}
-	rollbackMigration(migrationId)
+if (process.argv.includes("--rollback")) {
+  const rollbackFlagIndex = process.argv.indexOf("--rollback")
+  const migrationId = process.argv[rollbackFlagIndex + 1]
+
+  if (!migrationId) {
+    console.error("❌ Please provide a migration ID for rollback.")
+    process.exit(1)
+  }
+
+  rollbackMigration(migrationId)
 }
+
 else 
 {
 	if (process.env.NODE_ENV === "production") 
