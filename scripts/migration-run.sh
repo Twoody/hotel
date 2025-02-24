@@ -31,7 +31,7 @@ execute_migration() {
     exit 2
   fi
 
-  # Execute the migration file with node
+  # Load environment variables & Execute the rollback command
   node "$MIGRATION_FILE"
   STATUS=$?
 
