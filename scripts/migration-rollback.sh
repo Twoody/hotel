@@ -17,9 +17,6 @@ rollback_migration() {
     exit 1
   fi
 
-  # Load environment variables
-  export $(grep -v '^#' "$ENV_FILE" | xargs)
-
   # Validate input for migration ID
   if [ -z "$1" ]; then
     echo "❌ Error: No migration ID provided for rollback."
@@ -37,8 +34,8 @@ rollback_migration() {
     exit 2
   fi
 
-  # Execute the rollback command
-  node "$MIGRATION_FILE" --rollback "$MIGRATION_ID"
+  # Load environment variables & Execute the rollback command
+  npx dotenv -- node "$MIGRATION_FILE" --rollback "$MIGRATION_ID"
   STATUS=$?
 
   TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S")

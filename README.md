@@ -128,3 +128,7 @@ The migration process is broken into three main parts:
 
 This migration system provides a structured approach to evolving your Firestore schema with built-in safety nets such as backups and rollback capabilities. Adjustments may be needed (especially around batch sizes) to align with Firestore’s operational limits.
 
+To run a rollback:
+
+- `npm run migrate:rollback migration_v2_1700000000000`
+- Replace `migration_v2_1700000000000` with the actual migration ID needed to roll back (as recorded in the logs).
