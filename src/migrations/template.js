@@ -9,8 +9,8 @@ let canRun = false
 // ✅ Initialize Firebase Admin SDK with correct environment
 if (!ENV)
 {
-	console.error('ERROR: No NODE_ENV configured or found')
-	logMessage('Bailing: Inproper config', 'error')
+	console.error("ERROR: No NODE_ENV configured or found")
+	logMessage("Bailing: Inproper config", "error")
 	process.exit(1)
 }
 else if (ENV === "development") 
@@ -27,9 +27,10 @@ else
 }
 
 let db
-if (canRun) {
-  const { dbAdmin: dbAdmin } = require("../../firebaseAdmin") // Adjust the path as needed
-  db = dbAdmin
+if (canRun) 
+{
+	const { dbAdmin: dbAdmin, } = require("../../firebaseAdmin") // Adjust the path as needed
+	db = dbAdmin
 }
 
 // ===============================
@@ -174,13 +175,12 @@ async function rollbackMigration (migrationId)
 	const backupRef = db.collection(`migrations_backup/${migrationId}/users`)
 	const snapshot = await backupRef.get()
 
-	if (snapshot.empty) {
+	if (snapshot.empty) 
+	{
 		console.warn(`⚠️ Backup collection migrations_backup/${migrationId}/users is empty or does not exist.`)
 		logMessage(`Rollback failed: Backup migrations_backup/${migrationId}/users is empty.`, "error")
 		process.exit(1)
 	}
-
-
 
 	let batch = db.batch()
 	let batchCount = 0
@@ -238,16 +238,18 @@ async function rollbackMigration (migrationId)
 // ===============================
 // 🚀 EXECUTE MIGRATION WITH SAFEGUARDS
 // ===============================
-if (process.argv.includes("--rollback")) {
-  const rollbackFlagIndex = process.argv.indexOf("--rollback")
-  const migrationId = process.argv[rollbackFlagIndex + 1]
+if (process.argv.includes("--rollback")) 
+{
+	const rollbackFlagIndex = process.argv.indexOf("--rollback")
+	const migrationId = process.argv[rollbackFlagIndex + 1]
 
-  if (!migrationId) {
-    console.error("❌ Please provide a migration ID for rollback.")
-    process.exit(1)
-  }
+	if (!migrationId) 
+	{
+		console.error("❌ Please provide a migration ID for rollback.")
+		process.exit(1)
+	}
 
-  rollbackMigration(migrationId)
+	rollbackMigration(migrationId)
 }
 
 else 
