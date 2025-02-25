@@ -16,7 +16,17 @@
 			is-showing
 		>
 			<div class="flex-box nav-flex">
-				<NavBar id="nav-wrapper" />
+				<AdminNavBar
+					v-if="isLayoutAdmin && isUserAdmin"
+					id="nav-wrapper"
+				/>
+				<NavBar
+					v-else-if="!isLayoutAdmin"
+					id="nav-wrapper"
+				/>
+				<div v-else>
+					Funny business
+				</div>
 			</div>
 		</AppSection>
 
@@ -29,7 +39,7 @@
 			<!-- Consider a route guard via `beforeEach` instead -->
 			<!-- Splash screen remains until both user and hotel data are ready -->
 			<SplashScreen
-				v-if="isShowingSplashScreen"
+				v-if="isShowingSplashScreen && false"
 			/>
 			<router-view
 				v-else
@@ -69,6 +79,7 @@ import { addUserToFirestore } from "@/utils"
 import { doc, getDoc } from "firebase/firestore"
 import { db } from "@/firebase"
 
+import AdminNavBar from "@/components/nav/AdminNavBar"
 import NavBar from "@/components/nav/NavBar"
 import SplashScreen from "@/components/entities/SplashScreen.vue"
 
@@ -76,6 +87,7 @@ export default {
 	name: "App",
 	components:
 	{
+		AdminNavBar,
 		NavBar,
 		SplashScreen,
 	},
@@ -88,6 +100,14 @@ export default {
 	computed:
 	{
 		/**
+		 * @returns {boolean} - Whether user is trying to access admin pages or not
+		 */
+		isLayoutAdmin ()
+		{
+			return this.$store.state.layout.isAdmin
+		},
+
+		/**
 		 * @returns {boolean} If still setting up authentication or logging the user is, show the splash screen
 		 */
 		isShowingSplashScreen ()
@@ -95,6 +115,18 @@ export default {
 			return !this.$store.state.user.isAuthReady ||
 				this.$store.state.user.isLoggingIn || 
 				! this.$store.state.hotel.isLoaded
+		},
+
+		/**
+		 * @returns {boolean} - Whether a user is considered an admin or not
+		 */
+		isUserAdmin ()
+		{
+			if (this.$store.state.isAirplaneMode)
+			{
+				return true
+			}
+			return !this.$store.state.user.invalid && this.$store.state.user.isAdmin
 		},
 	},
 	watch:
@@ -109,90 +141,107 @@ export default {
 	},
 	created: async function() 
 	{
+		// Determine if showing admin or public views and components
+		const isLayoutAdmin = window.location.hostname.startsWith("admin")
+		console.log(window.location.hostname)
+		console.log(window.location.hostname.startsWith("admin"))
+		const isAirplaneMode = import.meta.env.VITE_AIRPLANE_MODE
+		this.$store.commit("setIsLayoutAdmin", isLayoutAdmin)
+		this.$store.commit("setIsAirplaneMode", isAirplaneMode)
+
 		// Initialize Firebase & User Collection
-		try 
+		if (this.$store.state.isAirplaneMode)
 		{
-			onAuthStateChanged(
-				firebaseAuth,
-				async (user) =>
-				{
-					// Check the mutex so multiple logins do not occur
-					if (this.$store.state.user.isLoggingIn)
-					{
-						return
-					}
-
-					// Set a mutex that tracks when Firebase authentication state has finished loading
-					this.$store.commit("setIsAuthReady", false)
-
-					// Set a mutex so only one login occurs
-					this.$store.commit("setIsLoggingIn", true)
-
-					if (user?.uid)
-					{
-						// Now that the user is authenticated, read from Firestore
-						try 
-						{
-							// Attempts to add user to firestore if necessary
-							const firestoreUser = await addUserToFirestore(user)
-							let userData = firestoreUser.data()
-							userData.uid = user.uid
-							this.$store.dispatch("fetchUser", userData)
-						}
-						catch (e) 
-						{
-							console.error("App.vue: Could not connect to Firestore User Collection")
-							console.error(e)
-						}
-					}
-					else
-					{
-						console.info("App.vue: No user is signed in")
-						// Optionally, redirect to login page or show a message
-					}
-					
-					// Release the mutex
-					this.$store.commit("setIsLoggingIn", false)
-
-					// Set a mutex that tracks when Firebase authentication state has finished loading
-					this.$store.commit("setIsAuthReady", true)
-
-				}
-			)
+			this.$store.commit("setIsAuthReady", true)
+			this.$store.commit("setIsLoggingIn", false)
 		}
-		catch (e)
+		else
 		{
-			console.error("Local: Could not connect to Firebase")
-			console.error(e)
-		}
-
-		// TODO: Eventually make this dynamic and able to switch between hotels
-		const hotelUID = "RDfJBr73puFfGggTaQfi"
-		const hotelDocRef = doc(db, "hotels", hotelUID)
-		let docSnap = await getDoc(hotelDocRef)
-		try
-		{
-			if (docSnap.exists()) 
+			try 
 			{
-				const hotelData = docSnap.data()
-				// Dispatch the hotel data to the namespaced hotel module
-				this.$store.dispatch("fetchHotel", hotelData)
+				onAuthStateChanged(
+					firebaseAuth,
+					async (user) =>
+					{
+						// Check the mutex so multiple logins do not occur
+						if (this.$store.state.user.isLoggingIn)
+						{
+							return
+						}
+
+						// Set a mutex that tracks when Firebase authentication state has finished loading
+						this.$store.commit("setIsAuthReady", false)
+
+						// Set a mutex so only one login occurs
+						this.$store.commit("setIsLoggingIn", true)
+
+						if (user?.uid)
+						{
+							// Now that the user is authenticated, read from Firestore
+							try 
+							{
+								// Attempts to add user to firestore if necessary
+								const firestoreUser = await addUserToFirestore(user)
+								let userData = firestoreUser.data()
+								userData.uid = user.uid
+								this.$store.dispatch("fetchUser", userData)
+							}
+							catch (e) 
+							{
+								console.error("App.vue: Could not connect to Firestore User Collection")
+								console.error(e)
+							}
+						}
+						else
+						{
+							console.info("App.vue: No user is signed in")
+							// Optionally, redirect to login page or show a message
+						}
+						
+						// Release the mutex
+						this.$store.commit("setIsLoggingIn", false)
+
+						// Set a mutex that tracks when Firebase authentication state has finished loading
+						this.$store.commit("setIsAuthReady", true)
+
+					}
+				)
 			}
-			else 
+			catch (e)
 			{
-				console.error("Hotel document not found for UID:", hotelUID)
+				console.error("Local: Could not connect to Firebase")
+				console.error(e)
+			}
+
+			// TODO: Eventually make this dynamic and able to switch between hotels
+			const hotelUID = "RDfJBr73puFfGggTaQfi"
+
+			try
+			{
+				const hotelDocRef = doc(db, "hotels", hotelUID)
+				let docSnap = await getDoc(hotelDocRef)
+				if (docSnap.exists()) 
+				{
+					const hotelData = docSnap.data()
+					// Dispatch the hotel data to the namespaced hotel module
+					this.$store.dispatch("fetchHotel", hotelData)
+				}
+				else 
+				{
+					console.error("Hotel document not found for UID:", hotelUID)
+					this.$store.dispatch("fetchHotel", {
+						invalid: true, 
+					})
+				}
+			}
+			catch (e)
+			{
+				console.error("Error fetching hotel document:", e)
 				this.$store.dispatch("fetchHotel", {
 					invalid: true, 
 				})
 			}
-		}
-		catch (e)
-		{
-			console.error("Error fetching hotel document:", e)
-			this.$store.dispatch("fetchHotel", {
-				invalid: true, 
-			})
-		}
+		} // End not isAirplaneMode
 	},
 	beforeDestroy: function()
 	{
@@ -302,9 +351,6 @@ html, body {
 		justify-content: space-evenly;
 		min-width: 100%;
 	}
-}
-
-#nav-wrapper {
 }
 
 #top-banner {

@@ -2,7 +2,7 @@
 	<div class="user-management-wrapper">
 		<h1>User Management</h1>
 
-		<div class='user-mgmt-body'>
+		<div class="user-mgmt-body">
 			<p>
 				Manage users, roles, and permissions
 			</p>
@@ -12,7 +12,7 @@
 
 <script>
 export default {
-	name: "UserManagement.vue",
+	name: "UserManagement",
 }
 </script>
 

@@ -6,6 +6,7 @@ function initialState ()
 	return {
 		bannerMessage: "",
 		footerMessage: "",
+		isAdmin: false,
 		isNavCollapsed: false,
 		isShowingBanner: false,
 		isShowingFooter: false,
@@ -22,6 +23,11 @@ export default
 
 	mutations:
 	{
+		setIsLayoutAdmin (state, value)
+		{
+			state.isAdmin = value
+		},
+
 		setBannerMessage (state, msg)
 		{
 			state.bannerMessage = msg

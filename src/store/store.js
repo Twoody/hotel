@@ -12,6 +12,7 @@ function initialState ()
 {
 	return {
 		isOnline: true,
+		isAirplaneMode: true,
 	}
 }
 
@@ -19,9 +20,13 @@ export default createStore({
 	state: initialState(),
 	mutations:
 	{
-		setIsOnline (state, msg)
+		setIsAirplaneMode (state, value)
 		{
-			state.isOnline = msg
+			state.isOnline = value
+		},
+		setIsOnline (state, value)
+		{
+			state.isOnline = value
 		},
 	},
 	actions: {},

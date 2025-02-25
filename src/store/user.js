@@ -11,6 +11,7 @@ function initialState ()
 		isLoggingIn: false,
 		user: {
 			invalid: true,
+			isAdmin: false,
 		},
 	}
 }
