@@ -17,31 +17,38 @@
   - [Considerations](#considerations)
 
 ## Project setup
+
 ```
 npm install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
 npm run serve
 ```
 
 ### Compiles and minifies for production
+
 ```
 npm run build
 ```
 
 ### Lints and fixes files
+
 - Uses `eslint`
 -- See `./.eslintrc.js
+
 ```
 npm run lint
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Documentation
+
 Most main documentation can be found in [the front end library `teahub`](https://github.com/twoody/teahub).
 
 `teahub` is maintained by the same author as this project. The purpose of having the components live in this
@@ -51,18 +58,60 @@ And when one application bug needed fixed, it had to be committed twice.
 - Note: `teahub`'s `fortawesome` installations require a local usage within `hotel` too.
 
 ## Hosting
+
 Hosting is done on `firebase`.
 **There is a GitHub workflow enabled on the `main` branch to deploy to production when merged and pushed to `remote`.**
+
 - See `.github/workflows/`
 
 - Helpful commands involve:
 -- `npm ci && npm run build && firebase deploy --only hosting`
 
+### Hosting `admin.passtow.com`
+
+The `admin.passtow.com` subdomain is hosted using Firebase Hosting. It is configured as a separate target within Firebase to ensure that requests are routed correctly.
+
+#### Configuration Steps:
+1. **Add Hosting Target in Firebase**
+   - Run the command:
+   ```sh
+   firebase target:apply hosting admin admin.passtow.com
+   ```
+
+2. **Update `firebase.json`**
+   - Ensure that `firebase.json` includes the `admin` target:
+   ```json
+   {
+     "hosting": [
+       {
+         "target": "admin",
+         "public": "dist/admin",
+         "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+       }
+     ]
+   }
+   ```
+
+3. **Deploy the Admin Subdomain**
+   - After building the admin project, deploy it with:
+   ```sh
+   npm run build:admin && firebase deploy --only hosting:admin
+   ```
+
+4. **Set Up a Custom Domain in Firebase**
+   - In the Firebase Console, navigate to `Hosting > Custom Domains` and add `admin.passtow.com`.
+   - Follow the provided DNS configuration steps to link the domain to Firebase.
+
+This setup ensures that the admin interface is accessible at `https://admin.passtow.com` while keeping it separate from the user-facing site.
+
 ### Troubleshooting
+
 If issues arise when trying to `firebase projects:list` or `firebase login`, try to reauth:
+
 - `firebase login --reauth`
 
 ### Firebase Costly Mistakes
+
 Infinite loops in functions. The easiest way to do this is to update a timestamp in a database in a function that triggers on updates (a noop write won’t trigger an event). I tried to propose detection mechanisms for this, but it would have required a very large mandate where every event emitter had to plumb tracing info from request to event to be successful. Sorry that I failed.
 
 Data models that grow N2 with your user base. This can be a trap in no-SQL databases due to the necessary normalization, which is why I’d recommend learning about Firebase Data Connect. It has a minimum price, but JOINs can keep your database small and your charges more linear, making it the best choice for certain applications (security is also simpler).
