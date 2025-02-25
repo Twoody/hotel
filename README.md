@@ -46,13 +46,13 @@ Most main documentation can be found in [the front end library `teahub`](https:/
 
 `teahub` is maintained by the same author as this project. The purpose of having the components live in this
 isolated library is because many of the components were used between different applications.
-And when one application bug needed fixed, it had to be commited twice. 
+And when one application bug needed fixed, it had to be committed twice.
 
 - Note: `teahub`'s `fortawesome` installations require a local usage within `hotel` too.
 
 ## Hosting
 Hosting is done on `firebase`.
-**There is a github workflow enabled on the `main` branch to deploy to production when merged and pushed to `remote`.**
+**There is a GitHub workflow enabled on the `main` branch to deploy to production when merged and pushed to `remote`.**
 - See `.github/workflows/`
 
 - Helpful commands involve:
@@ -62,10 +62,10 @@ Hosting is done on `firebase`.
 If issues arise when trying to `firebase projects:list` or `firebase login`, try to reauth:
 - `firebase login --reauth`
 
-### Firebase Costly Mistakes 
+### Firebase Costly Mistakes
 Infinite loops in functions. The easiest way to do this is to update a timestamp in a database in a function that triggers on updates (a noop write won’t trigger an event). I tried to propose detection mechanisms for this, but it would have required a very large mandate where every event emitter had to plumb tracing info from request to event to be successful. Sorry that I failed.
 
-Data models that grow N2 with your user base. This can be a trap in no-SQL databases due to the necessary normalization, which is why I’d recommend learning about Firebase Data Connect. It has a minimum price, but JOINs can keep your database small and your charges more linear, making it the best choice for certain applications (security is also simpler)
+Data models that grow N2 with your user base. This can be a trap in no-SQL databases due to the necessary normalization, which is why I’d recommend learning about Firebase Data Connect. It has a minimum price, but JOINs can keep your database small and your charges more linear, making it the best choice for certain applications (security is also simpler).
 
 Unbounded storage without any garbage collection or monetization strategy. If your users add 50GB/mo in storage and you keep it all around forever, each month will bill 50GB * the number of months your app has been around.
 
@@ -126,9 +126,48 @@ The migration process is broken into three main parts:
   - Ensure that the `.env` file is properly formatted to avoid issues when exporting variables.
   - Be aware that in non-production environments, migration files remain in the `queued` directory after execution, which might lead to re-running migrations.
 
-This migration system provides a structured approach to evolving your Firestore schema with built-in safety nets such as backups and rollback capabilities. Adjustments may be needed (especially around batch sizes) to align with Firestore’s operational limits.
+## Running Separate Admin and User Servers
 
-To run a rollback:
+Vite does not allocate keywords for environment variables like `VITE_HOST` and `VITE_PORT`.
+Instead, we need to explicitly pass them into the Vite config.
 
-- `npm run migrate:rollback migration_v2_1700000000000`
-- Replace `migration_v2_1700000000000` with the actual migration ID needed to roll back (as recorded in the logs).
+### Step 1: Update vite.config.js to Read Environment Variables
+```javascript
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+
+const host = process.env.VITE_HOST || "localhost";
+const port = process.env.VITE_PORT || 5173;
+
+export default defineConfig({
+  plugins: [vue()],
+  server: {
+    host,
+    port: parseInt(port, 10),
+  },
+});
+```
+
+### Step 2: Update package.json Scripts
+```json
+"scripts": {
+  "serve:admin": "VITE_HOST=admin.localhost VITE_PORT=5174 vite",
+  "serve:user": "VITE_HOST=localhost VITE_PORT=5173 vite"
+}
+```
+
+### Step 3: Start Both Servers
+```
+npm run serve:user
+npm run serve:admin
+```
+
+### Step 4: Add admin.localhost to `/etc/hosts`
+```sh
+127.0.0.1 admin.localhost
+```
+
+### Step 5: Access the Servers
+- User: http://localhost:5173
+- Admin: http://admin.localhost:5174
+
