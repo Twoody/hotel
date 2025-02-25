@@ -1,6 +1,6 @@
 <template>
 	<div class="guides-management-wrapper">
-		<h1>User Management</h1>
+		<h1>Guides Management</h1>
 
 		<div class="guides-mgmt-body">
 			<p>

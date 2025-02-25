@@ -25,6 +25,21 @@ const routes = isAdmin
 			name: "admin-dashboard",
 		},
 		{
+			path: "/about",
+			component: () => import("@/views/admin/AboutManagement.vue"),
+			name: "about-management",
+		},
+		{
+			path: "/amenities",
+			component: () => import("@/views/admin/AmenitiesManagement.vue"),
+			name: "amenities-management",
+		},
+		{
+			path: "/guides",
+			component: () => import("@/views/admin/GuidesManagement.vue"),
+			name: "guides-management",
+		},
+		{
 			path: "/users",
 			component: () => import("@/views/admin/UserManagement.vue"),
 			name: "user-management",

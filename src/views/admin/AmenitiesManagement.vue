@@ -1,6 +1,6 @@
 <template>
 	<div class="amenities-management-wrapper">
-		<h1>User Management</h1>
+		<h1>Amenities Management</h1>
 
 		<div class="amenities-mgmt-body">
 			<p>

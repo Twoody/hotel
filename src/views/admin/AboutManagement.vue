@@ -1,6 +1,6 @@
 <template>
 	<div class="about-management-wrapper">
-		<h1>User Management</h1>
+		<h1>About Management</h1>
 
 		<div class="about-mgmt-body">
 			<p>
