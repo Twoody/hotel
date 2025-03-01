@@ -22,7 +22,8 @@ export default createStore({
 	{
 		setIsAirplaneMode (state, value)
 		{
-			state.isOnline = value
+			state.isOnline = !value
+			state.isAirplaneMode = value
 		},
 		setIsOnline (state, value)
 		{

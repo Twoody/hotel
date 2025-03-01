@@ -145,7 +145,7 @@ export default {
 		const isLayoutAdmin = window.location.hostname.startsWith("admin")
 		console.log(window.location.hostname)
 		console.log(window.location.hostname.startsWith("admin"))
-		const isAirplaneMode = import.meta.env.VITE_AIRPLANE_MODE
+		const isAirplaneMode = !!import.meta.env.VITE_AIRPLANE_MODE
 		this.$store.commit("setIsLayoutAdmin", isLayoutAdmin)
 		this.$store.commit("setIsAirplaneMode", isAirplaneMode)
 
