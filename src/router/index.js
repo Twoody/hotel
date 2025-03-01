@@ -8,8 +8,8 @@ import Amenities from "@/views/Amenities.vue"
 import Home from "@/views/Home.vue"
 import Login from "@/views/Login.vue"
 import ManageBooking from "@/views/bookings/ManageBooking.vue"
-import Maps from "@/views/Maps.vue"
-import MapItem from "@/views/MapItem.vue"
+import Guides from "@/views/Guides.vue"
+import GuideItem from "@/views/GuideItem.vue"
 import NotFound from "@/views/NotFound.vue"
 import UserSettings from "@/views/settings/UserSettings.vue"
 import ThermometerPage from "@/views/ThermometerPage.vue"
@@ -82,14 +82,14 @@ const routes = isAdmin
 			path: "/login",
 		},
 		{
-			component: Maps,
-			name: "maps",
-			path: "/maps",
+			component: Guides,
+			name: "guides",
+			path: "/guides",
 		},
 		{
-			component: MapItem,
-			name: "mapItem",
-			path: "/maps/:id",
+			component: GuideItem,
+			name: "guideItem",
+			path: "/guides/:id",
 		},
 		{
 			component: ManageBooking,

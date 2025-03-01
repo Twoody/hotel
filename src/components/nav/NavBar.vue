@@ -16,9 +16,9 @@ The general navbar for our project
 			</router-link>
 			<router-link
 				class="nav-item"
-				to="/maps"
+				to="/guides"
 			>
-				Maps
+				Guides
 			</router-link>
 			<router-link
 				class="nav-item"

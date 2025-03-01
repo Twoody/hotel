@@ -1,7 +1,7 @@
 const DAY_TRIPS = {
 	EUGENE: {
 		description: "",
-		maps_id: 12,
+		guides_id: 12,
 		tags: [
 			"",
 			"",
@@ -11,7 +11,7 @@ const DAY_TRIPS = {
 	},
 	OREGON_COAST: {
 		description: "",
-		maps_id: 13,
+		guides_id: 13,
 		tags: [
 			"",
 			"",
@@ -22,7 +22,7 @@ const DAY_TRIPS = {
 	},
 	SAUVY_ISLAND: {
 		description: "",
-		maps_id: 14,
+		guides_id: 14,
 		tags: [
 			"",
 			"",
@@ -32,7 +32,7 @@ const DAY_TRIPS = {
 	},
 	MT_HOOD: {
 		description: "",
-		maps_id: 15,
+		guides_id: 15,
 		tags: [
 			"",
 			"",
@@ -43,7 +43,7 @@ const DAY_TRIPS = {
 	},
 	LAVENDER_FARMS: {
 		description: "",
-		maps_id: 16,
+		guides_id: 16,
 		tags: [
 			"",
 			"",
@@ -53,7 +53,7 @@ const DAY_TRIPS = {
 	},
 	STUB_STEWART: {
 		description: "",
-		maps_id: 17,
+		guides_id: 17,
 		tags: [
 			"frisbee golf",
 			"",
@@ -63,7 +63,7 @@ const DAY_TRIPS = {
 	},
 	COLUMBIA_RIVER_GORGE: {
 		description: "",
-		maps_id: 18,
+		guides_id: 18,
 		tags: [
 			"",
 			"",

@@ -1,13 +1,13 @@
 A filterable list of things to do
 <template>
-	<div class="maps-page-wrapper">
+	<div class="guides-page-wrapper">
 		<h1 class="main-title">
-			Maps
+			Guides
 		</h1>
-		<MapFilters
+		<GuidesFilters
 			@updated-active="updateFilters($event)"
 		/>
-		<div class="maps-content">
+		<div class="guides-content">
 			<MapCard
 				v-for="(activity, index) in shownActivies"
 				:key="index"
@@ -22,20 +22,20 @@ A filterable list of things to do
 </template>
 
 <script>
-import { MAPS } from "constants/misc.js"
+import { GUIDES } from "constants/misc.js"
 import { LOCAL_ACTIVITIES } from "constants/localActivities.js"
-import MapFilters from "components/buttons/filters/MapFilters"
+import GuidesFilters from "components/buttons/filters/GuidesFilters"
 
 export default {
-	name: "Maps",
+	name: "Guides",
 	components: {
-		MapFilters,
+		GuidesFilters,
 	},
 
 	data: function()
 	{
 		return {
-			MAPS: MAPS,
+			GUIDES: GUIDES,
 			activeFilters: [],
 			activities: LOCAL_ACTIVITIES,
 			isOnline: this.$store.state.isOnline,
@@ -114,7 +114,7 @@ export default {
 		gotoItem (id)
 		{
 			this.$router.push({
-				name: "mapItem",
+				name: "GuideItem",
 				params: {
 					id,
 				},
@@ -122,7 +122,7 @@ export default {
 		},
 
 		/**
-		 * Updates the active filters for the map.
+		 * Updates the active filters for the guide
 		 *
 		 * @param {object[]} newFilters - New filters to replace the old ones.
 		 * @returns {void}
@@ -138,12 +138,12 @@ export default {
 <style scoped lang="less">
 @import "../../assets/styles/styles";
 
-.maps-page-wrapper {
+.guides-page-wrapper {
 	height: auto;
 	padding: 10px;
 	width: 100%;
 
-	.maps-content {
+	.guides-content {
 		align-content: center;
 		align-items: center;
 		justify-content: center;

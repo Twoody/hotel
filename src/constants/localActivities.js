@@ -3,7 +3,7 @@ const LOCAL = {
 		id: "BURNSIDE",
 		thumbnail: "https://firebasestorage.googleapis.com/v0/b/votel-f1c47.appspot.com/o/cat-with-hammer.png?alt=media&token=e717e395-6406-4a57-83ac-b8c838427d91",
 		description: "",
-		maps_id: 1,
+		guides_id: 1,
 		tags: [
 			1,
 			10,
@@ -17,7 +17,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 2,
+		guides_id: 2,
 		tags: [
 			1,
 			10,
@@ -31,7 +31,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 3,
+		guides_id: 3,
 		tags: [
 			1,
 			2,
@@ -50,7 +50,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 4,
+		guides_id: 4,
 		tags: [
 			1,
 			5,
@@ -64,7 +64,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 5,
+		guides_id: 5,
 		tags: [
 			1,
 			5,
@@ -78,7 +78,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 6,
+		guides_id: 6,
 		tags: [
 			1,
 			2,
@@ -94,7 +94,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 7,
+		guides_id: 7,
 		tags: [
 			5,
 			7,
@@ -108,7 +108,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 8,
+		guides_id: 8,
 		tags: [
 			2,
 			4,
@@ -122,7 +122,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 8,
+		guides_id: 8,
 		tags: [
 			1,
 			2,
@@ -144,7 +144,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 9,
+		guides_id: 9,
 		tags: [
 			1,
 			4,
@@ -161,7 +161,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 10,
+		guides_id: 10,
 		tags: [
 			1,
 			2,
@@ -178,7 +178,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 11,
+		guides_id: 11,
 		tags: [
 			1,
 			4,
@@ -193,7 +193,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 13,
+		guides_id: 13,
 		tags: [
 			2,
 			9,
@@ -208,7 +208,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 14,
+		guides_id: 14,
 		tags: [
 			1,
 			2,
@@ -226,7 +226,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 15,
+		guides_id: 15,
 		tags: [
 			2,
 		],
@@ -239,7 +239,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 16,
+		guides_id: 16,
 		tags: [
 			2,
 		],
@@ -252,7 +252,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 17,
+		guides_id: 17,
 		tags: [
 			3,
 			4,
@@ -267,7 +267,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 18,
+		guides_id: 18,
 		tags: [
 			1,
 			4,
@@ -281,7 +281,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 19,
+		guides_id: 19,
 		tags: [
 			1,
 			4,
@@ -295,7 +295,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 20,
+		guides_id: 20,
 		tags: [
 			1,
 			4,
@@ -309,7 +309,7 @@ const LOCAL = {
 		description: "",
 		end_at: "",
 		start_at: "",
-		maps_id: 21,
+		guides_id: 21,
 		tags: [
 			7,
 			9,

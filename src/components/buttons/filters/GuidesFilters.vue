@@ -1,5 +1,5 @@
 <template>
-	<div class="map-filters-wrapper">
+	<div class="guide-filters-wrapper">
 		<Filters
 			:filters="filtersInactive"
 			inactive
@@ -15,17 +15,17 @@
 <script>
 import { logEvent } from "firebase/analytics"
 import { firebaseAnalyics } from "@/firebase" // using the pre-initialized db
-import {MAP_FILTERS} from "constants/misc.js"
+import {GUIDE_FILTERS} from "constants/misc.js"
 
 export default {
-	name: "MapFilters",
+	name: "GuideFilters",
 	components: {},
 
 	data: function()
 	{
 		return {
 			/** Store a local copy to manage state */
-			filters: MAP_FILTERS,
+			filters: GUIDE_FILTERS,
 			filtersAll: {},
 		}
 	},
@@ -97,7 +97,7 @@ export default {
 			// Send event to GA
 			try
 			{
-				const title = value ? "map_filter_set" : "map_filter_unset"
+				const title = value ? "guide_filter_set" : "guide_filter_unset"
 				logEvent(
 					firebaseAnalyics,
 					title,
@@ -144,7 +144,7 @@ export default {
 <style scoped lang="less">
 @import "../../../../assets/styles/styles";
 
-.map-filters-wrapper {
+.guide-filters-wrapper {
 	.filters-wrapper {
 		:deep(.my-button-wrapper) {
 			&.active {

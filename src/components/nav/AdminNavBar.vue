@@ -21,7 +21,7 @@ The admin navbar for our project
 				class="nav-item"
 				to="/guides"
 			>
-				Maps
+				Guides
 			</router-link>
 			<router-link
 				class="nav-item"
