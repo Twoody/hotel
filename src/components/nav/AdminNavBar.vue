@@ -41,7 +41,7 @@ The admin navbar for our project
 			<MyButton
 				class="switch-to-user"
 				pill
-				@click="switchToSubdomain(&quot;&quot;)"
+				@click="switchToSubdomain('')"
 			>
 				Switch to User
 			</MyButton>
