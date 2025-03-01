@@ -36,6 +36,16 @@ The admin navbar for our project
 				Users
 			</router-link>
 		</div>
+
+		<div class="action-items">
+			<MyButton
+				class="switch-to-user"
+				pill
+				@click="switchToSubdomain(&quot;&quot;)"
+			>
+				Switch to User
+			</MyButton>
+		</div>
 	</div>
 </template>
 
@@ -83,6 +93,22 @@ export default {
 			// Force reload the page 
 			window.location.reload()
 		},
+
+		/**
+		 * @param target
+		 * @parm {string} target - The target subdomain to hit (e.g. `admin` in admin.foo.com)
+		 * @returns {void} Switch current subdomain to `target`
+		 * @since 2.5.0
+		 * @todo Move to `utils/` and import from there
+		 */
+		switchToSubdomain (target)
+		{
+
+			const fullpath = target
+				? `${target}.localhost:5173`
+				: "localhost:5173"
+			console.log(fullpath)
+		},
 	},
 }
 </script>
@@ -91,7 +117,7 @@ export default {
 @import "../../../assets/styles/styles";
 
 /* @todo setup a main file and set margins/padding there probably */
-.nav-wrapper {
+.admin-nav-wrapper {
 	@v-padding: 30px;
 	align-content: center;
 	align-items: center;
@@ -110,8 +136,15 @@ export default {
 		flex-grow: 1;
 
 		.nav-item {
-			margin: 5px;
+			/* Make the hit boxes bigger */
+			padding-bottom: 11px;
+			padding-top: 3px;
 		}
+	}
+	.action-items {
+		 position: absolute;
+		 right: 6px;
+		 top: -2px;
 	}
 	.user-items {
 		cursor: pointer;
