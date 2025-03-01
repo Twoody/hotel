@@ -69,10 +69,10 @@ const createWrapper = ({ userState = {},} = {}) =>
 				},
 			},
 			{
-				path: "/maps",
-				name: "Maps",
+				path: "/guides",
+				name: "Guides",
 				component: {
-					template: "<div>Maps</div>",
+					template: "<div>Guides</div>",
 				},
 			},
 			{
@@ -137,7 +137,7 @@ describe("NavBar.vue", () =>
 		vi.clearAllMocks()
 	})
 
-	it("shows main nav links (Home, About, Maps, Amenities) by default", async () =>
+	it("shows main nav links (Home, About, Guides, Amenities) by default", async () =>
 	{
 		let userState = {
 			isLoggedIn: false,
@@ -155,7 +155,7 @@ describe("NavBar.vue", () =>
 		expect(links).toHaveLength(4)
 		expect(links[0].text()).toBe("Home")
 		expect(links[1].text()).toBe("About")
-		expect(links[2].text()).toBe("Maps")
+		expect(links[2].text()).toBe("Guides")
 		expect(links[3].text()).toBe("Amenities")
 	})
 

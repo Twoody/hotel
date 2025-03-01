@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest"
 import { mount } from "@vue/test-utils"
-import Maps from "@/views/Maps.vue"
+import Guides from "@/views/Guides.vue"
 
 /**
  * Create a simple mock router to check $router.push calls.
@@ -37,14 +37,14 @@ const mockStore = {
  */
 function createWrapper (options = {})
 {
-	return mount(Maps, {
+	return mount(Guides, {
 		global: {
 			stubs: {
-				MapCard: {
-					template: "<div class=\"mocked-map-card\">Map Card</div>",
+				GuideCard: {
+					template: "<div class=\"mocked-guide-card\">Guide Card</div>",
 				},
-				MapFilters: {
-					template: "<div class=\"mocked-map-filters\"></div>",
+				GuideFilters: {
+					template: "<div class=\"mocked-guide-filters\"></div>",
 				},
 			},
 
@@ -57,7 +57,7 @@ function createWrapper (options = {})
 	})
 }
 
-describe("Maps.vue", () =>
+describe("Guides.vue", () =>
 {
 	beforeEach(() =>
 	{
@@ -65,32 +65,32 @@ describe("Maps.vue", () =>
 		vi.clearAllMocks()
 	})
 
-	it("renders a title 'Maps'", () =>
+	it("renders a title 'Guides'", () =>
 	{
 		const wrapper = createWrapper()
 		const title = wrapper.find("h1.main-title")
 		expect(title.exists()).toBe(true)
-		expect(title.text()).toBe("Maps")
+		expect(title.text()).toBe("Guides")
 	})
 
-	it("renders the MapFilters component", () =>
+	it("renders the GuideFilters component", () =>
 	{
 		const wrapper = createWrapper()
 		// The child is stubbed, but we can still confirm it appears
-		const filters = wrapper.find(".mocked-map-filters")
+		const filters = wrapper.find(".mocked-guide-filters")
 		expect(filters.exists()).toBe(true)
 	})
 
-	it("renders activities in .maps-content via MapCard stubs", () =>
+	it("renders activities in .guides-content via GuideCard stubs", () =>
 	{
 		const wrapper = createWrapper()
-		const content = wrapper.find(".maps-content")
+		const content = wrapper.find(".guides-content")
 		expect(content.exists()).toBe(true)
 
-		// By default, if LOCAL_ACTIVITIES is non-empty, we expect multiple .mocked-map-card
+		// By default, if LOCAL_ACTIVITIES is non-empty, we expect multiple .mocked-guide-card
 		// Because we haven't explicitly mocked LOCAL_ACTIVITIES in the test,
 		// this check simply ensures the stub is in the DOM (or zero if no default data).
-		const cards = wrapper.findAll(".mocked-map-card")
+		const cards = wrapper.findAll(".mocked-guide-card")
 		// We haven't set up a local mock for LOCAL_ACTIVITIES,
 		// so the number might be 0 if the array is empty by default,
 		// or greater if the real constants produce data.
@@ -105,7 +105,7 @@ describe("Maps.vue", () =>
 		// Manually call gotoItem
 		wrapper.vm.gotoItem(123)
 		expect(pushMock).toHaveBeenCalledWith({
-			name: "mapItem",
+			name: "guideItem",
 			params: {
 				id: 123,
 			},

@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils"
 import { vi } from "vitest"
-import MapFilters from "@/components/buttons/filters/MapFilters.vue"
+import GuideFilters from "@/components/buttons/filters/GuideFilters.vue"
 // Mock Firebase analytics
 vi.mock("firebase/analytics", () => ({
 	getAnalytics: vi.fn(),
@@ -24,7 +24,7 @@ const mockFilters = {
  */
 function createWrapper (customFilters = mockFilters) 
 {
-	return mount(MapFilters, {
+	return mount(GuideFilters, {
 		global: {
 			stubs: {
 				Filters: true, // Stub Filters component
@@ -39,13 +39,13 @@ function createWrapper (customFilters = mockFilters)
 	})
 }
 
-describe("MapFilters.vue", () => 
+describe("GuideFilters.vue", () => 
 {
-	it("renders the map filters wrapper", () => 
+	it("renders the guide filters wrapper", () => 
 	{
 		const wrapper = createWrapper()
-		expect(wrapper.find("div.map-filters-wrapper").exists()).toBe(true)
-		expect(wrapper.classes()).toContain("map-filters-wrapper")
+		expect(wrapper.find("div.guide-filters-wrapper").exists()).toBe(true)
+		expect(wrapper.classes()).toContain("guide-filters-wrapper")
 	})
 
 	it("renders active and inactive filters", () => 

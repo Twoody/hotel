@@ -29,7 +29,7 @@ describe("Testing LOCAL_ACTIVITIES", () =>
 			expect(activity).toHaveProperty("id")
 			expect(activity).toHaveProperty("thumbnail")
 			expect(activity).toHaveProperty("description")
-			expect(activity).toHaveProperty("maps_id")
+			expect(activity).toHaveProperty("guides_id")
 			expect(activity).toHaveProperty("tags")
 			expect(activity).toHaveProperty("title")
 
