@@ -50,6 +50,18 @@ The general navbar for our project
 			<div class="user-icon">
 				<font-awesome-icon icon="user-cog" class="fa-xl"/>
 			</div>
+			<div
+				v-if="isUserAdmin"
+				class="action-items"
+			>
+				<MyButton
+					class="switch-to-user"
+					pill
+					@click="switchToSubdomain('admin')"
+				>
+					Switch to Admin
+				</MyButton>
+			</div>
 		</div>
 		<div
 			v-else
@@ -87,7 +99,23 @@ export default {
 		 */
 		isLoggedIn ()
 		{
+			if (this.$store.state.isAirplaneMode)
+			{
+				return true
+			}
 			return this.$store.state.user.isLoggedIn
+		},
+
+		/**
+		 * @returns {boolean} - Whether a user is considered an admin or not
+		 */
+		isUserAdmin ()
+		{
+			if (this.$store.state.isAirplaneMode)
+			{
+				return true
+			}
+			return !this.$store.state.user.invalid && this.$store.state.user.isAdmin
 		},
 
 		/**
@@ -108,6 +136,7 @@ export default {
 			return (first + last) || "-"
 		},
 	},
+
 	methods:
 	{
 		/** @returns {void} If user-cog is clicked while on settings page, always refresh */
@@ -120,6 +149,15 @@ export default {
 
 			// Force reload the page 
 			window.location.reload()
+		},
+
+		switchToSubdomain (target)
+		{
+
+			const fullpath = target
+				? `${target}.localhost:5173`
+				: "localhost:5173"
+			console.log(fullpath)
 		},
 	},
 }
@@ -149,8 +187,16 @@ export default {
 
 		.nav-item {
 			margin: 5px;
+			padding-bottom: 11px;
+			padding-top: 3px;
 		}
 	}
+	.action-items {
+		 position: absolute;
+		 right: 6px;
+		 top: -2px;
+	}
+
 	.user-items {
 		cursor: pointer;
 

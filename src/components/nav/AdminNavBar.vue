@@ -76,8 +76,11 @@ export default {
 		 */
 		isUserAdmin ()
 		{
-			// return !this.$store.state.user.invalid && nthis.$store.state.user.isAdmin
-			return true
+			if (this.$store.state.isAirplaneMode)
+			{
+				return true
+			}
+			return !this.$store.state.user.invalid && this.$store.state.user.isAdmin
 		},
 	},
 	methods:
