@@ -192,9 +192,9 @@ export default {
 		}
 	}
 	.action-items {
-		 position: absolute;
-		 right: 6px;
-		 top: -2px;
+		position: absolute;
+		right: 6px;
+		top: -2px;
 	}
 
 	.user-items {

@@ -145,9 +145,9 @@ export default {
 		}
 	}
 	.action-items {
-		 position: absolute;
-		 right: 6px;
-		 top: -2px;
+		position: absolute;
+		right: 6px;
+		top: -2px;
 	}
 	.user-items {
 		cursor: pointer;
@@ -172,4 +172,3 @@ a.router-link-exact-active {
 	color: #42b983;
 }
 </style>
-
