@@ -17,6 +17,8 @@ import ThermometerPage from "@/views/ThermometerPage.vue"
 // Admin views
 const isAdmin = window.location.hostname.startsWith("admin")
 
+// If admin, load the admin routes; Else load normal user routes
+// Allows admin access to the management pages for each relevant 'user' page
 const routes = isAdmin
 	? [
 		{
