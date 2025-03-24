@@ -23,8 +23,7 @@ export default {
 	{
 		buttonText ()
 		{
-			console.log(window.location.pathname)
-			const isAdminPath = window.location.pathname.startsWith("/a")
+			const isAdminPath = this.$route.path.startsWith("/a")
 			const pushTo = isAdminPath ? "User" : "Admin"
 			return `Switch to ${pushTo}`
 		},

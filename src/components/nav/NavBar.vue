@@ -3,30 +3,30 @@
 		<div class="nav-items">
 			<router-link
 				class="nav-item"
-				:to="isUserAdmin ? '/a/' : '/'"
+				:to="isNavigatingToAdmin ? '/a/' : '/'"
 			>
 				Home
 			</router-link>
 			<router-link
 				class="nav-item"
-				:to="isUserAdmin ? '/a/about' : '/about'"
+				:to="isNavigatingToAdmin ? '/a/about' : '/about'"
 			>
 				About
 			</router-link>
 			<router-link
 				class="nav-item"
-				:to="isUserAdmin ? '/a/guides' : '/guides'"
+				:to="isNavigatingToAdmin ? '/a/guides' : '/guides'"
 			>
 				Guides
 			</router-link>
 			<router-link
 				class="nav-item"
-				:to="isUserAdmin ? '/a/amenities' : '/amenities'"
+				:to="isNavigatingToAdmin ? '/a/amenities' : '/amenities'"
 			>
 				Amenities
 			</router-link>
 			<router-link
-				v-if="isUserAdmin"
+				v-if="isNavigatingToAdmin"
 				class="nav-item"
 				to="/a/users"
 			>
@@ -87,6 +87,11 @@ export default {
 		isUserAdmin () 
 		{
 			return this.$store.state.isAirplaneMode || (!this.$store.state.user.invalid && this.$store.state.user.isAdmin)
+		},
+		isNavigatingToAdmin ()
+		{
+			const isAdminPath = this.$route.path.startsWith("/a/")
+			return isAdminPath && this.isUserAdmin
 		},
 	},
 	methods: {
