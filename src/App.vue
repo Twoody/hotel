@@ -16,14 +16,7 @@
 			is-showing
 		>
 			<div class="flex-box nav-flex">
-				<AdminNavBar
-					v-if="isLayoutAdmin"
-					id="nav-wrapper"
-				/>
-				<NavBar
-					v-else
-					id="nav-wrapper"
-				/>
+				<NavBar id="nav-wrapper" />
 			</div>
 		</AppSection>
 
@@ -77,7 +70,6 @@ import { doc, getDoc } from "firebase/firestore"
 import { db } from "@/firebase"
 import { TRUTHYS } from "@/utils/misc"
 
-import AdminNavBar from "@/components/nav/AdminNavBar"
 import NavBar from "@/components/nav/NavBar"
 import SplashScreen from "@/components/entities/SplashScreen.vue"
 
@@ -85,7 +77,6 @@ export default {
 	name: "App",
 	components:
 	{
-		AdminNavBar,
 		NavBar,
 		SplashScreen,
 	},
@@ -97,16 +88,6 @@ export default {
 	},
 	computed:
 	{
-		/**
-		 * @returns {boolean} - Whether user is trying to access admin pages or not
-		 * @since 2.5.0
-		 */
-		isLayoutAdmin ()
-		{
-			const isLayoutAdmin = this.isUserAdmin
-			return isLayoutAdmin
-		},
-
 		/**
 		 * @returns {boolean} If still setting up authentication or logging the user is, show the splash screen
 		 */
