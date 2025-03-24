@@ -17,16 +17,13 @@
 		>
 			<div class="flex-box nav-flex">
 				<AdminNavBar
-					v-if="isLayoutAdmin && isUserAdmin"
+					v-if="isLayoutAdmin"
 					id="nav-wrapper"
 				/>
 				<NavBar
-					v-else-if="!isLayoutAdmin"
+					v-else
 					id="nav-wrapper"
 				/>
-				<div v-else>
-					Funny business
-				</div>
 			</div>
 		</AppSection>
 
@@ -78,6 +75,7 @@ import { firebaseAuth } from "@/firebase" // Adjust path as necessary
 import { addUserToFirestore } from "@/utils"
 import { doc, getDoc } from "firebase/firestore"
 import { db } from "@/firebase"
+import { TRUTHYS } from "@/utils/misc"
 
 import AdminNavBar from "@/components/nav/AdminNavBar"
 import NavBar from "@/components/nav/NavBar"
@@ -101,10 +99,12 @@ export default {
 	{
 		/**
 		 * @returns {boolean} - Whether user is trying to access admin pages or not
+		 * @since 2.5.0
 		 */
 		isLayoutAdmin ()
 		{
-			return this.$store.state.layout.isAdmin
+			const isLayoutAdmin = this.isUserAdmin
+			return isLayoutAdmin
 		},
 
 		/**
@@ -119,6 +119,8 @@ export default {
 
 		/**
 		 * @returns {boolean} - Whether a user is considered an admin or not
+		 * @todo Setup a loaded mock to point to on `airplaneMode`
+		 * @since 2.5.0
 		 */
 		isUserAdmin ()
 		{
@@ -126,7 +128,8 @@ export default {
 			{
 				return true
 			}
-			return !this.$store.state.user.invalid && this.$store.state.user.isAdmin
+			const isUserAdmin = !this.$store.state.user.invalid && this.$store.state.user.isAdmin
+			return isUserAdmin
 		},
 	},
 	watch:
@@ -141,12 +144,7 @@ export default {
 	},
 	created: async function() 
 	{
-		// Determine if showing admin or public views and components
-		const isLayoutAdmin = window.location.hostname.startsWith("admin")
-		console.log(window.location.hostname)
-		console.log(window.location.hostname.startsWith("admin"))
-		const isAirplaneMode = !!import.meta.env.VITE_AIRPLANE_MODE
-		this.$store.commit("setIsLayoutAdmin", isLayoutAdmin)
+		const isAirplaneMode = TRUTHYS.includes(import.meta.env.VITE_AIRPLANE_MODE)
 		this.$store.commit("setIsAirplaneMode", isAirplaneMode)
 
 		// Initialize Firebase & User Collection

@@ -50,18 +50,10 @@ The general navbar for our project
 			<div class="user-icon">
 				<font-awesome-icon icon="user-cog" class="fa-xl"/>
 			</div>
-			<div
-				v-if="isUserAdmin"
+
+			<SwitchRoles
 				class="action-items"
-			>
-				<MyButton
-					class="switch-to-user"
-					pill
-					@click="switchToSubdomain('admin')"
-				>
-					Switch to Admin
-				</MyButton>
-			</div>
+			/>
 		</div>
 		<div
 			v-else
@@ -74,8 +66,12 @@ The general navbar for our project
 
 <script>
 
+import SwitchRoles from "@/components/buttons/SwitchRoles.vue"
 export default {
 	name: "NavBar",
+	components: {
+		SwitchRoles,
+	},
 	computed:
 	{
 		/**
@@ -151,13 +147,8 @@ export default {
 			window.location.reload()
 		},
 
-		switchToSubdomain (target)
+		switchToSubdomain ()
 		{
-
-			const fullpath = target
-				? `${target}.localhost:5173`
-				: "localhost:5173"
-			console.log(fullpath)
 		},
 	},
 }

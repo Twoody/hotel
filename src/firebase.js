@@ -2,8 +2,9 @@ import { initializeApp } from "firebase/app"
 import { getAuth } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
 import { getAnalytics } from "firebase/analytics"
+import { TRUTHYS } from "@/utils/misc"
 
-const isAirplaneMode = import.meta.env.VITE_AIRPLANE_MODE
+const isAirplaneMode = TRUTHYS.includes(import.meta.env.VITE_AIRPLANE_MODE)
 
 const firebaseConfig = {
 	apiKey: import.meta.env.VITE_FIREBASE_API_KEY,

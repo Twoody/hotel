@@ -12,7 +12,7 @@ function initialState ()
 {
 	return {
 		isOnline: true,
-		isAirplaneMode: true,
+		isAirplaneMode: null,
 	}
 }
 

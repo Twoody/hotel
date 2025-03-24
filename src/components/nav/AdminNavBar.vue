@@ -7,52 +7,49 @@ The admin navbar for our project
 		<div class="nav-items">
 			<router-link
 				class="nav-item"
-				to="/"
+				to="/a/"
 			>
 				Home
 			</router-link>
 			<router-link
 				class="nav-item"
-				to="/about"
+				to="/a/about"
 			>
 				About
 			</router-link>
 			<router-link
 				class="nav-item"
-				to="/guides"
+				to="/a/guides"
 			>
 				Guides
 			</router-link>
 			<router-link
 				class="nav-item"
-				to="/amenities"
+				to="/a/amenities"
 			>
 				Amenities
 			</router-link>
 			<router-link
 				class="nav-item"
-				to="/users"
+				to="/a/users"
 			>
 				Users
 			</router-link>
 		</div>
-
-		<div class="action-items">
-			<MyButton
-				class="switch-to-user"
-				pill
-				@click="switchToSubdomain('')"
-			>
-				Switch to User
-			</MyButton>
-		</div>
+		<SwitchRoles
+			class="action-items"
+		/>
 	</div>
 </template>
 
 <script>
+import SwitchRoles from "@/components/buttons/SwitchRoles.vue"
 
 export default {
 	name: "NavBar",
+	components: {
+		SwitchRoles,
+	},
 	computed:
 	{
 		/**
@@ -95,22 +92,6 @@ export default {
 
 			// Force reload the page 
 			window.location.reload()
-		},
-
-		/**
-		 * @param target
-		 * @parm {string} target - The target subdomain to hit (e.g. `admin` in admin.foo.com)
-		 * @returns {void} Switch current subdomain to `target`
-		 * @since 2.5.0
-		 * @todo Move to `utils/` and import from there
-		 */
-		switchToSubdomain (target)
-		{
-
-			const fullpath = target
-				? `${target}.localhost:5173`
-				: "localhost:5173"
-			console.log(fullpath)
 		},
 	},
 }

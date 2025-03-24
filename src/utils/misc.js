@@ -68,3 +68,12 @@ export function getBookingStatus (booking)
 		return "Present"
 	}
 }
+
+export const TRUTHYS = [
+	"true",
+	"True",
+	"TRUE",
+	"1",
+	1,
+]
+
