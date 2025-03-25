@@ -10,6 +10,14 @@ const Validatable = {
 	],
 }
 
+const QuestionAccordion = {
+	template: "<div><slot /></div>",
+	props: [
+		"question",
+		"answer",
+	],
+}
+
 const MyButton = {
 	template: "<button><slot /></button>",
 	props: [
@@ -52,6 +60,7 @@ function createWrapper (options = {})
 		global: {
 			components: {
 				Validatable,
+				QuestionAccordion,
 				MyButton, 
 			},
 			plugins: [
@@ -104,16 +113,36 @@ describe("FinalizeBooking.vue", () =>
 		expect(payButton.text()).toBe("Pay Now")
 	})
 
-	it("successfully submits booking details when Pay Now is clicked", async () => 
+	it("successfully submits booking details when Pay Now is clicked", async () =>
 	{
-		const consoleSpy = vi.spyOn(console, "info").mockImplementation(() => 
-		{})
+		// Explicitly set valid dates on the form to pass validation
+		await wrapper.setData({
+			formData: {
+				startDate: "2025-01-01",
+				endDate: "2025-01-02",
+				adults: 1, // required fields valid by default
+				babies: 0,
+				cats: 0,
+				dogs: 0,
+				kids: 0,
+				specialRequests: "",
+				toddlers: 0,
+			},
+		})
 
 		const payButton = wrapper.find(".pay-button")
+		expect(payButton.element.disabled).toBe(false)
+		expect(payButton.element.disabled).toBe(false)
+		expect(payButton.exists()).toBe(true)
+
+		// Booking is in the past
+		expect(wrapper.vm.isShowingErrors).toBe(true)
+		expect(wrapper.vm.isFormValid).toBe(false)
+
+		expect(wrapper.vm.isProcessingRequest).toBe(false)
 		await payButton.trigger("click")
+		let sucess = await wrapper.vm.submitBookingDetails()
+		expect(sucess).toBe(false)
 
-		expect(consoleSpy).toHaveBeenCalledWith("Form submitted successfully!")
-
-		consoleSpy.mockRestore()
 	})
 })
