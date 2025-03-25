@@ -688,6 +688,7 @@ export default {
 			if (!this.isFormValid)
 			{
 				this.isProcessingRequest = false
+				console.error("Error submitting booking details")
 				return false
 			}
 			console.info("Form submitted successfully!")
