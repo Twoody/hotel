@@ -2,6 +2,9 @@ import { initializeApp } from "firebase/app"
 import { getAuth } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
 import { getAnalytics } from "firebase/analytics"
+import { TRUTHYS } from "@/utils/misc"
+
+const isAirplaneMode = TRUTHYS.includes(import.meta.env.VITE_AIRPLANE_MODE)
 
 const firebaseConfig = {
 	apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -13,14 +16,22 @@ const firebaseConfig = {
 	storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
 }
 
-// Initialize Firebase app only once
-const firebaseApp = initializeApp(firebaseConfig)
+let firebaseAnalyics = null
+let firebaseApp = null
+let firebaseAuth = null
+let db = null
 
-// Optionally initialize and export other services
-const firebaseAuth = getAuth(firebaseApp)
-const db = getFirestore(firebaseApp)
-const firebaseAnalyics = getAnalytics(firebaseApp)
+if (!isAirplaneMode)
+{
+	// Initialize Firebase app only once
+	firebaseApp = initializeApp(firebaseConfig)
+
+	// Optionally initialize and export other services
+	firebaseAnalyics = getAnalytics(firebaseApp)
+	firebaseAuth = getAuth(firebaseApp)
+	db = getFirestore(firebaseApp)
+}
 
 export {
-	firebaseApp, firebaseAuth, db, firebaseAnalyics
+	firebaseAnalyics, firebaseApp, firebaseAuth, db 
 }

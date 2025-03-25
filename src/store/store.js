@@ -1,6 +1,7 @@
 import { createStore } from "vuex"
 
 // Sub Modules
+import hotel from "@/store/hotel"
 import layout from "@/store/layout"
 import user from "@/store/user"
 
@@ -11,6 +12,7 @@ function initialState ()
 {
 	return {
 		isOnline: true,
+		isAirplaneMode: null,
 	}
 }
 
@@ -18,14 +20,20 @@ export default createStore({
 	state: initialState(),
 	mutations:
 	{
-		setIsOnline (state, msg)
+		setIsAirplaneMode (state, value)
 		{
-			state.isOnline = msg
+			state.isOnline = !value
+			state.isAirplaneMode = value
+		},
+		setIsOnline (state, value)
+		{
+			state.isOnline = value
 		},
 	},
 	actions: {},
 	modules:
 	{
+		hotel,
 		layout,
 		user,
 	},

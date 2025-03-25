@@ -2,6 +2,10 @@ import {resolve} from "path";
 import {defineConfig} from "vite";
 import vue from "@vitejs/plugin-vue";
 
+// Load environment variables
+const host = process.env.VITE_HOST || "localhost";
+const port = process.env.VITE_PORT || 5173;
+
 export default defineConfig({
 	plugins: [
 		vue(),
@@ -47,7 +51,12 @@ export default defineConfig({
 	server: {
 		cors: true, // enable by default and allow any source
 		open: true, // automatically open the application in the browser when the server starts
-		// Reverse proxy configuration, pay attention to the writing of rewrite, I did not read the document at the beginning, I stepped on the pit here
+		host, // Use the hostname from env variables
+		port: parseInt(port, 10), // Use the port from env variables
+
+
+		// Reverse proxy configuration, pay attention to the writing of rewrite.
+		// I did not read the document at the beginning, I stepped on the pit here
 		proxy: {
 			"/api": {
 				target: "http://localhost:9091", //Proxy interface

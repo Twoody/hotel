@@ -11,6 +11,7 @@ function initialState ()
 		isLoggingIn: false,
 		user: {
 			invalid: true,
+			isAdmin: false,
 		},
 	}
 }
@@ -21,6 +22,18 @@ export default {
 	getters: {},
 
 	mutations: {
+		/**
+		 * Set the user admin status
+		 *
+		 * @param {object} state - Current vuex state
+		 * @param {boolean} isAdmin - Is the user an admin
+		 * @since 2.5.0
+		 */
+		setIsAdmin (state, isAdmin)
+		{
+			state.isAdmin = isAdmin 
+		},
+
 		/**
 		 * Set a mutex that tracks when Firebase authentication state has finished loading
 		 *
@@ -126,9 +139,13 @@ export default {
 			{
 				state.commit("setIsLoggedIn", false)
 			}
+			// User is valid
 			else
 			{
-				// User is valid
+				// Unpack roles and permissions of the user
+				state.commit("setIsAdmin", user.roles.includes("admin"))
+
+				// Finsih setting user data
 				state.commit("setUserData", user)
 				state.commit("setIsLoggedIn", true)
 			}

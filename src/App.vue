@@ -27,8 +27,9 @@
 		>
 
 			<!-- Consider a route guard via `beforeEach` instead -->
+			<!-- Splash screen remains until both user and hotel data are ready -->
 			<SplashScreen
-				v-if="isShowingSplashScreen"
+				v-if="isShowingSplashScreen && false"
 			/>
 			<router-view
 				v-else
@@ -65,9 +66,11 @@
 import { onAuthStateChanged } from "firebase/auth"
 import { firebaseAuth } from "@/firebase" // Adjust path as necessary
 import { addUserToFirestore } from "@/utils"
-import store from "@/store/store"
+import { doc, getDoc } from "firebase/firestore"
+import { db } from "@/firebase"
+import { TRUTHYS } from "@/utils/misc"
 
-import NavBar from "components/nav/NavBar"
+import NavBar from "@/components/nav/NavBar"
 import SplashScreen from "@/components/entities/SplashScreen.vue"
 
 export default {
@@ -90,7 +93,24 @@ export default {
 		 */
 		isShowingSplashScreen ()
 		{
-			return !store.state.user.isAuthReady || store.state.user.isLoggingIn
+			return !this.$store.state.user.isAuthReady ||
+				this.$store.state.user.isLoggingIn || 
+				! this.$store.state.hotel.isLoaded
+		},
+
+		/**
+		 * @returns {boolean} - Whether a user is considered an admin or not
+		 * @todo Setup a loaded mock to point to on `airplaneMode`
+		 * @since 2.5.0
+		 */
+		isUserAdmin ()
+		{
+			if (this.$store.state.isAirplaneMode)
+			{
+				return true
+			}
+			const isUserAdmin = !this.$store.state.user.invalid && this.$store.state.user.isAdmin
+			return isUserAdmin
 		},
 	},
 	watch:
@@ -103,80 +123,104 @@ export default {
 			this.$store.commit("setIsShowingBanner", !navigator.onLine)
 		},
 	},
-	created: function() 
+	created: async function() 
 	{
-		// Initialize Firebase
-		try 
+		const isAirplaneMode = TRUTHYS.includes(import.meta.env.VITE_AIRPLANE_MODE)
+		this.$store.commit("setIsAirplaneMode", isAirplaneMode)
+
+		// Initialize Firebase & User Collection
+		if (this.$store.state.isAirplaneMode)
 		{
-			onAuthStateChanged(
-				firebaseAuth,
-				async (user) =>
+			this.$store.commit("setIsAuthReady", true)
+			this.$store.commit("setIsLoggingIn", false)
+		}
+		else
+		{
+			try 
+			{
+				onAuthStateChanged(
+					firebaseAuth,
+					async (user) =>
+					{
+						// Check the mutex so multiple logins do not occur
+						if (this.$store.state.user.isLoggingIn)
+						{
+							return
+						}
+
+						// Set a mutex that tracks when Firebase authentication state has finished loading
+						this.$store.commit("setIsAuthReady", false)
+
+						// Set a mutex so only one login occurs
+						this.$store.commit("setIsLoggingIn", true)
+
+						if (user?.uid)
+						{
+							// Now that the user is authenticated, read from Firestore
+							try 
+							{
+								// Attempts to add user to firestore if necessary
+								const firestoreUser = await addUserToFirestore(user)
+								let userData = firestoreUser.data()
+								userData.uid = user.uid
+								this.$store.dispatch("fetchUser", userData)
+							}
+							catch (e) 
+							{
+								console.error("App.vue: Could not connect to Firestore User Collection")
+								console.error(e)
+							}
+						}
+						else
+						{
+							console.info("App.vue: No user is signed in")
+							// Optionally, redirect to login page or show a message
+						}
+						
+						// Release the mutex
+						this.$store.commit("setIsLoggingIn", false)
+
+						// Set a mutex that tracks when Firebase authentication state has finished loading
+						this.$store.commit("setIsAuthReady", true)
+
+					}
+				)
+			}
+			catch (e)
+			{
+				console.error("Local: Could not connect to Firebase")
+				console.error(e)
+			}
+
+			// TODO: Eventually make this dynamic and able to switch between hotels
+			const hotelUID = "RDfJBr73puFfGggTaQfi"
+
+			try
+			{
+				const hotelDocRef = doc(db, "hotels", hotelUID)
+				let docSnap = await getDoc(hotelDocRef)
+				if (docSnap.exists()) 
 				{
-					// Check the mutex so multiple logins do not occur
-					if (this.$store.state.user.isLoggingIn)
-					{
-						return
-					}
-
-					// Set a mutex that tracks when Firebase authentication state has finished loading
-					this.$store.commit("setIsAuthReady", false)
-
-					// Set a mutex so only one login occurs
-					this.$store.commit("setIsLoggingIn", true)
-
-					if (user?.uid)
-					{
-						// Now that the user is authenticated, read from Firestore
-						try 
-						{
-							// Attempts to add user to firestore if necessary
-							const firestoreUser = await addUserToFirestore(user)
-							let userData = firestoreUser.data()
-							userData.uid = user.uid
-							this.$store.dispatch("fetchUser", userData)
-						}
-						catch (e) 
-						{
-							console.error("App.vue: Could not connect to Firestore database")
-							console.error(e)
-						}
-					}
-					else
-					{
-						console.info("App.vue: No user is signed in")
-						// Optionally, redirect to login page or show a message
-					}
-					
-					// Release the mutex
-					this.$store.commit("setIsLoggingIn", false)
-
-					// Set a mutex that tracks when Firebase authentication state has finished loading
-					this.$store.commit("setIsAuthReady", true)
-
+					const hotelData = docSnap.data()
+					// Dispatch the hotel data to the namespaced hotel module
+					this.$store.dispatch("fetchHotel", hotelData)
 				}
-			)
-		}
-		catch (e)
-		{
-			console.error("Local: Could not connect to Firebase")
-			console.error(e)
-		}
-
-		// TODO: consider an admin page
-		//	admin.initializeApp();
-		//	try
-		//	{
-		//		const userRecord = await admin.auth().getUser(uid);
-		//		console.log('User still exists:', userRecord);
-		//	}
-		//		catch (error) {
-		//		if (error.code === 'auth/user-not-found') {
-		//			console.log('User successfully deleted.');
-		//		} else {
-		//			console.error('Error fetching user:', error);
-		//		}
-		//	}
-
+				else 
+				{
+					console.error("Hotel document not found for UID:", hotelUID)
+					this.$store.dispatch("fetchHotel", {
+						invalid: true, 
+					})
+				}
+			}
+			catch (e)
+			{
+				console.error("Error fetching hotel document:", e)
+				this.$store.dispatch("fetchHotel", {
+					invalid: true, 
+				})
+			}
+		} // End not isAirplaneMode
 	},
 	beforeDestroy: function()
 	{
@@ -286,9 +330,6 @@ html, body {
 		justify-content: space-evenly;
 		min-width: 100%;
 	}
-}
-
-#nav-wrapper {
 }
 
 #top-banner {

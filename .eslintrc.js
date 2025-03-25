@@ -11,6 +11,7 @@ module.exports = {
 	],
 	"ignorePatterns": [
 		"src/views/ThermometerPage.vue",
+		"src/migrations/template.js",
 	],
 	"overrides": [
 		// Apply custom .vue files extension rules
@@ -65,14 +66,18 @@ module.exports = {
 						'About',
 						'Accordion',
 						'Amenities',
+						'Checkbox',
 						'Filters',
 						'Foobar',
 						'Home',
+						'Guide',
+						'Guides',
 						'Login',
 						'Maps',
 						'Signup',
 						'Spinner',
 						'Thermometer',
+						'Toggle',
 						'Validatable',
 					]
 				}],
@@ -169,6 +174,14 @@ module.exports = {
 		{
 			"files": [
 				"**/constants/*.js"
+			],
+			"rules": {
+				"max-len": ["off"],
+			},
+		},
+		{
+			"files": [
+				"**/migrations/**/*.js"
 			],
 			"rules": {
 				"max-len": ["off"],

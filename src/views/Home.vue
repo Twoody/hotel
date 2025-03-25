@@ -6,10 +6,22 @@
 			</h2>
 			<AvailabilitySearch
 				hideDateBar
+				:cleaningFee="totalBookingFees"
+				:dailyRate="$store.state.hotel.dailyRate"
+				:disabled="isBookingDisabled"
+				:hideSubmitButton="currentUser?.uid ? false : true"
 				:isProcessing="isProcessing"
 				:isLoading="!isAuthReady"
 				@booking-request="processBookingRequest"
 			/>
+			<!-- Full-width login button, displayed when no user is found -->
+			<MyButton
+				v-if="!currentUser?.uid"
+				class="login-button"
+				@click="$router.push('/login')"
+			>
+				Log in to Book
+			</MyButton>
 		</div>
 		<div class="accordion-sections">
 			<h2>
@@ -37,6 +49,7 @@ import GuestSafetyAccordion from "@/components/accordions/questions/GuestSafetyA
 import ParkingAccordion from "@/components/accordions/questions/ParkingAccordion"
 import TrashAccordion from "@/components/accordions/questions/TrashAccordion"
 import WifiAccordion from "@/components/accordions/questions/WifiAccordion"
+import { addDays } from "@/utils/misc.js"
 
 export default {
 	name: "Home",
@@ -63,8 +76,8 @@ export default {
 		getBookedDays ()
 		{
 			// TODO: Store dates in firestore
-			//			 Get disabled dates from firestore
-			//			 Utilize `disableDays` via Vue Cal (e.g. 2020-09-18)
+			//			Get disabled dates from firestore
+			//			Utilize `disableDays` via Vue Cal (e.g. 2020-09-18)
 		},
 
 		/**
@@ -94,6 +107,12 @@ export default {
 				const timestamp = serverTimestamp()
 				const bookingsRef = await collection(db, "bookings")
 				const newBookingRef = doc(bookingsRef)
+				// If user only selected one date, properly configure their input to include an endDate
+				let storedEndDate = bookingData.endDate
+				if (bookingData.startDate === bookingData.endDate)
+				{
+					storedEndDate = addDays(bookingData.startDate, 1)
+				}
 				await setDoc(
 					newBookingRef,
 					{
@@ -102,7 +121,8 @@ export default {
 						countGuests: null,
 						countPets: null,
 						createdAt: timestamp,
-						endDate: bookingData.endDate || null,
+						// endDate is always the checkout date
+						endDate: storedEndDate,
 						guestID: this.currentUser.uid,
 						hostID: 1,
 						startDate: bookingData.startDate || null,
@@ -140,6 +160,17 @@ export default {
 		{
 			return this.$store.state.user.isAuthReady
 		},
+
+		// TODO - this is broken and needs fixed
+		isBookingDisabled ()
+		{
+			return this.isProcessing || !this.currentUser?.uid || !this.$store.state.hotel.isLoaded
+		},
+
+		totalBookingFees ()
+		{
+			return this.$store.state.hotel.cleaningFee
+		},
 	},
 }
 </script>
@@ -159,8 +190,47 @@ export default {
 	}
 
 	.booking-section {
+		align-items: center;
 		background: @color-lavendar;
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		min-height: fit-content;
+		overflow: visible;
+		padding: 20px;
+
+		.availability-search-wrapper {
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			flex-grow: 1;
+			height: fit-content;
+			.content-section {
+				overflow: visible;
+			}
+		}
+
 	}
+	/* Style for the login button */
+	.login-button {
+		width: 100%;
+		max-width: 400px;
+		background-color: @color-primary-monochromatic-2;
+		color: white;
+		border: none;
+		padding: 12px;
+		font-size: 18px;
+		font-weight: bold;
+		cursor: pointer;
+		margin-top: 15px;
+		border-radius: 5px;
+		text-align: center;
+	}
+
+	.login-button:hover {
+		background-color: darken(@color-primary-monochromatic-2, 10%);
+	}
+
 	.accordion-sections {
 		align-items: center;
 		align-content: center;
@@ -195,6 +265,6 @@ export default {
 			}
 		}
 	}
-
 }
 </style>
+

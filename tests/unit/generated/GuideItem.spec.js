@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils"
 import { describe, it, expect, vi } from "vitest"
-import MapItem from "@/views/MapItem.vue" // Adjust import to actual path
+import GuideItem from "@/views/GuideItem.vue" // Adjust import to actual path
 
 /**
  * A minimal mock for localActivities constant.
@@ -11,7 +11,7 @@ vi.mock("constants/localActivities.js", () => ({
 	LOCAL_ACTIVITIES: {
 		valid_id: {
 			title: "Test Activity",
-			address: "https://maps.google.com/?q=Test+Activity",
+			address: "https://guides.google.com/?q=Test+Activity",
 			email: "mailto:test@example.com",
 			phone: "tel:+12345678",
 			href: "http://example.com",
@@ -20,7 +20,7 @@ vi.mock("constants/localActivities.js", () => ({
 }))
 
 /**
- * Helper function to create a wrapped instance of the MapItem component.
+ * Helper function to create a wrapped instance of the GuideItem component.
  * Use this approach to manage routing mocks, stubs, etc.
  *
  * @param {object} options - Additional mounting options or mocks
@@ -28,7 +28,7 @@ vi.mock("constants/localActivities.js", () => ({
  */
 function createWrapper (options = {}, routeParams = {})
 {
-	return mount(MapItem, {
+	return mount(GuideItem, {
 		global: {
 			mocks: {
 				$route: {
@@ -59,40 +59,40 @@ function createWrapper (options = {}, routeParams = {})
 	})
 }
 
-describe("MapItem.vue", () =>
+describe("GuideItem.vue", () =>
 {
 	it("renders content if the route param has a valid entry in LOCAL_ACTIVITIES", () =>
 	{
 		// Default route param is valid_id
 		const wrapper = createWrapper()
 
-		// Expect "Map Item: Test Activity"
-		expect(wrapper.text()).toContain("Map Item: Test Activity")
+		// Expect "Guide Item: Test Activity"
+		expect(wrapper.text()).toContain("Guide Item: Test Activity")
 
 		// The contact toolbar should appear:
-		// phone, directions (Maps), email
+		// phone, directions (Guides), email
 		const phoneButton = wrapper.find(".button-phone a.linked")
 		expect(phoneButton.exists()).toBe(true)
 		expect(phoneButton.attributes("href")).toBe("tel:+12345678")
 
 		const directionsButton = wrapper.find(".button-directions a.linked")
 		expect(directionsButton.exists()).toBe(true)
-		expect(directionsButton.attributes("href")).toBe("https://maps.google.com/?q=Test+Activity")
+		expect(directionsButton.attributes("href")).toBe("https://guides.google.com/?q=Test+Activity")
 
 		const emailButton = wrapper.find(".button-email a.linked")
 		expect(emailButton.exists()).toBe(true)
 		expect(emailButton.attributes("href")).toBe("mailto:test@example.com")
 	})
 
-	it("shows 'Map Item Not Found' if the route param has no matching activity", () =>
+	it("shows 'Guide Item Not Found' if the route param has no matching activity", () =>
 	{
 		// Provide a nonsense route param
 		const wrapper = createWrapper({}, {
 			id: "invalid_id",
 		})
 
-		// The page should show "Map Item Not Found"
-		expect(wrapper.text()).toContain("Map Item Not Found")
+		// The page should show "Guide Item Not Found"
+		expect(wrapper.text()).toContain("Guide Item Not Found")
 
 		// Confirm contact links do NOT exist
 		expect(wrapper.find(".button-phone").exists()).toBe(false)
@@ -105,7 +105,7 @@ describe("MapItem.vue", () =>
 		const wrapper = createWrapper()
 		// We can directly check the computed props
 		expect(wrapper.vm.title).toBe("Test Activity")
-		expect(wrapper.vm.address).toBe("https://maps.google.com/?q=Test+Activity")
+		expect(wrapper.vm.address).toBe("https://guides.google.com/?q=Test+Activity")
 		expect(wrapper.vm.email).toBe("mailto:test@example.com")
 		expect(wrapper.vm.phone).toBe("tel:+12345678")
 		expect(wrapper.vm.href).toBe("http://example.com")

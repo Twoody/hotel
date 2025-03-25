@@ -1,8 +1,8 @@
 A detailed description of something to do in the area
 <template>
-	<div class="map-item-page-wrapper">
+	<div class="guide-item-page-wrapper">
 		<div v-if="hasContent">
-			<h1>Map Item: {{ title }}</h1>
+			<h1>Guide Item: {{ title }}</h1>
 			<div class="contact-toolbar">
 				<MyButton class="button-phone">
 					<a
@@ -19,7 +19,7 @@ A detailed description of something to do in the area
 						:href="address"
 					>
 						<!-- TODO svg -->
-						<span>Maps</span>
+						<span>Guides</span>
 					</a>
 				</MyButton>
 				<MyButton class="button-email">
@@ -39,7 +39,7 @@ A detailed description of something to do in the area
 			</div>
 		</div>
 		<div v-else>
-			<h1>Map Item Not Found</h1>
+			<h1>Guide Item Not Found</h1>
 			<p>
 				Oops, looks like the url is off
 			</p>
@@ -51,7 +51,7 @@ A detailed description of something to do in the area
 import { LOCAL_ACTIVITIES } from "constants/localActivities.js"
 
 export default {
-	name: "MapItem",
+	name: "GuideItem",
 	props: {},
 	data: function()
 	{
@@ -138,7 +138,7 @@ export default {
 <style scoped lang="less">
 @import "../../assets/styles/styles";
 
-.map-item-page-wrapper {
+.guide-item-page-wrapper {
 	background-color: @color-purple !important;
 	border-radius: 7px;
 	height: auto;

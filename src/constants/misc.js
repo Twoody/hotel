@@ -1,4 +1,4 @@
-const MAPS = {
+const GUIDES = {
 	BURNSIDE: 1,
 	CANBY: 10,
 	COLUMBIA_RIVER_GORGE: 11,
@@ -17,7 +17,7 @@ const MAPS = {
 	WILAMETE_RIVER: 9,
 	WILDNERNESS: 4,
 }
-const MAP_FILTERS = {
+const GUIDE_FILTERS = {
 	1: "Dog Friendly",
 	2: "Food",
 	3: "Groceries",
@@ -32,7 +32,16 @@ const MAP_FILTERS = {
 	12: "Music",
 }
 
+const HOTEL_STATUSES = {
+	1: "Accepting Bookings",
+	2: "Not Accepting Bookings",
+	3: "Banned",
+	4: "Under Construction",
+	5: "Onboarding",
+}
+
 export {
-	MAP_FILTERS as MAP_FILTERS,
-	MAPS as MAPS
+	HOTEL_STATUSES as HOTEL_STATUSES,
+	GUIDE_FILTERS as GUIDE_FILTERS,
+	GUIDES as GUIDES
 }

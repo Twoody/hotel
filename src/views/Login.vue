@@ -414,7 +414,7 @@ export default {
 	max-width: 70%;
 	padding: 10px;
 	padding-top: 43px;
-			width: 100%;
+	width: 100%;
 
 	.flex-container {
 		align-items: center;
@@ -466,7 +466,7 @@ export default {
 		padding-bottom: 7px;
 		position: relative;
 		transition: all 0.5s ease;
-			width: 100%;
+		width: 100%;
 
 		.cta-submit {
 			width: 100%;
@@ -485,7 +485,7 @@ export default {
 		}
 
 		.input-wrapper {
-				width: 100%;
+			width: 100%;
 			transition: all 0.5s ease-in-out, overflow 0.5s;
 
 			.login-item {
@@ -495,7 +495,7 @@ export default {
 				margin-bottom: 10px;
 				min-height: 32px;
 				transition: all 0.5s ease;
-			width: calc(100% - 20px);
+				width: calc(100% - 20px);
 
 				&:active {
 					transform: translate3d(-1px, 0, 0) scale(1.02);

@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils"
 import { vi } from "vitest"
-import MapFilters from "@/components/buttons/filters/MapFilters.vue"
+import GuideFilters from "@/components/buttons/filters/GuideFilters.vue"
 
 // 1) Define any hoisted variables/functions you need:
 const { mockLogEvent, } = vi.hoisted(() => 
@@ -28,7 +28,7 @@ vi.mock("@/firebase.js", () => ({
 
 // Mock constants
 vi.mock("constants/misc.js", () => ({
-	MAP_FILTERS: {
+	GUIDE_FILTERS: {
 		1: "Filter A",
 		2: "Filter B",
 		3: "Filter C",
@@ -38,7 +38,7 @@ vi.mock("constants/misc.js", () => ({
 // Helper function to create wrapper
 const createWrapper = (options = {}) => 
 {
-	return mount(MapFilters, {
+	return mount(GuideFilters, {
 		global: {
 			stubs:
 			{
@@ -64,7 +64,7 @@ const createWrapper = (options = {}) =>
 	})
 }
 
-describe("MapFilters.vue", () => 
+describe("GuideFilters.vue", () => 
 {
 	it("renders two Filters components", () => 
 	{
@@ -219,7 +219,7 @@ describe("MapFilters.vue", () =>
 		// Check our hoisted mock was called
 		expect(mockLogEvent).toHaveBeenCalledWith(
 			expect.anything(), // the firebaseAnalyics object
-			"map_filter_set",
+			"guide_filter_set",
 			{
 				value: "Filter A", 
 			}
