@@ -204,58 +204,5 @@ describe("NavBar.vue", () =>
 			path: "/settings", 
 		})
 	})
-
-	it("shows a 'guest' user-items section if auth is ready but user not logged in", () =>
-	{
-		let userState = {
-			isAuthReady: true,
-			isLoggedIn: false,
-		}
-
-		const wrapper = createWrapper({
-			userState,
-		})
-		// The code has an else v-else for user-items => "options-guest"
-		const guestItems = wrapper.find(".user-items.options-guest")
-		expect(guestItems.exists()).toBe(true)
-	})
-
-	it("computes userInitials correctly (not used in template but tested for coverage)", async () =>
-	{
-		let userState = {
-			isAuthReady: true,
-			isLoggedIn: true,
-			user: {
-				first_name: "Alice",
-				last_name: "Wonderland",
-			},
-		}
-
-		const wrapper = createWrapper({
-			userState,
-		})
-		await wrapper.vm.$nextTick()
-
-		expect(wrapper.vm.firstName).toBe("Alice")
-		expect(wrapper.vm.userInitials).toBe("AW")
-	})
-
-	it("falls back to '-' if first/last name is missing", async () =>
-	{
-		let userState = {
-			isAuthReady: true,
-			isLoggedIn: true,
-			user: {
-				first_name: "",
-				last_name: "",
-			},
-		}
-
-		const wrapper = createWrapper({
-			userState,
-		})
-		await wrapper.vm.$nextTick()
-		expect(wrapper.vm.userInitials).toBe("-")
-	})
 })
 

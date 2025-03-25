@@ -4,7 +4,7 @@ A filterable list of things to do
 		<h1 class="main-title">
 			Guides
 		</h1>
-		<GuidesFilters
+		<GuideFilters
 			@updated-active="updateFilters($event)"
 		/>
 		<div class="guides-content">
@@ -24,12 +24,12 @@ A filterable list of things to do
 <script>
 import { GUIDES } from "constants/misc.js"
 import { LOCAL_ACTIVITIES } from "constants/localActivities.js"
-import GuidesFilters from "components/buttons/filters/GuidesFilters"
+import GuideFilters from "components/buttons/filters/GuideFilters"
 
 export default {
 	name: "Guides",
 	components: {
-		GuidesFilters,
+		GuideFilters,
 	},
 
 	data: function()

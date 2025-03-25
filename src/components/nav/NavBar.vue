@@ -64,7 +64,7 @@
 			<!-- Guest actions here if needed -->
 		</div>
 		<SwitchRoles
-				v-if='isUserAdmin'
+			v-if="isUserAdmin"
 			class="action-items"
 		/>
 	</div>
@@ -87,14 +87,15 @@ export default {
 		{
 			return this.$store.state.isAirplaneMode || this.$store.state.user.isLoggedIn
 		},
-		isUserAdmin () 
-		{
-			return this.$store.state.isAirplaneMode || (!this.$store.state.user.invalid && this.$store.state.user.isAdmin)
-		},
 		isNavigatingToAdmin ()
 		{
 			const isAdminPath = this.$route.path.startsWith("/a/")
 			return isAdminPath && this.isUserAdmin
+		},
+		isUserAdmin () 
+		{
+			return this.$store.state.isAirplaneMode
+				|| (!this.$store.state.user.invalid && this.$store.state.user.isAdmin)
 		},
 	},
 	methods: {

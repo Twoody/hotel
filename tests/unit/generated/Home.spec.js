@@ -50,6 +50,12 @@ const createWrapper = (options = {}) =>
 				},
 				isAuthReady: true,
 			},
+			hotel: {
+				cleaningFee: 50,
+				dailyRate: 120,
+				isLoaded: true,
+			},
+
 		},
 		mutations: {},
 		actions: {},
@@ -84,6 +90,19 @@ const createWrapper = (options = {}) =>
 				WifiAccordion: {
 					template: "<div>WifiAccordion</div>",
 				},
+				MyButton: {
+					name: "MyButton",
+					template: `
+						<button
+							v-bind="$attrs"
+							:class="$attrs.class"
+							:disabled="$attrs.disabled"
+						>
+							<slot />
+						</button>
+					`,
+				},
+
 			},
 		},
 		...options,

@@ -46,6 +46,10 @@ function createWrapper (options = {})
 				GuideFilters: {
 					template: "<div class=\"mocked-guide-filters\"></div>",
 				},
+				MapCard: {
+					template: "<div class=\"mocked-map-card\">Map Card</div>",
+				},
+
 			},
 
 			mocks: {
@@ -105,7 +109,7 @@ describe("Guides.vue", () =>
 		// Manually call gotoItem
 		wrapper.vm.gotoItem(123)
 		expect(pushMock).toHaveBeenCalledWith({
-			name: "guideItem",
+			name: "GuideItem",
 			params: {
 				id: 123,
 			},
