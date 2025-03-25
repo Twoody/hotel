@@ -57,6 +57,8 @@ export default defineConfig({
 				'src/constants/**',
 				'src/router/**',
 				'src/store/**',
+				'src/migrations/**',
+				'src/functions/**',
 				'src/utils/firestore.js',
 				'src/views/Foobar.vue',
 				'src/views/ThermometerPage.vue',
