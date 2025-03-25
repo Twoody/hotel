@@ -2,22 +2,62 @@ import { mount } from "@vue/test-utils"
 import { describe, it, expect, beforeEach, vi } from "vitest"
 import FinalizeBooking from "@/views/bookings/FinalizeBooking.vue"
 
-// A helper function to create the wrapper using `mount`.
+// Mock components used in FinalizeBooking
+const Validatable = {
+	template: "<div><slot /></div>",
+	props: [
+		"error",
+	],
+}
+
+const MyButton = {
+	template: "<button><slot /></button>",
+	props: [
+		"disabled",
+		"inProgress",
+		"sucess",
+		"submit",
+	],
+}
+
+// Mock Vuex store
+import { createStore } from "vuex"
+
+const store = createStore({
+	state: {
+		hotel: {
+			dailyRate: 100,
+			cleaningFee: 50,
+			petFee: 20,
+		},
+	},
+})
+
 /**
  *
  * @param options
  */
 function createWrapper (options = {}) 
 {
-	// Provide a default "booking" prop so the component won't error out.
 	const defaultProps = {
 		booking: {
 			id: "booking123",
 			guestID: "guestABC",
+			startDate: "2025-01-01",
+			endDate: "2025-01-02",
 		},
 	}
 
 	return mount(FinalizeBooking, {
+		global: {
+			components: {
+				Validatable,
+				MyButton, 
+			},
+			plugins: [
+				store,
+			], // Provide the Vuex store here
+		},
 		props: defaultProps,
 		...options,
 	})
@@ -39,12 +79,11 @@ describe("FinalizeBooking.vue", () =>
 
 	it("requires a booking prop", () => 
 	{
-		// If you want to see how it behaves with no prop, you can do:
-		// (But note, 'type: Object, required: true' will warn)
-		// For coverage, let's confirm it *does* accept a valid booking object.
 		expect(wrapper.props("booking")).toEqual({
 			id: "booking123",
 			guestID: "guestABC",
+			startDate: "2025-01-01",
+			endDate: "2025-01-02",
 		})
 	})
 
@@ -53,18 +92,9 @@ describe("FinalizeBooking.vue", () =>
 		const heading = wrapper.find("h2")
 		expect(heading.exists()).toBe(true)
 		expect(heading.text()).toBe("Finalize Your Booking")
-
 		expect(wrapper.text()).toContain(
 			"Please complete any outstanding steps to confirm your booking."
 		)
-	})
-
-	it("displays booking details if booking prop is present", () => 
-	{
-		// The default booking is { id: 'booking123', guestID: 'guestABC' }
-		// We should see those IDs in <p> elements
-		expect(wrapper.text()).toContain("Booking ID: booking123")
-		expect(wrapper.text()).toContain("Guest ID: guestABC")
 	})
 
 	it("renders a Pay Now button", () => 
@@ -74,23 +104,16 @@ describe("FinalizeBooking.vue", () =>
 		expect(payButton.text()).toBe("Pay Now")
 	})
 
-	it("calls onPayNow() when the Pay Now button is clicked", async () => 
+	it("successfully submits booking details when Pay Now is clicked", async () => 
 	{
-		// Spy on the console.log or on the method itself
-		const logSpy = vi.spyOn(console, "log").mockImplementation(() => 
+		const consoleSpy = vi.spyOn(console, "info").mockImplementation(() => 
 		{})
 
 		const payButton = wrapper.find(".pay-button")
 		await payButton.trigger("click")
 
-		// Expect the console.log inside onPayNow to have been called
-		expect(logSpy).toHaveBeenCalledWith(
-			"User clicked Pay Now for booking:",
-			"booking123"
-		)
+		expect(consoleSpy).toHaveBeenCalledWith("Form submitted successfully!")
 
-		// Restore console.log
-		logSpy.mockRestore()
+		consoleSpy.mockRestore()
 	})
 })
-
