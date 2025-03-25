@@ -105,7 +105,7 @@ describe("Guides.vue", () =>
 		// Manually call gotoItem
 		wrapper.vm.gotoItem(123)
 		expect(pushMock).toHaveBeenCalledWith({
-			name: "guideItem",
+			name: "GuideItem",
 			params: {
 				id: 123,
 			},
