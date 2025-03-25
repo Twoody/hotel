@@ -160,6 +160,7 @@ export default {
 		{
 			state.commit("setUserData", {})
 			state.commit("setIsLoggedIn", false)
+			state.commit("setIsAdmin", false)
 		},
 	},
 }

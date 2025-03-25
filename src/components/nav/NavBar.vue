@@ -63,7 +63,10 @@
 		<div v-else class="user-items options-guest">
 			<!-- Guest actions here if needed -->
 		</div>
-		<SwitchRoles class="action-items" />
+		<SwitchRoles
+				v-if='isUserAdmin'
+			class="action-items"
+		/>
 	</div>
 </template>
 
