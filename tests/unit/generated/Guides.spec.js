@@ -46,6 +46,10 @@ function createWrapper (options = {})
 				GuideFilters: {
 					template: "<div class=\"mocked-guide-filters\"></div>",
 				},
+				MapCard: {
+					template: "<div class=\"mocked-map-card\">Map Card</div>",
+				},
+
 			},
 
 			mocks: {

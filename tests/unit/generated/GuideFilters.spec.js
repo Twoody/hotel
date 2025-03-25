@@ -58,10 +58,6 @@ const createWrapper = (options = {}) =>
 						inactive: Boolean,
 					},
 				},
-				MapCard: {
-					template: "<div class=\"mocked-map-card\">Map Card</div>",
-				},
-
 			},
 		},
 		...options,
