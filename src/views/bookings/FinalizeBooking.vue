@@ -436,7 +436,7 @@ export default {
 		/** @since 2.5.0 */
 		isBookingInThePast ()
 		{
-			  const singleDateBooking = {
+			const singleDateBooking = {
 				...this.booking,
 				endDate: this.booking.startDate,
 			}
