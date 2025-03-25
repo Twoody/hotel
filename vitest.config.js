@@ -21,7 +21,8 @@ export default defineConfig({
 			svgs: resolve(__dirname, "src/assets/svgs/"),
 		},
 		mainFields: ["module"],
-		//File suffix name that needs to be omitted Note: If an ignored suffix name is configured here, an error will be reported if it is imported with a suffix name
+		//File suffix name that needs to be omitted
+		//Note: If an ignored suffix name is configured here, an error will be reported if it is imported with a suffix name
 		extensions: [".vue", ".js"]
 	},
 
