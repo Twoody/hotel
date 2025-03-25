@@ -436,7 +436,11 @@ export default {
 		/** @since 2.5.0 */
 		isBookingInThePast ()
 		{
-			const singleDateBooking = this.booking
+			  const singleDateBooking = {
+				...this.booking,
+				endDate: this.booking.startDate,
+			}
+
 			singleDateBooking.endDate = this.booking.startDate
 			const bookingStatus = getBookingStatus(singleDateBooking)
 			if (bookingStatus === "Past")
