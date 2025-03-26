@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router"
 import { logEvent } from "firebase/analytics"
 import { firebaseAnalyics } from "@/firebase"
+import store from "@/store/store.js"
 
 // Standard user views
 import AirbnbCleaning from "@/views/AirbnbCleaning.vue"
@@ -115,23 +116,36 @@ const router = createRouter({
 	], // Merge both sets
 })
 
-// Track page views with Firebase Analytics
-router.beforeEach((to, from, next) => 
-{
-	if (parseFloat(import.meta.env.VITE_CI)) 
-	{
-		try 
-		{
-			logEvent(firebaseAnalyics, "page_view", {
-				title: to.name,
-			})
-		}
-		catch (e) 
-		{
+router.beforeEach((to, from, next) => {
+	// Track page views with Firebase Analytics
+	if (parseFloat(import.meta.env.VITE_CI)) {
+		try {
+			logEvent(firebaseAnalyics, "page_view", { title: to.name })
+		} catch (e) {
 			console.error(e)
 		}
 	}
-	next()
+
+	// Admin guard logic
+	// Admin routes protection
+	if (to.path.startsWith("/a/")) {
+		const isLoggedIn = store.state.user.isLoggedIn
+		const isAdmin = store.state.user.isAdmin
+
+		if (!isLoggedIn) {
+			// User is not logged in, redirect to login
+			next({ name: "login" })
+		} else if (!isAdmin) {
+			// Logged in but not admin, redirect home or a permission error page
+			next({ name: "home" })
+		} else {
+			// User is admin
+			next()
+		}
+	} else {
+		// Non-admin route
+		next()
+	}
 })
 
 export default router
