@@ -125,7 +125,8 @@ export default {
 	},
 	created: async function() 
 	{
-		const isAirplaneMode = TRUTHYS.includes(import.meta.env.VITE_AIRPLANE_MODE)
+		const __airplanMode = import.meta?.env?.VITE_AIRPLANE_MODE || false
+		const isAirplaneMode = TRUTHYS.includes(__airplanMode)
 		this.$store.commit("setIsAirplaneMode", isAirplaneMode)
 
 		// Initialize Firebase & User Collection

@@ -142,8 +142,9 @@ export default {
 			// User is valid
 			else
 			{
+				const roles = user.roles || []
 				// Unpack roles and permissions of the user
-				state.commit("setIsAdmin", user.roles.includes("admin"))
+				state.commit("setIsAdmin", roles.includes("admin"))
 
 				// Finsih setting user data
 				state.commit("setUserData", user)
