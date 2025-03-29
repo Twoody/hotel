@@ -17,7 +17,7 @@ import ThermometerPage from "@/views/ThermometerPage.vue"
 
 // Use path-based admin detection now
 /* eslint-disable-next-line no-unused-vars */
-const isAdminPath = window.location.pathname.startsWith("/a")
+const isAdminPath = window.location.pathname.startsWith("/a/")
 
 // Define routes for each mode
 const adminRoutes = [
