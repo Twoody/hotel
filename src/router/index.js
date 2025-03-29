@@ -116,33 +116,52 @@ const router = createRouter({
 	], // Merge both sets
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => 
+{
 	// Track page views with Firebase Analytics
-	if (parseFloat(import.meta.env.VITE_CI)) {
-		try {
-			logEvent(firebaseAnalyics, "page_view", { title: to.name })
-		} catch (e) {
+	if (parseFloat(import.meta.env.VITE_CI)) 
+	{
+		try 
+		{
+			logEvent(firebaseAnalyics, "page_view", {
+				title: to.name, 
+			})
+		}
+		catch (e) 
+		{
 			console.error(e)
 		}
 	}
 
 	// Admin guard logic
 	// Admin routes protection
-	if (to.path.startsWith("/a/")) {
+	if (to.path.startsWith("/a/")) 
+	{
 		const isLoggedIn = store.state.user.isLoggedIn
 		const isAdmin = store.state.user.isAdmin
 
-		if (!isLoggedIn) {
+		if (!isLoggedIn) 
+		{
 			// User is not logged in, redirect to login
-			next({ name: "login" })
-		} else if (!isAdmin) {
+			next({
+				name: "login", 
+			})
+		}
+		else if (!isAdmin) 
+		{
 			// Logged in but not admin, redirect home or a permission error page
-			next({ name: "home" })
-		} else {
+			next({
+				name: "home", 
+			})
+		}
+		else 
+		{
 			// User is admin
 			next()
 		}
-	} else {
+	}
+	else 
+	{
 		// Non-admin route
 		next()
 	}
