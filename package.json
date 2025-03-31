@@ -13,7 +13,7 @@
     "migrate:firestore:setup": "./scripts/migrate-firestore.sh",
     "migrate:run": "./scripts/migration-run.sh",
     "migrate:rollback": "./scripts/migration-rollback.sh",
-    "test": "vitest",
+    "test": "vitest --max-concurrency=16",
     "test:coverage": "npm run test -- --coverage"
   },
   "dependencies": {
