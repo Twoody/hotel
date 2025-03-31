@@ -283,6 +283,15 @@ describe.concurrent("BookingsTable.vue: Main processes", () =>
 		expect(wrapper.vm.userBookings.find((b) => b.id === "2")).toBeUndefined()
 	})
 
+})
+
+describe("BookingsTable.vue: Flows", () =>
+{
+	beforeEach(() =>
+	{
+		// Clear mocks before each test
+		vi.resetAllMocks()
+	})
 	it("fetches user bookings on created() if a user is logged in", async () =>
 	{
 		// We mock getDocs, which is called in fetchUserBookings
@@ -301,15 +310,6 @@ describe.concurrent("BookingsTable.vue: Main processes", () =>
 		expect(getDocs).toHaveBeenCalledTimes(1)
 	})
 
-})
-
-describe("BookingsTable.vue: Flows", () =>
-{
-	beforeEach(() =>
-	{
-		// Clear mocks before each test
-		vi.resetAllMocks()
-	})
 	it("skips fetching if no user is logged in", async () =>
 	{
 		let userState = {
