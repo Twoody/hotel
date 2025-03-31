@@ -61,7 +61,7 @@ function createWrapper (options = {})
 	})
 }
 
-describe("Guides.vue", () =>
+describe.concurrent("Guides.vue", () =>
 {
 	beforeEach(() =>
 	{

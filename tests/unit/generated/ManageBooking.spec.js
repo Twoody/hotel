@@ -105,7 +105,7 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 	})
 }
 
-describe("ManageBooking.vue", () =>
+describe.concurrent("ManageBooking.vue", () =>
 {
 	beforeEach(() =>
 	{

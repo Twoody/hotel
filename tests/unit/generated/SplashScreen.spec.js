@@ -15,7 +15,7 @@ const createWrapper = (component, options) =>
 	})
 }
 
-describe("SplashScreen", () => 
+describe.concurrent("SplashScreen", () => 
 {
 	it("renders loading message", () => 
 	{

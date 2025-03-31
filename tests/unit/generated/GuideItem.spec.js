@@ -59,7 +59,7 @@ function createWrapper (options = {}, routeParams = {})
 	})
 }
 
-describe("GuideItem.vue", () =>
+describe.concurrent("GuideItem.vue", () =>
 {
 	it("renders content if the route param has a valid entry in LOCAL_ACTIVITIES", () =>
 	{

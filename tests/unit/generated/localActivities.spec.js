@@ -12,7 +12,7 @@ vi.mock("@/firebase", () => ({
 	firebaseAnalytics: {}, // Provide a simple mock object
 }))
 
-describe("Testing LOCAL_ACTIVITIES", () =>
+describe.concurrent("Testing LOCAL_ACTIVITIES", () =>
 {
 	
 	test("Check total activities", () =>

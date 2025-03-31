@@ -28,7 +28,7 @@ function createWrapper (options = {})
 	})
 }
 
-describe("BookingNotLoggedIn.vue", () => 
+describe.concurrent("BookingNotLoggedIn.vue", () => 
 {
 	let wrapper
 

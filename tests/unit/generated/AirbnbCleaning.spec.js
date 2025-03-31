@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils"
 import AirbnbCleaning from "@/views/AirbnbCleaning.vue"
 
-describe("AirbnbCleaning.vue", () => 
+describe.concurrent("AirbnbCleaning.vue", () => 
 {
 	const createWrapper = (options = {}) => 
 	{

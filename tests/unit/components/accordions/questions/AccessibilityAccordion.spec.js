@@ -28,7 +28,7 @@ function createWrapper ()
 	)
 }
 
-describe("AccessibilityAccordion.vue", () => 
+describe.concurrent("AccessibilityAccordion.vue", () => 
 {
 	test("renders accordion section", () => 
 	{

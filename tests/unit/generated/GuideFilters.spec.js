@@ -64,7 +64,7 @@ const createWrapper = (options = {}) =>
 	})
 }
 
-describe("GuideFilters.vue", () => 
+describe.concurrent("GuideFilters.vue", () => 
 {
 	it("renders two Filters components", () => 
 	{

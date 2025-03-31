@@ -38,7 +38,7 @@ function createWrapper (options = {})
 	})
 }
 
-describe("CheckInAndOutAccordion.vue", () => 
+describe.concurrent("CheckInAndOutAccordion.vue", () => 
 {
 	let wrapper
 

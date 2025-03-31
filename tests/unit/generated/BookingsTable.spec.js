@@ -102,7 +102,7 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 	})
 }
 
-describe("BookingsTable.vue", () =>
+describe.concurrent("BookingsTable.vue: Main processes", () =>
 {
 	beforeEach(() =>
 	{
@@ -301,6 +301,15 @@ describe("BookingsTable.vue", () =>
 		expect(getDocs).toHaveBeenCalledTimes(1)
 	})
 
+})
+
+describe("BookingsTable.vue: Flows", () =>
+{
+	beforeEach(() =>
+	{
+		// Clear mocks before each test
+		vi.resetAllMocks()
+	})
 	it("skips fetching if no user is logged in", async () =>
 	{
 		let userState = {

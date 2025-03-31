@@ -69,7 +69,7 @@ const createWrapper = () =>
 	})
 }
 
-describe("ProfileSettings.vue", () => 
+describe.concurrent("ProfileSettings.vue", () => 
 {
 	beforeEach(() => 
 	{

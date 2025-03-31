@@ -77,7 +77,7 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 	})
 }
 
-describe("SocialLogin.vue", () => 
+describe.concurrent("SocialLogin.vue", () => 
 {
 	it("renders the social login button", () => 
 	{

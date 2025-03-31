@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils"
-import { describe, it, expect, beforeEach, vi } from "vitest"
+import { describe, it, expect, beforeEach } from "vitest"
 import FinalizeBooking from "@/views/bookings/FinalizeBooking.vue"
 
 // Mock components used in FinalizeBooking
@@ -72,7 +72,7 @@ function createWrapper (options = {})
 	})
 }
 
-describe("FinalizeBooking.vue", () => 
+describe.concurrent("FinalizeBooking.vue", () => 
 {
 	let wrapper
 

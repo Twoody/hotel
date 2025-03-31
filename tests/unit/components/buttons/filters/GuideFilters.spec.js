@@ -39,7 +39,7 @@ function createWrapper (customFilters = mockFilters)
 	})
 }
 
-describe("GuideFilters.vue", () => 
+describe.concurrent("GuideFilters.vue", () => 
 {
 	it("renders the guide filters wrapper", () => 
 	{

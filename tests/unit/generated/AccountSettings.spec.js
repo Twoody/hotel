@@ -104,7 +104,7 @@ function createWrapper (options = {})
 	})
 }
 
-describe("AccountSettings.vue", () =>
+describe.concurrent("AccountSettings.vue", () =>
 {
 	beforeEach(() =>
 	{
@@ -267,6 +267,18 @@ describe("AccountSettings.vue", () =>
 		await wrapper.vm.$nextTick()
 
 		expect(window.alert).toHaveBeenCalledWith("User updated successfully!")
+	})
+})
+
+describe("AccountSettings.vue non-concurrent", () =>
+{
+	beforeEach(() =>
+	{
+		vi.resetAllMocks()
+		vi.spyOn(window, "alert").mockImplementation(() => 
+		{})
+		reauthenticateGoogleUser.mockResolvedValue(true) // Explicit mock reset before each test
+
 	})
 
 	it("alerts an error on failure", async () =>

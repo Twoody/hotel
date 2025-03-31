@@ -12,7 +12,7 @@ function createWrapper ()
 	return mount(NotFound)
 }
 
-describe("NotFoun.vue", () => 
+describe.concurrent("NotFoun.vue", () => 
 {
 	it("renders the correct heading", () => 
 	{

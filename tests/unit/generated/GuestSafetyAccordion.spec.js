@@ -38,7 +38,7 @@ function createWrapper ()
 
 let wrapper
 
-describe("GuestSafetyQuestionAccordion", () => 
+describe.concurrent("GuestSafetyQuestionAccordion", () => 
 {
 	it("Has a title of \"Guest Safety\"", () => 
 	{

@@ -129,7 +129,7 @@ const createWrapper = ({ userState = {},} = {}) =>
 	)
 }
 
-describe("NavBar.vue", () =>
+describe.concurrent("NavBar.vue", () =>
 {
 	beforeEach(() =>
 	{

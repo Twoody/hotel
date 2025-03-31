@@ -26,7 +26,7 @@ const createWrapper = ({ options = {}, } = {}) =>
 	})
 }
 
-describe("AmenitiesTable.vue", () => 
+describe.concurrent("AmenitiesTable.vue", () => 
 {
 	it("renders the table wrapper", () => 
 	{
