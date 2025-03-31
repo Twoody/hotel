@@ -4,7 +4,7 @@ const path = require("path")
 require("dotenv").config()
 
 const ENV = process.env.NODE_ENV
-let canRun = false
+let CAN_RUN = false
 
 // ✅ Initialize Firebase Admin SDK with correct environment
 if (!ENV)
@@ -15,19 +15,19 @@ if (!ENV)
 }
 else if (ENV === "development") 
 {
-	canRun = true
+	CAN_RUN = true
 	console.log("Running in DEVELOPMENT mode...")
 	process.env.FIRESTORE_EMULATOR_HOST = "localhost:8080" // Use Firestore Emulator
 }
 else 
 {
-	// TODO: Configure list of supported envs and set `canRun` to true IFF NODE_ENV is in that list
-	canRun = true
+	// TODO: Configure list of supported envs and set `CAN_RUN` to true IFF NODE_ENV is in that list
+	CAN_RUN = true
 	console.log(`Running in ${process.env.NODE_ENV.toUpperCase()} mode...`)
 }
 
 let db
-if (canRun) 
+if (CAN_RUN) 
 {
 	const { dbAdmin: dbAdmin, } = require("../../firebaseAdmin") // Adjust the path as needed
 	db = dbAdmin
@@ -71,7 +71,7 @@ function logMessage (message, type = "info")
  */
 async function migrateUsers () 
 {
-	if (!canRun)
+	if (!CAN_RUN)
 	{
 		return
 	}
@@ -165,7 +165,7 @@ async function migrateUsers ()
  */
 async function rollbackMigration (migrationId) 
 {
-	if (!canRun)
+	if (!CAN_RUN)
 	{
 		return
 	}
