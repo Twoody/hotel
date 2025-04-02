@@ -49,7 +49,9 @@ execute_migration() {
     # Move the file to executed only if NODE_ENV is production
     if [ "$NODE_ENV" == "production" ]; then
       # Prepend execution success comment to the migration file
-      sed -i "1i// Executed Successfully: $TIMESTAMP" "$MIGRATION_FILE"
+      sed -i '' "1i\\
+// Executed Successfully: $TIMESTAMP
+" "$MIGRATION_FILE"
 
       mv "$MIGRATION_FILE" "$EXECUTED_DIR"
       echo "Migration moved to $EXECUTED_DIR."
