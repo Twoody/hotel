@@ -1,5 +1,8 @@
 import { DateTime } from "luxon"
-import { fs } from "fs"
+import * as fs from "fs";
+import * as path from "path";
+import { fileURLToPath } from 'url';
+
 
 /**
  * Adds a specified number of days to a given date string.
@@ -78,6 +81,9 @@ export function getBookingStatus (booking)
  */
 export function logMessage (message, type = "info") 
 {
+    const __filename = fileURLToPath(import.meta.url); // Get the full path of the current file
+    const __dirname = path.dirname(__filename);      // Get the directory containing the current file
+
 	const logDir = path.resolve(__dirname, "../../logs")
 	if (!fs.existsSync(logDir)) 
 	{
