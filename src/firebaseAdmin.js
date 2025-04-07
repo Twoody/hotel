@@ -1,7 +1,7 @@
 // src/firebaseAdmin.js
-const admin = require("firebase-admin")
+import * as admin from "firebase-admin"
+import serviceAccount from "../.keys/votel-f1c47-c69aa9c4722a.json" with { type: "json" }; // <-- Fixed line
 
-const serviceAccount = require("../.keys/votel-f1c47-c69aa9c4722a.json")
 if (!admin.apps.length) 
 {
 	admin.initializeApp({

@@ -18,8 +18,12 @@ execute_migration() {
     exit 1
   fi
 
-  # Load environment variables from .env
-  export $(grep -v '^#' "$ENV_FILE" | xargs)
+  # Load environment variables from .env, exporting them
+  set -a # Automatically export all variables assigned using source
+  # Source the .env file, filtering out comments and blank lines
+  # Ensure multi-line variables in .env are properly quoted (e.g., MY_VAR="line1\nline2")
+  source <(grep -v -e '^#' -e '^$' "$ENV_FILE")
+  set +a # Stop automatically exporting variables
 
   # Find the first migration file in the queued directory
   MIGRATION_FILE=$(ls -t "$QUEUED_DIR"/*.js 2>/dev/null | head -n 1)
