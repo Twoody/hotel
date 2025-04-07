@@ -69,87 +69,26 @@ function logMessage (message, type = "info")
 /**
  *
  */
-async function migrateUsers () 
+async function migrateFoo () 
 {
 	if (!CAN_RUN)
 	{
 		return
 	}
+
+	let failed = false
 	console.log(`Starting migration to schema version ${SCHEMA_VERSION}...`)
 	logMessage(`Migration ${MIGRATION_ID} started.`)
 
-	const usersRef = db.collection("users")
-	const snapshot = await usersRef.get()
-
-	let batch = db.batch()
-	let batchCount = 0
-	let migratedDocs = 0
-	let failedDocs = []
-
-	for (const doc of snapshot.docs) 
-	{
-		const data = doc.data()
-
-		if (!data.schemaVersion || data.schemaVersion < SCHEMA_VERSION) 
-		{
-			const docRef = usersRef.doc(doc.id)
-
-			// 🔹 Step 1: Create a Backup before Update
-			const backupRef = db.collection(`migrations_backup/${MIGRATION_ID}/users`).doc(doc.id)
-			batch.set(backupRef, data) // Store old data
-
-			// 🔹 Step 2: Update the Document with the New Schema
-			batch.update(docRef, { 
-				newField: "default value", 
-				schemaVersion: SCHEMA_VERSION, 
-			})
-
-			batchCount++
-			migratedDocs++
-
-			// ✅ Commit batch every 500 operations
-			if (batchCount >= 500) 
-			{
-				try 
-				{
-					await batch.commit()
-					logMessage("Committed 500 document updates.")
-				}
-				catch (error) 
-				{
-					console.error("Batch commit failed:", error)
-					logMessage(`Batch commit failed: ${error.message}`, "error")
-					failedDocs.push(...batch)
-				}
-				batch = db.batch()
-				batchCount = 0
-			}
-		}
-	}
-
-	// ✅ Commit the remaining batch
-	if (batchCount > 0) 
-	{
-		try 
-		{
-			await batch.commit()
-			logMessage("Final batch committed.")
-		}
-		catch (error) 
-		{
-			console.error("Final batch commit failed:", error)
-			logMessage(`Final batch commit failed: ${error.message}`, "error")
-			failedDocs.push(...batch)
-		}
-	}
+	// Do database changes here
 
 	console.log(`Migration complete: ${migratedDocs} documents updated.`)
 	logMessage(`Migration ${MIGRATION_ID} completed. Updated ${migratedDocs} documents.`)
     
-	if (failedDocs.length > 0) 
+	if (failed) 
 	{
-		logMessage(`Migration ${MIGRATION_ID} encountered ${failedDocs.length} failed documents.`, "error")
-		console.warn(`⚠️  Migration finished with ${failedDocs.length} failed document(s). Check logs.`)
+		logMessage(`Migration ${MIGRATION_ID} failed`, "error")
+		console.warn(`⚠️  Migration failed. Check logs.`)
 		process.exit(1)
 	}
 	process.exit(0)
@@ -172,63 +111,7 @@ async function rollbackMigration (migrationId)
 	console.log(`Rolling back migration ${migrationId}...`)
 	logMessage(`Starting rollback for migration ${migrationId}.`)
 
-	const backupRef = db.collection(`migrations_backup/${migrationId}/users`)
-	const snapshot = await backupRef.get()
-
-	if (snapshot.empty) 
-	{
-		console.warn(`⚠️ Backup collection migrations_backup/${migrationId}/users is empty or does not exist.`)
-		logMessage(`Rollback failed: Backup migrations_backup/${migrationId}/users is empty.`, "error")
-		process.exit(1)
-	}
-
-	let batch = db.batch()
-	let batchCount = 0
-	let rolledBackDocs = 0
-
-	for (const doc of snapshot.docs) 
-	{
-		const originalData = doc.data()
-		const userRef = db.collection("users").doc(doc.id)
-
-		batch.set(userRef, originalData) // Restore old data
-		batchCount++
-		rolledBackDocs++
-
-		// ✅ Commit batch every 500 operations
-		if (batchCount >= 500) 
-		{
-			try 
-			{
-				await batch.commit()
-				logMessage("Committed rollback for 500 documents.")
-			}
-			catch (error) 
-			{
-				console.error("Rollback batch commit failed:", error)
-				logMessage(`Rollback batch commit failed: ${error.message}`, "error")
-				process.exit(1)
-			}
-			batch = db.batch()
-			batchCount = 0
-		}
-	}
-
-	// ✅ Commit remaining rollback batch
-	if (batchCount > 0) 
-	{
-		try 
-		{
-			await batch.commit()
-			logMessage("Final rollback batch committed.")
-		}
-		catch (error) 
-		{
-			console.error("Final rollback commit failed:", error)
-			logMessage(`Final rollback commit failed: ${error.message}`, "error")
-			process.exit(1)
-		}
-	}
+	// Do rollback stuff here
 
 	console.log(`Rollback complete: ${rolledBackDocs} documents restored.`)
 	logMessage(`Rollback for migration ${migrationId} completed. Restored ${rolledBackDocs} documents.`)

@@ -1,4 +1,5 @@
 import { DateTime } from "luxon"
+import { fs } from "fs"
 
 /**
  * Adds a specified number of days to a given date string.
@@ -69,6 +70,27 @@ export function getBookingStatus (booking)
 	}
 }
 
+/**
+ * Creates a migration log entry
+ *
+ * @param message
+ * @param type
+ */
+export function logMessage (message, type = "info") 
+{
+	const logDir = path.resolve(__dirname, "../../logs")
+	if (!fs.existsSync(logDir)) 
+	{
+		fs.mkdirSync(logDir)
+	}
+
+	const logFile = type === "error" ? "migrations_errors.log" : "migrations.log"
+	const logPath = path.join(logDir, logFile)
+
+	const timestamp = new Date().toISOString()
+	fs.appendFileSync(logPath, `[${timestamp}] ${message}\n`)
+}
+
 export const TRUTHYS = [
 	"true",
 	"True",
@@ -76,4 +98,3 @@ export const TRUTHYS = [
 	"1",
 	1,
 ]
-
