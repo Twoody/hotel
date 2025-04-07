@@ -1,18 +1,26 @@
 // src/firebaseAdmin.js
-import * as admin from "firebase-admin"
-import serviceAccount from "../.keys/votel-f1c47-c69aa9c4722a.json" with { type: "json" }; // <-- Fixed line
+ import 'dotenv/config'; 
+//import * as admin from "firebase-admin";
+import admin from "firebase-admin";
+import serviceAccount from "../.keys/votel-f1c47-c69aa9c4722a.json" with { type: "json" };
 
-if (!admin.apps.length) 
-{
+if (!admin.apps?.length) {
+	const databaseURL = process.env.VITE_FIREBASE_DATABASE_URL;
+	if (!databaseURL) {
+		console.error("ERROR: VITE_FIREBASE_DATABASE_URL is not defined in environment variables.");
+		process.exit(1); 
+	}
+
 	admin.initializeApp({
 		credential: admin.credential.cert(serviceAccount),
-		databaseURL: process.env.VITE_FIREBASE_DATABASE_URL,
-	})
+		databaseURL: databaseURL, // Use the variable
+	});
 }
 
-const dbAdmin = admin.firestore()
+const dbAdmin = admin.firestore();
 
-module.exports = {
+// Use ES Module export syntax instead of module.exports
+export {
 	admin,
-	dbAdmin, 
-}
+	dbAdmin,
+};
