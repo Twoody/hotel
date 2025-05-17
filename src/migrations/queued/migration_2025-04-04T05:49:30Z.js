@@ -125,12 +125,14 @@ if (ENV === "production")
 	console.warn("⚠️ WARNING: Running migration in PRODUCTION mode!")
 	console.log("You have 5 seconds to cancel (CTRL+C)...")
 	logMessage("Running migration", "info")
-	setTimeout(() => migrateUsers(), 5000)
+	setTimeout(() => runMigration(), 5000)
 	logMessage("Migration complete", "info")
+	process.exit(0)
 }
 else 
 {
 	console.log("lower envs not supported yet")
 	logMessage("Completed lower environment compilation", "info")
+	process.exit(0)
 }
 
