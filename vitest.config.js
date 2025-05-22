@@ -20,10 +20,15 @@ export default defineConfig({
 			styles: resolve(__dirname, "src/assets/styles/"),
 			svgs: resolve(__dirname, "src/assets/svgs/"),
 		},
-		mainFields: ["module"],
-		//File suffix name that needs to be omitted
-		//Note: If an ignored suffix name is configured here, an error will be reported if it is imported with a suffix name
-		extensions: [".vue", ".js"]
+		mainFields: [
+			"module",
+		],
+		// File suffix name that needs to be omitted
+		// Note: If an ignored suffix name is configured here, an error will be reported if it is imported with a suffix name
+		extensions: [
+			".vue",
+			".js",
+		],
 	},
 
 	root: ".", // Define the root
@@ -34,35 +39,37 @@ export default defineConfig({
 			"tests/**/*.{test,spec,setup}.{js,jsx,ts,tsx}",
 		],
 		setupFiles: "./tests/setup/vitest.setup.js",
-		alias: {
-		},
+		alias: {},
 		coverage: {
-			reporter: ['text', 'html'],
+			reporter: [
+				"text",
+				"html",
+			],
 			exclude:
 			[
-				'.eslintrc.js',
-				'babel.config.js',
-				'vite.config.js',
-				'vitest.config.js',
-				'hotel/dist/**',
-				'dist/**',
-				'tests/**',
+				".eslintrc.js",
+				"babel.config.js",
+				"vite.config.js",
+				"vitest.config.js",
+				"hotel/dist/**",
+				"dist/**",
+				"tests/**",
 
-				'attic/**',
-				'src/App.vue',
-				'src/db.js',
-				'src/main.js',
-				'src/components/buttons/login/FacebookLogin.vue',
-				'src/components/entities/Thermometer.vue',
-				'src/constants/**',
-				'src/router/**',
-				'src/store/**',
-				'src/migrations/**',
-				'src/functions/**',
-				'src/utils/firestore.js',
-				'src/views/Foobar.vue',
-				'src/views/ThermometerPage.vue',
-				'**/__mocks__/**',
+				"attic/**",
+				"src/App.vue",
+				"src/db.js",
+				"src/main.js",
+				"src/components/buttons/login/FacebookLogin.vue",
+				"src/components/entities/Thermometer.vue",
+				"src/constants/**",
+				"src/router/**",
+				"src/store/**",
+				"src/migrations/**",
+				"src/functions/**",
+				"src/utils/firestore.js",
+				"src/views/Foobar.vue",
+				"src/views/ThermometerPage.vue",
+				"**/__mocks__/**",
 
 			],
 		},

@@ -224,7 +224,7 @@ export default {
 			}
 		} // End not isAirplaneMode
 	},
-	beforeDestroy: function()
+	beforeUnmount: function()
 	{
 		window.removeEventListener("load", this.handleEventLoad)
 		window.removeEventListener("online", this.handleEventOnline)
