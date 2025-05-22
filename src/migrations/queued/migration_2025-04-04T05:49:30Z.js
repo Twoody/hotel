@@ -1,7 +1,7 @@
 // Filename: migrations/create_collections_v2.js
 import "dotenv/config"
-import { dbAdmin, admin } from "../../firebaseAdmin.js" // Adjust path if necessary
-import { logMessage } from "../../utils/misc.js" // Adjust path if necessary
+import { dbAdmin, admin } from "../../firebaseAdmin.js"
+import { logMessage } from "../../utils/serverUtils.js"
 
 /**
  * Migration script to create 'properties' and 'reviews' collections in Firestore
