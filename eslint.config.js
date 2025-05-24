@@ -1,7 +1,6 @@
 // eslint.config.js
 import globals from "globals"
 import js from "@eslint/js"
-import pluginJsdoc from "eslint-plugin-jsdoc"
 import pluginVue from "eslint-plugin-vue"
 // Optional: If you want more advanced Jest linting, consider eslint-plugin-jest
 // import eslintPluginJest from "eslint-plugin-jest";
@@ -14,6 +13,7 @@ export default [
 			"dist/", // And other build output directories
 			"src/views/ThermometerPage.vue",
 			"src/migrations/template.js",
+			"src/migrations/template.batch.js",
 		],
 	},
 
@@ -30,17 +30,8 @@ export default [
 				// 'process': 'readonly', // Covered by globals.node, ensure VUE_APP_NODE_ENV is available
 			},
 		},
-		settings: {
-			jsdoc: {
-			// Add valid tag names if needed; otherwise, include empty or default settings.
-				mode: "typescript", // or "jsdoc" depending on what you want
-			},
-		},
-		plugins: {
-			// jsdoc plugin is registered here for applying jsdoc rules generally
-			jsdoc: pluginJsdoc,
-
-		},
+		settings: {},
+		plugins: {},
 		rules: {
 			// Common rules from your original global "rules" section
 			"array-bracket-newline": [
@@ -183,18 +174,6 @@ export default [
 					}, 
 				},
 			],
-
-			// JSDoc rules (applying recommended and your custom one)
-			// Spread rules from jsdoc recommended config
-			...(pluginJsdoc.configs.recommended.rules || {}), // Ensure rules is an object
-			"jsdoc/check-tag-names": [
-				"warn",
-				{
-					"definedTags": [
-						"warning",
-					], 
-				},
-			], // Original was "1" (warn)
 		},
 	},
 
@@ -374,16 +353,6 @@ export default [
 			globals: {
 				...globals.jest, // Apply Jest global variables only to test files
 			},
-		},
-		// If using eslint-plugin-jest for more specific Jest rules:
-		// plugins: { 'jest': eslintPluginJest },
-		// rules: { ...eslintPluginJest.configs.recommended.rules, /* your overrides */ },
-		rules: {
-			// JSDoc rules specific to tests from original config
-			"jsdoc/require-returns": "off",
-			"jsdoc/require-param-description": "off",
-			"jsdoc/require-param-type": "off",
-			// Any other test-specific rule overrides can go here
 		},
 	},
 ]

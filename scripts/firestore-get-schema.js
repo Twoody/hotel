@@ -1,5 +1,5 @@
 const { dbAdmin: dbAdmin, } = require("../src/firebaseAdmin")
-db = dbAdmin
+const db = dbAdmin
 
 /**
  *
