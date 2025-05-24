@@ -120,6 +120,8 @@ if (canRun)
 const SCHEMA_VERSION = 3
 const MIGRATION_ID = `migration_v${SCHEMA_VERSION}_${Date.now()}`
 
+console.log(db.foo)
+console.log(MIGRATION_ID)
 if (ENV === "production") 
 {
 	console.warn("⚠️ WARNING: Running migration in PRODUCTION mode!")
