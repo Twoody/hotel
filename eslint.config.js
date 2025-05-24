@@ -307,11 +307,7 @@ export default [
 		files: [
 			"**/*.js",
 		], // This targets only .js files, not .vue files
-		rules: {
-			// If you have rules that should *only* apply to standalone .js files, put them here.
-			// e.g., if 'indent' or 'brace-style' needed to be different than in .vue <script> blocks.
-			// Based on your original config, the global rules for these are sufficient.
-		},
+		rules: {},
 	},
 
 	// 6. Path-specific overrides
