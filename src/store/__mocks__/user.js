@@ -1,3 +1,5 @@
+/* global jest */
+
 // TODO: Either setup a running store per docs or plugin stuff from store
 // e.g. test/.../nav/* has a store implementation
 
