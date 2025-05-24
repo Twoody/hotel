@@ -24,7 +24,7 @@ function createWrapper (options = {})
 	})
 }
 
-describe("Amenities.vue", () =>
+describe.concurrent("Amenities.vue", () =>
 {
 	let wrapper
 

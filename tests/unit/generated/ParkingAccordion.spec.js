@@ -28,7 +28,7 @@ function createWrapper ()
 	)
 }
 
-describe("ParkingAccordion", () =>
+describe.concurrent("ParkingAccordion", () =>
 {
 	it("renders the title as \"Parking\"", () =>
 	{

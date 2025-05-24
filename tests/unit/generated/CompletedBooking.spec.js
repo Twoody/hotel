@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils"
 import CompletedBooking from "@/views/bookings/CompletedBooking.vue"
 
-describe("CompletedBooking.vue", () => 
+describe.concurrent("CompletedBooking.vue", () => 
 {
 	it("renders booking details when passed", () => 
 	{

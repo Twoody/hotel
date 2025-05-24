@@ -139,7 +139,7 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 	})
 }
 
-describe("PrivacyAndSecuritySettings.vue", () =>
+describe.concurrent("PrivacyAndSecuritySettings.vue", () =>
 {
 	beforeEach(() =>
 	{

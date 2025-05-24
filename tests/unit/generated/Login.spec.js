@@ -94,7 +94,7 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 	})
 }
 
-describe("Login.vue", () => 
+describe.concurrent("Login.vue: Auth Ready + Logged out", () => 
 {
 	it("renders the login page and displays the checking auth status message", () => 
 	{
@@ -114,31 +114,6 @@ describe("Login.vue", () =>
 		})
 		expect(wrapper.find("h3").text()).toBe("Already Logged in")
 	})
-
-	it("toggles between sign-in and sign-up modes", async () => 
-	{
-		let userState = {
-			isAuthReady: true,
-			isLoggedIn: false,
-		}
-
-		const wrapper = createWrapper({
-			userState,
-		})
-		await wrapper.vm.$nextTick()
-		// Find both toggles
-		const toggles = wrapper.findAll(".title-toggle")
-		expect(toggles.length).toBe(2)
-
-		// signUpButton is toggles[1]
-		await toggles[1].trigger("click")
-		expect(wrapper.vm.isRegistering).toBe(true)
-
-		// signInButton is toggles[0]
-		await toggles[0].trigger("click")
-		expect(wrapper.vm.isRegistering).toBe(false)
-	})
-
 	it("validates user input and focuses on invalid fields", async () => 
 	{
 		let userState = {
@@ -300,4 +275,32 @@ describe("Login.vue", () =>
 			path: "/", 
 		})
 	})
-})
+	describe.concurrent("Login.vue: Auth Ready + Logged out", () => 
+	{
+		it("toggles between sign-in and sign-up modes", async () => 
+		{
+			let userState = {
+				isAuthReady: true,
+				isLoggedIn: false,
+			}
+
+			const wrapper = createWrapper({
+				userState,
+			})
+			await wrapper.vm.$nextTick()
+			// Find both toggles
+			const toggles = wrapper.findAll(".title-toggle")
+			expect(toggles.length).toBe(2)
+
+			// signUpButton is toggles[1]
+			await toggles[1].trigger("click")
+			expect(wrapper.vm.isRegistering).toBe(true)
+
+			// signInButton is toggles[0]
+			await toggles[0].trigger("click")
+			expect(wrapper.vm.isRegistering).toBe(false)
+		})
+	})
+
+}
+)

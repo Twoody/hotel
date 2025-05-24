@@ -9,7 +9,7 @@ function mountComponent ()
 	return mount(UnauthorizedBooking)
 }
 
-describe("UnauthorizedBooking", () =>
+describe.concurrent("UnauthorizedBooking", () =>
 {
 	test("has the right class structure", () =>
 	{

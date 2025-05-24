@@ -102,7 +102,7 @@ const createWrapper = ({ userState = {}, ...options } = {}) =>
 	})
 }
 
-describe("BookingsTable.vue", () =>
+describe.concurrent("BookingsTable.vue: Main processes", () =>
 {
 	beforeEach(() =>
 	{
@@ -283,6 +283,15 @@ describe("BookingsTable.vue", () =>
 		expect(wrapper.vm.userBookings.find((b) => b.id === "2")).toBeUndefined()
 	})
 
+})
+
+describe("BookingsTable.vue: Flows", () =>
+{
+	beforeEach(() =>
+	{
+		// Clear mocks before each test
+		vi.resetAllMocks()
+	})
 	it("fetches user bookings on created() if a user is logged in", async () =>
 	{
 		// We mock getDocs, which is called in fetchUserBookings

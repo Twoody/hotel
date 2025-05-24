@@ -109,7 +109,7 @@ const createWrapper = (options = {}) =>
 	})
 }
 
-describe("Home.vue", () =>
+describe.concurrent("Home.vue: main functionality", () =>
 {
 	it("renders the main wrapper and subcomponents", () =>
 	{
@@ -177,24 +177,6 @@ describe("Home.vue", () =>
 		expect(instance.processBookingRequest).toHaveBeenCalledTimes(2)
 	})
 
-	it("redirects to manageBooking after booking creation", async () =>
-	{
-		const wrapper = createWrapper()
-		const router = wrapper.vm.$router
-		const pushSpy = vi.spyOn(router, "push")
-		const instance = wrapper.vm
-
-		await instance.processBookingRequest({
-			startDate: "2023-01-01",
-			endDate: "2023-01-02",
-		})
-		expect(pushSpy).toHaveBeenCalledWith({
-			name: "manageBooking",
-			// `id` is undefined in params due to mocked Firestore
-			params: {},
-		})
-	})
-
 	it("displays the correct state for auth readiness", () =>
 	{
 		const wrapper = createWrapper()
@@ -228,4 +210,24 @@ describe("Home.vue", () =>
 
 	})
 })
+describe.concurrent("Home.vue: flows", () =>
+{
+	it("redirects to manageBooking after booking creation", async () =>
+	{
+		const wrapper = createWrapper()
+		const router = wrapper.vm.$router
+		const pushSpy = vi.spyOn(router, "push")
+		const instance = wrapper.vm
 
+		await instance.processBookingRequest({
+			startDate: "2023-01-01",
+			endDate: "2023-01-02",
+		})
+		expect(pushSpy).toHaveBeenCalledWith({
+			name: "manageBooking",
+			// `id` is undefined in params due to mocked Firestore
+			params: {},
+		})
+	})
+
+})

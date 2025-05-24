@@ -136,7 +136,7 @@ const createWrapper = ({ userState = {}, } = {}) =>
 	})
 }
 
-describe("UserSettings.vue", () =>
+describe.concurrent("UserSettings.vue", () =>
 {
 	it("displays login reminder when auth is ready but user not logged in", () =>
 	{

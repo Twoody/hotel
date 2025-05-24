@@ -28,7 +28,7 @@ function createWrapper ()
 	)
 }
 
-describe("WifiAccordion", () =>
+describe.concurrent("WifiAccordion", () =>
 {
 	let wrapper
 

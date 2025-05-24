@@ -208,6 +208,7 @@ export default {
 				}
 				else 
 				{
+					// TODO: If hotel not returned, the app should enter an error state, too
 					console.error("Hotel document not found for UID:", hotelUID)
 					this.$store.dispatch("fetchHotel", {
 						invalid: true, 
@@ -223,7 +224,7 @@ export default {
 			}
 		} // End not isAirplaneMode
 	},
-	beforeDestroy: function()
+	beforeUnmount: function()
 	{
 		window.removeEventListener("load", this.handleEventLoad)
 		window.removeEventListener("online", this.handleEventOnline)

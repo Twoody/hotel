@@ -16,7 +16,7 @@ function createWrapper (options = {})
 	})
 }
 
-describe("BookingNotFound.vue", () => 
+describe.concurrent("BookingNotFound.vue", () => 
 {
 	let wrapper
 

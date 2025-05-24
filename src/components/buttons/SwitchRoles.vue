@@ -23,7 +23,7 @@ export default {
 	{
 		buttonText ()
 		{
-			const isAdminPath = this.$route.path.startsWith("/a")
+			const isAdminPath = this.$route.path.startsWith("/a/")
 			const pushTo = isAdminPath ? "User" : "Admin"
 			return `Switch to ${pushTo}`
 		},
@@ -33,7 +33,7 @@ export default {
 		switchView () 
 		{
 			// Determine if showing admin or public views and components
-			const isAdminPath = window.location.pathname.startsWith("/a")
+			const isAdminPath = window.location.pathname.startsWith("/a/")
 			const pushTo = isAdminPath ? "/" : "/a/"
 			this.$router.push({
 				path: pushTo, 

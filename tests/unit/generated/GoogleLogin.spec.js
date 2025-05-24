@@ -12,7 +12,7 @@ vi.mock("@/firebase", () => ({
 	firebaseAnalytics: {}, // Provide a simple mock object
 }))
 
-describe("GoogleLogin.vue", () => 
+describe.concurrent("GoogleLogin.vue", () => 
 {
 	it("renders SocialLogin.vue", () => 
 	{

@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router"
 import { logEvent } from "firebase/analytics"
 import { firebaseAnalyics } from "@/firebase"
+import store from "@/store/store.js"
 
 // Standard user views
 import AirbnbCleaning from "@/views/AirbnbCleaning.vue"
@@ -16,7 +17,7 @@ import ThermometerPage from "@/views/ThermometerPage.vue"
 
 // Use path-based admin detection now
 /* eslint-disable-next-line no-unused-vars */
-const isAdminPath = window.location.pathname.startsWith("/a")
+const isAdminPath = window.location.pathname.startsWith("/a/")
 
 // Define routes for each mode
 const adminRoutes = [
@@ -115,15 +116,15 @@ const router = createRouter({
 	], // Merge both sets
 })
 
-// Track page views with Firebase Analytics
 router.beforeEach((to, from, next) => 
 {
+	// Track page views with Firebase Analytics
 	if (parseFloat(import.meta.env.VITE_CI)) 
 	{
 		try 
 		{
 			logEvent(firebaseAnalyics, "page_view", {
-				title: to.name,
+				title: to.name, 
 			})
 		}
 		catch (e) 
@@ -131,7 +132,39 @@ router.beforeEach((to, from, next) =>
 			console.error(e)
 		}
 	}
-	next()
+
+	// Admin guard logic
+	// Admin routes protection
+	if (to.path.startsWith("/a/")) 
+	{
+		const isLoggedIn = store.state.user.isLoggedIn
+		const isAdmin = store.state.user.isAdmin
+
+		if (!isLoggedIn) 
+		{
+			// User is not logged in, redirect to login
+			next({
+				name: "login", 
+			})
+		}
+		else if (!isAdmin) 
+		{
+			// Logged in but not admin, redirect home or a permission error page
+			next({
+				name: "home", 
+			})
+		}
+		else 
+		{
+			// User is admin
+			next()
+		}
+	}
+	else 
+	{
+		// Non-admin route
+		next()
+	}
 })
 
 export default router

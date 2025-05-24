@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils"
 import About from "@/views/About.vue"
 
-describe("About.vue", () => 
+describe.concurrent("About.vue", () => 
 {
 	it("renders about page", () => 
 	{

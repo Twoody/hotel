@@ -28,7 +28,7 @@ function createWrapper ()
 	)
 }
 
-describe("TashAccordion.vue", () => 
+describe.concurrent("TashAccordion.vue", () => 
 {
 	test("renders the correct title", () => 
 	{
