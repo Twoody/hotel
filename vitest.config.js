@@ -47,13 +47,17 @@ export default defineConfig({
 			],
 			exclude:
 			[
-				".eslintrc.js",
+				"eslint.config.js",
 				"babel.config.js",
 				"vite.config.js",
 				"vitest.config.js",
+				"src/firebase.js",
+				"src/firebaseAdmin.js",
+				"",
 				"hotel/dist/**",
 				"dist/**",
 				"tests/**",
+				"**/scripts/**",
 
 				"attic/**",
 				"src/App.vue",
