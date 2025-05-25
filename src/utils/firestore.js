@@ -14,7 +14,7 @@ export async function updateFirestoreUser (currentUser, newPayload)
 {
 	/**
 	 * -----------
-	 * 1) Guard Clause & Security Check
+	 * 1) Guard Clause & Security Check (todo)
 	 * -----------
 	 * Example approach: only allow the user to update their own record
 	 * OR an admin to update any user record.
