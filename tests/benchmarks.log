@@ -1,0 +1,72 @@
+2025-05-25: 183 tests
+> time npx vitest run --pool=threads
+npx vitest run --pool=threads  19.56s user 3.25s system 751% cpu 3.034 total
+
+2025-05-26: 183 tests
+
+2.7.0-alpha
+> time npm run test
+npm run test  19.70s user 3.63s system 621% cpu 3.753 total
+
+2025-05-26: 183 tests
+
+2.5.5
+> time npm run test
+npm run test  20.13s user 4.82s system 729% cpu 3.418 total
+
+2025-05-26: 183 tests
+
+2.5.5
+> run_and_average_npm_test
+Starting 10 runs of 'npm run test' to calculate average time...
+--- Run 1/10 ---
+Run 1 successful. Duration: 3.139s
+--- Run 2/10 ---
+Run 2 successful. Duration: 3.077s
+--- Run 3/10 ---
+Run 3 successful. Duration: 3.282s
+--- Run 4/10 ---
+Run 4 successful. Duration: 3.222s
+--- Run 5/10 ---
+Run 5 successful. Duration: 3.143s
+--- Run 6/10 ---
+Run 6 successful. Duration: 3.154s
+--- Run 7/10 ---
+Run 7 successful. Duration: 3.243s
+--- Run 8/10 ---
+Run 8 successful. Duration: 3.201s
+--- Run 9/10 ---
+Run 9 successful. Duration: 3.169s
+--- Run 10/10 ---
+Run 10 successful. Duration: 3.167s
+-------------------------------------
+All 10 runs completed successfully.
+Average 'npm run test' time over 10 successful runs: 3.179s
+
+2025-05-26: 183 tests
+2.7.0
+> run_and_average_npm_test
+Starting 10 runs of 'npm run test' to calculate average time...
+--- Run 1/10 ---
+Run 1 successful. Duration: 2.719s
+--- Run 2/10 ---
+Run 2 successful. Duration: 2.710s
+--- Run 3/10 ---
+Run 3 successful. Duration: 2.801s
+--- Run 4/10 ---
+Run 4 successful. Duration: 2.748s
+--- Run 5/10 ---
+Run 5 successful. Duration: 2.720s
+--- Run 6/10 ---
+Run 6 successful. Duration: 2.727s
+--- Run 7/10 ---
+Run 7 successful. Duration: 2.724s
+--- Run 8/10 ---
+Run 8 successful. Duration: 2.723s
+--- Run 9/10 ---
+Run 9 successful. Duration: 2.729s
+--- Run 10/10 ---
+Run 10 successful. Duration: 2.742s
+-------------------------------------
+All 10 runs completed successfully.
+Average 'npm run test' time over 10 successful runs: 2.734s
