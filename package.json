@@ -11,7 +11,8 @@
     "migrate:firestore:setup": "./scripts/migrate-firestore.sh",
     "migrate:run": "./scripts/migration-run.sh",
     "migrate:rollback": "./scripts/migration-rollback.sh",
-    "test": "vitest --max-concurrency=16",
+    "test": "vitest --pool=threads run",
+    "test:watch": "vitest --pool=threads",
     "test:coverage": "npm run test -- --coverage"
   },
   "imports": {
