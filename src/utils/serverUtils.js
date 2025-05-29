@@ -6,9 +6,9 @@ import { fileURLToPath } from "url"
  * Creates a migration log entry
  *
  * @param message
- * @param type
+ * @param logFile {string} - The name of the file that is logged to
  */
-export function logMessage (message, type = "info") 
+export function logMessage (message, logFile) 
 {
 	const __filename = fileURLToPath(import.meta.url) // Get the full path of the current file
 	const __dirname = path.dirname(__filename) // Get the directory containing the current file
@@ -19,9 +19,7 @@ export function logMessage (message, type = "info")
 		fs.mkdirSync(logDir)
 	}
 
-	const logFile = type === "error" ? "migrations_errors.log" : "migrations.log"
 	const logPath = path.join(logDir, logFile)
-
 	const timestamp = new Date().toISOString()
 	fs.appendFileSync(logPath, `[${timestamp}] ${message}\n`)
 }
