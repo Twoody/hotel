@@ -1,6 +1,6 @@
 // src/utils/migrations.js
-import { firebaseApp } from "../../firebase.js"; // Adjust path if needed
-import { deleteApp } from "firebase/app";
+import { firebaseApp } from "../../firebase.js" // Adjust path if needed
+import { deleteApp } from "firebase/app"
 import { dbAdmin, admin } from "../../firebaseAdmin.js"
 import { logMessage } from "../../utils/serverUtils.js"
 import { getPropertyPayload, addOrUpdateProperty } from "../../utils/firestore.js"
@@ -132,14 +132,18 @@ export async function setupPropertyAndReviews ()
 			console.error("Error closing Firebase Admin SDK connection:", closeError)
 		}
 		    // Add this to close the client app
-    if (firebaseApp) { // Check if it was initialized
-        try {
-            await deleteApp(firebaseApp);
-            console.log("Firebase Client SDK connection closed successfully.");
-        } catch (closeError) {
-            console.error("Error closing Firebase Client SDK connection:", closeError);
-        }
-    }
+		if (firebaseApp) 
+		{ // Check if it was initialized
+			try 
+			{
+				await deleteApp(firebaseApp)
+				console.log("Firebase Client SDK connection closed successfully.")
+			}
+			catch (closeError) 
+			{
+				console.error("Error closing Firebase Client SDK connection:", closeError)
+			}
+		}
 
 	}
 
