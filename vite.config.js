@@ -27,11 +27,11 @@ export default defineConfig({
 			"module",
 		],
 		poolOptions: {
-      threads: {
-        maxThreads: 32,
-        minThreads: 16
-      },
-    },
+			threads: {
+				maxThreads: 32,
+				minThreads: 16,
+			},
+		},
 
 		extensions: [
 			".vue",

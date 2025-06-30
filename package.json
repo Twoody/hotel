@@ -40,7 +40,6 @@
     "@vue/test-utils": "^2.4.0-alpha.2",
     "dotenv-cli": "^8.0.0",
     "eslint": "^8.19.0",
-    "eslint-plugin-jsdoc": "^39.3.3",
     "eslint-plugin-vue": "^9.1.1",
     "firebase": "^11.1.0",
     "jsdom": "^25.0.1",
