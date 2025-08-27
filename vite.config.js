@@ -9,7 +9,6 @@ const port = process.env.VITE_PORT || 5173
 export default defineConfig({
 	plugins: [
 		vue(),
-		// AntD introduces configuration on demand
 	],
 	resolve: {
 		alias: {
@@ -26,13 +25,6 @@ export default defineConfig({
 		mainFields: [
 			"module",
 		],
-		poolOptions: {
-      threads: {
-        maxThreads: 32,
-        minThreads: 16
-      },
-    },
-
 		extensions: [
 			".vue",
 			".js",
@@ -50,6 +42,21 @@ export default defineConfig({
 		target: "modules",
 		outDir: "dist",
 		assetsDir: "assets",
+		rollupOptions: {
+			input: {
+				main: resolve(__dirname, "index.html"),
+			},
+			external: [
+				resolve(__dirname, "src/utils/serverUtils.js"),
+			],
+			output: {
+				//manualChunks: undefined,
+				exclude: [
+					"src/migrations/**",
+					"src/utils/serverUtils.js",
+				],
+			},
+		},
 	},
 	server: {
 		cors: true,
@@ -65,4 +72,3 @@ export default defineConfig({
 		},
 	},
 })
-
