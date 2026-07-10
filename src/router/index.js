@@ -15,10 +15,6 @@ import NotFound from "@/views/NotFound.vue"
 import UserSettings from "@/views/settings/UserSettings.vue"
 import ThermometerPage from "@/views/ThermometerPage.vue"
 
-// Use path-based admin detection now
-/* eslint-disable-next-line no-unused-vars */
-const isAdminPath = window.location.pathname.startsWith("/a/")
-
 // Define routes for each mode
 const adminRoutes = [
 	{
@@ -135,7 +131,7 @@ router.beforeEach((to, from, next) =>
 
 	// Admin guard logic
 	// Admin routes protection
-	if (to.path.startsWith("/a/")) 
+	if (to.path === "/a" || to.path.startsWith("/a/"))
 	{
 		const isLoggedIn = store.state.user.isLoggedIn
 		const isAdmin = store.state.user.isAdmin
