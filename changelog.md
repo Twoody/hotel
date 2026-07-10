@@ -1,3 +1,20 @@
+2.7.1
+    # Repair production build, auth flows, test integrity, and migration tooling
+    - Fix broken static serverUtils import that made every production build unloadable (white screen)
+    - Fix Firebase config compiling to undefined in browser builds (process.env → import.meta.env)
+    - Fix .data() calls on plain objects: session restore, Google login, and settings save
+    - Email/password login now loads the Firestore user doc (roles/isAdmin)
+    - Admin route guard now covers /a, not just /a/*
+    - Fix guide-card navigation (wrong route name) and thermometer NaN
+    - Booking deletion now asks for confirmation
+    - Test setup no longer silences console.error or injects a dummy test into every spec file
+    - Coverage now reports all src files honestly (store, router, data layer included)
+    - Dependency sections corrected (firebase → deps; admin/tooling → devDeps); drop less-loader, @vitest/ui, dotenv-cli, babel config
+    - Delete dead files: src/db.js, Foobar.vue, FacebookLogin.vue, stock public/index.html, prompts/ dumps, Vue-2 store mocks
+    - Migration tooling runs again: ESM entry points, fixed template bugs, rollback finds executed migrations, portable service-account path
+    - Firestore rules authored to match the app (committed, NOT deployed — see README)
+    - Tighten CSP: drop 'unsafe-inline' from script-src; remove phantom functions config
+
 2.2.4
     # Final bug fixes: Booking/calendar element + Maps app bugs
     - Update teahub dependency
