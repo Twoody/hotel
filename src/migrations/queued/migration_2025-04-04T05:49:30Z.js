@@ -1,23 +1,22 @@
-// Filename: migrations/create_collections_v2.js
-import "dotenv/config"
+// src/utils/migrations.js
+import { firebaseApp } from "../../firebase.js" // Adjust path if needed
+import { deleteApp } from "firebase/app"
 import { dbAdmin, admin } from "../../firebaseAdmin.js"
 import { logMessage } from "../../utils/serverUtils.js"
+import { getPropertyPayload, addOrUpdateProperty } from "../../utils/firestore.js"
 
 /**
- * Migration script to create 'properties' and 'reviews' collections in Firestore
- * based on schema-v2 by adding sample documents.
+ * Runs a single migration.
+ * Each migration is explicitly defined as a function.
  */
-async function runMigration () 
+export async function setupPropertyAndReviews () 
 {
-	console.log("Starting Firestore collection migration (schema-v2)...")
-
+	logMessage("Migration starting", "properties.log")
+	console.log("Starting Firestore migration...")
 	try 
 	{
-		// --- Properties Collection ---
-		console.log("Attempting to create sample document in \"properties\" collection...")
-		const propertiesCollectionRef = dbAdmin.collection("properties")
-
 		// Define sample data matching the 'properties' schema
+		// Timestamps (createdAt, updatedAt) will be handled by addOrUpdateProperty
 		const samplePropertyData = {
 			daily_rate: 125.75,
 			address: "1 Example Ave",
@@ -25,16 +24,17 @@ async function runMigration ()
 			state: "EX",
 			zip_code: "12345",
 			status: 1, // Example: 1 for 'active', 0 for 'inactive'
+			propertyType: "AIRBNB",
 			allowed_dogs: 1,
 			allowed_cats: 1,
-			allowed_babies: 1, // Assuming boolean-like (1=yes, 0=no) or count
+			allowed_babies: 1,
 			allowed_toddlers: 1,
 			allowed_kids: 2,
 			allowed_adults: 4,
 			cleaning_fee: 80.00,
 			pet_deposit: 250.00,
 			pet_fee: 50.00,
-			kid_deposit: 0.00, // Example: no specific deposit for kids
+			kid_deposit: 0.00,
 			amenities: {
 				wifi: true,
 				parking: true,
@@ -46,95 +46,105 @@ async function runMigration ()
 				washer: true,
 				dryer: true,
 				tv: true,
-				// Add other potential amenities as needed, ensuring keys match potential future use
+				// Add other potential amenities as needed
 			},
 			property_managers: [
 				"managerUserId_abc",
 				"managerUserId_xyz",
 			],
-			createdAt: admin.firestore.FieldValue.serverTimestamp(), // Use server timestamp
-			updatedAt: admin.firestore.FieldValue.serverTimestamp(), // Use server timestamp
 		}
 
-		// Add the sample document. This implicitly creates the collection if it doesn't exist.
-		// Using .add() generates a unique document ID.
-		const propertyDocRef = await propertiesCollectionRef.add(samplePropertyData)
-		console.log(`Successfully added sample document to "properties" with ID: ${propertyDocRef.id}`)
+		// Combine with default payload to ensure all fields are present if sample is sparse
+		const propertyDataForUpload = {
+			...getPropertyPayload(),
+			...samplePropertyData, 
+		}
 
-		// --- Reviews Collection ---
-		console.log("Attempting to create sample document in \"reviews\" collection...")
-		const reviewsCollectionRef = dbAdmin.collection("reviews")
+		// Create "properties" document using the new utility function
+		// Pass null as the first argument to indicate creation of a new property
+		const propertyResult = await addOrUpdateProperty(null, propertyDataForUpload)
 
-		// Define sample data matching the 'reviews' schema
+		if (!propertyResult.success || !propertyResult.propertyId) 
+		{
+			logMessage(`Migration: Failed to create property - ${propertyResult.message}`, "properties.error.log")
+			console.error("Migration: Failed to create property document.", propertyResult.message)
+			throw new Error(`Migration: Property creation failed - ${propertyResult.message}`)
+		}
+
+		const propertyId = propertyResult.propertyId
+		console.info(`\tCreated properties doc with ID: ${propertyId}`)
+
+		// Example Migration: create "reviews" collection (still uses dbAdmin directly)
 		const sampleReviewData = {
-			propertyId: propertyDocRef.id, // Link to the sample property created above
+			propertyId: propertyId, // Use the ID from the created property
 			guestId: "guestUserId_123",
-			rating: 4.5, // Example rating
-			review: "A wonderful place to stay. Clean, comfortable, and well-located. Amenities were great.",
-			createdAt: admin.firestore.FieldValue.serverTimestamp(), // Use server timestamp
+			rating: 4.5,
+			review: "Excellent stay!",
+			createdAt: admin.firestore.FieldValue.serverTimestamp(),
+			updatedAt: admin.firestore.FieldValue.serverTimestamp(),
 		}
+		const reviewRef = dbAdmin.collection("reviews").doc() // Using dbAdmin for reviews
+		await reviewRef.set(sampleReviewData)
 
-		// Add the sample review document.
-		const reviewDocRef = await reviewsCollectionRef.add(sampleReviewData)
-		console.log(`Successfully added sample document to "reviews" with ID: ${reviewDocRef.id}`)
+		console.info(`\tCreated reviews doc with ID: ${reviewRef.id}`)
 
-		console.log("Firestore collection migration (schema-v2) completed successfully.")
-
+		logMessage("Migration completed successfully.", "properties.log")
 	}
 	catch (error) 
 	{
-		console.error("Error during Firestore migration (schema-v2):", error)
-		// Optionally re-throw or handle specific errors
-		throw error // Re-throwing to indicate failure to the caller
+		// Error is already logged by addOrUpdateProperty if it originated there,
+		// or by the preceding console.error if propertyResult was unsuccessful.
+		// This top-level catch ensures the overall migration status is reported.
+		logMessage(`Migration failed overall: ${error.message}`, "poperties.error.log")
+		console.error("Migration failed overall:", error.message)
+		throw error
 	}
+	return
 }
 
-const ENV = process.env.NODE_ENV
-let canRun = false
+(async function() 
+{
+	try 
+	{
+		await setupPropertyAndReviews()
+	
+	}
+	catch (error) 
+	{
+		// This ensures that any unhandled rejection from setupPropertyAndReviews,
+		// including those re-thrown, are caught and logged at the script's exit point.
+		// console.error('Migration script execution failed:', err); // Redundant if already logged
+		console.error("Migration failed overall:", error.message)
+		throw error
+	}
+	finally 
+	{
+		// Always try to close the Firebase app connection
+		try 
+		{
+			await admin.app().delete()
+			await dbAdmin.terminate?.()
+			await admin.terminate?.()
+			console.log("Firebase Admin SDK connection closed successfully.")
+		}
+		catch (closeError) 
+		{
+			console.error("Error closing Firebase Admin SDK connection:", closeError)
+		}
+		    // Add this to close the client app
+		if (firebaseApp) 
+		{ // Check if it was initialized
+			try 
+			{
+				await deleteApp(firebaseApp)
+				console.log("Firebase Client SDK connection closed successfully.")
+			}
+			catch (closeError) 
+			{
+				console.error("Error closing Firebase Client SDK connection:", closeError)
+			}
+		}
 
-if (!ENV) 
-{
-	console.error("ERROR: No NODE_ENV configured or found")
-	logMessage("Bailing: Inproper config", "error")
-	process.exit(1)
-}
-else if (ENV === "development") 
-{
-	canRun = true
-	console.log("Running in DEVELOPMENT mode...")
-	process.env.FIRESTORE_EMULATOR_HOST = "localhost:8080" // Use Firestore Emulator
-}
-else 
-{
-	// TODO: Configure list of supported envs and set `canRun` to true IFF NODE_ENV is in that list
-	canRun = true
-	console.log(`Running in ${process.env.NODE_ENV.toUpperCase()} mode...`)
-}
+	}
 
-let db
-if (canRun) 
-{
-	db = dbAdmin
-}
-
-const SCHEMA_VERSION = 3
-const MIGRATION_ID = `migration_v${SCHEMA_VERSION}_${Date.now()}`
-
-console.log(db.foo)
-console.log(MIGRATION_ID)
-if (ENV === "production") 
-{
-	console.warn("⚠️ WARNING: Running migration in PRODUCTION mode!")
-	console.log("You have 5 seconds to cancel (CTRL+C)...")
-	logMessage("Running migration", "info")
-	setTimeout(() => runMigration(), 5000)
-	logMessage("Migration complete", "info")
-	process.exit(0)
-}
-else 
-{
-	console.log("lower envs not supported yet")
-	logMessage("Completed lower environment compilation", "info")
-	process.exit(0)
-}
-
+})()

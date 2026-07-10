@@ -33,11 +33,12 @@ const GUIDE_FILTERS = {
 }
 
 const HOTEL_STATUSES = {
-	1: "Accepting Bookings",
-	2: "Not Accepting Bookings",
-	3: "Banned",
-	4: "Under Construction",
-	5: "Onboarding",
+	INACTIVE: 0,
+	ACTIVE: 1,
+	OFFLINE: 2, // Not Accepting Bookings
+	BANNED: 3,
+	UNDER_CONSTRUCTION: 4,
+	ONBOARDING: 5,
 }
 
 export {
