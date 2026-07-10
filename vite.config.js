@@ -15,23 +15,11 @@ export default defineConfig({
 			"@": resolve(__dirname, "src"),
 			components: resolve(__dirname, "src/components"),
 			constants: resolve(__dirname, "src/constants"),
-			img: resolve(__dirname, "assets/img"),
-			services: resolve(__dirname, "src/services"),
-			src: resolve(__dirname, "src"),
 			store: resolve(__dirname, "src/store"),
-			styles: resolve(__dirname, "assets/styles"),
-			svgs: resolve(__dirname, "src/assets/svgs"),
 		},
 		mainFields: [
 			"module",
 		],
-		poolOptions: {
-			threads: {
-				maxThreads: 32,
-				minThreads: 16,
-			},
-		},
-
 		extensions: [
 			".vue",
 			".js",

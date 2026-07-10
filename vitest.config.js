@@ -8,17 +8,10 @@ export default defineConfig({
 	],
 	resolve: {
 		alias: {
-			"@": resolve(__dirname, ".", "src"),
-			components: resolve(__dirname, "src/components/"),
-			constants: resolve(__dirname, "src/constants/"),
-			find: /^~/,
-			img: resolve(__dirname, "assets/img"),
-			mocks: resolve(__dirname, ".", "tests/__mocks__/"),
-			services: resolve(__dirname, "src/services/"),
-			src: resolve(__dirname, "src"),
-			store: resolve(__dirname, "src/store/"),
-			styles: resolve(__dirname, "src/assets/styles/"),
-			svgs: resolve(__dirname, "src/assets/svgs/"),
+			"@": resolve(__dirname, "src"),
+			components: resolve(__dirname, "src/components"),
+			constants: resolve(__dirname, "src/constants"),
+			store: resolve(__dirname, "src/store"),
 		},
 		mainFields: [
 			"module",
