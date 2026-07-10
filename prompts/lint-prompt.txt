@@ -1,9 +1,0 @@
-Lint warnings:
-```
-```
-
-File.vue:
-```
-```
-
-If you are able to resolve the above linting errors, please do so.

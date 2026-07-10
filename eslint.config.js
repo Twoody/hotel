@@ -236,7 +236,6 @@ export default [
 						"Amenities",
 						"Checkbox",
 						"Filters",
-						"Foobar",
 						"Home",
 						"Guide",
 						"Guides",
