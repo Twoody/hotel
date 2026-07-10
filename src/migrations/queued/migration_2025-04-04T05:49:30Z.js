@@ -3,7 +3,7 @@ import { firebaseApp } from "../../firebase.js" // Adjust path if needed
 import { deleteApp } from "firebase/app"
 import { dbAdmin, admin } from "../../firebaseAdmin.js"
 import { logMessage } from "../../utils/serverUtils.js"
-import { getPropertyPayload, addOrUpdateProperty } from "../../utils/firestore.js"
+import { getPropertyPayload, addOrUpdateProperty } from "../utilities/properties.js"
 
 /**
  * Runs a single migration.

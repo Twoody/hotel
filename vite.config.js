@@ -53,16 +53,6 @@ export default defineConfig({
 			input: {
 				main: resolve(__dirname, "index.html"),
 			},
-			external: [
-				resolve(__dirname, "src/utils/serverUtils.js"),
-			],
-			output: {
-				//manualChunks: undefined,
-				exclude: [
-					"src/migrations/**",
-					"src/utils/serverUtils.js",
-				],
-			},
 		},
 	},
 	server: {
