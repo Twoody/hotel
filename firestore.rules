@@ -1,6 +1,38 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Users read/write only their own doc; role fields cannot be self-granted.
+    // (Admin SDK — migrations, console — bypasses rules entirely.)
+    match /users/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid
+        && (!('roles' in request.resource.data) || request.resource.data.roles.size() == 0)
+        && (!('role_history' in request.resource.data) || request.resource.data.role_history.size() == 0);
+      allow update: if request.auth != null && request.auth.uid == uid
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['roles', 'role_history']);
+      allow delete: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Bookings are scoped to their guest
+    match /bookings/{bookingId} {
+      allow read, update, delete: if request.auth != null && resource.data.guestID == request.auth.uid;
+      allow create: if request.auth != null && request.resource.data.guestID == request.auth.uid;
+    }
+
+    // Public content (client only reads these)
+    match /properties/{propertyId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /hotels/{hotelId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

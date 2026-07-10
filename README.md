@@ -57,6 +57,19 @@ And when one application bug needed fixed, it had to be committed twice.
 
 - Note: `teahub`'s `fortawesome` installations require a local usage within `hotel` too.
 
+## Firestore Security Rules
+
+`firestore.rules` in this repo is **not** what is deployed — CI only deploys hosting, and the
+production rules were edited in the Firebase console. The committed rules now describe what the
+app actually needs (own-user docs, guest-scoped bookings, public read for properties/reviews/hotels)
+and block clients from granting themselves `roles` (admin status is derived from that field).
+
+Before deploying them:
+
+1. Diff against production: Firebase console → Firestore → Rules.
+2. Test with the emulator: `firebase emulators:start --only firestore` plus the rules unit-test SDK.
+3. Deploy deliberately: `firebase deploy --only firestore:rules`.
+
 ## Hosting
 
 Hosting is done on `firebase`.
