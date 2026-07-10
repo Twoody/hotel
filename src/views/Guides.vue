@@ -114,7 +114,7 @@ export default {
 		gotoItem (id)
 		{
 			this.$router.push({
-				name: "GuideItem",
+				name: "guideItem",
 				params: {
 					id,
 				},

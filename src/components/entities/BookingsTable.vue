@@ -175,6 +175,12 @@ export default {
 		 */
 		async deleteBooking (bookingId)
 		{
+			// ponytail: window.confirm over a modal — swap for DialogModal if UX ever demands it
+			if (!window.confirm("Delete this booking? This cannot be undone."))
+			{
+				return
+			}
+
 			try
 			{
 				// Remove from Firestore

@@ -240,6 +240,8 @@ describe.concurrent("BookingsTable.vue: Main processes", () =>
 
 	it("calls deleteDoc when deleteBooking is invoked", async () =>
 	{
+		vi.spyOn(window, "confirm").mockReturnValue(true)
+
 		// Provide a single booking
 		const testBookings = [
 			{
@@ -327,6 +329,31 @@ describe("BookingsTable.vue: Flows", () =>
 		expect(getDocs).not.toHaveBeenCalled()
 		// userBookings should remain empty
 		expect(wrapper.vm.userBookings.length).toBe(0)
+	})
+
+	it("does not delete the booking when the confirm dialog is dismissed", async () =>
+	{
+		vi.spyOn(window, "confirm").mockReturnValue(false)
+
+		const wrapper = createWrapper()
+		await wrapper.vm.$nextTick()
+		await wrapper.setData({
+			isLoading: false,
+			userBookings: [
+				{
+					id: "2",
+					isPaid: false,
+					startDate: "2025-01-01",
+					status: "Future",
+				},
+			],
+		})
+
+		await wrapper.vm.deleteBooking("2")
+
+		const { deleteDoc, } = await import("firebase/firestore")
+		expect(deleteDoc).not.toHaveBeenCalled()
+		expect(wrapper.vm.userBookings.find((b) => b.id === "2")).toBeDefined()
 	})
 })
 

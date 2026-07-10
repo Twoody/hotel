@@ -109,7 +109,7 @@ describe.concurrent("Guides.vue", () =>
 		// Manually call gotoItem
 		wrapper.vm.gotoItem(123)
 		expect(pushMock).toHaveBeenCalledWith({
-			name: "GuideItem",
+			name: "guideItem",
 			params: {
 				id: 123,
 			},
