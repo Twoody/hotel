@@ -5,6 +5,13 @@ import { dbAdmin, admin } from "../../firebaseAdmin.js"
 import { logMessage } from "../../utils/serverUtils.js"
 import { getPropertyPayload, addOrUpdateProperty } from "../utilities/properties.js"
 
+// Rollback is not implemented — exit non-zero so the rollback script reports failure
+if (process.argv.includes("--rollback"))
+{
+	console.error("Rollback not implemented for this migration.")
+	process.exit(1)
+}
+
 /**
  * Runs a single migration.
  * Each migration is explicitly defined as a function.
@@ -61,8 +68,8 @@ export async function setupPropertyAndReviews ()
 		}
 
 		// Create "properties" document using the new utility function
-		// Pass null as the first argument to indicate creation of a new property
-		const propertyResult = await addOrUpdateProperty(null, propertyDataForUpload)
+		// Fixed ID makes re-runs an upsert (setDoc merge) instead of duplicating docs
+		const propertyResult = await addOrUpdateProperty("sample_property_2025-04-04", propertyDataForUpload)
 
 		if (!propertyResult.success || !propertyResult.propertyId) 
 		{
@@ -83,7 +90,8 @@ export async function setupPropertyAndReviews ()
 			createdAt: admin.firestore.FieldValue.serverTimestamp(),
 			updatedAt: admin.firestore.FieldValue.serverTimestamp(),
 		}
-		const reviewRef = dbAdmin.collection("reviews").doc() // Using dbAdmin for reviews
+		// Fixed ID keeps re-runs idempotent
+		const reviewRef = dbAdmin.collection("reviews").doc("sample_review_2025-04-04") // Using dbAdmin for reviews
 		await reviewRef.set(sampleReviewData)
 
 		console.info(`\tCreated reviews doc with ID: ${reviewRef.id}`)
@@ -131,7 +139,7 @@ export async function setupPropertyAndReviews ()
 		{
 			console.error("Error closing Firebase Admin SDK connection:", closeError)
 		}
-		    // Add this to close the client app
+		// Add this to close the client app
 		if (firebaseApp) 
 		{ // Check if it was initialized
 			try 

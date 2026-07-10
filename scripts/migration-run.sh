@@ -7,6 +7,8 @@ execute_migration() {
   LOG_FILE="logs/migrations.log"
   ENV_FILE=".env"
 
+  mkdir -p logs
+
   # Check if .env exists
   if [ ! -f "$ENV_FILE" ]; then
     TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S")

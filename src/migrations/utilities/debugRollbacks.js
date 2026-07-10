@@ -1,4 +1,4 @@
-const { dbAdmin, } = require("./src/firebaseAdmin")
+import { dbAdmin } from "../../firebaseAdmin.js"
 
 /**
  *

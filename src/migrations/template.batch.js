@@ -1,7 +1,9 @@
-const admin = require("firebase-admin")
-const fs = require("fs")
-const path = require("path")
-require("dotenv").config()
+import * as fs from "fs"
+import * as path from "path"
+import { fileURLToPath } from "url"
+import "dotenv/config"
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const ENV = process.env.NODE_ENV
 let canRun = false
@@ -27,9 +29,10 @@ else
 }
 
 let db
-if (canRun) 
+if (canRun)
 {
-	const { dbAdmin: dbAdmin, } = require("../../firebaseAdmin") // Adjust the path as needed
+	// Path is relative to src/migrations/queued/, where this template gets copied
+	const { dbAdmin, } = await import("../../firebaseAdmin.js")
 	db = dbAdmin
 }
 
@@ -85,6 +88,7 @@ async function migrateUsers ()
 	let batchCount = 0
 	let migratedDocs = 0
 	let failedDocs = []
+	let currentBatchIds = []
 
 	for (const doc of snapshot.docs) 
 	{
@@ -106,23 +110,25 @@ async function migrateUsers ()
 
 			batchCount++
 			migratedDocs++
+			currentBatchIds.push(doc.id)
 
 			// ✅ Commit batch every 500 operations
-			if (batchCount >= 500) 
+			if (batchCount >= 500)
 			{
-				try 
+				try
 				{
 					await batch.commit()
 					logMessage("Committed 500 document updates.")
 				}
-				catch (error) 
+				catch (error)
 				{
 					console.error("Batch commit failed:", error)
 					logMessage(`Batch commit failed: ${error.message}`, "error")
-					failedDocs.push(...batch)
+					failedDocs.push(...currentBatchIds)
 				}
 				batch = db.batch()
 				batchCount = 0
+				currentBatchIds = []
 			}
 		}
 	}
@@ -135,11 +141,11 @@ async function migrateUsers ()
 			await batch.commit()
 			logMessage("Final batch committed.")
 		}
-		catch (error) 
+		catch (error)
 		{
 			console.error("Final batch commit failed:", error)
 			logMessage(`Final batch commit failed: ${error.message}`, "error")
-			failedDocs.push(...batch)
+			failedDocs.push(...currentBatchIds)
 		}
 	}
 
