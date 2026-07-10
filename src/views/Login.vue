@@ -124,6 +124,7 @@
 <script>
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 import { firebaseAuth } from "@/firebase"
+import { addUserToFirestore } from "@/utils"
 import SocialLogin from "@/components/forms/SocialLogin.vue"
 
 export default {
@@ -294,8 +295,13 @@ export default {
 				)
 				this.success = true
 
-				// Update store
-				this.$store.dispatch("fetchUser", response.user)
+				// Load the Firestore user doc (roles, profile) — the App.vue
+				// onAuthStateChanged path is skipped while the isLoggingIn mutex is set
+				const firestoreUser = await addUserToFirestore(response.user)
+				this.$store.dispatch("fetchUser", {
+					...firestoreUser,
+					uid: response.user.uid,
+				})
 
 				this.$router.push({
 					path: "/",
