@@ -18,6 +18,15 @@ vi.mock("@/firebase", () => ({
 	firebaseAuth: {},
 }))
 
+// Mock the Firestore user-doc load performed after email/password sign-in
+vi.mock("@/utils", () => ({
+	addUserToFirestore: vi.fn().mockResolvedValue({
+		id: "u1",
+		invalid: false,
+		roles: [],
+	}),
+}))
+
 // Spy on the named export function from the namespace
 const createUserSpy = vi.spyOn(_FirebaseAuth, "createUserWithEmailAndPassword")
 const signInSpy = vi.spyOn(_FirebaseAuth, "signInWithEmailAndPassword")

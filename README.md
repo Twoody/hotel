@@ -25,7 +25,7 @@ npm install
 ### Compiles and hot-reloads for development
 
 ```
-npm run serve
+npm run dev
 ```
 
 ### Compiles and minifies for production
@@ -37,7 +37,7 @@ npm run build
 ### Lints and fixes files
 
 - Uses `eslint`
--- See `./.eslintrc.js
+  - See `./eslint.config.js`
 
 ```
 npm run lint
@@ -45,7 +45,7 @@ npm run lint
 
 ### Customize configuration
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+See the [Vite Configuration Reference](https://vite.dev/config/).
 
 ### Documentation
 
@@ -56,6 +56,19 @@ isolated library is because many of the components were used between different a
 And when one application bug needed fixed, it had to be committed twice.
 
 - Note: `teahub`'s `fortawesome` installations require a local usage within `hotel` too.
+
+## Firestore Security Rules
+
+`firestore.rules` in this repo is **not** what is deployed — CI only deploys hosting, and the
+production rules were edited in the Firebase console. The committed rules now describe what the
+app actually needs (own-user docs, guest-scoped bookings, public read for properties/reviews/hotels)
+and block clients from granting themselves `roles` (admin status is derived from that field).
+
+Before deploying them:
+
+1. Diff against production: Firebase console → Firestore → Rules.
+2. Test with the emulator: `firebase emulators:start --only firestore` plus the rules unit-test SDK.
+3. Deploy deliberately: `firebase deploy --only firestore:rules`.
 
 ## Hosting
 
@@ -127,6 +140,19 @@ The migration process is broken into three main parts:
   - **Logging:** Records the outcome (NODE_ENV, UTC timestamp, and status) in `logs/migrations.log`.
   - **Post-Execution (Production Only):**
     - If the migration is successful and running in production, the migration file is annotated with a success comment and moved to the `executed` directory to prevent re-execution.
+
+### 4. Migration Rollback Script (`scripts/migration-rollback.sh`)
+
+- **Usage:**
+
+```
+npm run migrate:rollback <migration_file.js> <migration_id>
+```
+
+- **Process:**
+  - Looks for the named migration file in `src/migrations/executed/` first (rollbacks target migrations that already ran), then `src/migrations/queued/`.
+  - Runs it with `--rollback <migration_id>`; the migration's own rollback handler does the restore.
+  - Logs the outcome to `logs/migrations.log`.
 
 ### Considerations
 

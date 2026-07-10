@@ -41,7 +41,7 @@ export default {
 
 		debtPaid ()
 		{
-			return this.debt.originalOwed - this.debt.currentBalance
+			return this.debt.originalOwed - this.currentBalance
 		},
 	},
 }

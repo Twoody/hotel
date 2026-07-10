@@ -1,7 +1,9 @@
-const admin = require("firebase-admin")
-const fs = require("fs")
-const path = require("path")
-require("dotenv").config()
+import * as fs from "fs"
+import * as path from "path"
+import { fileURLToPath } from "url"
+import "dotenv/config"
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const ENV = process.env.NODE_ENV
 let CAN_RUN = false
@@ -27,9 +29,10 @@ else
 }
 
 let db
-if (CAN_RUN) 
+if (CAN_RUN)
 {
-	const { dbAdmin: dbAdmin, } = require("../../firebaseAdmin") // Adjust the path as needed
+	// Path is relative to src/migrations/queued/, where this template gets copied
+	const { dbAdmin, } = await import("../../firebaseAdmin.js")
 	db = dbAdmin
 }
 
@@ -77,6 +80,7 @@ async function migrateFoo ()
 	}
 
 	let failed = false
+	let migratedDocs = 0
 	console.log(`Starting migration to schema version ${SCHEMA_VERSION}...`)
 	logMessage(`Migration ${MIGRATION_ID} started.`)
 
@@ -108,6 +112,7 @@ async function rollbackMigration (migrationId)
 	{
 		return
 	}
+	let rolledBackDocs = 0
 	console.log(`Rolling back migration ${migrationId}...`)
 	logMessage(`Starting rollback for migration ${migrationId}.`)
 
@@ -142,13 +147,13 @@ else
 		console.warn("⚠️ WARNING: Running migration in PRODUCTION mode!")
 		console.log("You have 5 seconds to cancel (CTRL+C)...")
 
-		setTimeout(() => 
+		setTimeout(() =>
 		{
-			migrateUsers()
+			migrateFoo()
 		}, 5000)
 	}
-	else 
+	else
 	{
-		migrateUsers()
+		migrateFoo()
 	}
 }

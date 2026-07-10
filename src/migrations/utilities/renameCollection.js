@@ -1,4 +1,4 @@
-import { dbAdmin } from "./src/firebaseAdmin.js" // Adjust path if necessary
+import { dbAdmin } from "../../firebaseAdmin.js"
 
 /**
  *

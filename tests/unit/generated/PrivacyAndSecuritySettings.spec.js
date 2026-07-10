@@ -4,9 +4,6 @@ import { createStore } from "vuex"
 import { createRouter, createWebHistory } from "vue-router"
 import PrivacyAndSecuritySettings from "@/views/settings/PrivacyAndSecuritySettings.vue"
 
-vi.mock("@/src/store/user.js", () => ({
-	logoutUser: vi.fn(),
-}))
 vi.mock("firebase/analytics", () =>
 {
 	return {

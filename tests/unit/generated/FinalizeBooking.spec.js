@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils"
 import { describe, it, expect, beforeEach } from "vitest"
+import { DateTime } from "luxon"
 import FinalizeBooking from "@/views/bookings/FinalizeBooking.vue"
 
 // Mock components used in FinalizeBooking
@@ -113,35 +114,36 @@ describe.concurrent("FinalizeBooking.vue", () =>
 		expect(payButton.text()).toBe("Pay Now")
 	})
 
-	it("successfully submits booking details when Pay Now is clicked", async () =>
+	it("rejects submission when booking dates are in the past", async () =>
 	{
-		// Explicitly set valid dates on the form to pass validation
-		await wrapper.setData({
-			formData: {
-				startDate: "2025-01-01",
-				endDate: "2025-01-02",
-				adults: 1, // required fields valid by default
-				babies: 0,
-				cats: 0,
-				dogs: 0,
-				kids: 0,
-				specialRequests: "",
-				toddlers: 0,
+		// Explicit past dates on the booking prop — isBookingInThePast derives
+		// from booking.startDate, not formData
+		const pastWrapper = createWrapper({
+			props: {
+				booking: {
+					endDate: DateTime.now().minus({
+						days: 9,
+					}).toISODate(),
+					guestID: "guestABC",
+					id: "booking123",
+					startDate: DateTime.now().minus({
+						days: 10,
+					}).toISODate(),
+				},
 			},
 		})
 
-		const payButton = wrapper.find(".pay-button")
-		expect(payButton.element.disabled).toBe(false)
+		const payButton = pastWrapper.find(".pay-button")
 		expect(payButton.element.disabled).toBe(false)
 		expect(payButton.exists()).toBe(true)
 
 		// Booking is in the past
-		expect(wrapper.vm.isShowingErrors).toBe(true)
-		expect(wrapper.vm.isFormValid).toBe(false)
+		expect(pastWrapper.vm.isShowingErrors).toBe(true)
+		expect(pastWrapper.vm.isFormValid).toBe(false)
 
-		expect(wrapper.vm.isProcessingRequest).toBe(false)
+		expect(pastWrapper.vm.isProcessingRequest).toBe(false)
 		await payButton.trigger("click")
-		let sucess = await wrapper.vm.submitBookingDetails()
+		let sucess = await pastWrapper.vm.submitBookingDetails()
 		expect(sucess).toBe(false)
 
 	})

@@ -162,9 +162,10 @@ export default {
 							{
 								// Attempts to add user to firestore if necessary
 								const firestoreUser = await addUserToFirestore(user)
-								let userData = firestoreUser.data()
-								userData.uid = user.uid
-								this.$store.dispatch("fetchUser", userData)
+								this.$store.dispatch("fetchUser", {
+									...firestoreUser,
+									uid: user.uid,
+								})
 							}
 							catch (e) 
 							{

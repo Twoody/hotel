@@ -6,6 +6,7 @@ import { getUsersAccount } from "@/utils/firestore.js"
 function initialState ()
 {
 	return {
+		isAdmin: false,
 		isAuthReady: null,
 		isLoggedIn: false,
 		isLoggingIn: false,
@@ -102,8 +103,10 @@ export default {
 			{
 				// 1) Fetch the Firestore document for this user
 				const userDoc = await getUsersAccount(currentUser)
-				let updatedUser = userDoc.data()
-				updatedUser.uid = currentUser.uid
+				const updatedUser = {
+					...userDoc,
+					uid: currentUser.uid,
+				}
 
 				// 2) If valid, dispatch 'fetchUser' which calls the mutation to set user data, etc.
 				if (!userDoc.invalid)
